@@ -1,0 +1,43 @@
+{
+  "name": "landrick",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "bootstrap-vue": "^2.17.0",
+    "core-js": "^3.6.5",
+    "swiper": "^6.2.0",
+    "vue": "^2.6.12",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-carousel": "^0.18.0",
+    "vue-count-to": "^1.0.13",
+    "vue-easy-lightbox": "^0.14.0",
+    "vue-feather-icons": "^5.1.0",
+    "vue-flatpickr-component": "^8.1.6",
+    "vue-masonry-css": "^1.0.3",
+    "vue-router": "^3.4.3",
+    "vue-scrollto": "^2.18.2",
+    "vue-slick-carousel": "^1.0.6",
+    "vue-typer": "^1.2.0",
+    "vue-vimeo-player": "^0.1.0",
+    "vue-youtube": "^1.4.0",
+    "vue2-scrollspy": "^2.3.1",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.0",
+    "@vue/cli-service": "^4.5.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
