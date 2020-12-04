@@ -15,6 +15,7 @@ import Navbar from "@/components/navbar";
 import Switcher from "@/components/switcher";
 import Footer from "@/components/footer";
 
+
 /**
  * Index-1
  */
@@ -233,10 +234,11 @@ export default {
     }
 
 /* SECCION 1 */
-    .seccion1 {
+.seccion1 {
     background-image: url(https://i.ibb.co/M1wNGmX/banner-02-111.png);
     background-size: contain;
     background-repeat: no-repeat;
+    height: 63vw;
 }
 
 .bg-half-170 {
@@ -311,11 +313,11 @@ export default {
     }
 
     .seccion2 {
-        background-image: url("/images/back1.jpg");
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-
+    background-image: url(/images/back1.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 50vw;
+}
     
 
     .seccion2 .item p {
@@ -329,14 +331,13 @@ export default {
 
 /* SECCION 3 */    
 
-    .seccion3 {
+.seccion3 {
     background-image: url(/images/Baack-03.png);
     background-size: contain;
     background-repeat: no-repeat;
-    padding-bottom: 100px;
     text-align: center;
-    height: 874px;
-    padding-top: 8%;
+    height: 32vw;
+    padding-top: 7%;
 }
 
     .seccion3 button {
@@ -424,10 +425,35 @@ export default {
         padding: 0 4px 0 4px;
         color: rgba(244,125,59,1);
     }
+@media only screen and (max-width: 768px) {
+
+    .seccion1 {
+    
+    background-size: cover;
+    height: inherit;
+    
+}
+
+.seccion2 {
+    
+    background-size: cover;
+    height: inherit;
+    
+}
+
+.seccion3 {
+    
+    background-size: cover;
+    height: inherit;
+    
+}
+
+}
 
 @media only screen and (min-width: 768px) {
 
     /*SECCION 1*/
+
 
     
 
@@ -438,9 +464,7 @@ export default {
 
     /*SECCION 2*/
 
-    .seccion2 {
-        margin-top: -100px;
-    }
+    
 
     .team img {
         height: auto;
@@ -506,9 +530,7 @@ export default {
 
     /*SECCION 4*/
 
-    .seccion4 {
-        margin-top: 0px;
-    }
+    
 
     .seccion4 .team04 {
         margin-top: -100px;

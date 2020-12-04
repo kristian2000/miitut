@@ -30,7 +30,7 @@ export default {
             <div class="row">
                 <div class="col-lg-4 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
                     <a href="#" class="logo-footer">
-                        <img src="images/logo-light.png" height="24" alt="">
+                        <img src="https://i.ibb.co/YTDV8yz/Logo-01.png" height="24" alt="">
                     </a>
                     <p class="mt-4">Start working with Landrick that can provide everything you need to generate awareness, drive traffic, connect.</p>
                     <ul class="list-unstyled social-icon social mb-0 mt-4">
@@ -40,71 +40,33 @@ export default {
                         <li class="list-inline-item ml-1"><a href="javascript:void(0)" class="rounded">
                                 <instagram-icon class="fea icon-sm fea-social"></instagram-icon>
                             </a></li>
-                        <li class="list-inline-item ml-1"><a href="javascript:void(0)" class="rounded">
-                                <twitter-icon class="fea icon-sm fea-social"></twitter-icon>
-                            </a></li>
-                        <li class="list-inline-item ml-1"><a href="javascript:void(0)" class="rounded">
-                                <linkedin-icon class="fea icon-sm fea-social"></linkedin-icon>
-                            </a></li>
                     </ul>
                     <!--end icon-->
                 </div>
                 <!--end col-->
 
-                <div class="col-lg-2 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                    <h4 class="text-light footer-head">Company</h4>
+                <div class="col-lg-4 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <h4 class="text-light footer-head">Links de Ayuda</h4>
                     <ul class="list-unstyled footer-list mt-4">
                         <li>
-                            <router-link to="/page-aboutus" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> About us</router-link>
+                            <router-link to="/page-aboutus" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Terminos y Condiciones</router-link>
                         </li>
                         <li>
-                            <router-link to="/page-services" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Services</router-link>
+                            <router-link to="/page-services" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Politicas de privacidad</router-link>
                         </li>
                         <li>
-                            <router-link to="/page-team" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Team</router-link>
+                            <router-link to="/page-team" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Faqs</router-link>
                         </li>
                         <li>
-                            <router-link to="/page-pricing" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Pricing</router-link>
+                            <router-link to="/page-pricing" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Soporte</router-link>
                         </li>
-                        <li>
-                            <router-link to="/page-work-modern" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Project</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/page-jobs" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Careers</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/page-blog-grid" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Blog</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/auth-cover-login" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Login</router-link>
-                        </li>
+                        
                     </ul>
                 </div>
                 <!--end col-->
 
-                <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                    <h4 class="text-light footer-head">Usefull Links</h4>
-                    <ul class="list-unstyled footer-list mt-4">
-                        <li>
-                            <router-link to="/page-terms" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Terms of Services</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/page-privacy" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Privacy Policy</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/documentation" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Documentation</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/changelog" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Changelog</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/components" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Components</router-link>
-                        </li>
-                    </ul>
-                </div>
-                <!--end col-->
 
-                <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                <div class="col-lg-4 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <h4 class="text-light footer-head">Newsletter</h4>
                     <p class="mt-4">Sign up and receive the latest tips via email.</p>
                     <form>
