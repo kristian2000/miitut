@@ -140,7 +140,7 @@ export default {
                     <img src="https://i.ibb.co/Bnd1JJL/vector-chi-011.png" />
             </div>
 
-            <div class="col-md-6 item2">
+            <div class="col-md-6 item2text">
                     <h1 class="text-white font-weight-bold">¡Encuentra trabajo!</h1>
                     <p class="text-white">Lorem ipsum dolor sit amet consectetur.</p>
                     <button id="btn-modify-3">REGISTRATE GRATIS <span>→</span></button>
@@ -365,12 +365,16 @@ export default {
     }
 
     .seccion3 h1 {
-        font-size: 60px;
+        font-size: 54px;
     }
 
     .seccion3 p {
         font-size: 25px;
     }
+
+    .col-md-6.item2text {
+    text-align: justify;
+}
 
 
 /* SECCION 4 */    
