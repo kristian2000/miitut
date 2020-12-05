@@ -1,0 +1,52 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateUsersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('avatar')->nullable();
+            $table->string('userType')->default('user');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('gender')->nullable();
+            $table->string('address')->nullable();
+            $table->date('birthdate')->nullable();
+            $table->string('phone')->nullable();
+            $table->boolean('phone_visible_public')->default(false);
+            $table->string('dni')->nullable();
+            $table->string('nationality')->nullable();
+            $table->string('verification_code')->nullable();
+            $table->boolean('email_check')->default(false);
+            $table->boolean('profile_check')->default(false);
+            $table->boolean('driving_license')->default(false);
+            $table->boolean('own_vehicle')->default(false);
+            $table->string('type')->nullable();
+            $table->string('fase_registry')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('users');
+    }
+}
