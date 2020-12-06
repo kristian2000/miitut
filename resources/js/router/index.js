@@ -16,10 +16,13 @@ import VerifyCode from '../components/pages/auth/VerifyCode'
 import LoginSocial from '../components/pages/auth/LoginSocial'
 import CompleteProfile from '../components/pages/auth/CompleteProfile'
 
+//Plantilla
+import INDEX from '../components/pages/index.vue'
+
 const routes = [
     {
         path: '/',
-        component: Home
+        component: INDEX
     },
     {
         path: '/login',
