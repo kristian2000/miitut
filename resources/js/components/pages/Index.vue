@@ -67,7 +67,7 @@ export default {
     <!--end section-->
 
     <!-- SECCICON 2 -->
-    <section class=" seccion2">
+    <section class="section seccion2" style="min-height: 650px">
 
         <div class="text-center mb-4 team02">
             <h2 id="titlecolor" class="h1 font-weight-bold">Nuestras Categorías</h2>
@@ -126,7 +126,7 @@ export default {
 
 
     <!-- SECCION 3 -->
-    <section class="seccion3">
+    <section class="seccion3" style="min-height: 500px">
 
         <div class="container">
           <div class="row team2">
