@@ -16,7 +16,6 @@ export default {
             type: Boolean
         }
     },
-
     mounted: () => {
         window.onscroll = function () {
             onwindowScroll();
@@ -115,22 +114,17 @@ export default {
 <template>
 <div>
     <!-- Navbar STart -->
-    <header id="topnav" class="defaultscroll sticky" :class="{'bg-white': isWhiteNavbar === true}">
+    <header id="topnav" class="defaultscroll sticky">
         <div class="container">
             <!-- Logo container-->
             <div>
-                <router-link class="logo" to="/" v-if="navLight !== true">
+                <router-link class="logo" to="/">
                     <img src="https://i.ibb.co/YTDV8yz/Logo-01.png" height="24" alt="">
                 </router-link>
-                <router-link class="logo" to="/" v-else>
-                    <img src="images/logo-dark.png" class="l-dark" height="24" alt="">
-                    <img src="images/logo-light.png" class="l-light" height="24" alt="">
-                </router-link>
+                <!-- <router-link class="logo" to="/" >
+                    <img src="images/logo.png" height="24" alt="">
+                </router-link> -->
             </div>
-            <div class="buy-button">
-                <a href="#" class="btn" :class="{'btn-light': navLight === true, 'btn-primary':  navLight !== true}">Buy Now</a>
-            </div>
-            <!--end login button-->
             <!-- End Logo container-->
             <div class="menu-extras">
                 <div class="menu-item">
@@ -150,7 +144,7 @@ export default {
                 <!-- Navigation Menu-->
                 <ul class="navigation-menu" :class="{'nav-light': navLight === true}">
                     <li>
-                        <router-link to="/" class="side-nav-link-reftext-white">Home</router-link>
+                        <router-link to="/" class="">Home</router-link>
                     </li>
 
                     <li>
@@ -159,7 +153,7 @@ export default {
 
 
                     <li class="has-submenu">
-                        <a <a class="text-white" href="javascript:void(0)" @click="onMenuClick">Categorias</a><span class="menu-arrow"></span>
+                        <a class="" href="javascript:void(0)" @click="onMenuClick">Categorias</a><span class="menu-arrow"></span>
                         <ul class="submenu">
 
                                     <li>
@@ -211,20 +205,24 @@ export default {
     display: none;
 }
 
-#topnav .navigation-menu > li > a {
-    display: block;
-    color: #fff;
-    background-color: transparent !important;
-    font-weight: 700;
-    letter-spacing: 1px;
-    line-height: 24px;
-    text-transform: uppercase;
-    -webkit-transition: all 0.5s;
-    transition: all 0.5s;
-    font-family: "Nunito", sans-serif;
-    padding-left: 15px;
-    padding-right: 15px;
-    font-size: 15px;
+@media (min-width: 991px) {
+
+    #topnav .navigation-menu > li > a {
+        display: block;
+        color: #fff;
+        background-color: transparent !important;
+        font-weight: 700;
+        letter-spacing: 1px;
+        line-height: 24px;
+        text-transform: uppercase;
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+        font-family: "Nunito", sans-serif;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 15px;
+    }
+
 }
 
 ul.navigation-menu {

@@ -51,7 +51,7 @@ export default {
                 <!--end col-->
 
                 <div class="indeximg  col-md-6">
-                    <img src="https://i.ibb.co/wwWRDKH/Vector-1.png" alt="">
+                    <img src="https://i.ibb.co/wwWRDKH/Vector-1.png" alt="" style="width: 100%">
                 </div>
                 <!--end col-->
             </div>
@@ -67,10 +67,10 @@ export default {
     <!--end section-->
 
     <!-- SECCICON 2 -->
-    <section class="section seccion2">
+    <section class=" seccion2">
 
         <div class="text-center mb-4 team02">
-            <h1 id="titlecolor" class="font-weight-bold">Nuestras Categorías</h1>
+            <h2 id="titlecolor" class="h1 font-weight-bold">Nuestras Categorías</h2>
             <p class="text-muted text-center">Lorem, ipsum dolor sit amet</p>
         </div>
 
@@ -249,9 +249,12 @@ export default {
     font-size: 18px;
 }
 
-    .content {
-        max-width: 700px;
-        margin-top: -150px;
+    @media (min-width: 1024px){
+        .content {
+            max-width: 700px;
+            margin-top: -150px;
+
+        }
 
     }
 
