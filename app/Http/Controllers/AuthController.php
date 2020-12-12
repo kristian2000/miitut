@@ -74,7 +74,7 @@ class AuthController extends Controller
             'name' => 'required|string',
             'email' => 'bail|required|email|unique:users',
             'password' => 'bail|required|confirmed|min:6',
-            'userType' => 'required|in:help, work',
+            'userType' => 'required|in:help,work',
             'category' => 'string'
         ], [
             'email.unique' => 'Email ya esta registrado por un usuario'

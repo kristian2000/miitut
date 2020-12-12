@@ -8,9 +8,8 @@ import {
     HelpCircleIcon
 } from 'vue-feather-icons';
 
-import Navbar from "../layouts/navbar";
-import Switcher from "../layouts/switcher";
-import Footer from "../layouts/footer";
+import Navbar from "./navbar";
+import Footer from "./footer";
 
 
 /**
@@ -19,7 +18,6 @@ import Footer from "../layouts/footer";
 export default {
     components: {
         Navbar,
-        Switcher,
         UserIcon,
         MailIcon,
         KeyIcon,
@@ -27,7 +25,12 @@ export default {
         Footer,
         HelpCircleIcon
     },
-    methods: {}
+    methods: {},
+    created(){
+        if (this.$store.state.user){
+            this.$router.push('/account-profile');
+        }
+    }
 };
 </script>
 
@@ -206,17 +209,7 @@ export default {
 
     </section>
 
-
-
     <Footer />
-
-    <Switcher />
-    <!-- back to top -->
-    <a href="javascript: void(0);" class="btn btn-icon btn-soft-primary back-to-top" id="back-to-top" v-scroll-to="'#topnav'">
-        <arrow-up-icon class="icons"></arrow-up-icon>
-    </a>
-    <!-- Back to top -->
-
 
 </div>
 </template>

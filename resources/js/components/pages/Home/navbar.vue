@@ -171,11 +171,13 @@ export default {
                     </li>
 
                     <li>
-                        <router-link to="/" class="side-nav-link-reftext-white">Acceder</router-link>
+                        <router-link to="/login" class="side-nav-link-reftext-white">Acceder</router-link>
                     </li>
 
                     <li class="has-submenu">
-                        <a href="#"><span class="text-white" id="registrate">REGISTRATE GRATIS</span></a>
+                        <router-link to='/registration'>
+                            <span class="text-white" id="registrate">REGISTRATE GRATIS</span>
+                        </router-link>
                     </li>
 
 

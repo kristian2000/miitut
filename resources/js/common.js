@@ -1,4 +1,3 @@
-import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -16,7 +15,7 @@ export default {
                 return error.response;
             }
         },
-        makeNotice(variant = 'default', title, desc = '...', solid = false) {
+        makeNotice(variant = 'default', title, desc = '...', solid = true) {
             this.$bvToast.toast(desc, {
               title,
               variant,

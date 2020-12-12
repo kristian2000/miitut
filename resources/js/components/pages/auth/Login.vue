@@ -28,9 +28,10 @@ export default {
             if (res.status === 200){
                 // this.makeNotice('success', 'Inicio Exitoso', res.data.msg);
                 this.$store.commit('setUpdateUser', res.data.user);
-                setTimeout(()=>{
-                    this.$router.push('/');
-                }, 1500)
+                window.location.href = '/'
+                // setTimeout(()=>{
+                //     this.$router.push('/');
+                // }, 1500)
             }else if (res.status === 403){
                 this.makeNotice('warning', 'Verificacion Pendiente', res.data.msg)
             }else {
@@ -79,7 +80,7 @@ export default {
                                     <div class="col-lg-12">
                                         <div class="form-group position-relative">
                                             <label>Correo <span class="text-danger">*</span></label>
-                                            <user-icon class="fea icon-sm icons"></user-icon>
+                                            <user-icon class="fea icon-sm icons mt-1"></user-icon>
                                             <input v-model="form.email" type="email" class="form-control pl-5" placeholder="Escribe tu correo..." name="email" required="">
                                         </div>
                                     </div>
@@ -87,7 +88,7 @@ export default {
                                     <div class="col-lg-12">
                                         <div class="form-group position-relative">
                                             <label>Contraseña <span class="text-danger">*</span></label>
-                                            <key-icon class="fea icon-sm icons"></key-icon>
+                                            <key-icon class="fea icon-sm icons mt-1"></key-icon>
                                             <input v-model="form.password" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
                                         </div>
                                     </div>
@@ -125,9 +126,9 @@ export default {
                                         </ul>
                                         <!--end icon-->
                                     </div>
-                                    <div class="col-12 text-center">
+                                    <div class="mx-auto">
                                         <p class="mb-0 mt-3"><small class="text-dark mr-2">¿No tienes una cuenta?</small>
-                                            <router-link to="/helpOrWork" class="text-dark font-weight-bold">Regístrate</router-link>
+                                            <router-link to="/registration" class="text-dark font-weight-bold">Regístrate</router-link>
                                         </p>
                                     </div>
                                 </div>

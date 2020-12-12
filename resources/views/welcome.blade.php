@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="/css/all.css">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.2/css/line.css">
         <!-- Styles -->
 
         {{-- Scripts --}}
@@ -24,9 +24,9 @@
     <body>
         <div id='app'>
             @if (Auth::check())
-                <app :user="{{Auth::user()}}"></app>
+            <app :user="{{Auth::user()}}"></app>
             @else
-                <app :user="false"></app>
+            <app :user="false"></app>
             @endif
         </div>
         <script src="{{mix('js/main.js')}}"></script>

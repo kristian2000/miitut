@@ -71,7 +71,7 @@ export default {
             if (res.status === 200){
                 this.makeNotice('success', 'Hasta Luego!', res.data.msg)
                 this.$store.commit('setUpdateUser', false);
-                this.$router.push('/');
+                window.location.href = '/'
             }
         }
     },

@@ -6,8 +6,8 @@ import store from './store/index'
 
 import { BootstrapVue } from 'bootstrap-vue'
 
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import common from './common'
 
@@ -29,9 +29,3 @@ new Vue({
     store,
     el: '#app'
 });
-
-// new Vue({
-//     router,
-    // store,
-    // render: h => h(App)
-// }).$mount('#app')

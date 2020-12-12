@@ -1,7 +1,7 @@
 <template>
-    <LayoutDefault>
+    <component v-bind:is="Layout">
         <router-view />
-    </LayoutDefault>
+    </component>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
     name: 'App',
     data() {
         return {
-
+            Layout: this.user ? LayoutDefault : 'div'
         }
     },
     components: {

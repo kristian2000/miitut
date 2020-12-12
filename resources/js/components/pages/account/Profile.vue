@@ -22,21 +22,20 @@ import {
     MapPinIcon
 } from 'vue-feather-icons';
 
-// import Navbar from "@/components/navbar";
-// import Switcher from "@/components/switcher";
-// import Footer from "@/components/footer";
+import Menu from '../../../layouts/Menu'
 
 /**
  * Account-profile component
  */
 export default {
     data() {
-        return {}
+        return {
+            user: this.$store.state.user
+        }
     },
     components: {
-        // Navbar,
-        // Switcher,
-        // Footer,
+        Menu,
+
         ArrowUpIcon,
         FacebookIcon,
         InstagramIcon,
@@ -67,7 +66,7 @@ export default {
     <!-- <Navbar :nav-light="true" /> -->
 
     <!-- Hero Start -->
-    <section class="bg-profile d-table w-100 bg-primary" style="background: url('images/account/bg.png') center center;">
+    <section class="bg-profile d-table w-100" style="background: url('images/account/bg.png') center center;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -75,14 +74,17 @@ export default {
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-md-3 text-md-left text-center">
-                                    <img src="images/client/05.jpg" class="avatar avatar-large rounded-circle shadow d-block mx-auto" alt="">
+                                    <img
+                                        :src="user.avatar ? user.avatar : 'images/avatarDefault.jpg'"
+                                        class="avatar avatar-large rounded-circle shadow d-block mx-auto" alt=""
+                                    >
                                 </div>
                                 <!--end col-->
 
                                 <div class="col-lg-10 col-md-9 welcome">
                                     <div class="row align-items-end">
                                         <div class="col-md-7 text-md-left text-center mt-4 mt-sm-0">
-                                            <h1 class="title mb-0 font-weight-bold">Bienvenida Luisa</h1>
+                                            <h1 class="title mb-0 font-weight-bold">Bienvenido <span class="text-capitalize">{{user.name}}</span></h1>
                                             <p class="text-muted h6 mr-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
                                         </div>
                                     </div>
@@ -107,65 +109,7 @@ export default {
     <section class="section mt-60">
         <div class="container mt-lg-3">
             <div class="row">
-                <div class="col-lg-4 col-md-12 col-12">
-
-                    <div class="sidebar sticky-bar p-4 rounded shadow">
-
-                        <div class="widget">
-                            <div class="row">
-                                <div class="col-6 mt-4 pt-2">
-                                    <router-link to="/account-profile" class="accounts active rounded d-block shadow text-center py-3">
-                                        <span class="pro-icons h3 text-muted"><i class="uil uil-dashboard"></i></span>
-                                        <h6 class="title text-dark h6 my-0">Perfil</h6>
-                                    </router-link>
-                                </div>
-                                <!--end col-->
-
-                                <div class="col-6 mt-4 pt-2">
-                                    <router-link to="/account-members" class="accounts rounded d-block shadow text-center py-3">
-                                        <span class="pro-icons h3 text-muted"><i class="uil uil-users-alt"></i></span>
-                                        <h6 class="title text-dark h6 my-0">Contratos</h6>
-                                    </router-link>
-                                </div>
-                                <!--end col-->
-
-                                <div class="col-6 mt-4 pt-2">
-                                    <router-link to="/account-works" class="accounts rounded d-block shadow text-center py-3">
-                                        <span class="pro-icons h3 text-muted"><i class="uil uil-file"></i></span>
-                                        <h6 class="title text-dark h6 my-0">Anuncios</h6>
-                                    </router-link>
-                                </div>
-                                <!--end col-->
-
-                                <div class="col-6 mt-4 pt-2">
-                                    <router-link to="/account-messages" class="accounts rounded d-block shadow text-center py-3">
-                                        <span class="pro-icons h3 text-muted"><i class="uil uil-envelope-star"></i></span>
-                                        <h6 class="title text-dark h6 my-0">Facturas</h6>
-                                    </router-link>
-                                </div>
-                                <!--end col-->
-
-                                <div class="col-6 mt-4 pt-2">
-                                    <router-link to="/account-payments" class="accounts rounded d-block shadow text-center py-3">
-                                        <span class="pro-icons h3 text-muted"><i class="uil uil-transaction"></i></span>
-                                        <h6 class="title text-dark h6 my-0">Mensajes</h6>
-                                    </router-link>
-                                </div>
-                                <!--end col-->
-
-                                <div class="col-6 mt-4 pt-2">
-                                    <router-link to="/account-setting" class="accounts rounded d-block shadow text-center py-3">
-                                        <span class="pro-icons h3 text-muted"><i class="uil uil-setting"></i></span>
-                                        <h6 class="title text-dark h6 my-0">Empleados</h6>
-                                    </router-link>
-                                </div>
-                                <!--end col-->
-                            </div>
-                            <!--end row-->
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
+                <Menu :active="'Perfil'"/>
 
                 <div class="col-lg-8 col-12">
                     <div class="border-bottom pb-4">
@@ -180,7 +124,7 @@ export default {
                                         <mail-icon class="fea icon-ex-md text-muted mr-3"></mail-icon>
                                         <div class="media-body">
                                             <h6 id="title" class="mb-0">Email :</h6>
-                                            <a href="javascript:void(0)" class="text-muted">kristajoseph0203@mail.com</a>
+                                            <a href="javascript:void(0)" class="text-muted">{{user.email}}</a>
                                         </div>
                                     </div>
                                     <div class="media align-items-center mt-3">
@@ -199,34 +143,6 @@ export default {
                                     </div>
                                 </div>
                             </div>
-                            <!--end col-->
-
-                             <div class="col-md-6 col-sm-6 mt-4">
-                                <div class="mt-4">
-                                    <div class="media align-items-center">
-                                        <mail-icon class="fea icon-ex-md text-muted mr-3"></mail-icon>
-                                        <div class="media-body">
-                                            <h6 id="title" class="mb-0">Email :</h6>
-                                            <a href="javascript:void(0)" class="text-muted">kristajoseph0203@mail.com</a>
-                                        </div>
-                                    </div>
-                                    <div class="media align-items-center mt-3">
-                                        <bookmark-icon class="fea icon-ex-md text-muted mr-3"></bookmark-icon>
-                                        <div class="media-body">
-                                            <h6 id="title" class="mb-0">Skills :</h6>
-                                            <a href="javascript:void(0)" class="text-muted">html</a>, <a href="javascript:void(0)" class="text-muted">css</a>, <a href="javascript:void(0)" class="text-muted">js</a>, <a href="javascript:void(0)" class="text-muted">mysql</a>
-                                        </div>
-                                    </div>
-                                    <div class="media align-items-center mt-3">
-                                        <italic-icon class="fea icon-ex-md text-muted mr-3"></italic-icon>
-                                        <div class="media-body">
-                                            <h6 id="title" class="mb-0">Language :</h6>
-                                            <a href="javascript:void(0)" class="text-muted">English</a>, <a href="javascript:void(0)" class="text-muted">Japanese</a>, <a href="javascript:void(0)" class="text-muted">Chinese</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end col-->
                         </div>
                         <!--end row-->
                     </div>
@@ -240,15 +156,7 @@ export default {
     </section>
     <!--end section-->
     <!-- Profile End -->
-    <!--end section-->
-    <!-- <Footer /> -->
-    <!-- Footer End -->
-    <!-- <Switcher /> -->
-    <!-- Back to top -->
-    <a href="javascript: void(0);" class="btn btn-icon btn-soft-primary back-to-top" id="back-to-top" v-scroll-to="'#topnav'">
-        <arrow-up-icon class="icons"></arrow-up-icon>
-    </a>
-    <!-- Back to top -->
+
 </div>
 </template>
 
