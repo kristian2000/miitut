@@ -33,8 +33,7 @@ export default {
                 email: 'chgf1997@gmail.com',
                 password: 'test12',
                 password_confirmation: 'test12',
-                userType: this.userType,
-                category: this.category
+                userType: this.userType
             }
         }
     },
@@ -51,8 +50,12 @@ export default {
         },
 
         async submit(){
-            console.log('submit Form', this.form)
-            const res = await this.callApi('post', '/app/register', this.form)
+            let data = this.userType === 'work' ? Object.assign({
+                category: this.category
+            } , this.form) : this.form;
+
+            console.log('submit Form', data)
+            const res = await this.callApi('post', '/app/register', data)
             // console.log(res)
 
             if (res.status === 201){
@@ -87,7 +90,11 @@ export default {
         },
         async loginSocial(driver){
             try{
-                const res = await this.loginSocialRedirect(driver);
+                const res = await this.loginSocialRedirect({
+                    driver,
+                    userType: this.userType,
+                    [this.category ? 'category': ''] :  this.category
+                });
                 if (res.status === 200){
 
                     window.location.href = '/'

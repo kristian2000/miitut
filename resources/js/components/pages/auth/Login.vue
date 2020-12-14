@@ -41,7 +41,9 @@ export default {
         },
         async loginSocial(driver){
             try{
-                const res = await this.loginSocialRedirect(driver);
+                const res = await this.loginSocialRedirect({
+                    driver
+                });
                 if (res.status === 200){
                     // console.log(res)
                     // this.$store.commit('setUpdateUser', res.data.user)

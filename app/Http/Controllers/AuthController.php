@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\SocialProfile;
 use App\Http\Controllers\MailController;
 use Illuminate\Support\Str;
+use App\Models\Category;
+use App\Models\CategoryUser;
 
 class AuthController extends Controller
 {
@@ -80,16 +82,26 @@ class AuthController extends Controller
             'email.unique' => 'Email ya esta registrado por un usuario'
         ]);
 
-        // Si envia la categoria se comienza a crear el anuncio
-
         // Se crea el usuario
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'verification_code' => sha1(time()),
-            'userType' => $request['userType']
+            'userType' => $request['userType'],
+            'fase_registry' => 'registro'
             ]);
+
+        // Si se envio la categoria se asocia el usuario con la categoria
+        if ($request['category'] != null){
+            $category = Category::where('name', $request['category'])->first();
+            if ($category){
+                CategoryUser::create([
+                    'user_id' => $user->id,
+                    'category_id' => $category->id
+                ]);
+            }
+        }
 
         // Se envia en email de codigo de verificacion
         // MailController::sendSignupEmail($user);
@@ -154,8 +166,16 @@ class AuthController extends Controller
      * Login, Register Social Profile
      */
 
-    public function handleProviderCallback($driver)
+    public function handleProviderCallback(Request $request)
     {
+        $this->validate($request, [
+            'code' => 'required|string',
+            'userType' => 'in:help,work',
+            'category' => 'string'
+        ]);
+
+        $driver = $request->driver;
+
         if ($driver != 'google' && $driver != 'facebook'){
             return response()->json([
                 "msg" => 'Profile Social not exits'
@@ -173,6 +193,14 @@ class AuthController extends Controller
         $appUser = User::whereEmail($user->email)->first();
 
         if (!$appUser){
+            $userType = $request->userType;
+            $category = $request->category;
+
+            if (!$userType) {
+                return response()->json([
+                    'msg' => 'UserType Required'
+                ], 422);
+            }
 
             // Crear un usuario
             $appUser = User::create([
@@ -180,7 +208,24 @@ class AuthController extends Controller
                 "email" => $user->email,
                 "password" => Str::random(7),
                 "email_check" => true,
+                'userType' => $userType,
+                'fase_registry' => 'registro'
             ]);
+
+            if ($userType == 'work' && !$category){
+                return response()->json([
+                    'msg' => 'Category Required'
+                ], 422);
+            }else {
+                //Asigno Category
+                $category = Category::where('name', $request['category'])->first();
+                if ($category){
+                    CategoryUser::create([
+                        'user_id' => $appUser->id,
+                        'category_id' => $category->id
+                    ]);
+                }
+            }
 
             // Se crea el social Profile
             $newSocialProfile = SocialProfile::create([

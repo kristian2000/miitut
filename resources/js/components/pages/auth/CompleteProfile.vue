@@ -132,6 +132,16 @@ export default {
             address: null
         }
     },
+    created(){
+        const user = this.$store.state.user;
+        if (!user || user.fase_registry !== 'registro'){
+            this.$router.push('/');
+        }
+
+        if (user.avatar){
+            this.url = user.avatar
+        }
+    },
     methods: {
         selectImage(){
             this.$refs.fileInput.click()
@@ -194,6 +204,11 @@ export default {
                 // });
                 console.log('submit', res)
             // }
+
+            if (res.status === 200){
+                this.$store.commit('setUpdateUser', res.data.user)
+                this.$router.push('account-profile');
+            }
         }
     }
 }

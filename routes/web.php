@@ -23,7 +23,7 @@ Route::get('app/logout', [AuthController::class, 'logout']);
 Route::post('app/register', [AuthController::class, 'register']);
 Route::post('app/verifyUserEmail', [AuthController::class, 'verifyUserEmail']);
 Route::get('app/authorize/{driver}/redirect', [AuthController::class, 'redirectToProvider']);
-Route::get('app/authorize/{driver}/callback', [AuthController::class, 'handleProviderCallback']);
+Route::post('app/authorize/{driver}/callback', [AuthController::class, 'handleProviderCallback']);
 
 // Users
 Route::post('app/users/updateProfile', [UserController::class, 'updateProfile']);

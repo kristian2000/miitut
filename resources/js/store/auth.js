@@ -12,7 +12,6 @@ export default {
     },
     actions: {
         socialAuthorize({ dispatch, commit}, payload){
-            // console.log(payload)
             return new Promise((resolve, reject) => {
                 //Se Crea la ventana y se centra
                 window
@@ -29,19 +28,26 @@ export default {
                     const data = e
                     console.log('Evento de la otra ventana', data)
 
-                    resolve(dispatch('loginSocialCallback', e.data));
+                    resolve(dispatch('loginSocialCallback', {
+                        ...payload,
+                        ...e.data
+                    }));
                 }
 
             });
         },
-        loginSocialRedirect({ dispatch, commit}, socialName){
-            // console.log('loginSocialredirect', socialName)
+        loginSocialRedirect({ dispatch, commit}, payload){
+            console.log('loginSocialredirect', payload)
+
             return new Promise((resolve, reject) => {
                 axios
-                .get(`/app/authorize/${socialName}/redirect`)
+                .get(`/app/authorize/${payload.driver}/redirect`)
                 .then( response => {
-                    console.log('loginRedirect',response)
-                        resolve(dispatch("socialAuthorize", { url: response.data}))
+                    console.log('loginRedirect', response)
+                        resolve(dispatch("socialAuthorize", {
+                            ...payload,
+                            url: response.data
+                        }))
                     })
                     .catch(error => {
                         // console.log(error)
@@ -49,16 +55,12 @@ export default {
                     });
             })
         },
-        loginSocialCallback({dispatch, commit},  { socialName, code}){
-            // console.log('loginSocialCallback', {socialName, code})
+        loginSocialCallback({dispatch, commit},  payload){
+            console.log('loginSocialCallback', payload)
 
             return new Promise((resolve, reject) => {
                 axios
-                    .get(`/app/authorize/${socialName}/callback`, {
-                        params: {
-                            code
-                        }
-                    })
+                    .post(`/app/authorize/${payload.driver}/callback`, payload)
                     .then( response => {
                         // console.log('loginCallback',response)
                         resolve(response)

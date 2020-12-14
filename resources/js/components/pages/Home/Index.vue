@@ -27,8 +27,16 @@ export default {
     },
     methods: {},
     created(){
-        if (this.$store.state.user){
-            this.$router.push('/account-profile');
+        const user = this.$store.state.user;
+        if (user){
+            switch(user.fase_registry){
+                case 'registro': {
+                     this.$router.push('/completeProfile');
+                } break;
+                default: {
+                    this.$router.push('/account-profile');
+                }
+            }
         }
     }
 };
@@ -70,7 +78,7 @@ export default {
     <!--end section-->
 
     <!-- SECCICON 2 -->
-    <section class="section seccion2" style="min-height: 650px">
+    <section class="section seccion2" style="min-height: 1100px">
 
         <div class="text-center mb-4 team02">
             <h2 id="titlecolor" class="h1 font-weight-bold">Nuestras Categorías</h2>
@@ -81,20 +89,20 @@ export default {
           <div class="row team">
 
             <div class="col-md-4 item">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" width="350px" height="200" />
+                    <img src="images/categories/niñera.jpg" width="350px" height="200px" />
                     <h3 class="mt-2 font-weight-bold">Niñera</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
             </div>
 
             <div class="col-md-4 item">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" width="350px" height="200" />
-                    <h3 class="mt-2 font-weight-bold">Niñera</h3>
+                    <img src="images/categories/cuidadoMayores.jpg" width="350px" height="200px" />
+                    <h3 class="mt-2 font-weight-bold">Cuidado de Mayores</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
             </div>
 
             <div class="col-md-4 item">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" width="350px" height="200" />
-                    <h3 class="mt-2 font-weight-bold">Niñera</h3>
+                    <img src="images/categories/cuidadoMascotas.jpg" width="350px" height="200px" />
+                    <h3 class="mt-2 font-weight-bold">Cuidado de Mascotas</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
             </div>
 
@@ -105,26 +113,45 @@ export default {
           <div class="row team">
 
             <div class="col-md-4 item">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" width="350px" height="200" />
-                    <h3 class="mt-2 font-weight-bold">Niñera</h3>
+                    <img src="images/categories/limpieza.jpg" width="350" height="200" />
+                    <h3 class="mt-2 font-weight-bold">Servicio de Limpieza</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
             </div>
 
             <div class="col-md-4 item">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" width="350px" height="200" />
-                    <h3 class="mt-2 font-weight-bold">Niñera</h3>
+                    <img src="images/categories/mantenimiento.jpg" width="350px" height="200" />
+                    <h3 class="mt-2 font-weight-bold">Mantenimiento</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
             </div>
 
             <div class="col-md-4 item">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" width="350px" height="200" />
-                    <h3 class="mt-2 font-weight-bold">Niñera</h3>
+                    <img src="images/categories/parasanitario.jpg" width="350px" height="200" />
+                    <h3 class="mt-2 font-weight-bold">Parasanitario</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
             </div>
 
           </div>
         </div>
 
+        <div class="container">
+          <div class="row team">
+
+            <div class="col-md-4 item">
+                    <img src="images/categories/profesores.jpg" width="350px" height="200px" />
+                    <h3 class="mt-2 font-weight-bold">Profesores Particulares</h3>
+                    <p class="text-muted">Lorem ipsum dolor sit amet</p>
+            </div>
+
+            <div class="col-md-4 item">
+
+            </div>
+
+            <div class="col-md-4 item">
+
+            </div>
+
+          </div>
+        </div>
     </section>
 
 

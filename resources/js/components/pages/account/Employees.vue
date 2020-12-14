@@ -22,7 +22,7 @@ import {
     MapPinIcon
 } from 'vue-feather-icons';
 
-import Menu from '../../../layouts/Menu'
+import LayoutAccount from '../../../layouts/LayoutAccount'
 
 /**
  * Account-profile component
@@ -32,139 +32,64 @@ export default {
         return {}
     },
     components: {
-        Menu,
-
-        ArrowUpIcon,
-        FacebookIcon,
-        InstagramIcon,
-        TwitterIcon,
-        LinkedinIcon,
-        GithubIcon,
-        YoutubeIcon,
-        GitlabIcon,
-        MailIcon,
-        UserPlusIcon,
-        UsersIcon,
-        MessageCircleIcon,
-        BellIcon,
-        ToolIcon,
-        PhoneIcon,
-        BookmarkIcon,
-        ItalicIcon,
-        GlobeIcon,
-        GiftIcon,
-        MapPinIcon
+        LayoutAccount
     }
 }
 </script>
 
 <template>
-<div>
-    <!-- Hero Start -->
-    <section class="bg-profile d-table w-100 bg-primary" style="background: url('images/account/bg.png') center center;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card public-profile border-0 rounded shadow" style="z-index: 1;">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-lg-2 col-md-3 text-md-left text-center">
-                                    <img src="images/client/05.jpg" class="avatar avatar1 avatar-large rounded-circle shadow d-block mx-auto" alt="">
-                                </div>
-                                <!--end col-->
+    <LayoutAccount :active="'Empleados'">
+        <div class="col-lg-8 col-12">
 
-                                <div class="col-lg-10 col-md-9 welcome">
-                                    <div class="row align-items-end">
-                                        <div class="col-md-7 text-md-left text-center mt-4 mt-sm-0">
-                                            <h1 class="title mb-0 font-weight-bold">Bienvenida Luisa</h1>
-                                            <p class="text-muted h6 mr-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                        </div>
-                                    </div>
-                                    <!--end row-->
-                                </div>
-                                <!--end col-->
-                            </div>
-                            <!--end row-->
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-        </div>
-        <!--ed container-->
-    </section>
-    <!--end section-->
-    <!-- Hero End -->
+            <div class="border-bottom pb-4">
+                <div class="row">
 
-    <!-- Profile Start -->
-    <section class="section mt-60">
-        <div class="container mt-lg-3">
-            <div class="row">
-                <Menu :active="'Empleados'"/>
-
-                <div class="col-lg-8 col-12">
-
-                    <div class="border-bottom pb-4">
+                    <div class="col-12 container border shadow caja">
                         <div class="row">
-
-                            <div class="col-12 container border shadow caja">
-                                <div class="row">
-                                    <div class="col-lg-2 col-md-3 mt-2 col-sm-4">
-                                        <img src="images/client/05.jpg" class="avatar avatar-medium rounded-circle shadow d-block" alt="">
-                                    </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-8">
-                                        <h2 class="font-weight-bold">Luisana Amiga</h2>
-                                        <h3 class="font-weight-bold">Diseños Creativos</h3>
-                                        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                        <button id="btn-modify-2" class="text-white">ver más</button>
-                                    </div>
-                                </div>
+                            <div class="col-lg-2 col-md-3 mt-2 col-sm-4">
+                                <img src="images/client/05.jpg" class="avatar avatar-medium rounded-circle shadow d-block" alt="">
                             </div>
-
-                            <div class="col-12 container border shadow caja">
-                                <div class="row">
-                                    <div class="col-lg-2 col-md-3 mt-2 col-sm-4">
-                                        <img src="images/client/05.jpg" class="avatar avatar-medium rounded-circle shadow d-block" alt="">
-                                    </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-8">
-                                        <h2 class="font-weight-bold">Luisana Amiga</h2>
-                                        <h3 class="font-weight-bold">Diseños Creativos</h3>
-                                        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                        <button id="btn-modify-2" class="text-white">ver más</button>
-                                    </div>
-                                </div>
+                            <div class="col-lg-10 col-md-9 col-sm-8">
+                                <h2 class="font-weight-bold">Luisana Amiga</h2>
+                                <h3 class="font-weight-bold">Diseños Creativos</h3>
+                                <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                <button id="btn-modify-2" class="text-white">ver más</button>
                             </div>
-
-                            <div class="col-12 container border shadow caja">
-                                <div class="row">
-                                    <div class="col-lg-2 col-md-3 mt-2 col-sm-4">
-                                        <img src="images/client/05.jpg" class="avatar avatar-medium rounded-circle shadow d-block" alt="">
-                                    </div>
-                                    <div class="col-lg-10 col-md-9 col-sm-8">
-                                        <h2 class="font-weight-bold">Luisana Amiga</h2>
-                                        <h3 class="font-weight-bold">Diseños Creativos</h3>
-                                        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                        <button id="btn-modify-2" class="text-white">ver más</button>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
-                        <!--end row-->
+                    </div>
+
+                    <div class="col-12 container border shadow caja">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-3 mt-2 col-sm-4">
+                                <img src="images/client/05.jpg" class="avatar avatar-medium rounded-circle shadow d-block" alt="">
+                            </div>
+                            <div class="col-lg-10 col-md-9 col-sm-8">
+                                <h2 class="font-weight-bold">Luisana Amiga</h2>
+                                <h3 class="font-weight-bold">Diseños Creativos</h3>
+                                <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                <button id="btn-modify-2" class="text-white">ver más</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 container border shadow caja">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-3 mt-2 col-sm-4">
+                                <img src="images/client/05.jpg" class="avatar avatar-medium rounded-circle shadow d-block" alt="">
+                            </div>
+                            <div class="col-lg-10 col-md-9 col-sm-8">
+                                <h2 class="font-weight-bold">Luisana Amiga</h2>
+                                <h3 class="font-weight-bold">Diseños Creativos</h3>
+                                <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                <button id="btn-modify-2" class="text-white">ver más</button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
-                <!--end col-->
             </div>
-            <!--end row-->
         </div>
-        <!--end container-->
-    </section>
-    <!--end section-->
-    <!-- Profile End -->
-
-</div>
+    </LayoutAccount>
 </template>
 
 <style>

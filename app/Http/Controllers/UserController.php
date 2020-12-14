@@ -14,6 +14,7 @@ class UserController extends Controller
             $user = Auth::user();
 
             $ext = $request->avatar->extension();
+
             if ($ext !== 'jpg' && $ext !== 'jpeg' && $ext !== 'png' ){
                 return response()->json([
                     'msg' => 'Avatar no es una imagen'
@@ -23,7 +24,7 @@ class UserController extends Controller
             $picName = $user->id.'.'.$ext;
 
             //Ruta de los avatars
-            $path = 'storage/avatars';
+            $path = 'avatars';
 
             //Se mueve a la ruta
             $request->avatar->move(public_path($path), $picName);
@@ -58,7 +59,7 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        $user->update(array_merge($data , ['fase_registry' => 'updateProfile']));
+        $user->update(array_merge($data , ['fase_registry' => 'completed']));
 
         return response()->json([
             'user' => $user,

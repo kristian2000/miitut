@@ -24,7 +24,7 @@ export default {
     methods: {
         goBack(){
             console.log('goBakc')
-            if (this.step === 'signup'){
+            if (this.step === 'signup' && this.userType == 'work'){
                 this.step = 'selectedCategories'
             }else {
                 this.step = 'selectedUserType'
@@ -88,6 +88,7 @@ export default {
             <!-- Form Registro -->
             <sign-up
                 v-if="step === 'signup'"
+                :category="category"
                 :userType="userType"
             />
 

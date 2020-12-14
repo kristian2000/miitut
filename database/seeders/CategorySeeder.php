@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
@@ -16,53 +17,55 @@ class CategorySeeder extends Seeder
     {
         DB::table('categories')->insert([
             [
-                'id' => 'eldercare',
+                'name' => 'eldercare',
                 'label' => 'Cuidado de Mayores'
             ],
             [
-                'id' => 'petcare',
+                'name' => 'petcare',
                 'label' => 'Cuidado de Mascotas'
             ],
             [
-                'id' => 'housekeeping',
+                'name' => 'housekeeping',
                 'label' => 'Servicios de limpieza'
             ],
             [
-                'id' => 'kitchen',
+                'name' => 'kitchen',
                 'label' => 'Servicios de Cocina'
             ],
             [
-                'id' => 'personalTraining',
+                'name' => 'personalTraining',
                 'label' => 'Entrenamiento personal a domicilio'
             ],
             [
-                'id' => 'elderlycare',
+                'name' => 'elderlycare',
                 'label' => 'Atención domiciliaria'
             ],
             [
-                'id' => 'repair',
+                'name' => 'repair',
                 'label' => 'Servicios de Reparación'
             ],
             [
-                'id' => 'gardens',
+                'name' => 'gardens',
                 'label' => 'Jardinería y piscinas'
             ],
             [
-                'id' => 'hairdressing',
+                'name' => 'hairdressing',
                 'label' => 'Servicios de peluquería'
             ],
             [
-                'id' => 'maintenance',
+                'name' => 'maintenance',
                 'label' => 'Mantenimiento'
             ],
             [
-                'id' => 'babySitter',
+                'name' => 'babySitter',
                 'label' => 'Niñeras/Cuidado de niños'
             ],
             [
-                'id' => 'tutoring',
+                'name' => 'tutoring',
                 'label' => 'Profesores Particulares'
             ],
         ]);
+
+
     }
 }
