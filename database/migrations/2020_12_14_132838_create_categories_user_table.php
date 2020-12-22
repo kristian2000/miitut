@@ -16,9 +16,20 @@ class CreateCategoriesUserTable extends Migration
         Schema::create('categories_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('status_id');
+            $table->float('price')->default(0);
+            $table->string('title')->default('');
+            $table->string('description')->default('');
+            $table->string('address')->default('');
+
+            $table->string('descriptionExperience')->default('');
+            $table->integer('yearExperience')->default(0);
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

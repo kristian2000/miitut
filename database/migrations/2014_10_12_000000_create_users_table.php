@@ -27,13 +27,12 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->boolean('phone_visible_public')->default(false);
             $table->string('dni')->nullable();
-            $table->string('nationality')->nullable();
+            $table->string('description')->nullable();
             $table->string('verification_code')->nullable();
             $table->boolean('email_check')->default(false);
             $table->boolean('profile_check')->default(false);
             $table->boolean('driving_license')->default(false);
             $table->boolean('own_vehicle')->default(false);
-            $table->string('type')->nullable();
             $table->string('fase_registry')->nullable();
             $table->rememberToken();
             $table->timestamps();

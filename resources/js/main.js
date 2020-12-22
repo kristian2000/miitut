@@ -12,6 +12,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import common from './common'
 
 import VueTelInput from 'vue-tel-input'
+import Multiselect from 'vue-multiselect'
+
+Vue.component('multiselect', Multiselect)
 
 Vue.use(VueTelInput)
 

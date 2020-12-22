@@ -23,9 +23,11 @@ export default {
     },
     methods: {
         goBack(){
-            console.log('goBakc')
+            // console.log('goBakc')
             if (this.step === 'signup' && this.userType == 'work'){
                 this.step = 'selectedCategories'
+            }else if (this.step == 'selectedUserType'){
+                this.$router.push('/')
             }else {
                 this.step = 'selectedUserType'
             }
@@ -60,14 +62,14 @@ export default {
     <nav>
         <b-navbar toggleable="lg" type="light" variant="light" >
             <div class="container">
-                <b-navbar-brand href="#">
+                <b-navbar-brand @click="this.$router.push('/')" >
                     <img src="/assets/logo.png" alt="logo"  height="30">
                 </b-navbar-brand>
             </div>
         </b-navbar>
     </nav>
     <section class="container mt-2">
-        <b-button v-if="step != 'selectedUserType'" @click="goBack()">
+        <b-button @click="goBack()">
             <ArrowLeftIcon />
         </b-button>
         <transition name='slide-fade' mode="out-in">

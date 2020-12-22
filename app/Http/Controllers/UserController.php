@@ -52,14 +52,43 @@ class UserController extends Controller
             'phone' => 'string',
             'gender' => 'string',
             'address' => 'string',
-            'birthdate' => 'date'
+            'birthdate' => 'date',
+            'description' => 'string',
+            'dni' => 'string'
         ]);
 
-        $data = $request->only(['phone', 'gender', 'address', 'birthdate']);
+        $data = $request->only(['phone', 'gender', 'address', 'birthdate', 'description', 'dni']);
 
         $user = Auth::user();
 
-        $user->update(array_merge($data , ['fase_registry' => 'completed']));
+        $user->update(array_merge($data));
+
+        return response()->json([
+            'user' => $user,
+            'msg' => 'User Update success'
+        ]);
+    }
+
+    public function completeProfile(Request $request){
+
+        $this->validate($request, [
+            'phone' => 'string',
+            'gender' => 'string',
+            'address' => 'string',
+            'birthdate' => 'date',
+            'description' => 'string',
+            'dni' => 'string'
+        ]);
+
+        $data = $request->only(['phone', 'gender', 'address', 'birthdate', 'description', 'dni']);
+
+        $user = Auth::user();
+
+        if ($user->userType === 'work'){
+            $user->update(array_merge($data , ['fase_registry' => 'registroWork']));
+        }else {
+            $user->update(array_merge($data , ['fase_registry' => 'completed']));
+        }
 
         return response()->json([
             'user' => $user,

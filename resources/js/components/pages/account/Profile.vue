@@ -19,7 +19,9 @@ import {
     ItalicIcon,
     GlobeIcon,
     GiftIcon,
-    MapPinIcon
+    MapPinIcon,
+    CheckIcon,
+    AlertCircleIcon
 } from 'vue-feather-icons';
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
@@ -43,7 +45,9 @@ export default {
         MailIcon,
         BookmarkIcon,
         ItalicIcon,
-        MapPinIcon
+        MapPinIcon,
+        CheckIcon,
+        AlertCircleIcon
     }
 }
 </script>
@@ -54,12 +58,12 @@ export default {
     <LayoutAccount :active="'Perfil'">
         <div class="col-lg-8 col-12">
             <div class="border-bottom pb-4">
-                <p class="text-muted mb-0">I have started my career as a trainee and prove my self and achieve all the milestone with good guidance and reach up to the project manager. In this journey, I understand all the procedure which make me a good developer, team leader, and a project manager.</p>
+                <p class="text-muted mb-0 mt-5"></p>
             </div>
 
             <div class="border-bottom pb-4">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 mt-4">
+                    <div class="col-md-6 col-sm-6 mt-4 border-bottom">
                         <div class="mt-4">
                             <div class="media align-items-center">
                                 <mail-icon class="fea icon-ex-md text-muted mr-3"></mail-icon>
@@ -71,20 +75,26 @@ export default {
                             <div class="media align-items-center mt-3">
                                 <bookmark-icon class="fea icon-ex-md text-muted mr-3"></bookmark-icon>
                                 <div class="media-body">
-                                    <h6 id="title" class="mb-0">Skills :</h6>
-                                    <!-- <a href="javascript:void(0)" class="text-muted">html</a>, <a href="javascript:void(0)" class="text-muted">css</a>, <a href="javascript:void(0)" class="text-muted">js</a>, <a href="javascript:void(0)" class="text-muted">mysql</a> -->
+                                    <h6 id="title" class="mb-0">DNI :</h6>
+                                    <p class="text-muted">{{user.dni}}</p>
                                 </div>
                             </div>
                             <div class="media align-items-center mt-3">
+                                <bookmark-icon class="fea icon-ex-md text-muted mr-3"></bookmark-icon>
+                                <div class="media-body">
+                                    <h6 id="title" class="mb-0">Telefono :</h6>
+                                    <p class="text-muted">{{user.phone}}</p>
+                                </div>
+                            </div>
+                            <!-- <div class="media align-items-center mt-3">
                                 <italic-icon class="fea icon-ex-md text-muted mr-3"></italic-icon>
                                 <div class="media-body">
                                     <h6 id="title" class="mb-0">Language :</h6>
-                                    <!-- <a href="javascript:void(0)" class="text-muted">English</a>, <a href="javascript:void(0)" class="text-muted">Japanese</a>, <a href="javascript:void(0)" class="text-muted">Chinese</a> -->
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 mt-4">
+                    <div class="col-md-6 col-sm-6 mt-4 border-bottom ">
                         <div class="mt-4">
                             <div class="media align-items-center">
                                 <mail-icon class="fea icon-ex-md text-muted mr-3"></mail-icon>
@@ -108,6 +118,38 @@ export default {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="text-center mt-2">
+                        <h6 id="title" class="mb-0 text-info">Verificaciones</h6>
+                    </div>
+                    <div class="media align-items-center mt-3">
+                        <div class="media-body">
+                            <h6 id="title" class="mb-0">Email</h6>
+                        </div>
+                        <CheckIcon
+                            v-if="user.email_check"
+                            class="fea icon-ex-md text-muted mr-3"
+                        />
+                        <AlertCircleIcon
+                            v-else
+                            class="fea icon-ex-md text-muted mr-3"
+                        />
+                    </div>
+                    <div class="media align-items-center mt-3">
+                        <div class="media-body">
+                            <h6 id="title" class="mb-0">DNI</h6>
+                        </div>
+                        <CheckIcon
+                            v-if="user.email_check"
+                            class="fea icon-ex-md text-muted mr-3"
+                        />
+                        <AlertCircleIcon
+                            v-else
+                            class="fea icon-ex-md text-muted mr-3"
+                        />
                     </div>
                 </div>
             </div>

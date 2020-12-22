@@ -3,7 +3,7 @@
     <div class="container col-md-6 col-12 mt-4">
         <div class="row">
             <div class="col-12 text-center mb-4">
-                <h2 class="h2">Completar tus datos basicos</h2>
+                <h2 class="h2">Completar tus Perfil</h2>
             </div>
 
         </div>
@@ -32,9 +32,10 @@
             </div>
             <!-- END Seleccionar Foto -->
 
+
             <!-- START Localizacion  -->
             <div class="col-12">
-                <div class=" d-flex justify-content-center">
+                <div class=" d-flex justify-content-center" v-if="!loading.localizar">
                     <div class="row align-items-center" v-if="!address">
                         <div class="col-8">
                             <label for="datepicker" class="text-muted">Click para obtener tu ubicacion</label>
@@ -48,6 +49,12 @@
                             <p> {{address}}  </p>
                         </div>
                     </div>
+
+                </div>
+                <div class="text-center d-flex justify-content-center" v-else>
+                    <b-spinner
+                        type="grow"
+                    ></b-spinner>
                 </div>
                 <hr>
             </div>
@@ -58,7 +65,7 @@
                 <div class="row justify-content-center">
                     <div class="col-8">
                         <div class="d-flex justify-content-between">
-                            <label for="">Genero </label>
+                            <label for="" class="text-muted">Genero </label>
                             <b-form-radio v-model="gender" name="some-radios" value="woman">Mujer</b-form-radio>
                             <b-form-radio v-model="gender" name="some-radios" value="man">Hombre</b-form-radio>
                         </div>
@@ -74,7 +81,7 @@
                 <div class=" d-flex justify-content-center">
                     <div class="row">
                         <div class="col-6">
-                            <label for="datepicker">Fecha de Nacimiento</label>
+                            <label for="datepicker" class="text-muted">Fecha de Nacimiento</label>
                         </div>
                         <div class="col-6">
                             <input type="date" @change="dateSelected">
@@ -85,6 +92,40 @@
                 <hr>
             </div>
             <!-- END Fecha de Nacimiento -->
+
+            <!-- Start Description -->
+            <div class="col-12">
+                <div class=" d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="" class="text-muted">Agrega una descripcion</label>
+                        </div>
+                        <div class="col-6">
+                            <textarea type="textarea" v-model="description"/>
+                            <!-- <b-form-datepicker id="datepicker" v-model="value" class="mb-2" /> -->
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <!-- END Description -->
+
+            <!-- Start DNI -->
+            <div class="col-12">
+                <div class=" d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="dni" class="text-muted">DNI</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="number" v-model="dni">
+                            <!-- <b-form-datepicker id="datepicker" v-model="value" class="mb-2" /> -->
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <!-- END DNI -->
 
             <!-- START Telefono -->
 
@@ -126,10 +167,16 @@ export default {
             url: null,
             file: null,
             gender: 'woman',
-            date: null,
+            date: '',
             phone: '',
             coords: null,
-            address: null
+            address: '',
+            dni: '',
+            description: '',
+
+            loading: {
+                localizar: false
+            }
         }
     },
     created(){
@@ -155,16 +202,12 @@ export default {
             console.log(res);
 
             this.url = res.data.url;
-
-            // this.url = URL.createObjectURL(image)
-            // this.file = image
-
-
         },
         dateSelected(e){
             this.date = e.target.value;
         },
         localizar(){
+            this.loading.localizar = true;
             navigator.geolocation.getCurrentPosition(async (pos)=>{
                 console.log(pos)
                 const response = await axios
@@ -177,6 +220,7 @@ export default {
                         lat: response.data.lat,
                         lon: response.data.lon
                     }
+                    this.loading.localizar = false;
                 }
             },(error)=>{
                 this.makeNotice('danger', 'Error Ubicando', 'Permiso de ubicacion rechazado por el usuario, por favor, aceptar y reintentar.');
@@ -184,32 +228,41 @@ export default {
             })
         },
         async submit(){
-            // if (this.date === null || this.phone === '' || this.address === null){
-            //     this.makeNotice('danger', 'Faltan Datos', 'Por favor completos los campos. requeridos: *Ubicacion, *Fecha de Nacimiento, *Telefono')
-            // }else{
-                const form = {
-                    phone: this.phone,
-                    gender: this.gender,
-                    birthdate: this.date,
-                    address: this.address,
-                    latitude: this.coords.lat,
-                    longitude: this.coords.lon
-                }
+            const form = {
+                phone: this.phone,
+                gender: this.gender,
+                birthdate: this.date,
+                address: this.address,
+                latitude: this.coords? this.coords.lat : '',
+                longitude: this.coords ?  this.coords.lon : '',
+                descripcion: this.description,
+                dni: this.dni
+            }
 
-                const res = await this.callApi('post', 'app/users/updateProfile', form)
-                // const res = await axios.post('app/users/updateProfile', formData, {
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data'
-                //     }
-                // });
+            let error = false;
+            // Hacer Validacion manual
+            Object.keys(form).forEach( field => {
+                const value = form[field]
+                if (value == '' ) {
+                    this.makeNotice('danger', 'Faltan Datos', 'Por favor complete el campo ' + field)
+                    error = true;
+                }
+            })
+
+            if (error) return ;
+
+                console.log('form', form)
+                const res = await this.callApi('post', 'app/users/completeProfile', form)
+
                 console.log('submit', res)
             // }
 
             if (res.status === 200){
                 this.$store.commit('setUpdateUser', res.data.user)
-                this.$router.push('account-profile');
+                this.$router.push('/');
             }
         }
+
     }
 }
 </script>

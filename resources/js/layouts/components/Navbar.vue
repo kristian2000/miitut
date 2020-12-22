@@ -2,7 +2,7 @@
     <nav>
         <b-navbar toggleable="lg" type="light" variant="light" >
             <div class="container">
-                <b-navbar-brand href="#">
+                <b-navbar-brand @click="$router.push('/')">
                     <img src="/assets/logo.png" alt="logo"  height="30">
                 </b-navbar-brand>
 

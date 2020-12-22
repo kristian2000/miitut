@@ -13,6 +13,12 @@ export default {
                     viewOnly: ['help', 'work']
                 },
                 {
+                    title: 'Categorias',
+                    iconClass: 'uil uil-file',
+                    path: '/account-categories',
+                    viewOnly: ['work']
+                },
+                {
                     title: 'Contratos',
                     iconClass: 'uil uil-users-alt',
                     path: '/account-contracts',

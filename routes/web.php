@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryUserController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +29,22 @@ Route::post('app/authorize/{driver}/callback', [AuthController::class, 'handlePr
 
 // Users
 Route::post('app/users/updateProfile', [UserController::class, 'updateProfile']);
+Route::post('app/users/completeProfile', [UserController::class, 'completeProfile']);
 Route::post('app/users/updateAvatar', [UserController::class, 'updateAvatar']);
+
+
+//Categories
+// Route::get('app/categories', []);
+// Route::get('app/categoriesAndSubcategories', []);
+Route::get('app/categories/{category}/subcategories', [CategoryController::class, 'getSubcategoryByCategory']);
+
+//CategoriesUser
+Route::get('app/categoriesUser', [CategoryUserController::class, 'getCategoriesUser']);
+Route::get('app/categoriesUser/pending', [CategoryUserController::class, 'getCategoryPending']);
+Route::post('app/categoriesUser/{category}/completeProfileWork', [CategoryUserController::class, 'completeProfileWork']);
+Route::post('app/categoriesUser/{category}/changeTimeAvailable', [CategoryUserController::class, 'changeTimeAvailable']);
+
+// Route::post('app/categoriesUser', [])
 
 Route::get('/', [AuthController::class, 'index']);
 

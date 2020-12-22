@@ -88,7 +88,7 @@ export default {
                                     <div class="row align-items-end">
                                         <div class="col-md-7 text-md-left text-center mt-4 mt-sm-0">
                                             <h1 class="title mb-0 font-weight-bold">Bienvenido <span class="text-capitalize">{{user.name}}</span></h1>
-                                            <p class="text-muted h6 mr-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                            <p class="text-muted h6 mr-2">{{user.description}}</p>
                                         </div>
                                     </div>
                                     <!--end row-->

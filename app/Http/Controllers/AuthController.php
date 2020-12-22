@@ -13,6 +13,7 @@ use App\Http\Controllers\MailController;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\CategoryUser;
+use App\Models\Status;
 
 class AuthController extends Controller
 {
@@ -95,10 +96,12 @@ class AuthController extends Controller
         // Si se envio la categoria se asocia el usuario con la categoria
         if ($request['category'] != null){
             $category = Category::where('name', $request['category'])->first();
+            $status = Status::where('name', 'pending')->first();
             if ($category){
                 CategoryUser::create([
                     'user_id' => $user->id,
-                    'category_id' => $category->id
+                    'category_id' => $category->id,
+                    'status_id' => $status->id
                 ]);
             }
         }
@@ -219,10 +222,12 @@ class AuthController extends Controller
             }else {
                 //Asigno Category
                 $category = Category::where('name', $request['category'])->first();
+                $status = Status::where('name', 'pending')->first();
                 if ($category){
                     CategoryUser::create([
                         'user_id' => $appUser->id,
-                        'category_id' => $category->id
+                        'category_id' => $category->id,
+                        'status_id' => $status->id
                     ]);
                 }
             }

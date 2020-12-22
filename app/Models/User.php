@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\SocialProfile;
+use App\Models\CategoryUser;
+use App\Models\Status;
 
 class User extends Authenticatable
 {
@@ -58,5 +60,10 @@ class User extends Authenticatable
     //Social Profile Relacion
     public function socialProfiles(){
         return $this->hasMany(SocialProfile::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(CategoryUser::class)->with('status', 'category');
     }
 }

@@ -33,6 +33,9 @@ export default {
                 case 'registro': {
                      this.$router.push('/completeProfile');
                 } break;
+                case 'registroWork': {
+                    this.$router.push('/completeProfileWork');
+                } break;
                 default: {
                     this.$router.push('/account-profile');
                 }
