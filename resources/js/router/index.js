@@ -6,6 +6,7 @@ Vue.use(Router)
 // Pages
 import Home from '../components/pages/Home'
 import Search from '../components/pages/Search.vue'
+import ProfilePublic from '../components/pages/ProfilePublic/index'
 
 // Account
 
@@ -97,6 +98,10 @@ const routes = [
     {
         path: '/search',
         component: Search
+    },
+    {
+        path: '/profilePublic/:id',
+        component: ProfilePublic
     }
 ]
 

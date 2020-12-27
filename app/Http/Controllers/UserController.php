@@ -75,12 +75,13 @@ class UserController extends Controller
             'phone' => 'string',
             'gender' => 'string',
             'address' => 'string',
-            'birthdate' => 'date',
+            'lat' => 'numeric',
+            'lng' => 'numeric',
             'description' => 'string',
             'dni' => 'string'
         ]);
 
-        $data = $request->only(['phone', 'gender', 'address', 'birthdate', 'description', 'dni']);
+        $data = $request->only(['phone', 'gender', 'address', 'birthdate', 'description', 'dni', 'lat', 'lng']);
 
         $user = Auth::user();
 
@@ -95,4 +96,5 @@ class UserController extends Controller
             'msg' => 'User Update success'
         ]);
     }
+
 }

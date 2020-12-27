@@ -14,7 +14,7 @@ export default {
     <div>
         <section class="d-flex align-items-center">
             <div class="container">
-                <div class="mb-5 title-heading text-center">
+                <div class="mb-4 title-heading text-center">
                     <h2 class="heading title">¿Qué Necesitas?</h2>
                 </div>
 

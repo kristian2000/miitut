@@ -62,7 +62,7 @@ export default {
                 axios
                     .post(`/app/authorize/${payload.driver}/callback`, payload)
                     .then( response => {
-                        // console.log('loginCallback',response)
+                        console.log('loginCallback',response)
                         resolve(response)
                     })
                     .catch(error => {

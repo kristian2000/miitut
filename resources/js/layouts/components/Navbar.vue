@@ -37,14 +37,20 @@
                         </b-nav-item-dropdown>
 
                         <b-nav-item>
+                            <search-icon size="1.5x" class="custom-class" @click="$router.push('/search')"></search-icon>
+                        </b-nav-item>
+
+                        <b-nav-item>
                             <bell-icon size="1.5x" class="custom-class"></bell-icon>
+                        </b-nav-item>
+                        <b-nav-item @click="$router.push('/account-profile')">
+                            <user-icon size="1.5x" class="custom-class"></user-icon>
                         </b-nav-item>
 
                         <b-nav-item-dropdown right>
                             <template #button-content>
                                 <em>{{user.name}}</em>
                             </template>
-                                <!-- <b-dropdown-item href="#">Perfil</b-dropdown-item> -->
                                 <b-dropdown-item href="#" @click="logout()">Salir</b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
@@ -56,7 +62,9 @@
 
 <script>
 import {
-    BellIcon
+    BellIcon,
+    UserIcon,
+    SearchIcon
 } from 'vue-feather-icons';
 export default {
     data(){
@@ -66,7 +74,9 @@ export default {
         }
     },
     components: {
-        BellIcon
+        BellIcon,
+        UserIcon,
+        SearchIcon
     },
     computed: {
         user(){

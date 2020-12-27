@@ -7,6 +7,7 @@ import {
 import SelectedUserType from './SelectedUserType.vue'
 import SelectedCategories from './SelectedCategories.vue'
 import SignUp from './Signup.vue'
+import LayoutStandar from '../../../../layouts/LayoutStandar'
 
 export default {
     data(){
@@ -52,50 +53,46 @@ export default {
         SelectedUserType,
         SelectedCategories,
         SignUp,
-        ArrowLeftIcon
+        ArrowLeftIcon,
+        LayoutStandar
     }
 }
 </script>
 
 <template>
 <div>
-    <nav>
-        <b-navbar toggleable="lg" type="light" variant="light" >
-            <div class="container">
-                <b-navbar-brand @click="this.$router.push('/')" >
-                    <img src="/assets/logo.png" alt="logo"  height="30">
-                </b-navbar-brand>
+    <LayoutStandar :bgWhite="true">
+        <section  >
+            <div>
+                <b-button @click="goBack()">
+                    <ArrowLeftIcon />
+                </b-button>
+                <transition name='slide-fade' mode="out-in">
+                    <!-- Seleccionar Option Ayuda = Trabajo -->
+                    <selected-user-type
+                        v-if="step === 'selectedUserType'"
+                        :selectedOption="selectedUserType"
+                        :category="category"
+                    />
+
+                    <!-- Seleccionar Categoria, (Si la option es trabajo) -->
+
+                    <selected-categories
+                        v-if="step === 'selectedCategories'"
+                        :selectedItem="selectedCategory"
+                    />
+
+                    <!-- Form Registro -->
+                    <sign-up
+                        v-if="step === 'signup'"
+                        :category="category"
+                        :userType="userType"
+                    />
+
+                </transition>
             </div>
-        </b-navbar>
-    </nav>
-    <section class="container mt-2">
-        <b-button @click="goBack()">
-            <ArrowLeftIcon />
-        </b-button>
-        <transition name='slide-fade' mode="out-in">
-            <!-- Seleccionar Option Ayuda = Trabajo -->
-            <selected-user-type
-                v-if="step === 'selectedUserType'"
-                :selectedOption="selectedUserType"
-                :category="category"
-            />
-
-            <!-- Seleccionar Categoria, (Si la option es trabajo) -->
-
-            <selected-categories
-                v-if="step === 'selectedCategories'"
-                :selectedItem="selectedCategory"
-            />
-
-            <!-- Form Registro -->
-            <sign-up
-                v-if="step === 'signup'"
-                :category="category"
-                :userType="userType"
-            />
-
-        </transition>
-    </section>
+        </section>
+    </LayoutStandar>
 </div>
 </template>
 

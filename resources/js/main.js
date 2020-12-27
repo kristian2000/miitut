@@ -18,8 +18,6 @@ Vue.component('multiselect', Multiselect)
 
 Vue.use(VueTelInput)
 
-
-
 Vue.mixin(common);
 
 // Install BootstrapVue

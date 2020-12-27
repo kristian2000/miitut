@@ -103,7 +103,9 @@ export default {
 
             const data = {
                 ...form,
-                address: this.user.address
+                address: this.user.address,
+                lat: this.user.lat,
+                lng: this.user.lng
             }
 
             console.log('data', data);

@@ -35,14 +35,17 @@ Route::post('app/users/updateAvatar', [UserController::class, 'updateAvatar']);
 
 //Categories
 // Route::get('app/categories', []);
-// Route::get('app/categoriesAndSubcategories', []);
+Route::get('app/categories/getWithSubcategories', [CategoryController::class, 'getCategoriesAndSubcategories']);
 Route::get('app/categories/{category}/subcategories', [CategoryController::class, 'getSubcategoryByCategory']);
 
 //CategoriesUser
 Route::get('app/categoriesUser', [CategoryUserController::class, 'getCategoriesUser']);
 Route::get('app/categoriesUser/pending', [CategoryUserController::class, 'getCategoryPending']);
+Route::get('app/categoriesUser/{category}', [CategoryUserController::class, 'showCategoriesUser']);
+Route::put('app/categoriesUser/{category}', [CategoryUserController::class, 'updateCategoryUser']);
 Route::post('app/categoriesUser/{category}/completeProfileWork', [CategoryUserController::class, 'completeProfileWork']);
 Route::post('app/categoriesUser/{category}/changeTimeAvailable', [CategoryUserController::class, 'changeTimeAvailable']);
+Route::post('app/categoriesUser/getCategoriesUserWork', [CategoryUserController::class, 'getCategoriesUserWork']);
 
 // Route::post('app/categoriesUser', [])
 

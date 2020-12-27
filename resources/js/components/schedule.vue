@@ -11,7 +11,8 @@ export default {
         'sheduleData',
         'setSheduleData',
         'changeHandleServer',
-        'dataInitial'
+        'dataInitial',
+        'disabled'
     ],
     data(){
         return {
@@ -31,12 +32,12 @@ export default {
             let values = hours.map( hour => {
                 const data = this.dataInitial[hour];
                 if ( this.dataInitial && data){
-                    console.log('data', data)
+                    // console.log('data', data)
                     return {
                         hours: hour,
-                        days: data.days.map( day => {
+                        days: days.map( day => {
                             if (data.days.includes(day)){
-                                return { key: hour, value: true}
+                                return { key: day, value: true}
                             }
                             return { key: day, value: false }
                         })
@@ -52,6 +53,7 @@ export default {
             this.setSheduleData(values)
         },
         async handleChange(day, key){
+            if (this.disabled){ return ;}
             // Cambia la seleccion de un dia
             const values = this.sheduleData.map ( item => {
                 if (item.hours === key){

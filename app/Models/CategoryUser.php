@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Status;
 use App\Models\Category;
 use App\Models\TimesAvailable;
+use App\Models\User;
 
 class CategoryUser extends Model
 {
@@ -22,9 +23,15 @@ class CategoryUser extends Model
         'title',
         'description',
         'address',
+        'lat',
+        'lng',
         'descriptionExperience',
         'yearExperience'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function status(){
         return $this->belongsTo(Status::class);

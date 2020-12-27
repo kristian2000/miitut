@@ -23,7 +23,10 @@ class CreateCategoriesUserTable extends Migration
             $table->string('description')->default('');
             $table->string('address')->default('');
 
-            $table->string('descriptionExperience')->default('');
+            $table->string('lat')->nullable();
+            $table->string('lng')->nullable();
+
+            $table->string('descriptionExperience')->nullable();
             $table->integer('yearExperience')->default(0);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

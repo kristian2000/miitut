@@ -118,88 +118,84 @@ export default {
 </script>
 
 <template>
-<section class="section">
-    <div class="container col-lg-5 col-md-6">
-        <div class="row align-items-center">
-
-            <div class="">
-                <div class="card login_page shadow rounded border-0">
-                    <div class="card-body">
-                        <h4 class="card-title text-center">Registro</h4>
-                        <form class="login-form mt-4" v-on:submit.prevent="submit">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group position-relative">
-                                        <label>Nombre <span class="text-danger">*</span></label>
-                                        <user-icon class="fea icon-sm icons mt-2"></user-icon>
-                                        <input v-model="form.name" type="text" class="form-control pl-5" placeholder="Escribe tu nombre..." name="s" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group position-relative">
-                                        <label>Correo <span class="text-danger">*</span></label>
-                                        <mail-icon class="fea icon-sm icons mt-2"></mail-icon>
-                                        <input v-model="form.email" type="email" class="form-control pl-5" placeholder="Escribe tu Correo..." name="email" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group position-relative">
-                                        <label>Contraseña <span class="text-danger">*</span></label>
-                                        <key-icon class="fea icon-sm icons mt-2"></key-icon>
-                                        <input v-model="form.password" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group position-relative">
-                                        <label>Confirmar Contraseña <span class="text-danger">*</span></label>
-                                        <key-icon class="fea icon-sm icons mt-2"></key-icon>
-                                        <input v-model="form.password_confirmation" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox" v-on:click="handleAcceptTerm">
-                                            <input type="checkbox" class="custom-control-input" id="acceptTerm" v-model="acceptTerm">
-                                            <label class="custom-control-label" for="customCheck1">Acepto <a href="#" class="text-primary">los terminos y condiciones</a></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn btn-primary btn-block" :disabled="!acceptTerm">Register</button>
-                                </div>
-                                <div class="col-lg-12 mt-4 text-center">
-                                    <h6>ó Registrate Con</h6>
-                                    <ul class="list-unstyled social-icon mb-0 mt-3">
-                                        <li class="list-inline-item" @click="loginSocial('facebook')">
-                                            <a href="javascript:void(0)" class="rounded">
-                                                <facebook-icon class="fea icon-sm fea-social"></facebook-icon>
-                                            </a>
-                                        </li>
-
-                                        <li class="list-inline-item ml-1" @click="loginSocial('google')">
-                                            <a href="javascript:void(0)" class="rounded">
-                                                <mail-icon class="fea icon-sm fea-social"></mail-icon>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <!--end icon-->
-                                </div>
-                                <div class="mx-auto">
-                                    <p class="mb-0 mt-3"><small class="text-dark mr-2">Ya tienes una cuenta ?</small>
-                                        <router-link to="/login" class="text-dark font-weight-bold">Iniciar sesión</router-link>
-                                    </p>
+<!-- <section class=""> -->
+    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+        <div >
+            <div class="card login_page shadow rounded border-0" style="max-width: 500px">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Registro</h4>
+                    <form class="login-form mt-4" v-on:submit.prevent="submit">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group position-relative">
+                                    <label>Nombre <span class="text-danger">*</span></label>
+                                    <user-icon class="fea icon-sm icons mt-2"></user-icon>
+                                    <input v-model="form.name" type="text" class="form-control pl-5" placeholder="Escribe tu nombre..." name="s" required="">
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                            <div class="col-md-12">
+                                <div class="form-group position-relative">
+                                    <label>Correo <span class="text-danger">*</span></label>
+                                    <mail-icon class="fea icon-sm icons mt-2"></mail-icon>
+                                    <input v-model="form.email" type="email" class="form-control pl-5" placeholder="Escribe tu Correo..." name="email" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group position-relative">
+                                    <label>Contraseña <span class="text-danger">*</span></label>
+                                    <key-icon class="fea icon-sm icons mt-2"></key-icon>
+                                    <input v-model="form.password" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group position-relative">
+                                    <label>Confirmar Contraseña <span class="text-danger">*</span></label>
+                                    <key-icon class="fea icon-sm icons mt-2"></key-icon>
+                                    <input v-model="form.password_confirmation" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox" v-on:click="handleAcceptTerm">
+                                        <input type="checkbox" class="custom-control-input" id="acceptTerm" v-model="acceptTerm">
+                                        <label class="custom-control-label" for="customCheck1">Acepto <a href="#" class="text-primary">los terminos y condiciones</a></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-primary btn-block" :disabled="!acceptTerm">Register</button>
+                            </div>
+                            <div class="col-lg-12 mt-4 text-center">
+                                <h6>ó Registrate Con</h6>
+                                <ul class="list-unstyled social-icon mb-0 mt-3">
+                                    <li class="list-inline-item" @click="loginSocial('facebook')">
+                                        <a href="javascript:void(0)" class="rounded">
+                                            <facebook-icon class="fea icon-sm fea-social"></facebook-icon>
+                                        </a>
+                                    </li>
+
+                                    <li class="list-inline-item ml-1" @click="loginSocial('google')">
+                                        <a href="javascript:void(0)" class="rounded">
+                                            <mail-icon class="fea icon-sm fea-social"></mail-icon>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!--end icon-->
+                            </div>
+                            <div class="mx-auto">
+                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Ya tienes una cuenta ?</small>
+                                    <router-link to="/login" class="text-dark font-weight-bold">Iniciar sesión</router-link>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <!--end col-->
         </div>
-        <!--end row-->
+
     </div>
 
-</section>
+<!-- </section> -->
 </template>
 
 <style scoped>

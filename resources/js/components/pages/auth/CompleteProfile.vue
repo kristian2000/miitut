@@ -1,3 +1,112 @@
+
+<script>
+import axios from 'axios'
+export default {
+    data(){
+        return {
+            url: null,
+            file: null,
+            gender: 'woman',
+            date: '',
+            phone: '',
+            coords: null,
+            address: '',
+            dni: '',
+            description: '',
+
+            loading: {
+                localizar: false
+            }
+        }
+    },
+    created(){
+        const user = this.$store.state.user;
+        if (!user || user.fase_registry !== 'registro'){
+            this.$router.push('/');
+        }
+
+        if (user.avatar){
+            this.url = user.avatar
+        }
+    },
+    methods: {
+        selectImage(){
+            this.$refs.fileInput.click()
+        },
+        async onFileChange(e){
+            const image = e.target.files[0]
+            const formData = new FormData();
+            formData.append('avatar', image);
+
+            const res = await this.callApi('post', 'app/users/updateAvatar', formData);
+            console.log(res);
+
+            this.url = res.data.url;
+        },
+        dateSelected(e){
+            this.date = e.target.value;
+        },
+        localizar(){
+            this.loading.localizar = true;
+            navigator.geolocation.getCurrentPosition(async (pos)=>{
+                console.log(pos)
+                const response = await axios
+                    .get(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json`)
+
+                if (response.status === 200){
+                    let { county, state, postcode, country } = response.data.address;
+                    this.address = `${county}, ${state}, ${postcode}, ${country}`;
+                    this.coords = {
+                        lat: response.data.lat,
+                        lon: response.data.lon
+                    }
+                    this.loading.localizar = false;
+                }
+            },(error)=>{
+                this.makeNotice('danger', 'Error Ubicando', 'Permiso de ubicacion rechazado por el usuario, por favor, aceptar y reintentar.');
+                console.log('error', error)
+            })
+        },
+        async submit(){
+            const form = {
+                phone: this.phone,
+                gender: this.gender,
+                birthdate: this.date,
+                address: this.address,
+                lat: this.coords? this.coords.lat : '',
+                lng: this.coords ?  this.coords.lon : '',
+                descripcion: this.description,
+                dni: this.dni
+            }
+
+            let error = false;
+            // Hacer Validacion manual
+            Object.keys(form).forEach( field => {
+                const value = form[field]
+                if (value == '' ) {
+                    this.makeNotice('danger', 'Faltan Datos', 'Por favor complete el campo ' + field)
+                    error = true;
+                }
+            })
+
+            if (error) return ;
+
+                console.log('form', form)
+                const res = await this.callApi('post', 'app/users/completeProfile', form)
+
+                console.log('submit', res)
+            // }
+
+            if (res.status === 200){
+                this.$store.commit('setUpdateUser', res.data.user)
+                this.$router.push('/');
+            }
+        }
+
+    }
+}
+</script>
+
 <template>
 <section class="d-flex align-items-center">
     <div class="container col-md-6 col-12 mt-4">
@@ -158,111 +267,3 @@
     </div>
 </section>
 </template>
-
-<script>
-import axios from 'axios'
-export default {
-    data(){
-        return {
-            url: null,
-            file: null,
-            gender: 'woman',
-            date: '',
-            phone: '',
-            coords: null,
-            address: '',
-            dni: '',
-            description: '',
-
-            loading: {
-                localizar: false
-            }
-        }
-    },
-    created(){
-        const user = this.$store.state.user;
-        if (!user || user.fase_registry !== 'registro'){
-            this.$router.push('/');
-        }
-
-        if (user.avatar){
-            this.url = user.avatar
-        }
-    },
-    methods: {
-        selectImage(){
-            this.$refs.fileInput.click()
-        },
-        async onFileChange(e){
-            const image = e.target.files[0]
-            const formData = new FormData();
-            formData.append('avatar', image);
-
-            const res = await this.callApi('post', 'app/users/updateAvatar', formData);
-            console.log(res);
-
-            this.url = res.data.url;
-        },
-        dateSelected(e){
-            this.date = e.target.value;
-        },
-        localizar(){
-            this.loading.localizar = true;
-            navigator.geolocation.getCurrentPosition(async (pos)=>{
-                console.log(pos)
-                const response = await axios
-                    .get(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json`)
-
-                if (response.status === 200){
-                    let { county, state, postcode, country } = response.data.address;
-                    this.address = `${county}, ${state}, ${postcode}, ${country}`;
-                    this.coords = {
-                        lat: response.data.lat,
-                        lon: response.data.lon
-                    }
-                    this.loading.localizar = false;
-                }
-            },(error)=>{
-                this.makeNotice('danger', 'Error Ubicando', 'Permiso de ubicacion rechazado por el usuario, por favor, aceptar y reintentar.');
-                console.log('error', error)
-            })
-        },
-        async submit(){
-            const form = {
-                phone: this.phone,
-                gender: this.gender,
-                birthdate: this.date,
-                address: this.address,
-                latitude: this.coords? this.coords.lat : '',
-                longitude: this.coords ?  this.coords.lon : '',
-                descripcion: this.description,
-                dni: this.dni
-            }
-
-            let error = false;
-            // Hacer Validacion manual
-            Object.keys(form).forEach( field => {
-                const value = form[field]
-                if (value == '' ) {
-                    this.makeNotice('danger', 'Faltan Datos', 'Por favor complete el campo ' + field)
-                    error = true;
-                }
-            })
-
-            if (error) return ;
-
-                console.log('form', form)
-                const res = await this.callApi('post', 'app/users/completeProfile', form)
-
-                console.log('submit', res)
-            // }
-
-            if (res.status === 200){
-                this.$store.commit('setUpdateUser', res.data.user)
-                this.$router.push('/');
-            }
-        }
-
-    }
-}
-</script>

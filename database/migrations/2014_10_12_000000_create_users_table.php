@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('gender')->nullable();
             $table->string('address')->nullable();
+            $table->float('lat')->nullable();
+            $table->float('lng')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('phone_visible_public')->default(false);

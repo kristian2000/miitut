@@ -17,7 +17,7 @@ class Category extends Model
     ];
 
     public function CategoriesUsers(){
-        return $this->hasMany(CategoryUser::class);
+        return $this->hasMany(CategoryUser::class)->with('subcatories');
     }
 
     public function categoryParent(){

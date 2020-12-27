@@ -1,62 +1,93 @@
 <script>
 import {
-    ArrowUpIcon,
-    FacebookIcon,
-    InstagramIcon,
-    TwitterIcon,
-    LinkedinIcon,
-    GithubIcon,
-    YoutubeIcon,
-    GitlabIcon,
-    MailIcon,
-    UserPlusIcon,
-    UsersIcon,
-    MessageCircleIcon,
-    BellIcon,
-    ToolIcon,
-    PhoneIcon,
-    BookmarkIcon,
-    ItalicIcon,
-    GlobeIcon,
-    GiftIcon,
-    MapPinIcon
+    Trash2Icon
 } from 'vue-feather-icons';
 
-// import Navbar from "@/components/navbar";
-// import Switcher from "@/components/switcher";
-// import Footer from "@/components/footer";
-
-/**
- * Account-profile component
- */
 export default {
     data() {
-        return {}
+        return {
+            form: {
+                category: '',
+                subCategory: '',
+                localization: '',
+                score: 1,
+                yearExperience: 0,
+                priceMin: 1,
+                priceMax: 10
+
+            },
+            categoriesForm : [],
+            categories: [],
+            categoriesUserWork: [],
+            user: this.$store.state.user,
+            scoreOptions: [
+                { text: 'Todos', value: 1},
+                { text: 'De 2 en adelante', value: 2},
+                { text: 'De 3 en adelante', value: 3},
+                { text: 'De 4 en adelante', value: 4},
+                { text: 'Solo 5 Estrellas', value: 5}
+            ]
+        }
     },
     components: {
-        // Navbar,
-        // Switcher,
-        // Footer,
-        ArrowUpIcon,
-        FacebookIcon,
-        InstagramIcon,
-        TwitterIcon,
-        LinkedinIcon,
-        GithubIcon,
-        YoutubeIcon,
-        GitlabIcon,
-        MailIcon,
-        UserPlusIcon,
-        UsersIcon,
-        MessageCircleIcon,
-        BellIcon,
-        ToolIcon,
-        PhoneIcon,
-        BookmarkIcon,
-        ItalicIcon,
-        GlobeIcon,
-        GiftIcon,
-        MapPinIcon
+        Trash2Icon
+    },
+    async created(){
+        if (this.$store.state.user){
+            const response = await this.callApi('get', `app/categories/getWithSubcategories`);
+            console.log(response)
+            if (response.status === 200){
+                let categories = response.data.map( category => ({
+                    value: category,
+                    text: category.label,
+                }));
+
+                this.categories = categories;
+                console.log('categories',categories)
+            }
+        }else {
+            this.$router.push('/');
+        }
+    },
+    computed: {
+        subCategories(){
+            return this.form.category.subcategories?.map( subCategory => ({
+                text: subCategory.label,
+                value: subCategory
+            })) ?? []
+        }
+    },
+    methods: {
+        async submit(){
+            // if (this.form.category === ''){
+            //     this.makeNotice('danger', 'Faltan Datos', 'Por favor complete la categoria ')
+            //     return
+            // }
+            let form = this.form;
+            let formData = Object.keys(form)
+                .reduce( (acc, value)=> {
+                    if (form[value] !== ''){
+                        return {
+                            ...acc,
+                            [value]: value != 'category' ? form[value] : form[value].id
+                        }
+                    }
+                    return acc;
+                } , {
+                    lat: this.user.lat,
+                    lng: this.user.lng,
+                    // radius: 22
+                })
+
+            console.log('search', formData)
+
+            const response = await this.callApi('post', 'app/categoriesUser/getCategoriesUserWork', formData)
+
+            if (response.status === 200){
+                console.log('getUsersWork', response.data)
+                this.categoriesUserWork = response.data.users;
+            }
+        }
     }
 }
 </script>
@@ -68,164 +99,156 @@ export default {
     <!-- Hero Start -->
     <section class="bg-profile d-table w-100 bg-primary" style="background: url('images/account/bg.png') center center;">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
+
                     <div class="card public-profile border-0 rounded shadow" style="z-index: 1;">
                         <div class="card-body ">
 
-                    <div class="col-lg-10 items2">
+                            <div class="row">
+                                <!-- START Formulario Filtros  -->
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+                                    <div class="row columna shadow" >
+                                        <div class="col-12 item">
+                                            <h6 class="font-weight-bold">Categoría</h6>
+                                            <b-form-select
+                                                id="input-3"
+                                                v-model="form.category"
+                                                :options="categories"
+                                                required
+                                            ></b-form-select>
+                                        </div>
+                                        <div class="col-12 item">
+                                            <h6 class="font-weight-bold">Sub-Categoría</h6>
+                                            <b-form-select
+                                                id="input-3"
+                                                v-model="form.subCategory"
+                                                :options="subCategories"
+                                                required
+                                            ></b-form-select>
+                                        </div>
+                                        <div class="col-12 item">
+                                            <h6 class="font-weight-bold">Ubicación</h6>
+                                            <p class="text-muted">{{this.user.address}}</p>
+                                        </div>
+                                        <div class="col-12 item">
+                                            <h6 class="font-weight-bold">Valoración</h6>
+                                            <b-form-select
+                                                id="input-3"
+                                                v-model="form.score"
+                                                :options="scoreOptions"
+                                                required
+                                            ></b-form-select>
+                                        </div>
+                                        <div class="col-12 item">
+                                            <h6 class="font-weight-bold">Años de Experiencia</h6>
+                                            <b-form-input id="yearExperience" type="number" v-model="form.yearExperience"></b-form-input>
+                                        </div>
+                                        <div class="col-12 item">
+                                            <h6 class="font-weight-bold">Rango de Precio</h6>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <h6 class="font-weight-bold">Min</h6>
+                                                    <b-form-input
+                                                        id="yearExperience"
+                                                        type="number"
+                                                        min="1"
+                                                        v-model="form.priceMin">
+                                                    </b-form-input>
+                                                </div>
+                                                <div class="col-6">
+                                                    <h6 class="font-weight-bold">Max</h6>
+                                                    <b-form-input
+                                                        id="yearExperience"
+                                                        type="number"
+                                                        min="1"
+                                                        v-model="form.priceMax">
+                                                    </b-form-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-center" @click="submit">
+                                            <button id="btn-modify-2" class="text-white">Buscar</button>
+                                        </div>
 
-                    <div class="border-bottom pb-4">
-                        <div class="row">
+                                    </div>
+                                </div>
+                                <!--End Formulario Filtros-->
 
-                            <div class="widget col-lg-4 col-md-5 col-sm-3">
-                            <div class="row columna shadow">
+                                <!-- Start List Usuario -->
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-12 p-4">
+                                    <div class="row" v-if="categoriesUserWork.length">
+                                        <div class="col-12 mb-2">
+                                            <label class="container">
+                                                <input type="checkbox">
+                                                <span class="font-weight-bold">Seleccionar Todos</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="container caja" v-for="categoryUser in categoriesUserWork" :key="categoryUser.id">
+                                                <div
+                                                    class="row align-self-center align-items-center"
+                                                    style="height: 100px; overflow: hidden;"
+                                                    @click="$router.push({path: `/profilePublic/${categoryUser.id}`})"
+                                                >
+                                                    <div class="col-lg-2 col-md-3 col-sm-4">
+                                                        <img
+                                                            :src="categoryUser.user.avatar ? categoryUser.user.avatar : 'images/avatarDefault.jpg'"
+                                                            class="avatar avatar-small rounded-circle shadow d-block"
+                                                            width="80px"
+                                                            alt=""
+                                                        >
+                                                    </div>
+                                                    <div class="col-lg-10 col-md-9 col-sm-8 texto">
+                                                        <h3 class="font-weight-bold" style="font-size: 18px;">{{ categoryUser.user.name }}</h3>
+                                                        <p class="text-muted " style="line-height:1.2;height: 50px; overflow: hidden;font-size: 14px">
+                                                           <span class="font-weight-bold">{{ categoryUser.title }}</span>.<br>{{ categoryUser.description}}.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <div class="card">
+                                            <div class="row p-4">
+                                                <div class="col-12">
+                                                    <h4 class="text-muted text-center">
+                                                        No hay coincidencias
+                                                    </h4>
+                                                </div>
+                                                <div class="col-12">
+                                                    <p class="text-muted text-center">
+                                                        Modifique los filtros para buscar distintos resultados
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End List Usuario -->
 
-                                <!-- <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Palabra Clave</h6>
-                                </div> -->
-                                <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Categoría</h6>
-                                    <b-form-input id="category" type="text"></b-form-input>
+                                <!-- Start Map -->
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <b-skeleton-img
+                                        height="400%"
+                                    />
+                                    <!-- <div
+                                        class="d-flex align-items-center justify-content-center"
+                                        style="width: 100%; height: 100%;"
+                                    > -->
+                                        <!-- <img
+                                            src="images/account/mapa.jpg"
+                                            alt=""
+                                            width="100%"
+                                        > -->
+                                    <!-- </div> -->
                                 </div>
-                                <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Sub-Categoría</h6>
-                                </div>
-                                <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Ubicación</h6>
-                                </div>
-                                <!-- <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Horario</h6>
-                                </div> -->
-                                <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Valoración</h6>
-                                </div>
-                                <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Edad</h6>
-                                    <b-form-input id="category" type="number"></b-form-input>
-                                </div>
-                                <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Años de Experiencia</h6>
-                                </div>
-                                <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Rango de Precio</h6>
-                                </div>
-
-                                <button id="btn-modify-2" class="text-white">Buscar</button>
-
+                                <!-- End Map -->
                             </div>
-                            <!--end row-->
-                        </div>
 
-                            <div class="container col-lg-5 col-md-5 col-sm-8">
-
-                                <label class="container">
-                                    <input type="checkbox">
-                                    <span class="font-weight-bold">Seleccionar Todos</span>
-                                </label>
-
-
-                                <div class="container caja">
-                                    <div class="row align-self-center align-items-center">
-                                        <div class="col-lg-2 col-md-3 col-sm-4">
-                                            <img src="images/client/05.jpg" class="avatar avatar-small rounded-circle shadow d-block" width="80px" alt="">
-                                        </div>
-                                        <div class="col-lg-10 col-md-9 col-sm-8 texto">
-                                            <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                            <p class="text-muted">Lorem ipsum dolor sit.<br>Lorem ipsum dolor sit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container caja">
-                                    <div class="row align-self-center align-items-center">
-                                        <div class="col-lg-2 col-md-3 col-sm-4">
-                                            <img src="images/client/05.jpg" class="avatar avatar-small rounded-circle shadow d-block" width="80px" alt="">
-                                        </div>
-                                        <div class="col-lg-10 col-md-9 col-sm-8 texto">
-                                            <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                            <p class="text-muted">Lorem ipsum dolor sit.<br>Lorem ipsum dolor sit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container caja">
-                                    <div class="row align-self-center align-items-center">
-                                        <div class="col-lg-2 col-md-3 col-sm-4">
-                                            <img src="images/client/05.jpg" class="avatar avatar-small rounded-circle shadow d-block" width="80px" alt="">
-                                        </div>
-                                        <div class="col-lg-10 col-md-9 col-sm-8 texto">
-                                            <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                            <p class="text-muted">Lorem ipsum dolor sit.<br>Lorem ipsum dolor sit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container caja">
-                                    <div class="row align-self-center align-items-center">
-                                        <div class="col-lg-2 col-md-3 col-sm-4">
-                                            <img src="images/client/05.jpg" class="avatar avatar-small rounded-circle shadow d-block" width="80px" alt="">
-                                        </div>
-                                        <div class="col-lg-10 col-md-9 col-sm-8 texto">
-                                            <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                            <p class="text-muted">Lorem ipsum dolor sit.<br>Lorem ipsum dolor sit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container caja">
-                                    <div class="row align-self-center align-items-center">
-                                        <div class="col-lg-2 col-md-3 col-sm-4">
-                                            <img src="images/client/05.jpg" class="avatar avatar-small rounded-circle shadow d-block" width="80px" alt="">
-                                        </div>
-                                        <div class="col-lg-10 col-md-9 col-sm-8 texto">
-                                            <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                            <p class="text-muted">Lorem ipsum dolor sit.<br>Lorem ipsum dolor sit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container caja">
-                                    <div class="row align-self-center align-items-center">
-                                        <div class="col-lg-2 col-md-3 col-sm-4">
-                                            <img src="images/client/05.jpg" class="avatar avatar-small rounded-circle shadow d-block" width="80px" alt="">
-                                        </div>
-                                        <div class="col-lg-10 col-md-9 col-sm-8 texto">
-                                            <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                            <p class="text-muted">Lorem ipsum dolor sit.<br>Lorem ipsum dolor sit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="col-md-12 col-lg-3 col-sm-12">
-
-                                <img src="images/account/mapa.jpg" alt="">
-                            </div>
-
-                        </div>
-                        <!--end row-->
-                    </div>
-
-                </div>
 
                         </div>
                     </div>
                 </div>
                 <!--end col-->
-            </div>
-            <!--end row-->
-        </div>
-        <!--ed container-->
-    </section>
-    <!--end section-->
-    <!-- Hero End -->
-
-    <!-- Profile Start -->
-    <section class="section espacio mt-60 items1">
-        <div class="container mt-lg-3">
-
-
-                <!--end col-->
-        </div>
-        <!--end container-->
     </section>
     <!--end section-->
 
@@ -272,6 +295,7 @@ export default {
         padding: 10px;
         margin-bottom: 10px;
         border-bottom: 1px solid #ff4b64;
+        cursor: pointer;
     }
 
     .caja .texto {
@@ -321,6 +345,7 @@ export default {
         font-size: 15px;
         border-radius: 10px;
         border: none;
+        /* margin-bottom: 0px; */
     }
 
     .bg-profile {

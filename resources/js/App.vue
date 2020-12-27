@@ -6,6 +6,8 @@
 
 <script>
 import LayoutDefault from './layouts/LayoutDefault'
+import LayoutStandar from './layouts/LayoutStandar'
+
 export default {
     props: ['user'],
     name: 'App',

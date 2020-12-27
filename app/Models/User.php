@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\SocialProfile;
 use App\Models\CategoryUser;
 use App\Models\Status;
+use App\Models\Category;
 
 class User extends Authenticatable
 {
@@ -32,6 +33,8 @@ class User extends Authenticatable
         'verification_code',
         'userType',
         'address',
+        'lat',
+        'lng',
         'fase_registry',
         'birthdate'
     ];
@@ -64,6 +67,6 @@ class User extends Authenticatable
 
     public function categories()
     {
-        return $this->hasMany(CategoryUser::class)->with('status', 'category');
+        return $this->hasMany(CategoryUser::class)->with('status', 'category', 'timesAvailable');
     }
 }

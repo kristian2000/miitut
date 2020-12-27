@@ -81,78 +81,56 @@ export default {
     <!--end section-->
 
     <!-- SECCICON 2 -->
-    <section class="section seccion2" style="min-height: 1100px">
+    <section class="bg-gray" style="min-height: 1250px">
 
-        <div class="text-center mb-4 team02">
+        <div class="text-center mb-4 ">
             <h2 id="titlecolor" class="h1 font-weight-bold">Nuestras Categorías</h2>
             <p class="text-muted text-center">Lorem, ipsum dolor sit amet</p>
         </div>
 
-        <div class="container">
-          <div class="row team">
-
-            <div class="col-md-4 item">
-                    <img src="images/categories/niñera.jpg" width="350px" height="200px" />
+        <div class="container-fluid categoriesGroup" style="max-width: 1200px">
+            <div class="d-flex justify-content-center flex-wrap">
+                <div class="m-2">
+                    <img src="images/categories/niñera.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Niñera</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
-            </div>
+                </div>
 
-            <div class="col-md-4 item">
-                    <img src="images/categories/cuidadoMayores.jpg" width="350px" height="200px" />
+                <div class="m-2">
+                    <img src="images/categories/cuidadoMayores.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Cuidado de Mayores</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
-            </div>
+                </div>
 
-            <div class="col-md-4 item">
-                    <img src="images/categories/cuidadoMascotas.jpg" width="350px" height="200px" />
+                <div class="m-2">
+                    <img src="images/categories/cuidadoMascotas.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Cuidado de Mascotas</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
-            </div>
+                </div>
 
-          </div>
-        </div>
+                <div class="m-2">
+                        <img src="images/categories/limpieza.jpg" width="320" height="220px" />
+                        <h3 class="mt-2 font-weight-bold">Servicio de Limpieza</h3>
+                        <p class="text-muted">Lorem ipsum dolor sit amet</p>
+                </div>
 
-        <div class="container">
-          <div class="row team">
+                <div class="m-2">
+                        <img src="images/categories/mantenimiento.jpg" width="320px" height="220px" />
+                        <h3 class="mt-2 font-weight-bold">Mantenimiento</h3>
+                        <p class="text-muted">Lorem ipsum dolor sit amet</p>
+                </div>
 
-            <div class="col-md-4 item">
-                    <img src="images/categories/limpieza.jpg" width="350" height="200" />
-                    <h3 class="mt-2 font-weight-bold">Servicio de Limpieza</h3>
-                    <p class="text-muted">Lorem ipsum dolor sit amet</p>
-            </div>
+                <div class="m-2">
+                        <img src="images/categories/parasanitario.jpg" width="320px" height="220px" />
+                        <h3 class="mt-2 font-weight-bold">Parasanitario</h3>
+                        <p class="text-muted">Lorem ipsum dolor sit amet</p>
+                </div>
 
-            <div class="col-md-4 item">
-                    <img src="images/categories/mantenimiento.jpg" width="350px" height="200" />
-                    <h3 class="mt-2 font-weight-bold">Mantenimiento</h3>
-                    <p class="text-muted">Lorem ipsum dolor sit amet</p>
-            </div>
-
-            <div class="col-md-4 item">
-                    <img src="images/categories/parasanitario.jpg" width="350px" height="200" />
-                    <h3 class="mt-2 font-weight-bold">Parasanitario</h3>
-                    <p class="text-muted">Lorem ipsum dolor sit amet</p>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="container">
-          <div class="row team">
-
-            <div class="col-md-4 item">
-                    <img src="images/categories/profesores.jpg" width="350px" height="200px" />
+                <div class="m-2">
+                    <img src="images/categories/profesores.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Profesores Particulares</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
-            </div>
-
-            <div class="col-md-4 item">
-
-            </div>
-
-            <div class="col-md-4 item">
-
-            </div>
-
+                </div>
           </div>
         </div>
     </section>
@@ -246,6 +224,27 @@ export default {
 
 
 <style>
+    .bg-half-170 {
+        padding-bottom: 0;
+    }
+    .bg-gray {
+        background-color: #edf2f9;
+    }
+    .categoriesGroup img {
+        border-radius: 10%;
+        cursor: pointer;
+    }
+
+    .categoriesGroup h3{
+        font-size: 30px;
+        color: #e82e4d;
+
+    }
+
+    .categoriesGroup {
+        text-align: center;
+        background-color: #edf2f9;
+    }
 
     .seccion5, .seccion3, .seccion4, .seccion2, .seccion1 {
         background-color: #edf2f9;
@@ -490,11 +489,11 @@ export default {
     /*SECCION 2*/
 
 
-
+/*
     .team img {
         height: auto;
         width: 230px;
-    }
+    } */
 
     /*SECCION 3*/
 
@@ -524,7 +523,7 @@ export default {
     #btn-modify-2 {
         padding: 15px 40px 15px 40px;
         font-size: 25px;
-        width: 250px;
+        width: auto;
     }
 
     #btn-modify-2 span {
@@ -541,12 +540,12 @@ export default {
 
     /*SECCION 2*/
     .team img {
-        height: auto;
+        height: 200px;
         width: 300px;
     }
 
     .team h3, p {
-        text-align: left;
+        /* text-align: left; */
     }
 
     /*SECCION 3*/
@@ -572,7 +571,7 @@ export default {
     #btn-modify-2 {
         padding: 15px 35px 15px 35px;
         font-size: 25px;
-        width: 200px;
+        width: auto;
     }
 
     .seccion5 .team5 {

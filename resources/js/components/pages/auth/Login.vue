@@ -10,6 +10,7 @@ import {
     MailIcon
 } from 'vue-feather-icons';
 import { mapActions } from 'vuex';
+import LayoutStandar from '../../../layouts/LayoutStandar'
 export default {
     data(){
         return {
@@ -19,6 +20,9 @@ export default {
             },
             isLogging: false
         }
+    },
+    created(){
+        window.scroll(0, 0);
     },
     methods: {
          ...mapActions(['loginSocialRedirect']),
@@ -62,90 +66,85 @@ export default {
         HomeIcon,
         UserIcon,
         KeyIcon,
-        MailIcon
+        MailIcon,
+        LayoutStandar
     },
 }
 </script>
 <template>
-<div>
+<LayoutStandar>
 
-    <!-- Hero Start -->
-    <section class="bg-home d-flex align-items-center" >
-        <div class="container col-lg-5 col-md-6" >
-            <div class="row align-items-center">
-                <div class="">
-                    <div class="card login-page bg-white shadow rounded border-0">
-                        <div class="card-body">
-                            <h4 class="card-title text-center">Iniciar Sesión</h4>
-                            <form class="login-form mt-4" @submit.prevent="submit">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group position-relative">
-                                            <label>Correo <span class="text-danger">*</span></label>
-                                            <user-icon class="fea icon-sm icons mt-1"></user-icon>
-                                            <input v-model="form.email" type="email" class="form-control pl-5" placeholder="Escribe tu correo..." name="email" required="">
+    <div class="container my-5 col-lg-5 col-md-6" >
+        <div class="row align-items-center">
+            <div class="">
+                <div class="card login-page bg-white shadow rounded border-0">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Iniciar Sesión</h4>
+                        <form class="login-form mt-4" @submit.prevent="submit">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group position-relative">
+                                        <label>Correo <span class="text-danger">*</span></label>
+                                        <user-icon class="fea icon-sm icons mt-1"></user-icon>
+                                        <input v-model="form.email" type="email" class="form-control pl-5" placeholder="Escribe tu correo..." name="email" required="">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group position-relative">
+                                        <label>Contraseña <span class="text-danger">*</span></label>
+                                        <key-icon class="fea icon-sm icons mt-1"></key-icon>
+                                        <input v-model="form.password" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="form-group">
+                                            <!-- <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1">Recuerdame</label>
+                                            </div> -->
                                         </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group position-relative">
-                                            <label>Contraseña <span class="text-danger">*</span></label>
-                                            <key-icon class="fea icon-sm icons mt-1"></key-icon>
-                                            <input v-model="form.password" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="form-group">
-                                                <!-- <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                    <label class="custom-control-label" for="customCheck1">Recuerdame</label>
-                                                </div> -->
-                                            </div>
-                                            <p class="forgot-pass mb-0">
-                                                <router-link to="/template/auth-re-password" class="text-dark font-weight-bold">¿Olvidaste tu contraseña ?</router-link>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 mb-0 mt-2">
-                                        <button class="btn btn-primary btn-block">Iniciar</button>
-                                    </div>
-                                    <div class="col-lg-12 mt-4 text-center">
-                                        <h6>ó Iniciar con</h6>
-                                        <ul class="list-unstyled social-icon mb-0 mt-3">
-                                            <li class="list-inline-item" @click="loginSocial('facebook')">
-                                                <a href="javascript:void(0)" class="rounded">
-                                                    <facebook-icon class="fea icon-sm fea-social"></facebook-icon>
-                                                </a>
-                                            </li>
-
-                                            <li class="list-inline-item ml-1">
-                                                <a href="javascript:void(0)" class="rounded" @click="loginSocial('google')">
-                                                    <mail-icon class="fea icon-sm fea-social"></mail-icon>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <!--end icon-->
-                                    </div>
-                                    <div class="mx-auto">
-                                        <p class="mb-0 mt-3"><small class="text-dark mr-2">¿No tienes una cuenta?</small>
-                                            <router-link to="/registration" class="text-dark font-weight-bold">Regístrate</router-link>
+                                        <p class="forgot-pass mb-0">
+                                            <router-link to="/template/auth-re-password" class="text-dark font-weight-bold">¿Olvidaste tu contraseña ?</router-link>
                                         </p>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                                <div class="col-lg-12 mb-0 mt-2">
+                                    <button class="btn btn-primary btn-block">Iniciar</button>
+                                </div>
+                                <div class="col-lg-12 mt-4 text-center">
+                                    <h6>ó Iniciar con</h6>
+                                    <ul class="list-unstyled social-icon mb-0 mt-3">
+                                        <li class="list-inline-item" @click="loginSocial('facebook')">
+                                            <a href="javascript:void(0)" class="rounded">
+                                                <facebook-icon class="fea icon-sm fea-social"></facebook-icon>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-inline-item ml-1">
+                                            <a href="javascript:void(0)" class="rounded" @click="loginSocial('google')">
+                                                <mail-icon class="fea icon-sm fea-social"></mail-icon>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!--end icon-->
+                                </div>
+                                <div class="mx-auto">
+                                    <p class="mb-0 mt-3"><small class="text-dark mr-2">¿No tienes una cuenta?</small>
+                                        <router-link to="/registration" class="text-dark font-weight-bold">Regístrate</router-link>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <!---->
                 </div>
-                <!--end col-->
+                <!---->
             </div>
-            <!--end row-->
+            <!--end col-->
         </div>
-        <!--end container-->
-    </section>
-    <!--end section-->
-    <!-- Hero End -->
-</div>
+        <!--end row-->
+    </div>
+</LayoutStandar>
 </template>

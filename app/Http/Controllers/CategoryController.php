@@ -27,6 +27,14 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function getCategoriesAndSubcategories(){
+        $categories = Category::where('parent_id', 0)
+            ->with('subcategories')
+            ->get();
+
+        return response()->json($categories);
+    }
+
     public function getSubcategoryByCategory(Category $category){
         $subcategories = $category->subcategories;
         return response()->json($subcategories);
