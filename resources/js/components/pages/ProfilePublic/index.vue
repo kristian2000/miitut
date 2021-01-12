@@ -284,13 +284,13 @@ export default {
                                         <!-- Email Verificado -->
                                         <p class="text-capitalize">
                                             <span class="font-weight-bold">Email Verificado: </span>
-                                            <XIcon v-if="!categoryUser.user.profile_check" style="color:red"/>
+                                            <XIcon v-if="!Number(categoryUser.user.profile_check)" style="color:red"/>
                                             <CheckIcon v-else style="color:green"/>
                                         </p>
                                         <!-- Perfil Verificado -->
                                         <p class="text-capitalize">
                                             <span class="font-weight-bold">Perfil Verificado: </span>
-                                            <XIcon v-if="!categoryUser.user.email_check" style="color:red"/>
+                                            <XIcon v-if="!Number(categoryUser.user.email_check)" style="color:red"/>
                                             <CheckIcon v-else style="color:green"/>
                                         </p>
                                         <!-- Fecha de Creacion -->
