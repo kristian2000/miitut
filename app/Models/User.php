@@ -33,6 +33,7 @@ class User extends Authenticatable
         'verification_code',
         'userType',
         'address',
+        'description',
         'lat',
         'lng',
         'fase_registry',

@@ -9,9 +9,9 @@ export default {
             loading: true,
             user: this.$store.state.user,
             userCategory: { category: {label: ''}},
-            locale: 'Dolar',
+            locale: 'Euro',
             locales: [
-                { value: 'Dolar', text: 'Dolar $'}
+                { value: 'Euro', text: 'Euro €'}
             ],
             subcategoriesSelected: [],
             subcategories: [],
@@ -50,14 +50,17 @@ export default {
 
             let mapTimesAvailable = {};
 
-            response.data.times_available.forEach( time => {
-                let doc = mapTimesAvailable[time.hours]
-                if (!doc){
-                    mapTimesAvailable[time.hours] = { days: [ time.day ]}
-                }else {
-                    mapTimesAvailable[time.hours].days.push(time.day)
-                }
-            })
+            if (response.data.times_available){
+                response.data.times_available.forEach( time => {
+                    let doc = mapTimesAvailable[time.hours]
+                    if (!doc){
+                        mapTimesAvailable[time.hours] = { days: [ time.day ]}
+                    }else {
+                        mapTimesAvailable[time.hours].days.push(time.day)
+                    }
+                })
+            }
+
 
             this.userCategory = {
                 ...response.data,

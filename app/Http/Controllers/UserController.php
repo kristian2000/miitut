@@ -28,7 +28,7 @@ class UserController extends Controller
 
             //Se mueve a la ruta
             $request->avatar->move(public_path($path), $picName);
-            $url = $path.'/'.$picName;
+            $url = '/'.$path.'/'.$picName;
 
             //Se le asigna al usuario
             $user->avatar = $url;
@@ -49,19 +49,22 @@ class UserController extends Controller
     public function updateProfile(Request $request){
 
         $this->validate($request, [
+            'name' => 'string',
             'phone' => 'string',
             'gender' => 'string',
             'address' => 'string',
+            'lat' => 'numeric',
+            'lng' => 'numeric',
             'birthdate' => 'date',
             'description' => 'string',
             'dni' => 'string'
         ]);
 
-        $data = $request->only(['phone', 'gender', 'address', 'birthdate', 'description', 'dni']);
+        $data = $request->only(['name', 'phone', 'gender', 'address', 'birthdate', 'description', 'dni', 'lat', 'lng']);
 
         $user = Auth::user();
 
-        $user->update(array_merge($data));
+        $user->update($data);
 
         return response()->json([
             'user' => $user,

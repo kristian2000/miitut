@@ -6,6 +6,11 @@ import {
 export default {
     data() {
         return {
+            zoom: 13,
+            center: [0, 0],
+            rotation: 0,
+            geolocPosition: undefined,
+            markers: [],
             form: {
                 category: '',
                 subCategory: '',
@@ -55,14 +60,13 @@ export default {
                 text: subCategory.label,
                 value: subCategory
             })) ?? []
+        },
+        centerMap(){
+            return this.geolocPosition ? this.geolocPosition : [0, 0]
         }
     },
     methods: {
         async submit(){
-            // if (this.form.category === ''){
-            //     this.makeNotice('danger', 'Faltan Datos', 'Por favor complete la categoria ')
-            //     return
-            // }
             let form = this.form;
             let formData = Object.keys(form)
                 .reduce( (acc, value)=> {
@@ -81,11 +85,26 @@ export default {
 
             console.log('search', formData)
 
-            const response = await this.callApi('post', 'app/categoriesUser/getCategoriesUserWork', formData)
+            try{
+                const response = await this.callApi('post', 'app/categoriesUser/getCategoriesUserWork', formData)
 
-            if (response.status === 200){
-                console.log('getUsersWork', response.data)
-                this.categoriesUserWork = response.data.users;
+                if (response.status === 200){
+                    let categoriesUserWork = response.data.users
+
+                    let markers = categoriesUserWork.map(categoryUser => ({
+                        id: categoryUser.id,
+                        lat: categoryUser.lat,
+                        lng: categoryUser.lng
+                    }))
+
+                    this.markers = markers;
+                    this.categoriesUserWork = categoriesUserWork;
+
+                    console.log('markers', markers)
+                    console.log('getUsersWork', response.data)
+                }
+            }catch(error){
+                console.log(error)
             }
         }
     }
@@ -227,19 +246,38 @@ export default {
 
                                 <!-- Start Map -->
                                 <div class="col-lg-4 col-md-12 col-sm-12">
-                                    <b-skeleton-img
-                                        height="400%"
-                                    />
-                                    <!-- <div
-                                        class="d-flex align-items-center justify-content-center"
-                                        style="width: 100%; height: 100%;"
-                                    > -->
-                                        <!-- <img
-                                            src="images/account/mapa.jpg"
-                                            alt=""
-                                            width="100%"
-                                        > -->
-                                    <!-- </div> -->
+                                    <div>
+                                        <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true"
+                                                data-projection="EPSG:4326" style="height: 400px">
+                                            <vl-view :zoom.sync="zoom" :center.sync="centerMap" :rotation.sync="rotation"></vl-view>
+
+                                            <vl-geoloc @update:position="geolocPosition = $event">
+                                                <!-- <template slot-scope="geoloc">
+                                                <vl-feature v-if="geoloc.position" id="position-feature">
+                                                    <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
+                                                    <vl-style-box>
+                                                        <vl-style-icon src="/images/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
+                                                    </vl-style-box>
+                                                </vl-feature>
+                                                </template> -->
+                                                <div v-for=" marker in markers" :key="marker.id">
+                                                    <vl-feature >
+                                                        <vl-geom-point :coordinates="[Number(marker.lng), Number(marker.lat)]"></vl-geom-point>
+                                                            <vl-style-box>
+                                                                <vl-style-icon src="/images/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
+                                                            </vl-style-box>
+                                                    </vl-feature>
+
+                                                </div>
+                                            </vl-geoloc>
+
+                                            <vl-layer-tile id="osm">
+                                                <vl-source-osm></vl-source-osm>
+                                            </vl-layer-tile>
+
+
+                                        </vl-map>
+                                    </div>
                                 </div>
                                 <!-- End Map -->
                             </div>

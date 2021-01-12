@@ -7,7 +7,7 @@ export default {
             url: null,
             file: null,
             gender: 'woman',
-            date: '',
+            date: {birthdate: '', valid: ''},
             phone: '',
             coords: null,
             address: '',
@@ -43,8 +43,11 @@ export default {
 
             this.url = res.data.url;
         },
-        dateSelected(e){
-            this.date = e.target.value;
+        onContext(ctx) {
+            // The date formatted in the locale, or the `label-no-date-selected` string
+            this.date.valid = ctx.selectedFormatted !== 'No date selected'
+            // The following will be an empty string until a valid date is entered
+            this.selected = ctx.selectedYMD
         },
         localizar(){
             this.loading.localizar = true;
@@ -54,8 +57,8 @@ export default {
                     .get(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json`)
 
                 if (response.status === 200){
-                    let { county, state, postcode, country } = response.data.address;
-                    this.address = `${county}, ${state}, ${postcode}, ${country}`;
+
+                    this.address = response.data.display_name;
                     this.coords = {
                         lat: response.data.lat,
                         lon: response.data.lon
@@ -67,40 +70,83 @@ export default {
                 console.log('error', error)
             })
         },
-        async submit(){
+        async validate(){
+            let errors = {};
+            let errorsExist = false;
+
             const form = {
                 phone: this.phone,
                 gender: this.gender,
                 birthdate: this.date,
                 address: this.address,
-                lat: this.coords? this.coords.lat : '',
-                lng: this.coords ?  this.coords.lon : '',
-                descripcion: this.description,
+                description: this.description,
                 dni: this.dni
             }
 
-            let error = false;
-            // Hacer Validacion manual
+            //Hacer Validaciones manuales
+
             Object.keys(form).forEach( field => {
-                const value = form[field]
-                if (value == '' ) {
-                    this.makeNotice('danger', 'Faltan Datos', 'Por favor complete el campo ' + field)
-                    error = true;
+                const value = form[field];
+
+                switch(field){
+                    case 'gender':
+                    case 'description':
+                    case 'dni':
+                    case 'address':
+                    case 'phone': {
+                        if (!value.length){
+                            errors[field] = [ 'Por favor completa el campo, es requerido!' ];
+                            errorsExist = true;
+                        }
+                    }; break;
+                    case 'birthdate': {
+                        if (!value.valid){
+                            errors[field] = [ 'La fecha es Invalida' ];
+                            errorsExist = true;
+                        }
+                    }
+
                 }
+                // console.log('value', field, value)
             })
 
-            if (error) return ;
-
-                console.log('form', form)
-                const res = await this.callApi('post', 'app/users/completeProfile', form)
-
-                console.log('submit', res)
-            // }
-
-            if (res.status === 200){
-                this.$store.commit('setUpdateUser', res.data.user)
-                this.$router.push('/');
+            // Compruebo los errors y doy mensaje
+            if (errorsExist){
+                this.makeNoticeListErrors(errors);
+                return;
             }
+
+            this.submit();
+
+        },
+        async submit(){
+            const form = {
+                phone: this.phone,
+                gender: this.gender,
+                birthdate: this.date.birthdate,
+                address: this.address,
+                lat: this.coords? this.coords.lat : '',
+                lng: this.coords ?  this.coords.lon : '',
+                description: this.description,
+                dni: this.dni
+            }
+
+            console.log('formSubmit', form)
+
+            try{
+                const response = await this.callApi('post', 'app/users/completeProfile', form)
+                if (response.status === 200){
+                    this.$store.commit('setUpdateUser', response.data.user)
+                    this.$router.push('/');
+                }
+                console.log('responseSubmit', response)
+
+            }catch(error){
+                this.makeNotice('danger', 'Ocurrio un Error !', 'Se presento un problema al enviar tu solicitud')
+                console.log('submitError', error)
+            }
+
+
         }
 
     }
@@ -154,8 +200,10 @@ export default {
                         </div>
                     </div>
                     <div v-else>
-                        <div>
-                            <p> {{address}}  </p>
+                        <div class="d-flex justify-content-center">
+                            <div style="width:60%;">
+                                <p class="text-muted"> {{address}}  </p>
+                            </div>
                         </div>
                     </div>
 
@@ -193,8 +241,25 @@ export default {
                             <label for="datepicker" class="text-muted">Fecha de Nacimiento</label>
                         </div>
                         <div class="col-6">
-                            <input type="date" @change="dateSelected">
-                            <!-- <b-form-datepicker id="datepicker" v-model="value" class="mb-2" /> -->
+                            <b-input-group class="mb-3">
+                                <b-form-input
+                                    id="example-input"
+                                    v-model="date.birthdate"
+                                    type="text"
+                                    placeholder="YYYY-MM-DD"
+                                    autocomplete="off"
+                                ></b-form-input>
+                                <b-input-group-append>
+                                    <b-form-datepicker
+                                    v-model="date.birthdate"
+                                    button-only
+                                    right
+                                    locale="en-US"
+                                    aria-controls="example-input"
+                                    @context="onContext"
+                                    ></b-form-datepicker>
+                                </b-input-group-append>
+                            </b-input-group>
                         </div>
                     </div>
                 </div>
@@ -211,7 +276,6 @@ export default {
                         </div>
                         <div class="col-6">
                             <textarea type="textarea" v-model="description"/>
-                            <!-- <b-form-datepicker id="datepicker" v-model="value" class="mb-2" /> -->
                         </div>
                     </div>
                 </div>
@@ -228,7 +292,6 @@ export default {
                         </div>
                         <div class="col-6">
                             <input type="number" v-model="dni">
-                            <!-- <b-form-datepicker id="datepicker" v-model="value" class="mb-2" /> -->
                         </div>
                     </div>
                 </div>
@@ -241,9 +304,6 @@ export default {
             <div class="col-12">
                 <div class=" d-flex justify-content-center">
                     <div class="row">
-                        <!-- <div class="col-4">
-                            <label for="datepicker">Telefono</label>
-                        </div> -->
                         <div class="col-12">
                             <vue-tel-input
                                 v-model="phone"
@@ -260,7 +320,7 @@ export default {
 
             <div class="col-12">
                 <div class="d-flex justify-content-center">
-                    <button class="btn btn-success" @click="submit">Enviar</button>
+                    <button class="btn btn-success" @click="validate">Enviar</button>
                 </div>
             </div>
         </div>

@@ -6,10 +6,15 @@ import {
 
 import MenuAccount from './MenuPublic'
 import Shedule from '../../../components/schedule';
+import FormContract from '../../form/FormContract';
 
 export default {
     data(){
         return {
+            zoom: 15,
+            center: [0, 0],
+            rotation: 0,
+            geolocPosition: undefined,
             loading: true,
             active: 'Servicio',
             user: {},
@@ -43,7 +48,8 @@ export default {
         MenuAccount,
         CheckIcon,
         XIcon,
-        Shedule
+        Shedule,
+        FormContract
     },
     async created(){
         const id = this.$route.params.id;
@@ -67,11 +73,28 @@ export default {
                 times_available: mapTimesAvailable
             };
 
+            let coords = [ Number(response.data.lng), Number(response.data.lat) ]
+
+            this.geolocPosition = coords;
+            this.center =  coords;
             console.log('categoryUser', response.data)
             this.loading = false;
         }
     },
+    computed: {
+        calculateAge(){
+            let now = new Date();
+            let birthdate = new Date(this.categoryUser.user.birthdate);
+            let yearOld = now.getFullYear() - birthdate.getFullYear();
+            let m = now.getMonth() - birthdate.getMonth();
 
+            if (m < 0 || (m === 0 && now.getDate() < birthdate.getDate())){
+                return --yearOld;
+            }
+
+            return yearOld;
+        }
+    },
     methods: {
         changeHandleMenu(active){
             this.active = active;
@@ -103,7 +126,7 @@ export default {
                             <div class="row align-items-center">
                                 <div class="col-lg-2 col-md-3 text-md-left text-center">
                                     <img
-                                        :src="categoryUser.user.avatar ? '/' + categoryUser.user.avatar : '/images/avatarDefault.jpg'"
+                                        :src="categoryUser.user.avatar ? categoryUser.user.avatar : '/images/avatarDefault.jpg'"
                                         class="avatar avatar-large rounded-circle shadow d-block mx-auto" alt=""
                                     >
                                 </div>
@@ -194,12 +217,12 @@ export default {
                     <!-- Start Servicio -->
                     <div>
                         <div v-if="active === 'Servicio'">
-                            <p class="text-danger">Categoria | {{categoryUser.category.label}}</p>
+                            <p class="text-danger">Categoria | {{ categoryUser.category.label }}</p>
                             <hr>
                             <h3 class="mt-4">Informacion Basica </h3>
                             <hr>
                             <div class="d-flex justify-content-center">
-                                <h2 class="font-weight-bold" style="">{{categoryUser.title}}</h2>
+                                <h2 class="font-weight-bold" style="">{{ categoryUser.title }}</h2>
                             </div>
                             <!-- Description -->
                             <div class="d-flex justify-content-center">
@@ -251,7 +274,7 @@ export default {
                                         <!-- Edad -->
                                         <p class="text-capitalize">
                                             <span class="font-weight-bold">Edad: </span>
-                                            {{ new Date().getFullYear() - new Date(categoryUser.user.birthdate).getFullYear() }}
+                                           {{calculateAge}}
                                         </p>
                                         <!-- Sexo -->
                                         <p class="text-capitalize">
@@ -308,17 +331,39 @@ export default {
                         <div v-if="active === 'Ubicacion'">
                             <h3 class="mt-4">Ubicación</h3>
                             <hr>
-                            <div class="" style="height: 250px;width:100%">
-                                <div class="row mt-4 align-items-center" style="width:80%">
-                                    <div class="col-4 font-weight-bold" style="">
+                            <div class="" style="">
+                                <div class="row mt-4 align-items-center">
+                                    <div class="col-12 font-weight-bold mb-2" style="">
                                         {{ categoryUser.address }}
                                     </div>
-                                    <div class="col-8" style="">
-                                        <b-skeleton-img />
+                                    <div class="col-12" style="">
+                                        <!-- Start Map -->
+                                            <div>
+                                                <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true"
+                                                        data-projection="EPSG:4326" style="height: 400px">
+                                                <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
+
+                                                <template >
+                                                    <vl-feature v-if="geolocPosition" id="position-feature">
+                                                        <vl-geom-point :coordinates="geolocPosition"></vl-geom-point>
+                                                        <vl-style-box>
+                                                            <vl-style-icon src="/assets/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
+                                                        </vl-style-box>
+                                                    </vl-feature>
+                                                </template>
+
+                                                <vl-layer-tile id="osm">
+                                                    <vl-source-osm></vl-source-osm>
+                                                </vl-layer-tile>
+                                                </vl-map>
+                                            </div>
+                                        <!-- End Map -->
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+
                     </div>
                     <!-- End Ubicacion -->
                 </div>
@@ -358,16 +403,14 @@ export default {
     <div>
         <b-modal
             id="modalSendContract"
-            title="Enviar Contrato"
+            title="Enviar Solicitud de Contrato"
             scrollable
             hide-footer
+            size="lg"
         >
-            Pendiente...
-            <div class="d-flex justify-content-center mt-3">
-                <b-button pill variant="outline-secondary">
-                    Enviar Contrato
-                </b-button>
-            </div>
+            <FormContract
+                :categoryUser="categoryUser"
+            />
         </b-modal>
     </div>
     <!-- End Modal Contrato -->

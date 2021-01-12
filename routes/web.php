@@ -32,9 +32,7 @@ Route::post('app/users/updateProfile', [UserController::class, 'updateProfile'])
 Route::post('app/users/completeProfile', [UserController::class, 'completeProfile']);
 Route::post('app/users/updateAvatar', [UserController::class, 'updateAvatar']);
 
-
 //Categories
-// Route::get('app/categories', []);
 Route::get('app/categories/getWithSubcategories', [CategoryController::class, 'getCategoriesAndSubcategories']);
 Route::get('app/categories/{category}/subcategories', [CategoryController::class, 'getSubcategoryByCategory']);
 

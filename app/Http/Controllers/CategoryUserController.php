@@ -32,10 +32,7 @@ class CategoryUserController extends Controller
 
         $category = Auth::user()
             ->categories()
-            ->with('category')
             ->firstWhere('status_id', $status->id);
-
-        $timesAvailable = $category->timesAvailable;
 
         return response()->json($category);
     }
@@ -163,6 +160,7 @@ class CategoryUserController extends Controller
                 * sin( radians( lat ))))";
 
         $usersWork = CategoryUser::query()
+            ->where('status_id', Status::firstWhere('name', 'active')->id)
             ->whereRaw("$queryLocalization < ?", [$radius])
             ->with('user')
             ->when($category, function($query) use ($category){

@@ -91,7 +91,7 @@ class AuthController extends Controller
             'verification_code' => sha1(time()),
             'userType' => $request['userType'],
             'fase_registry' => 'registro'
-            ]);
+        ]);
 
         // Si se envio la categoria se asocia el usuario con la categoria
         if ($request['category'] != null){
@@ -185,7 +185,7 @@ class AuthController extends Controller
             ]);
         }
         // $user = Socialite::driver($driver)->user();
-        $user = Socialite::driver('google')->stateless()->user();
+        $user = Socialite::driver($driver)->stateless()->user();
 
         if (!$user->token){
             return response()->json([
@@ -199,10 +199,20 @@ class AuthController extends Controller
             $userType = $request->userType;
             $category = $request->category;
 
-            if (!$userType) {
+            if (!$userType || !$category) {
                 return response()->json([
-                    'msg' => 'UserType Required'
-                ], 422);
+                    'msg' => 'Complete el proceso de registro, usuario no registrado'
+                ], 404);
+            }
+
+            // Transformacion de avatar por largo de la string
+
+            $avatar = '';
+
+            if ($driver === 'google'){
+                $avatar = $user->avatar;
+            }else {
+                $avatar = explode('?', $user->avatar)[0];
             }
 
             // Crear un usuario
@@ -212,24 +222,21 @@ class AuthController extends Controller
                 "password" => Str::random(7),
                 "email_check" => true,
                 'userType' => $userType,
-                'fase_registry' => 'registro'
+                'fase_registry' => 'registro',
+                'avatar' => $avatar
             ]);
 
-            if ($userType == 'work' && !$category){
-                return response()->json([
-                    'msg' => 'Category Required'
-                ], 422);
-            }else {
+            if ($userType == 'work'){
                 //Asigno Category
                 $category = Category::where('name', $request['category'])->first();
                 $status = Status::where('name', 'pending')->first();
-                if ($category){
-                    CategoryUser::create([
-                        'user_id' => $appUser->id,
-                        'category_id' => $category->id,
-                        'status_id' => $status->id
-                    ]);
-                }
+
+                CategoryUser::create([
+                    'user_id' => $appUser->id,
+                    'category_id' => $category->id,
+                    'status_id' => $status->id
+                ]);
+
             }
 
             // Se crea el social Profile
@@ -237,19 +244,29 @@ class AuthController extends Controller
                 "user_id" => $appUser->id,
                 "social_id" => $user->id,
                 "social_name" => $driver,
-                "social_avatar" => $user->avatar
+                "social_avatar" => $avatar,
             ]);
+
         }else{
             // El usuario ya existe
             $social_profile = $appUser->socialProfiles()->where('social_name', $driver)->first();
 
             if (!$social_profile){
+                // Transformacion de avatar por largo de la string
+
+                $avatar = '';
+
+                if ($driver === 'google'){
+                    $avatar = $user->avatar;
+                }else {
+                    $avatar = explode('?', $user->avatar)[0];
+                }
                 // Crear Socialprofile
                 $newSocialProfile = SocialProfile::create([
                     "user_id" => $appUser->id,
                     "social_id" => $user->id,
                     "social_name" => $driver,
-                    "social_avatar" => $user->avatar
+                    "social_avatar" => $avatar
                 ]);
             }
 

@@ -74,20 +74,20 @@ export default {
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card public-profile border-0 rounded shadow" style="z-index: 1;">
-                        <div class="card-body">
-                            <div class="row align-items-center">
+                        <div class="card-body" >
+                            <div class="row align-items-center" >
                                 <div class="col-lg-2 col-md-3 text-md-left text-center">
                                     <img
-                                        :src="user.avatar ? user.avatar : 'images/avatarDefault.jpg'"
+                                        :src="user.avatar ? user.avatar : '/images/avatarDefault.jpg'"
                                         class="avatar avatar-large rounded-circle shadow d-block mx-auto" alt=""
                                     >
                                 </div>
                                 <!--end col-->
 
-                                <div class="col-lg-10 col-md-9 welcome">
+                                <div class="col-lg-10 col-md-9 welcome" >
                                     <div class="row align-items-end">
-                                        <div class="col-md-7 text-md-left text-center mt-4 mt-sm-0">
-                                            <h1 class="title mb-0 font-weight-bold">Bienvenido <span class="text-capitalize">{{user.name}}</span></h1>
+                                        <div class="col-12">
+                                            <h1 class="title mb-2 font-weight-bold">Bienvenido <span class="text-capitalize">{{user.name}}</span></h1>
                                             <p class="text-muted h6 mr-2">{{user.description}}</p>
                                         </div>
                                     </div>

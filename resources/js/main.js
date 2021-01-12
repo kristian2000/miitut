@@ -13,11 +13,13 @@ import common from './common'
 
 import VueTelInput from 'vue-tel-input'
 import Multiselect from 'vue-multiselect'
+import VueLayers from 'vuelayers'
+import 'vuelayers/lib/style.css'
 
 Vue.component('multiselect', Multiselect)
 
 Vue.use(VueTelInput)
-
+Vue.use(VueLayers)
 Vue.mixin(common);
 
 // Install BootstrapVue

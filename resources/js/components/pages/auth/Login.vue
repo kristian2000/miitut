@@ -27,21 +27,27 @@ export default {
     methods: {
          ...mapActions(['loginSocialRedirect']),
         async submit(){
-            const res = await this.callApi('post', 'app/login', this.form)
+            try{
+                const res = await this.callApi('post', 'app/login', this.form)
 
-            if (res.status === 200){
-                // this.makeNotice('success', 'Inicio Exitoso', res.data.msg);
-                this.$store.commit('setUpdateUser', res.data.user);
-                window.location.href = '/'
-                // setTimeout(()=>{
-                //     this.$router.push('/');
-                // }, 1500)
-            }else if (res.status === 403){
-                this.makeNotice('warning', 'Verificacion Pendiente', res.data.msg)
-            }else {
-                this.makeNotice('danger', 'Error', res.data.msg);
+                if (res.status === 200){
+                    // this.makeNotice('success', 'Inicio Exitoso', res.data.msg);
+                    this.$store.commit('setUpdateUser', res.data.user);
+                    window.location.href = '/'
+                    // setTimeout(()=>{
+                    //     this.$router.push('/');
+                    // }, 1500)
+                }
+                console.log('Response Login', res)
+
+            }catch(error){
+                console.log('hubo un error', error)
+                // if (res.status === 403){
+                //     this.makeNotice('warning', 'Verificacion Pendiente', res.data.msg)
+                // }else {
+                    this.makeNotice('danger', 'Error', 'Oops ocurrio un error interno');
+                // }
             }
-            console.log('Response Login', res)
         },
         async loginSocial(driver){
             try{
@@ -54,7 +60,12 @@ export default {
                     window.location.href = '/'
                 }
             }catch(error){
-                console.log('error', error)
+                console.log('error', {...error})
+                if (error.response.status === 404){
+                    this.makeNotice('danger', 'Error', error.response.data.msg);
+                }else{
+                    this.makeNotice('danger', 'Error', 'Oops ocurrio un error interno');
+                }
             }
         }
     },
