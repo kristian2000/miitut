@@ -139,9 +139,9 @@ export default {
                                                     v-b-tooltip.hover title="Tu email no esta verificado, presiona para verificar"
                                                     @click="sendEmailConfirmation"
                                                 >
-                                                    <AlertTriangleIcon v-if="!user.email_check" style="color:red" size="2x"/>
+                                                    <AlertTriangleIcon v-if="!Number(user.email_check)" style="color:red" size="2x"/>
                                                 </b-button>
-                                                <CheckIcon v-if="user.email_check" style="color:green" size="1x"/>
+                                                <CheckIcon v-if="Number(user.email_check)" style="color:green" size="1x"/>
                                             </div>
                                             <!-- END Verificacion Button Email-->
 
@@ -157,9 +157,9 @@ export default {
                                                     v-b-tooltip.hover title="Tu Perfil no esta verificado, presiona para verificar"
                                                     @click="showModalVerifDNI"
                                                 >
-                                                    <AlertTriangleIcon v-if="!user.profile_check" style="color:red" size="2x"/>
+                                                    <AlertTriangleIcon v-if="!Number(user.profile_check)" style="color:red" size="2x"/>
                                                 </b-button>
-                                                <CheckIcon v-if="user.profile_check" style="color:green" size="1x"/>
+                                                <CheckIcon v-if="Number(user.profile_check)" style="color:green" size="1x"/>
                                             </div>
                                             <!-- END Verificacion Button Perfil-->
                                         </div>
