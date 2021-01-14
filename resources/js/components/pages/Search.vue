@@ -1,6 +1,9 @@
 <script>
 import {
-    Trash2Icon
+    Trash2Icon,
+    SearchIcon,
+    ChevronDownIcon,
+    ChevronUpIcon
 } from 'vue-feather-icons';
 
 export default {
@@ -18,9 +21,13 @@ export default {
                 score: 1,
                 yearExperience: 0,
                 priceMin: 1,
-                priceMax: 10
+                priceMax: 10,
+                radius: 5
 
             },
+            locationQuery: 'santa ana norte merida venezuela',
+            addressSearch: null,
+            suggestions: [{text: 'Sugerencias al buscar tu ubicacion', value: null}],
             categoriesForm : [],
             categories: [],
             categoriesUserWork: [],
@@ -31,11 +38,15 @@ export default {
                 { text: 'De 3 en adelante', value: 3},
                 { text: 'De 4 en adelante', value: 4},
                 { text: 'Solo 5 Estrellas', value: 5}
-            ]
+            ],
+            showMap: true
         }
     },
     components: {
-        Trash2Icon
+        Trash2Icon,
+        SearchIcon,
+        ChevronDownIcon,
+        ChevronUpIcon
     },
     async created(){
         if (this.$store.state.user){
@@ -61,11 +72,23 @@ export default {
                 value: subCategory
             })) ?? []
         },
-        centerMap(){
-            return this.geolocPosition ? this.geolocPosition : [0, 0]
+        centerMap: {
+            get(){
+                return this.addressSearch ? [Number(this.addressSearch.lon), Number(this.addressSearch.lat) ]: [0, 0]
+            },
+            set(){
+                return ;
+            }
         }
     },
     methods: {
+        validate(){
+            if (!this.addressSearch){
+                this.makeNotice('danger', 'La ubicacion es requerida', 'Por favor escribe tu direccion, dale click en el icono de buscar y escoge una sugerencia de ubicacion')
+                return;
+            }
+            this.submit();
+        },
         async submit(){
             let form = this.form;
             let formData = Object.keys(form)
@@ -78,9 +101,8 @@ export default {
                     }
                     return acc;
                 } , {
-                    lat: this.user.lat,
-                    lng: this.user.lng,
-                    // radius: 22
+                    lat: this.addressSearch.lat,
+                    lng: this.addressSearch.lon
                 })
 
             console.log('search', formData)
@@ -106,7 +128,25 @@ export default {
             }catch(error){
                 console.log(error)
             }
+        },
+        async geolocalizationAddress(){
+            // Validacion
+            if (this.locationQuery === ''){
+                return ;
+            }
+
+            const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${this.locationQuery}`)
+            console.log('response location', response);
+
+            let suggestions = response.data.map( address => ({
+                text: address.display_name,
+                value: address
+            }))
+
+            this.suggestions = suggestions;
+            this.addressSearch =  suggestions.length ? suggestions[0].value : null;
         }
+
     }
 }
 </script>
@@ -124,7 +164,9 @@ export default {
 
                             <div class="row">
                                 <!-- START Formulario Filtros  -->
-                                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+                                <div class="col-lg-4 col-12 mb-4 d-flex justify-content-center"
+                                    style="height: 900px"
+                                >
                                     <div class="row columna shadow" >
                                         <div class="col-12 item">
                                             <h6 class="font-weight-bold">Categoría</h6>
@@ -146,7 +188,47 @@ export default {
                                         </div>
                                         <div class="col-12 item">
                                             <h6 class="font-weight-bold">Ubicación</h6>
-                                            <p class="text-muted">{{this.user.address}}</p>
+                                            <div class="d-flex ">
+                                                <b-form-input
+                                                    id="address"
+                                                    placeholder="Direccion Ciudad Estado Pais"
+                                                    v-model="locationQuery"
+                                                    required
+                                                />
+
+                                                <div class="border ml-1 p-1"
+                                                    style="border-radius: 50%; cursor: pointer"
+                                                    @click="geolocalizationAddress"
+                                                >
+                                                    <SearchIcon />
+                                                </div>
+                                            </div>
+                                            <!-- <p class="text-muted">{{this.addressSearch.display_name}}</p> -->
+                                            <div class="mt-2">
+                                                <b-form-select
+                                                    id="input-3"
+                                                    v-model="addressSearch"
+                                                    :options="suggestions"
+                                                    required
+                                                ></b-form-select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 item">
+                                            <h6 class="font-weight-bold">Distancia km</h6>
+                                            <b-input-group>
+                                                <b-form-input
+                                                    id="bg-opacity"
+                                                    v-model="form.radius"
+                                                    type="range"
+                                                    number
+                                                    min="5"
+                                                    max="130"
+                                                    step="5"
+                                                ></b-form-input>
+                                                <b-input-group-append is-text class="text-monospace">
+                                                {{ form.radius }} km
+                                                </b-input-group-append>
+                                            </b-input-group>
                                         </div>
                                         <div class="col-12 item">
                                             <h6 class="font-weight-bold">Valoración</h6>
@@ -184,102 +266,159 @@ export default {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 d-flex justify-content-center" @click="submit">
+                                        <div class="col-12 d-flex justify-content-center" @click="validate">
                                             <button id="btn-modify-2" class="text-white">Buscar</button>
                                         </div>
 
                                     </div>
                                 </div>
-                                <!--End Formulario Filtros-->
+                                <!-- END Formulario Filtros  -->
 
-                                <!-- Start List Usuario -->
-                                <div class="col-lg-4 col-md-6 col-sm-6 col-12 p-4">
-                                    <div class="row" v-if="categoriesUserWork.length">
-                                        <div class="col-12 mb-2">
-                                            <label class="container">
-                                                <input type="checkbox">
-                                                <span class="font-weight-bold">Seleccionar Todos</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="container caja" v-for="categoryUser in categoriesUserWork" :key="categoryUser.id">
-                                                <div
-                                                    class="row align-self-center align-items-center"
-                                                    style="height: 100px; overflow: hidden;"
-                                                    @click="$router.push({path: `/profilePublic/${categoryUser.id}`})"
-                                                >
-                                                    <div class="col-lg-2 col-md-3 col-sm-4">
-                                                        <img
-                                                            :src="categoryUser.user.avatar ? categoryUser.user.avatar : 'images/avatarDefault.jpg'"
-                                                            class="avatar avatar-small rounded-circle shadow d-block"
-                                                            width="80px"
-                                                            alt=""
-                                                        >
-                                                    </div>
-                                                    <div class="col-lg-10 col-md-9 col-sm-8 texto">
-                                                        <h3 class="font-weight-bold" style="font-size: 18px;">{{ categoryUser.user.name }}</h3>
-                                                        <p class="text-muted " style="line-height:1.2;height: 50px; overflow: hidden;font-size: 14px">
-                                                           <span class="font-weight-bold">{{ categoryUser.title }}</span>.<br>{{ categoryUser.description}}.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div v-else>
-                                        <div class="card">
-                                            <div class="row p-4">
-                                                <div class="col-12">
-                                                    <h4 class="text-muted text-center">
-                                                        No hay coincidencias
-                                                    </h4>
-                                                </div>
-                                                <div class="col-12">
-                                                    <p class="text-muted text-center">
-                                                        Modifique los filtros para buscar distintos resultados
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End List Usuario -->
-
+                                <!-- Column lateral -->
+                                <div class="col-lg-8 col-md-12 col-sm-12" style="height: 900px">
                                 <!-- Start Map -->
-                                <div class="col-lg-4 col-md-12 col-sm-12">
                                     <div>
-                                        <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true"
-                                                data-projection="EPSG:4326" style="height: 400px">
-                                            <vl-view :zoom.sync="zoom" :center.sync="centerMap" :rotation.sync="rotation"></vl-view>
+                                        <div class="d-flex justify-content-end">
+                                            {{showMap ? 'Esconder' : 'Mostrar'}} Mapa
+                                            <div class="ml-2">
+                                                <ChevronUpIcon
+                                                    class="border"
+                                                    style="cursor: pointer; border-radius: 50%"
+                                                    v-if="showMap"
+                                                    @click="()=>{ showMap=false }"
+                                                />
+                                                <ChevronDownIcon
+                                                    class="border"
+                                                    style="cursor: pointer; border-radius: 50%"
+                                                    v-else
+                                                    @click="()=> { showMap=true }"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div v-if="showMap">
+                                            <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true"
+                                                    data-projection="EPSG:4326" style="height: 350px">
+                                                <vl-view :zoom.sync="zoom" :center.sync="centerMap" :rotation.sync="rotation"></vl-view>
 
-                                            <vl-geoloc @update:position="geolocPosition = $event">
-                                                <!-- <template slot-scope="geoloc">
-                                                <vl-feature v-if="geoloc.position" id="position-feature">
-                                                    <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
-                                                    <vl-style-box>
-                                                        <vl-style-icon src="/images/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
-                                                    </vl-style-box>
-                                                </vl-feature>
-                                                </template> -->
-                                                <div v-for=" marker in markers" :key="marker.id">
-                                                    <vl-feature >
-                                                        <vl-geom-point :coordinates="[Number(marker.lng), Number(marker.lat)]"></vl-geom-point>
-                                                            <vl-style-box>
-                                                                <vl-style-icon src="/images/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
-                                                            </vl-style-box>
+                                                <!-- <vl-geoloc @update:position="geolocPosition = $event"> -->
+                                                    <!-- <template slot-scope="geoloc">
+                                                    <vl-feature v-if="geoloc.position" id="position-feature">
+                                                        <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
+                                                        <vl-style-box>
+                                                            <vl-style-icon src="/images/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
+                                                        </vl-style-box>
                                                     </vl-feature>
+                                                    </template> -->
+                                                    <div v-for=" marker in markers" :key="marker.id">
+                                                        <vl-feature >
+                                                            <vl-geom-point :coordinates="[Number(marker.lng), Number(marker.lat)]"></vl-geom-point>
+                                                                <vl-style-box>
+                                                                    <vl-style-icon src="/images/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
+                                                                </vl-style-box>
+                                                        </vl-feature>
 
+                                                    </div>
+                                                <!-- </vl-geoloc> -->
+
+                                                <vl-layer-tile id="osm">
+                                                    <vl-source-osm></vl-source-osm>
+                                                </vl-layer-tile>
+                                            </vl-map>
+                                        </div>
+                                    </div>
+                                    <!-- END map -->
+                                    <div class="shadow mt-3" style="border-radius:15px;">
+                                        <!-- Start List Usuario -->
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <label>
+                                                    <span class="font-weight-bold">Lista de Usuarios</span>
+                                                    <span>( {{categoriesUserWork.length}} )</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="border shadow"
+                                            :style="`height: ${!showMap? 800 : 500}px; overflow:scroll; overflow-x:hidden; border-radius:15px;`"
+                                        >
+                                            <div class="" v-if="categoriesUserWork.length">
+
+                                                <!-- Start Items user -->
+                                                <div class="" v-for="categoryUser in categoriesUserWork" :key="categoryUser.id">
+                                                    <div class="my-1 border-bottom">
+                                                        <div
+                                                            class="row"
+                                                            style="overflow-x:hidden"
+                                                            @click="$router.push({path: `/profilePublic/${categoryUser.id}`})"
+                                                        >
+                                                            <div class="col-lg-5 col-md-4 col-12">
+                                                                <div class="d-flex flex-column align-items-center">
+                                                                    <!-- Imagen -->
+                                                                    <img
+                                                                        :src="categoryUser.user.avatar ? categoryUser.user.avatar : 'images/avatarDefault.jpg'"
+                                                                        class="avatar avatar-small rounded-circle shadow d-block"
+                                                                        width="80px"
+                                                                        height="80px"
+                                                                        alt=""
+                                                                    >
+                                                                    <div>
+                                                                        <!-- Nombre -->
+                                                                        <span class="font-weight-bold name">
+                                                                            {{ categoryUser.user.name }}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-8 col-12">
+                                                                <div class="d-flex align-items-center justify-content-sm-center"
+                                                                 style="height: 100%;"
+                                                                >
+                                                                    <div class="text-center">
+                                                                        <!-- Title -->
+                                                                        <div>
+                                                                            <span class="font-weight-bold title">
+                                                                                {{ categoryUser.title }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <!-- Descripcion -->
+                                                                        <div class="" style="">
+                                                                            <p class="text-muted "
+                                                                                style="line-height:1.2;overflow: hidden;font-size: 14px;">
+                                                                                {{ categoryUser.description}}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
                                                 </div>
-                                            </vl-geoloc>
 
-                                            <vl-layer-tile id="osm">
-                                                <vl-source-osm></vl-source-osm>
-                                            </vl-layer-tile>
+                                                <!-- End Items User -->
+                                            </div>
+                                            <div v-else>
+                                                <div class="card" style="overflow-x:hidden">
+                                                    <div class="row p-4">
+                                                        <div class="col-12">
+                                                            <h4 class="text-muted text-center">
+                                                                No hay coincidencias
+                                                            </h4>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <p class="text-muted text-center">
+                                                                Modifique los filtros para buscar distintos resultados
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End List Usuario -->
 
-
-                                        </vl-map>
                                     </div>
                                 </div>
-                                <!-- End Map -->
+                                <!-- END Column lateral -->
                             </div>
 
 
@@ -294,6 +433,14 @@ export default {
 </template>
 
 <style scoped>
+    .title {
+        font-size: 18px;
+    }
+
+    .name {
+        color: #ff4b64;
+        font-size: 20px;
+    }
 
     h1 {
         color: #ff4b64;
@@ -345,15 +492,15 @@ export default {
         margin-bottom: 10px;
     }
 
-    .row h3 {
+    /* .row h3 {
         font-size: 25px;
         color: #ff4b64;
         position: absolute;
-    }
+    } */
 
-    .row p {
+    /* .row p {
         margin-top: 35px;
-    }
+    } */
 
     label span {
         font-size: 20px;
