@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\DocumentId;
+use App\Models\Status;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -46,6 +49,92 @@ class UserController extends Controller
         ], 422);
     }
 
+    public function uploadDNI(Request $request){
+        if ($request->hasFile('docFront') && $request->hasFile('docBack')){
+            $user = Auth::user();
+
+            $extDocFront = $request->docFront->extension();
+            $extDocBack = $request->docBack->extension();
+
+            // Validacion sencilla
+            if ($extDocFront !== 'jpg' && $extDocFront !== 'jpeg' && $extDocFront !== 'png' ){
+                return response()->json([
+                    'msg' => 'El foto del ducumento de frente no es una imagen'
+                ], 422);
+            }
+
+            if ($extDocBack !== 'jpg' && $extDocBack !== 'jpeg' && $extDocBack !== 'png' ){
+                return response()->json([
+                    'msg' => 'El foto del ducumeno posterior no es una imagen'
+                ], 422);
+            }
+
+            $doc = DocumentId::where('user_id', $user->id)->first();
+            // ruta de los documentos
+            $path = public_path('DNIS/'.$user->id.'/');
+            $picNameDocFront = 'docFront.'.$extDocFront;
+            $picNameDocBack = 'docBack.'.$extDocBack;
+
+            if (!$doc){
+                // Se crea el documento de identificacion
+                // Se mueven a esa ruta
+                $request->docFront->move($path, $picNameDocFront);
+                $request->docBack->move($path, $picNameDocBack);
+
+                $dni = DocumentId::create([
+                    'user_id' => $user->id,
+                    'status_id' => Status::where('name', 'pending')->first()->id,
+                    'img_front' => $picNameDocFront,
+                    'img_back' => $picNameDocBack
+                    ]);
+
+                $dni->save();
+
+            }else {
+                $files = glob('DNIS/'.$user->id.'/*');
+                foreach($files as $file){
+                    if(is_file($file))
+                    unlink($file); //elimino el fichero
+                }
+
+                $request->docFront->move($path, $picNameDocFront);
+                $request->docBack->move($path, $picNameDocBack);
+
+                $doc->status_id = Status::where('name', 'pending')->first()->id;
+                $doc->img_front = $picNameDocFront;
+                $doc->img_back = $picNameDocBack;
+                $doc->save();
+            }
+
+            return response()->json([
+                'msg' => 'Documento Subido, en espera de aprobacion'
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'docs DNI invalid'
+        ], 422);
+    }
+
+    public function getInfoDNI(){
+        $user = Auth::user();
+        $doc = DocumentId::where('user_id', $user->id)->first();
+
+        if ($doc){
+            return response()->json([
+                'isExists' => true,
+                'msg' => 'Informacion del Documento',
+                'create_at' => $doc->created_at,
+                'status' => Status::where('id', $doc->status_id)->first()->name
+            ]);
+        }
+
+        return response()->json([
+            'msg' => 'El documento no existe',
+            'isExists' => false
+        ]);
+    }
+
     public function updateProfile(Request $request){
 
         $this->validate($request, [
@@ -53,6 +142,8 @@ class UserController extends Controller
             'phone' => 'string',
             'gender' => 'string',
             'address' => 'string',
+            'country' => 'string',
+            'state' => 'string',
             'lat' => 'numeric',
             'lng' => 'numeric',
             'birthdate' => 'date',
@@ -60,7 +151,19 @@ class UserController extends Controller
             'dni' => 'string'
         ]);
 
-        $data = $request->only(['name', 'phone', 'gender', 'address', 'birthdate', 'description', 'dni', 'lat', 'lng']);
+        $data = $request->only([
+            'name',
+            'phone',
+            'gender',
+            'address',
+            'country',
+            'state',
+            'birthdate',
+            'description',
+            'dni',
+            'lat',
+            'lng'
+        ]);
 
         $user = Auth::user();
 
@@ -78,13 +181,36 @@ class UserController extends Controller
             'phone' => 'string',
             'gender' => 'string',
             'address' => 'string',
+            'state' => 'string',
+            'country' => 'string',
             'lat' => 'numeric',
             'lng' => 'numeric',
             'description' => 'string',
-            'dni' => 'string'
+            'dni' => 'string',
+            "nationality" => 'string',
+            'own_vehicle' => 'boolean',
+            "driving_license" => 'boolean',
+            "first_aid" => 'boolean',
+            "has_children" => 'boolean'
         ]);
 
-        $data = $request->only(['phone', 'gender', 'address', 'birthdate', 'description', 'dni', 'lat', 'lng']);
+        $data = $request->only([
+            'phone',
+            'gender',
+            'address',
+            'state',
+            'country',
+            'birthdate',
+            'description',
+            'dni',
+            'lat',
+            'lng',
+            "nationality",
+            'own_vehicle',
+            "driving_license",
+            "first_aid",
+            "has_children"
+        ]);
 
         $user = Auth::user();
 

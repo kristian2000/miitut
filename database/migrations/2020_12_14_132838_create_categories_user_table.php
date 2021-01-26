@@ -33,6 +33,10 @@ class CreateCategoriesUserTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade');
 
+            $table->json('sub_categories')->nullable();
+
+            $table->json('shedule')->nullable();
+
             $table->timestamps();
         });
     }

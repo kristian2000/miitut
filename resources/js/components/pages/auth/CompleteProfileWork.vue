@@ -85,8 +85,8 @@ export default {
             this.subcategories.push(tag)
         },
         async changeHandleTimeAvailable(time){
-            const response = await this.callApi('post', `app/categoriesUser/${this.userCategory.id}/changeTimeAvailable`, time);
-            return response;
+            // const response = await this.callApi('post', `app/categoriesUser/${this.userCategory.id}/changeTimeAvailable`, time);
+            // return response;
         },
         async submit(){
             const form = this.form;
@@ -108,7 +108,9 @@ export default {
                 ...form,
                 address: this.user.address,
                 lat: this.user.lat,
-                lng: this.user.lng
+                lng: this.user.lng,
+                shedule: this.sheduleData,
+                subcategoriasSelected: this.subcategoriesSelected.map( sub => sub.code)
             }
 
             console.log('data', data);
@@ -239,10 +241,10 @@ export default {
             <div class="col-12 mt-3">
                 <b-card-group deck class="mb-3">
                     <b-card border-variant="light" header="Asigna tu horario" class="text-center">
+                            <!-- :changeHandleServer="changeHandleTimeAvailable" -->
                         <Shedule
                             :sheduleData="sheduleData"
                             :setSheduleData="setSheduleData"
-                            :changeHandleServer="changeHandleTimeAvailable"
                             :dataInitial = userCategory.times_available
                         />
                     </b-card>

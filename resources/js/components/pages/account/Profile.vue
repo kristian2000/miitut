@@ -37,8 +37,11 @@ export default {
     data() {
         return {
             user: this.$store.state.user,
-            document: null,
-            url: null
+            docFront: null,
+            docBack: null,
+            urlFront: null,
+            urlBack: null,
+            docStatus: { loading: false, doc: null}
         }
     },
     created(){
@@ -64,15 +67,75 @@ export default {
         sendEmailConfirmation(){
             this.makeNotice('success', 'Email Enviado!', `Email de verificación de cuenta enviado al correo example@test.com`);
         },
-        showModalVerifDNI(){
+        async showModalVerifDNI(){
+            // llamar a la api, verificar si existe un document
+            this.docStatus = { loading: true, doc: null }
+
             this.$bvModal.show('modalVerifDNI')
+
+            const response = await this.callApi('get', `app/users/getInfoDNI`);
+
+            const enStatus = (status) => {
+                switch(status){
+                    case 'pending': return 'Pendiente';
+                    case 'reject': return 'Rechazado';
+                    default:
+                        return 'Not Status'
+                }
+            }
+
+            const dateFormat = (date) => {
+                let objDate = new Date(date)
+                let d = objDate.getDate()
+                let m = objDate.getMonth() + 1
+                let y = objDate.getFullYear()
+
+                return `${d < 10 ? ( '0' + d ) : d }-${m < 10 ? ( '0' + m) : m}-${y}`
+            }
+
+            if (response.status === 200){
+                if (response.data.isExists){
+                    this.docStatus = {
+                        loading: false,
+                        doc: {
+                            createdAt: dateFormat(response.data.create_at),
+                            status: enStatus(response.data.status),
+                            isExists: response.data.isExists
+                        }
+                    }
+
+                    console.log(this.docStatus)
+
+                }else{
+                    this.docStatus = {
+                        loading: false,
+                        doc: {
+                            isExists: false
+                        }
+                    }
+                }
+            }
+            console.log(response)
         },
-        sendDocumentDNI(){
+        async sendDocumentDNI(){
+            // llamar a la api subir DNI
+
+            let formdata = new FormData();
+            formdata.append('docFront', this.docFront)
+            formdata.append('docBack', this.docBack)
+
+            const response = await this.callApi('post', `app/users/uploadDNI`, formdata);
+            console.log(response)
             this.$bvModal.hide('modalVerifDNI')
         },
-        async onFileChange(e){
+        async previewDoc(e, type){
+            // console.log(e, type)
             const image = e.target.files[0]
-            this.url = URL.createObjectURL(image);
+            if (type === 'front'){
+                this.urlFront = URL.createObjectURL(image);
+            }else{
+                this.urlBack = URL.createObjectURL(image);
+            }
         },
     }
 }
@@ -201,50 +264,108 @@ export default {
         <!-- START Modal Verificacion DNI  -->
         <div>
             <b-modal id="modalVerifDNI" hide-footer title="Verificar DNI" size="lg">
-                <div class="container">
-                    <div>
-                        <p class="text-muted" style="font-size: 15px">
-                            Verifica tu identidad y obten la confianza a los usuario de escogerte.
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 class="text-muted" > Instrucciones </h3>
-                        <ul>
-                            <li class="text-muted" >Sube una foto legible y nitida de tu documento de identificacion</li>
-                        </ul>
-                    </div>
+                <div v-if="docStatus.loading">
+                    ...cargando
                 </div>
+                <div v-else>
+                    <div v-if="!docStatus.doc">
+                        <div class="container" >
+                            <div>
+                                <p class="text-muted" style="font-size: 15px">
+                                    Verifica tu identidad y obten la confianza a los usuario de escogerte.
+                                </p>
+                            </div>
 
-                <div class="my-4">
-                    <b-form-file
-                        v-model="document"
-                        :state="Boolean(document)"
-                        placeholder="Choose a file or drop it here..."
-                        drop-placeholder="Drop file here..."
-                        @change="onFileChange"
-                    ></b-form-file>
-                </div>
-
-                <div class="container">
-                    <div class="d-flex justify-content-center mb-4">
-                        <div style="width: 80%" v-if="!document">
-                            <b-skeleton-img
-                                height="300px"
-                            />
+                            <div>
+                                <h3 class="text-muted" > Instrucciones </h3>
+                                <ul>
+                                    <li class="text-muted" >Sube una foto frente de tu DNI</li>
+                                    <li class="text-muted" >Sube una foto reverso de tu DNI</li>
+                                    <li class="text-muted" >Las fotos deben ser legibles y nitidas</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div v-else style="width: 80%">
-                            <img :src="url" height="300px" width="100%" />
+
+                        <div class="my-3">
+                            <b-form-file
+                                v-model="docFront"
+                                :state="Boolean(docFront)"
+                                placeholder="Carga el DNI Frente..."
+                                drop-placeholder="Drop file here..."
+                                @change="e => previewDoc(e, 'front')"
+                            ></b-form-file>
+                        </div>
+
+                        <div class="container">
+                            <div class="d-flex justify-content-center mb-4">
+                                <div style="width: 80%" v-if="!docFront">
+                                    <b-skeleton-img
+                                        height="300px"
+                                    />
+                                </div>
+                                <div v-else style="width: 80%">
+                                    <img :src="urlFront" height="300px" width="100%" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="my-3">
+                            <b-form-file
+                                v-model="docBack"
+                                :state="Boolean(docBack)"
+                                placeholder="Carga el DNI Reverso..."
+                                drop-placeholder="Drop file here..."
+                                @change="e => previewDoc(e, 'back')"
+                            ></b-form-file>
+                        </div>
+
+                        <div class="container">
+                            <div class="d-flex justify-content-center mb-4">
+                                <div style="width: 80%" v-if="!docBack">
+                                    <b-skeleton-img
+                                        height="300px"
+                                    />
+                                </div>
+                                <div v-else style="width: 80%">
+                                    <img :src="urlBack" height="300px" width="100%" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="" v-if="Boolean(docFront) && Boolean(docBack)">
+                            <div class="d-flex justify-content-center">
+                                <b-button pill variant="outline-secondary" @click="sendDocumentDNI">
+                                    Enviar
+                                </b-button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div v-else >
+                        <div >
+                            <div>
+                                <h3 class="text-muted" > Información de tu Trámite </h3>
+                                <div>
+                                    <div>
+                                        <p class="text-muted ml-2">
+                                        <span class="font-weight-bold"> Fecha de creacion : </span>
+                                        {{docStatus.doc.createdAt}}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-muted ml-2"> <span class="font-weight-bold"> Estatus : </span>
+                                            {{ docStatus.doc.status }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="docStatus.doc.status === 'Rechazado'">
+                                 <b-button pill variant="outline-secondary" @click="()=> { this.docStatus.doc = null}">
+                                    Re Enviar
+                                </b-button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="">
-                    <div class="d-flex justify-content-center">
-                        <b-button pill variant="outline-secondary" @click="sendDocumentDNI">
-                            Enviar
-                        </b-button>
-                    </div>
                 </div>
             </b-modal>
         </div>

@@ -10,6 +10,8 @@ use App\Models\SocialProfile;
 use App\Models\CategoryUser;
 use App\Models\Status;
 use App\Models\Category;
+use App\Models\Contract;
+use PDO;
 
 class User extends Authenticatable
 {
@@ -27,18 +29,34 @@ class User extends Authenticatable
         'phone',
         'gender',
         'dni',
-        'email_check',
-        'profile_check',
         'password',
-        'verification_code',
-        'userType',
-        'address',
         'description',
+        'birthdate',
+
+        'address',
+        'country',
+        'state',
         'lat',
         'lng',
-        'fase_registry',
-        'birthdate'
+
+        'score',
+        'ratings',
+
+        'email_check',
+        'profile_check',
+        'verification_code',
+
+        'driving_license',
+        'own_vehicle',
+        'first_aid',
+        'has_children',
+        'nationality',
+        'spoken_language',
+
+        'userType',
+        'fase_registry'
     ];
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -69,5 +87,18 @@ class User extends Authenticatable
     public function categories()
     {
         return $this->hasMany(CategoryUser::class)->with('status', 'category', 'timesAvailable');
+    }
+
+    public function contracts(){
+
+        if ($this->userType !== 'work'){
+            // si  es un empleador
+            return $this->hasMany(Contract::class, 'user_id')
+                ->with('categoryUser');
+
+        }
+
+        return $this->hasManyThrough(Contract::class, CategoryUser::class,'user_id', 'category_user_id')
+            ->with('categoryUser', 'status');
     }
 }

@@ -102,27 +102,28 @@ class CategoryUserController extends Controller
             'price' => 'required|numeric',
             'yearExperience' => 'required|numeric',
             'descriptionExperience' => 'required|string',
-        ]);
-
-        $data = $request->only([
-            'title',
-            'description',
-            'address',
-            'lat',
-            'lng',
-            'price',
-            'yearExperience'
+            'shedule' => 'array',
+            'subcategoriasSelected' => 'array'
         ]);
 
         $user = Auth::user();
 
-        $category->update(array_merge($data, [ 'status_id' => 2]));
+        $category->update([
+            'title' => $request['title'],
+            'description' => $request['description'],
+            'address' => $request['address'],
+            'lat' => $request['lat'],
+            'lng' => $request['lng'] ,
+            'price' => $request['price'] ,
+            'yearExperience' => $request['yearExperience'],
+            'shedule' => $request['shedule'] ,
+            'sub_categories' => $request['subcategoriasSelected'],
+            'status_id' => 2
+        ]);
 
         // Actualizar Usuario
         $user->fase_registry = 'completed';
         $user->save();
-
-
 
         return response()->json([
             'user' => $user,
@@ -152,17 +153,21 @@ class CategoryUserController extends Controller
         $priceMax = $request['priceMax'];
 
 
-        $queryLocalization = "(6371 * acos( cos( radians($lat) )
+        $queryLocalization = "*,
+                (6371 * acos( cos( radians($lat) )
                 * cos( radians( lat ) )
                 * cos( radians( lng )
                 - radians($lng) )
                 + sin( radians($lat) )
-                * sin( radians( lat ))))";
+                * sin( radians( lat ))))
+                As distance";
 
         $usersWork = CategoryUser::query()
             ->where('status_id', Status::firstWhere('name', 'active')->id)
-            ->whereRaw("$queryLocalization < ?", [$radius])
-            ->with('user')
+            // ->selectRaw("$queryLocalization < ?", [$radius])
+            ->selectRaw($queryLocalization)
+            ->having('distance', '<', $radius)
+            ->with('user', 'category')
             ->when($category, function($query) use ($category){
                 return $query->where('category_id', $category);
             })
@@ -175,6 +180,7 @@ class CategoryUserController extends Controller
             ->when($priceMax, function($query) use ($priceMax){
                 return $query->where('price', '<=', $priceMax);
             })
+            ->orderBy("distance")
             ->get();
 
         return response()->json([

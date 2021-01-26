@@ -8,6 +8,8 @@ import MenuAccount from './MenuPublic'
 import Shedule from '../../../components/schedule';
 import FormContract from '../../form/FormContract';
 
+import Score from '../../score';
+
 export default {
     data(){
         return {
@@ -49,7 +51,8 @@ export default {
         CheckIcon,
         XIcon,
         Shedule,
-        FormContract
+        FormContract,
+        Score
     },
     async created(){
         const id = this.$route.params.id;
@@ -108,6 +111,17 @@ export default {
         showModalSendContract(item){
             this.$bvModal.show('modalSendContract')
         },
+        async sendContract(form){
+
+            const response = await this.callApi('post', '/app/contracts/create', form);
+            console.log('responseAxios', response)
+            if (response.status === 200){
+                this.makeNotice('success', 'Contrato Enviado', 'Felicidades tu contrato se ha enviado exitosamente');
+            }else {
+                 this.makeNotice('danger', 'Error', 'Se presento un error al enviar el contrato');
+            }
+            this.$bvModal.hide('modalSendContract')
+        }
     }
 }
 </script>
@@ -135,8 +149,18 @@ export default {
                                 <div class="col-lg-6 col-md-7 welcome">
                                     <div class="row align-items-end" >
                                         <div class="col-12 text-md-left text-center mt-4 mt-sm-0">
-                                            <h1 class="title mb-0 font-weight-bold"><span class="text-capitalize">{{categoryUser.user.name}}</span></h1>
-                                            <p class="text-muted h6 mr-2">{{user.description}}</p>
+                                            <div class="d-flex flex-column align-items-center">
+                                                <h1 class="title mb-0 font-weight-bold"><span class="text-capitalize">{{categoryUser.user.name}}</span></h1>
+                                                <div>
+                                                    <Score
+                                                        :scoreStar="Number(categoryUser.user.score) ?
+                                                            Number(categoryUser.user.score)/Number(categoryUser.user.ratings)
+                                                            :
+                                                            0"
+                                                    />
+                                                </div>
+                                                <p class="text-muted h6 mr-2">{{user.description}}</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--end row-->
@@ -264,41 +288,94 @@ export default {
                             <div>
                                 <h3 class="mt-4">Detalles del Usuario</h3>
                                 <hr>
-                                <div class="d-flex justify-content-center">
-                                    <div class="" style="width: 80%;">
-                                        <!-- Nombre -->
-                                        <p class="text-capitalize">
-                                            <span class="font-weight-bold">Nombre: </span>
-                                            {{categoryUser.user.name}}
-                                        </p>
-                                        <!-- Edad -->
-                                        <p class="text-capitalize">
-                                            <span class="font-weight-bold">Edad: </span>
-                                           {{calculateAge}}
-                                        </p>
-                                        <!-- Sexo -->
-                                        <p class="text-capitalize">
-                                            <span class="font-weight-bold">Sexo: </span>
-                                            {{ categoryUser.user.gender === 'man' ? 'Hombre' : 'Mujer'}}
-                                        </p>
-                                        <!-- Email Verificado -->
-                                        <p class="text-capitalize">
-                                            <span class="font-weight-bold">Email Verificado: </span>
-                                            <XIcon v-if="!Number(categoryUser.user.profile_check)" style="color:red"/>
-                                            <CheckIcon v-else style="color:green"/>
-                                        </p>
-                                        <!-- Perfil Verificado -->
-                                        <p class="text-capitalize">
-                                            <span class="font-weight-bold">Perfil Verificado: </span>
-                                            <XIcon v-if="!Number(categoryUser.user.email_check)" style="color:red"/>
-                                            <CheckIcon v-else style="color:green"/>
-                                        </p>
-                                        <!-- Fecha de Creacion -->
-                                        <p class="text-capitalize">
-                                            <span class="font-weight-bold">Activo desde: </span>
-                                            {{ new Date(categoryUser.user.created_at).toISOString().slice(0, 10) }}
-                                        </p>
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="" style="">
+                                                <!-- Nombre -->
+                                                <p class="text-capitalize">
+                                                    <span class="font-weight-bold">Nombre: </span>
+                                                    {{categoryUser.user.name}}
+                                                </p>
+                                                <!-- Edad -->
+                                                <p class="text-capitalize">
+                                                    <span class="font-weight-bold">Edad: </span>
+                                                {{calculateAge}}
+                                                </p>
+                                                <!-- Sexo -->
+                                                <p class="text-capitalize">
+                                                    <span class="font-weight-bold">Sexo: </span>
+                                                    {{ categoryUser.user.gender === 'man' ? 'Hombre' : 'Mujer'}}
+                                                </p>
+                                                <!-- Email Verificado -->
+                                                <p class="text-capitalize">
+                                                    <span class="font-weight-bold">Email Verificado: </span>
+                                                    <XIcon v-if="!Number(categoryUser.user.profile_check)" style="color:red"/>
+                                                    <CheckIcon v-else style="color:green"/>
+                                                </p>
+                                                <!-- Perfil Verificado -->
+                                                <p class="text-capitalize">
+                                                    <span class="font-weight-bold">Perfil Verificado: </span>
+                                                    <XIcon v-if="!Number(categoryUser.user.email_check)" style="color:red"/>
+                                                    <CheckIcon v-else style="color:green"/>
+                                                </p>
+                                                <!-- Fecha de Creacion -->
+                                                <p class="text-capitalize">
+                                                    <span class="font-weight-bold">Activo desde: </span>
+                                                    {{ new Date(categoryUser.user.created_at).toISOString().slice(0, 10) }}
+                                                </p>
+                                                <!-- Nacionalidad -->
+                                                <p class="text-capitalize">
+                                                    <span class="font-weight-bold">Nacionalidad: </span>
+                                                    {{ categoryUser.user.nationality}}
+                                                </p>
+                                            </div>
+                                        </div>
+
                                     </div>
+                                    <!-- Informacion Extra -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="d-flex justify-content-center flex-column align-items-center">
+                                            <div>
+                                                <div class="">
+                                                    <label class="font-weight-bold">
+                                                        Carnet de Conducir
+                                                    </label>
+                                                    <b-badge>
+                                                        {{ categoryUser.user.driving_license ? 'SI' : 'NO' }}
+                                                    </b-badge>
+                                                </div>
+
+                                                <div class="">
+                                                    <label class="font-weight-bold">
+                                                        Vehiculo propio
+                                                    </label>
+                                                    <b-badge>
+                                                        {{ categoryUser.user.own_vehicle ? 'SI' : 'NO' }}
+                                                    </b-badge>
+                                                </div>
+
+                                                <div class="">
+                                                    <label class="font-weight-bold">
+                                                        Primeros Auxilios
+                                                    </label>
+                                                    <b-badge>
+                                                        {{ categoryUser.user.first_aid ? 'SI' : 'NO' }}
+                                                    </b-badge>
+                                                </div>
+
+                                                <div class="">
+                                                    <label class="font-weight-bold">
+                                                        Tiene Niños
+                                                    </label>
+                                                    <b-badge>
+                                                        {{ categoryUser.user.has_children ? 'SI' : 'NO' }}
+                                                    </b-badge>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -410,6 +487,9 @@ export default {
         >
             <FormContract
                 :categoryUser="categoryUser"
+                :onSubmit="sendContract"
+                userType="help"
+                :edit="true"
             />
         </b-modal>
     </div>
@@ -419,7 +499,6 @@ export default {
 </template>
 
 <style>
-
     h1 {
         color: #ff4b64;
     }

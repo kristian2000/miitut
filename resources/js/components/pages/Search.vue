@@ -3,8 +3,22 @@ import {
     Trash2Icon,
     SearchIcon,
     ChevronDownIcon,
-    ChevronUpIcon
+    ChevronUpIcon,
+
+    CheckCircleIcon,
+    CheckIcon,
+    XIcon,
+    AwardIcon,
+    UserCheckIcon,
+    ThumbsUpIcon,
+
+    StarIcon,
+    BookmarkIcon,
+    MapPinIcon,
+    NavigationIcon
 } from 'vue-feather-icons';
+
+import Score from '../score.vue';
 
 export default {
     data() {
@@ -25,7 +39,7 @@ export default {
                 radius: 5
 
             },
-            locationQuery: 'santa ana norte merida venezuela',
+            locationQuery: '',
             addressSearch: null,
             suggestions: [{text: 'Sugerencias al buscar tu ubicacion', value: null}],
             categoriesForm : [],
@@ -46,7 +60,17 @@ export default {
         Trash2Icon,
         SearchIcon,
         ChevronDownIcon,
-        ChevronUpIcon
+        ChevronUpIcon,
+        CheckCircleIcon,
+        CheckIcon,
+        AwardIcon,
+        UserCheckIcon,
+        ThumbsUpIcon,
+        StarIcon,
+        Score,
+        MapPinIcon,
+        NavigationIcon,
+        XIcon
     },
     async created(){
         if (this.$store.state.user){
@@ -61,6 +85,14 @@ export default {
                 this.categories = categories;
                 console.log('categories',categories)
             }
+
+            this.locationQuery = this.$store.state.user.address;
+            this.addressSearch = {
+                lat: this.$store.state.user.lat,
+                lon: this.$store.state.user.lng
+            }
+
+
         }else {
             this.$router.push('/');
         }
@@ -177,7 +209,7 @@ export default {
                                                 required
                                             ></b-form-select>
                                         </div>
-                                        <div class="col-12 item">
+                                        <!-- <div class="col-12 item">
                                             <h6 class="font-weight-bold">Sub-Categoría</h6>
                                             <b-form-select
                                                 id="input-3"
@@ -185,7 +217,7 @@ export default {
                                                 :options="subCategories"
                                                 required
                                             ></b-form-select>
-                                        </div>
+                                        </div> -->
                                         <div class="col-12 item">
                                             <h6 class="font-weight-bold">Ubicación</h6>
                                             <div class="d-flex ">
@@ -340,55 +372,147 @@ export default {
                                         <div class="border shadow"
                                             :style="`height: ${!showMap? 800 : 500}px; overflow:scroll; overflow-x:hidden; border-radius:15px;`"
                                         >
-                                            <div class="" v-if="categoriesUserWork.length">
+                                            <div class="my-4" v-if="categoriesUserWork.length">
 
                                                 <!-- Start Items user -->
                                                 <div class="" v-for="categoryUser in categoriesUserWork" :key="categoryUser.id">
-                                                    <div class="my-1 border-bottom">
+                                                    <div class="my-2 border">
                                                         <div
-                                                            class="row"
+                                                            class="p-2 shadow"
                                                             style="overflow-x:hidden"
                                                             @click="$router.push({path: `/profilePublic/${categoryUser.id}`})"
                                                         >
-                                                            <div class="col-lg-5 col-md-4 col-12">
-                                                                <div class="d-flex flex-column align-items-center">
-                                                                    <!-- Imagen -->
-                                                                    <img
-                                                                        :src="categoryUser.user.avatar ? categoryUser.user.avatar : 'images/avatarDefault.jpg'"
-                                                                        class="avatar avatar-small rounded-circle shadow d-block"
-                                                                        width="80px"
-                                                                        height="80px"
-                                                                        alt=""
+                                                            <div class="" style="position:relative">
+                                                                <div style="position:absolute;">
+                                                                    <div class="" v-if="Number(categoryUser.user.profile_check) &&
+                                                                        Number(categoryUser.user.email_check)"
                                                                     >
-                                                                    <div>
-                                                                        <!-- Nombre -->
-                                                                        <span class="font-weight-bold name">
-                                                                            {{ categoryUser.user.name }}
-                                                                        </span>
+                                                                        <div class="">
+                                                                            <div style= "color: green; border-radius: 5px;">
+
+                                                                                <span style="font-size: 10px">
+                                                                                    <CheckCircleIcon width="15" />
+                                                                                    Verificado
+                                                                                </span>
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-7 col-md-8 col-12">
-                                                                <div class="d-flex align-items-center justify-content-sm-center"
-                                                                 style="height: 100%;"
-                                                                >
-                                                                    <div class="text-center">
-                                                                        <!-- Title -->
+                                                            <div class="d-flex justify-content-around flex-wrap">
+                                                                <div class="" style="">
+                                                                    <div class="d-flex flex-column align-items-center " style="min-width:150px" >
+                                                                        <!-- Imagen -->
                                                                         <div>
-                                                                            <span class="font-weight-bold title">
-                                                                                {{ categoryUser.title }}
+                                                                            <img
+                                                                                :src="categoryUser.user.avatar ? categoryUser.user.avatar : 'images/avatarDefault.jpg'"
+                                                                                class="avatar avatar-small rounded-circle shadow d-block"
+                                                                                width="80px"
+                                                                                height="80px"
+                                                                                alt=""
+                                                                            >
+                                                                        </div>
+
+                                                                        <div>
+                                                                            <Score
+                                                                                :scoreStar="Number(categoryUser.user.score) ?
+                                                                                    Number(categoryUser.user.score)/Number(categoryUser.user.ratings)
+                                                                                    :
+                                                                                    0"
+                                                                            />
+                                                                        </div>
+                                                                        <div>
+                                                                            <!-- Nombre -->
+                                                                            <span class="font-weight-bold name" style="font-size: 14px">
+                                                                                {{ categoryUser.user.name }}
                                                                             </span>
                                                                         </div>
-                                                                        <!-- Descripcion -->
-                                                                        <div class="" style="">
-                                                                            <p class="text-muted "
-                                                                                style="line-height:1.2;overflow: hidden;font-size: 14px;">
-                                                                                {{ categoryUser.description}}
-                                                                            </p>
-                                                                        </div>
+                                                                            <!-- Year old  -->
+                                                                            <span style="font-size: 11px;">
+                                                                                {{calculateAge(categoryUser.user.birthdate)}} años
+                                                                            </span>
+
+                                                                        <!-- <div>
+                                                                            <Score scoreStar="3"/>
+                                                                        </div> -->
                                                                     </div>
                                                                 </div>
 
+                                                                <div class="" style="min-width:250px">
+                                                                    <!-- Title -->
+                                                                    <div class="text-center">
+                                                                        <span class="font-weight-bold title">
+                                                                            {{ categoryUser.title }}
+                                                                        </span>
+                                                                        <div class="border-bottom">
+                                                                            <span style="font-size:12px">
+                                                                                Experiencia
+                                                                                {{ Number(categoryUser.yearExperience) > 1 ? `${categoryUser.yearExperience} años` : "< 1 año" }},
+                                                                                <span class="font-weight-bold">€‎{{ categoryUser.price}}/hr </span>
+                                                                            </span>
+                                                                        </div>
+                                                                        <!-- Descripcion -->
+                                                                        <div class="my-2">
+                                                                            <p class="text-muted "
+                                                                                style="line-height:1.2;overflow: hidden;font-size: 14px;">
+                                                                                {{ categoryUser.description }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex">
+                                                                        <div class="mr-3" style="height: 100px;">
+                                                                            <div>
+                                                                                <!-- Perfil verificado valoracion -->
+                                                                                <div>
+                                                                                    <div style= "color: #800000; border-radius: 5px;">
+                                                                                        <div style="font-size: 10px; padding:0;">
+                                                                                            <MapPinIcon width="15" />
+                                                                                            {{ categoryUser.user.state }}, {{ categoryUser.user.country }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <div style= "color: #0BFFF; border-radius: 5px;">
+                                                                                        <div style="font-size: 10px">
+                                                                                            <NavigationIcon width="15" />
+                                                                                            A {{ categoryUser.distance > 1 ?
+                                                                                                `${Number(categoryUser.distance).toFixed(2)} km`
+                                                                                                :
+                                                                                                `${Number(categoryUser.distance).toFixed(3).split('.')[1]} m`
+                                                                                            }} de Ti
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div style="height: 50px;">
+                                                                            <div style="font-size: 13px;">
+                                                                                <div class="font-weight-bold">
+                                                                                    Sub Servicios:
+                                                                                </div>
+                                                                                <div class="" style="font-size: 10px; height: 50px;overflow:scroll; overflow-x:hidden">
+                                                                                    <div class="listSubService" v-for="subService in categoryUser.category.subcategories" :key="subService.id">
+                                                                                        <div>
+                                                                                            <CheckIcon
+                                                                                                width="10"
+                                                                                                v-if="categoryUser.sub_categories ?
+                                                                                                    categoryUser.sub_categories.includes(subService.id) : false"
+                                                                                            />
+                                                                                            <XIcon
+                                                                                                v-else
+                                                                                                width="10"
+                                                                                            />
+                                                                                            {{ subService.label }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -433,6 +557,12 @@ export default {
 </template>
 
 <style scoped>
+    .listSubService {
+        padding-left: 25px;
+        margin: 0;
+
+    }
+
     .title {
         font-size: 18px;
     }

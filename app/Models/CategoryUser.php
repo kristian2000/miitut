@@ -15,6 +15,11 @@ class CategoryUser extends Model
 
     protected $table = 'categories_user';
 
+    protected $casts = [
+        'shedule' => 'array',
+        'sub_categories' => 'array',
+    ];
+
     protected $fillable = [
         'user_id',
         'category_id',
@@ -26,7 +31,9 @@ class CategoryUser extends Model
         'lat',
         'lng',
         'descriptionExperience',
-        'yearExperience'
+        'yearExperience',
+        'shedule',
+        'sub_categories'
     ];
 
     public function user(){
@@ -38,12 +45,12 @@ class CategoryUser extends Model
     }
 
     public function category(){
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id')
+            ->with('subcategories');
     }
 
     public function timesAvailable(){
         return $this->hasMany(TimesAvailable::class, 'category_user_id');
     }
-
 }
 

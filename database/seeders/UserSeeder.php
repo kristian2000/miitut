@@ -21,7 +21,9 @@ class UserSeeder extends Seeder
                 'name' => 'admin',
                 'email' => 'admin@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'admin'
+                'userType' => 'admin',
+                'state' => "Estado",
+                'country' => "Pais"
             ],
 
             // Usuarios Empleados
@@ -29,25 +31,35 @@ class UserSeeder extends Seeder
                 'name' => Str::random(6),
                 'email' => 'usuario1@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'work'
+                'userType' => 'work',
+                'state' => "Estado",
+                'country' => "Pais"
             ],
             [
                 'name' => Str::random(6),
                 'email' => 'usuario2@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'work'
+                'userType' => 'work',
+                'state' => 'Estado',
+                'country' => "Pais"
             ],
             [
                 'name' => Str::random(6),
                 'email' => 'usuario3@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'work'
+                'userType' => 'work',
+                'state' => 'Estado',
+                'country' => "Pais"
             ],
             [
                 'name' => Str::random(6),
                 'email' => 'usuario4@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'work'
+                'userType' => 'work',
+                'state' => 'Estado',
+                'country' => "Pais",
+                'state' => "Estado",
+                'country' => "Pais"
             ],
 
             // Usuarios Empleadores
@@ -55,25 +67,33 @@ class UserSeeder extends Seeder
                 'name' => Str::random(6),
                 'email' => 'usuario5@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'help'
+                'userType' => 'help',
+                'state' => "Estado",
+                'country' => "Pais"
             ],
             [
                 'name' => Str::random(6),
                 'email' => 'usuario6@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'help'
+                'userType' => 'help',
+                'state' => "Estado",
+                'country' => "Pais"
             ],
             [
                 'name' => Str::random(6),
                 'email' => 'usuario7@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'help'
+                'userType' => 'help',
+                'state' => "Estado",
+                'country' => "Pais"
             ],
             [
                 'name' => Str::random(6),
                 'email' => 'usuario8@test.com',
                 'password' => Hash::make('test12'),
-                'userType' => 'help'
+                'userType' => 'help',
+                'state' => "Estado",
+                'country' => "Pais"
             ]
         ]);
 

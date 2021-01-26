@@ -23,7 +23,12 @@ export default {
                 case 'phone' : return 'Telefóno';
                 case 'address': return 'Dirección';
                 case 'birthdate': return 'Fecha de Cumpleaños';
+                case 'nationality': return 'Nacionalidad';
                 case 'date': return 'Fecha';
+                case 'dateStart': return 'Fecha Inicial';
+                case 'dateEnd': return 'Fecha Final';
+                case 'startTime': return 'Hora Inicial';
+                case 'daysSelected': return 'Seleccion de dias';
                 default:
                     return field;
             }
@@ -84,6 +89,19 @@ export default {
             })
 
         },
+
+        calculateAge(date){
+            let now = new Date();
+            let birthdate = new Date(date);
+            let yearOld = now.getFullYear() - birthdate.getFullYear();
+            let m = now.getMonth() - birthdate.getMonth();
+
+            if (m < 0 || (m === 0 && now.getDate() < birthdate.getDate())){
+                return --yearOld;
+            }
+
+            return yearOld;
+        }
 
     }
 }

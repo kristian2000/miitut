@@ -1,6 +1,7 @@
 
 <script>
 import axios from 'axios'
+
 export default {
     data(){
         return {
@@ -11,12 +12,19 @@ export default {
             phone: '',
             coords: null,
             address: '',
+            country: '',
+            state: '',
             dni: '',
             description: '',
 
             loading: {
                 localizar: false
-            }
+            },
+            own_vehicle: false,
+            driving_license: false,
+            first_aid: false,
+            has_children: false,
+            nationality: ''
         }
     },
     created(){
@@ -56,9 +64,13 @@ export default {
                 const response = await axios
                     .get(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json`)
 
+                console.log(response)
                 if (response.status === 200){
 
                     this.address = response.data.display_name;
+                    this.country = response.data.address.country;
+                    this.state = response.data.address.state;
+
                     this.coords = {
                         lat: response.data.lat,
                         lon: response.data.lon
@@ -80,7 +92,8 @@ export default {
                 birthdate: this.date,
                 address: this.address,
                 description: this.description,
-                dni: this.dni
+                dni: this.dni,
+                nationality: this.nationality
             }
 
             //Hacer Validaciones manuales
@@ -93,6 +106,7 @@ export default {
                     case 'description':
                     case 'dni':
                     case 'address':
+                    case 'nationality':
                     case 'phone': {
                         if (!value.length){
                             errors[field] = [ 'Por favor completa el campo, es requerido!' ];
@@ -125,10 +139,17 @@ export default {
                 gender: this.gender,
                 birthdate: this.date.birthdate,
                 address: this.address,
+                country: this.country,
+                state: this.state,
                 lat: this.coords? this.coords.lat : '',
                 lng: this.coords ?  this.coords.lon : '',
                 description: this.description,
-                dni: this.dni
+                dni: this.dni,
+                nationality: this.nationality,
+                own_vehicle: this.own_vehicle,
+                driving_license: this.driving_license,
+                first_aid: this.first_aid,
+                has_children: this.has_children,
             }
 
             console.log('formSubmit', form)
@@ -145,8 +166,6 @@ export default {
                 this.makeNotice('danger', 'Ocurrio un Error !', 'Se presento un problema al enviar tu solicitud')
                 console.log('submitError', error)
             }
-
-
         }
 
     }
@@ -154,11 +173,11 @@ export default {
 </script>
 
 <template>
-<section class="d-flex align-items-center">
+<section class="d-flex align-items-center justify-content-center" style="height:85vh; min-height: 800px">
     <div class="container col-md-6 col-12 mt-4">
         <div class="row">
             <div class="col-12 text-center mb-4">
-                <h2 class="h2">Completar tus Perfil</h2>
+                <h2 class="h2 text-muted">Completa Tu Perfil</h2>
             </div>
 
         </div>
@@ -271,11 +290,18 @@ export default {
             <div class="col-12">
                 <div class=" d-flex justify-content-center">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6 col-12">
                             <label for="" class="text-muted">Agrega una descripcion</label>
                         </div>
-                        <div class="col-6">
-                            <textarea type="textarea" v-model="description"/>
+                        <div class="col-md-6 col-12">
+                            <b-form-textarea
+                                id="textarea"
+                                v-model="description"
+                                placeholder="Escribe aqui..."
+                                rows="2"
+                                max-rows="4"
+                                style="width:300px"
+                            />
                         </div>
                     </div>
                 </div>
@@ -287,17 +313,41 @@ export default {
             <div class="col-12">
                 <div class=" d-flex justify-content-center">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label for="dni" class="text-muted">DNI</label>
                         </div>
-                        <div class="col-6">
-                            <input type="number" v-model="dni">
+                        <div class="col-md-6">
+                            <b-form-input
+                                type="number"
+                                v-model="dni"
+                                style="width:200px"
+                            />
                         </div>
                     </div>
                 </div>
                 <hr>
             </div>
             <!-- END DNI -->
+
+            <!-- Start Nacionalidad -->
+            <div class="col-12">
+                <div class=" d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="text-muted">Nacionalidad</label>
+                        </div>
+                        <div class="col-6">
+                            <b-form-input
+                                type="text"
+                                v-model="nationality"
+                                style="width:200px"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <!-- END Nacionalidad -->
 
             <!-- START Telefono -->
 
@@ -318,7 +368,57 @@ export default {
             </div>
             <!-- END Telefono -->
 
+            <!-- Informacion Personal -->
             <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-md-6 col-12 text-muted">
+                            <b-form-checkbox
+                                v-model="driving_license"
+                                name="check-button"
+                                switch
+                                size="lg"
+                            >
+                                Carnet de Conducir
+                            </b-form-checkbox>
+                        </div>
+                        <div class="col-md-6 col-12 text-muted">
+                            <b-form-checkbox
+                                v-model="own_vehicle"
+                                name="check-button"
+                                switch
+                                size="lg"
+                            >
+                                Vehículo Propio
+                            </b-form-checkbox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-12 text-muted">
+                            <b-form-checkbox
+                                v-model="first_aid"
+                                name="check-button"
+                                switch
+                                size="lg"
+                            >
+                                Primeros Auxilios
+                            </b-form-checkbox>
+                        </div>
+                        <div class="col-md-6 col-12 text-muted">
+                            <b-form-checkbox
+                                v-model="has_children"
+                                name="check-button"
+                                switch
+                                size="lg"
+                            >
+                                Tiene niños
+                            </b-form-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-4 ">
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-success" @click="validate">Enviar</button>
                 </div>

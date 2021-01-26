@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryUserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContractController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,12 +32,14 @@ Route::post('app/authorize/{driver}/callback', [AuthController::class, 'handlePr
 Route::post('app/users/updateProfile', [UserController::class, 'updateProfile']);
 Route::post('app/users/completeProfile', [UserController::class, 'completeProfile']);
 Route::post('app/users/updateAvatar', [UserController::class, 'updateAvatar']);
+Route::post('app/users/uploadDNI', [UserController::class, 'uploadDNI']);
+Route::get('app/users/getInfoDNI', [UserController::class, 'getInfoDNI']);
 
-//Categories
+// Categories
 Route::get('app/categories/getWithSubcategories', [CategoryController::class, 'getCategoriesAndSubcategories']);
 Route::get('app/categories/{category}/subcategories', [CategoryController::class, 'getSubcategoryByCategory']);
 
-//CategoriesUser
+// CategoriesUser
 Route::get('app/categoriesUser', [CategoryUserController::class, 'getCategoriesUser']);
 Route::get('app/categoriesUser/pending', [CategoryUserController::class, 'getCategoryPending']);
 Route::get('app/categoriesUser/{category}', [CategoryUserController::class, 'showCategoriesUser']);
@@ -44,6 +47,10 @@ Route::put('app/categoriesUser/{category}', [CategoryUserController::class, 'upd
 Route::post('app/categoriesUser/{category}/completeProfileWork', [CategoryUserController::class, 'completeProfileWork']);
 Route::post('app/categoriesUser/{category}/changeTimeAvailable', [CategoryUserController::class, 'changeTimeAvailable']);
 Route::post('app/categoriesUser/getCategoriesUserWork', [CategoryUserController::class, 'getCategoriesUserWork']);
+
+// Contract
+Route::get('app/contracts', [ContractController::class, 'getAll']);
+Route::post('app/contracts/create', [ContractController::class, 'store']);
 
 // Route::post('app/categoriesUser', [])
 

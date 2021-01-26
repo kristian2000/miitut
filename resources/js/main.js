@@ -4,11 +4,10 @@ import Vue from 'vue';
 import router from './router/index'
 import store from './store/index'
 
-import { BootstrapVue } from 'bootstrap-vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
 import common from './common'
 
 import VueTelInput from 'vue-tel-input'
@@ -23,6 +22,7 @@ Vue.use(VueLayers)
 Vue.mixin(common);
 
 // Install BootstrapVue
+Vue.use(IconsPlugin)
 Vue.use(BootstrapVue)
 
 Vue.component('app', require('./App.vue').default)
