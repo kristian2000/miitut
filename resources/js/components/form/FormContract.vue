@@ -1,11 +1,17 @@
 <script>
+import BtnDesp from '../btnDespliegue';
+
 export default {
     props: [
         'categoryUser',
         'contract',
         'onSubmit',
-        'edit'
+        'edit',
+        'typeForm'
     ],
+    components: {
+        BtnDesp
+    },
     data(){
         return {
             dateInitial: {
@@ -31,7 +37,8 @@ export default {
                 { key: 'SAB', value: false},
                 { key: 'DOM', value: false},
             ],
-            disabled: true
+            disabled: true,
+            infoShow: true
         }
     },
     created(){
@@ -54,7 +61,7 @@ export default {
             this.daysSelected = this.contract.daysSelected
         }
 
-        if (this.edit){
+        if (this.typeForm === 'create'){
             this.disabled = false;
         }
     },
@@ -192,10 +199,24 @@ export default {
 </script>
 
 <template>
-    <div class="container">
+    <div class="container" >
         <div class="row">
+            <div class="col-12 mb-4" v-if="this.typeForm !== 'create'">
+                <div class="d-flex justify-content-center border-bottom">
+                    <div class="d-flex justify-content-center">
+                        <BtnDesp
+                            title="Informacion"
+                            :onClick="(show)=>{ this.infoShow = show}"
+                        />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" v-if="infoShow">
             <!-- Start Tipo de Contrato -->
-            <div class="col-12">
+            <div class="col-12 mb-2">
                 <div class="row">
                     <div class="col-3">
                         <label for="typeContract" class="text-muted">Tipo de Contrato</label>
@@ -203,7 +224,7 @@ export default {
                     <div class="col-9">
                         <b-form-select
                             v-model="typeContract"
-                            disabled
+                            :disabled="this.disabled"
                             :options="[
                             { text: 'Habitual', value: 'habitual' },
                             { text: 'Ocacional', value: 'occasional' },
@@ -215,7 +236,7 @@ export default {
             <!-- End Tipo de Contrato -->
 
             <!-- Start Fecha de Inicio y Fecha Final -->
-            <div class="col-12 my-4">
+            <div class="col-12 ">
                 <div class="row">
                     <div class="col">
                         <div class="row">
@@ -285,7 +306,7 @@ export default {
             <!-- Start Fecha de Inicio y Fecha Final -->
 
             <!-- Start hours -->
-            <div class="col-12 mb-2">
+            <div class="col-12 mb-1">
                 <div class="row d-flex align-items-center justify-content-center">
                     <div class="col-4">
                         <div>
@@ -299,7 +320,7 @@ export default {
                     </div>
                     <div class="col-8">
                         <div class="col-12">
-                            <label for="hours" class="text-muted">Cantidad de Horas necesarias</label>
+                            <label for="hours" class="text-muted">Cantidad de Horas por Dia</label>
                         </div>
                         <div class="d-flex justify-content-around align-items-center">
                             <div class="col-10">
@@ -364,14 +385,14 @@ export default {
             <!-- End Price -->
 
             <!-- Start Descripcion -->
-            <div class="col-12 my-4">
+            <div class="col-12 ">
                 <label for=""  class="text-muted">Mensaje</label>
                 <b-form-textarea
                     id="textarea"
                     v-model="message"
                     placeholder="Envia un Mensaje, te recomendamos no enviar numero de telefono o email."
-                    rows="3"
-                    max-rows="6"
+                    rows="2"
+                    max-rows="4"
                     :disabled="disabled"
                 ></b-form-textarea>
             </div>
@@ -384,32 +405,80 @@ export default {
                     id="textarea"
                     v-model="address"
                     placeholder="Ubicacion del hogar"
-                    rows="3"
-                    max-rows="6"
+                    rows="2"
+                    max-rows="4"
                     :disabled="disabled"
                 ></b-form-textarea>
             </div>
             <!-- End Direccion -->
 
-            <!-- Start Total -->
-            <!-- <div class="col-12 my-3">
-                <hr>
-                <div class="text-center">
-                    <label for="">Calculo del Contrato</label>
-                    <p>Total € <span class="" style="font-weight: 900">{{ totalPrice }}</span></p>
-                </div>
-                <hr>
-            </div> -->
-            <!-- End Total -->
+            <!-- TypeForm Create -->
+            <div class="col-12" v-if="this.typeForm === 'create'">
 
-            <div class="col-12 mt-3" v-if="!contract">
-                <div class="d-flex justify-content-center">
-                    <b-button pill variant="outline-secondary" @click="validate">
-                        Enviar Contrato
-                    </b-button>
+                <!-- Start Total -->
+                <div class="col-12 my-2">
+                    <hr>
+                    <div class="">
+                        <label class="border-bottom font-weight-bold">Calculo del Contrato :</label>
+                        <div class="text-center">
+                            <div class="my-2" v-if="this.typeContract === 'occasional'">
+                                <div class="font-weight-bold">
+                                    Precio Publicado: <span class="text-muted"> € {{ categoryUser.price }} </span>
+                                </div>
+                            </div>
+                            <p>Total € <span class="" style="font-weight: 900">{{ totalPrice }}</span></p>
+                        </div>
+                    </div>
+                    <hr>
                 </div>
+                <!-- End Total -->
+                <!-- Btn Action create -->
+                <div class="col-12" >
+                    <div class="col-12 mt-3" v-if="!contract">
+                        <div class="d-flex justify-content-center">
+                            <b-button pill variant="outline-secondary" @click="validate">
+                                Enviar Contrato
+                            </b-button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
+        <div class="row" v-if="contract">
+            <!-- Btn Acciones -->
+            <div class="col-12">
+                <!-- Si el estado es pending
+                    - Si eres empleado [accion -> aceptar, rechazar }
+                    - Si eres empleador [accion -> cancelar]
+                -->
+                    <div class="col-12" v-if="contract.status.name === 'pending'">
+                        <div class="d-flex justify-content-center"
+                            v-if="$store.state.user.userType === 'work'"
+                        >
+                            <div class="mr-2">
+                                <b-button pill variant="outline-secondary" @click="validate">
+                                    Aceptar
+                                </b-button>
+                            </div>
+                            <div>
+                                <b-button pill variant="outline-secondary" @click="validate">
+                                    Rechazar
+                                </b-button>
+                            </div>
+                        </div>
+
+                        <div v-else class="d-flex justify-content-center">
+                            <b-button pill variant="outline-secondary" @click="validate">
+                                Cancelar
+                            </b-button>
+                        </div>
+                    </div>
+            </div>
+
+        </div>
+
     </div>
 </template>
 

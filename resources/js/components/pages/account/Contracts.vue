@@ -80,13 +80,15 @@ export default {
             </div>
         </div>
                 <!-- Start Modal Contrato -->
-        <div>
+        <div >
             <b-modal
                 id="modalContract"
                 title="Detalles del Contrato"
                 scrollable
                 hide-footer
                 size="lg"
+                style="background: blue;"
+
             >
                 <FormContract
                     :contract="currentContract"
@@ -99,3 +101,10 @@ export default {
 
     </LayoutAccount>
 </template>
+
+<style scope>
+    .modal-dialog-scrollable .modal-body {
+        overflow-y: scroll;
+    }
+</style>
+

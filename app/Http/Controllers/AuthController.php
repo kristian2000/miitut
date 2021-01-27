@@ -107,7 +107,7 @@ class AuthController extends Controller
         }
 
         // Se envia en email de codigo de verificacion
-        MailController::sendSignupEmail($user);
+        // MailController::sendSignupEmail($user);
 
         Auth::login($user, true);
 

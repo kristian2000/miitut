@@ -24,12 +24,12 @@ export default {
                     path: '/account-contracts',
                     viewOnly: ['help', 'work']
                 },
-                {
-                    title: 'Anuncios',
-                    iconClass: 'uil uil-file',
-                    path: '/account-advertisements',
-                    viewOnly: ['help']
-                },
+                // {
+                //     title: 'Anuncios',
+                //     iconClass: 'uil uil-file',
+                //     path: '/account-advertisements',
+                //     viewOnly: ['']
+                // },
                 {
                     title: 'Facturas',
                     iconClass: 'uil uil-envelope-star',

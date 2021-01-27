@@ -30,12 +30,12 @@ export default {
                     path: '/account-advertisements',
                     viewOnly: ['help']
                 },
-                {
-                    title: 'Valoracion',
-                    iconClass: 'uil uil-envelope-star',
-                    path: '/account-bills',
-                    viewOnly: ['help', 'work']
-                },
+                // {
+                //     title: 'Valoracion',
+                //     iconClass: 'uil uil-envelope-star',
+                //     path: '/account-bills',
+                //     viewOnly: ['help', 'work']
+                // },
                 // {
                 //     title: 'Mensajes',
                 //     iconClass: 'uil uil-transaction',

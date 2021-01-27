@@ -369,7 +369,7 @@ export default {
             <!-- END Telefono -->
 
             <!-- Informacion Personal -->
-            <div class="col-12">
+            <div class="col-12" v-if="$store.state.user.userType !== 'help'">
                 <div class="d-flex justify-content-center">
                     <div class="row">
                         <div class="col-md-6 col-12 text-muted">

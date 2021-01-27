@@ -94,7 +94,7 @@ class User extends Authenticatable
         if ($this->userType !== 'work'){
             // si  es un empleador
             return $this->hasMany(Contract::class, 'user_id')
-                ->with('categoryUser');
+                ->with('categoryUser', 'status');
 
         }
 

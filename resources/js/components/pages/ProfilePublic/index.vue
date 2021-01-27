@@ -38,10 +38,10 @@ export default {
                     title: 'Ubicacion',
                     iconClass: 'uil uil-file'
                 },
-                {
-                    title: 'Valoracion',
-                    iconClass: 'uil uil-envelope-star'
-                }
+                // {
+                //     title: 'Valoracion',
+                //     iconClass: 'uil uil-envelope-star'
+                // }
             ],
             sheduleData: []
         }
@@ -488,6 +488,7 @@ export default {
             <FormContract
                 :categoryUser="categoryUser"
                 :onSubmit="sendContract"
+                typeForm="create"
                 userType="help"
                 :edit="true"
             />

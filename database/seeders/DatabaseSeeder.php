@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             SubCategorySeeder::class,
             StatusSeeder::class,
-            CategoryUser::class
+            CategoryUser::class,
+            MembershipSeeder::class
         ]);
     }
 }

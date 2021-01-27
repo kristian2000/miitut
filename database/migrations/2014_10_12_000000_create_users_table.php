@@ -32,6 +32,9 @@ class CreateUsersTable extends Migration
             $table->float('lat')->nullable();
             $table->float('lng')->nullable();
 
+            $table->unsignedBigInteger('membership_id')->nullable();
+            $table->foreign('membership_id')->references('id')->on('memberships');
+
             $table->string('userType')->default('user');
             $table->string('fase_registry')->nullable();
             $table->string('verification_code')->nullable();
@@ -45,7 +48,7 @@ class CreateUsersTable extends Migration
             $table->boolean('has_children')->default(false); // tiene niños
             $table->string('nationality')->nullable(); // nacionalidad
 
-            $table->json('spoken_language')->nullable();
+            // $table->json('spoken_language')->nullable();
 
             $table->boolean('email_check')->default(false);
             $table->boolean('profile_check')->default(false);
