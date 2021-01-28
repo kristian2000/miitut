@@ -29,10 +29,10 @@ export default {
             showAlert: false,
             message: '',
             form: {
-                name: 'cherry gota',
-                email: 'chgf1997@gmail.com',
-                password: 'test12',
-                password_confirmation: 'test12',
+                name: '',
+                email: '',
+                password: '',
+                password_confirmation: '',
                 userType: this.userType
             }
         }

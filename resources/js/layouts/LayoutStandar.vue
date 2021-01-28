@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import Navbar from './components/NavbarP'
+import Navbar from './components/navbarP.vue'
 import Footer from './components/Footer'
 
 export default {
