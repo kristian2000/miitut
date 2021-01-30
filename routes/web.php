@@ -51,6 +51,9 @@ Route::post('app/categoriesUser/getCategoriesUserWork', [CategoryUserController:
 // Contract
 Route::get('app/contracts', [ContractController::class, 'getAll']);
 Route::post('app/contracts/create', [ContractController::class, 'store']);
+Route::get('app/contracts/rejectContract/{contract}', [ContractController::class, 'rejectContract']);
+Route::get('app/contracts/acceptContract/{contract}', [ContractController::class, 'acceptContract']);
+Route::post('app/contracts/cancelContract/{contract}', [ContractController::class, 'cancelContract']);
 
 // Route::post('app/categoriesUser', [])
 

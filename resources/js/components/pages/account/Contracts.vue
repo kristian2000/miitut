@@ -50,6 +50,33 @@ export default {
             console.log('currentContract', contract)
             this.currentContract = contract;
             this.$bvModal.show('modalContract')
+        },
+        async rejectContract(){
+           const response = await this.callApi('get', `app/contracts/rejectContract/${this.currentContract.id}`);
+            console.log('rejectContract', response)
+            if (response.status === 200){
+                let newContract = response.data.contract;
+                this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
+                    contract
+                    :
+                    newContract
+                )
+                this.$bvModal.hide('modalContract')
+                this.makeNotice('success', 'Info', 'El rechazo del contrato ha sido enviado');
+            }
+        },
+        async acceptContract(){
+           const response = await this.callApi('get', `app/contracts/acceptContract/${this.currentContract.id}`);
+            console.log('rejectContract', response)
+            if (response.status === 200){
+                let newContract = response.data.contract;
+                this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
+                    contract
+                    :
+                    newContract
+                )
+                this.$bvModal.hide('modalContract')
+            }
         }
     }
 }
@@ -93,6 +120,9 @@ export default {
                 <FormContract
                     :contract="currentContract"
                     :onSubmit="()=>{}"
+                    :onClose="()=>{this.$bvModal.hide('modalContract')}"
+                    :acceptCall="this.acceptContract"
+                    :rejectCall="this.rejectContract"
                     :edit="true"
                 />
             </b-modal>
@@ -103,8 +133,8 @@ export default {
 </template>
 
 <style scope>
-    .modal-dialog-scrollable .modal-body {
+    /* .modal-dialog-scrollable .modal-body {
         overflow-y: scroll;
-    }
+    } */
 </style>
 

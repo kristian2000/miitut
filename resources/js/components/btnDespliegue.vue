@@ -5,14 +5,14 @@ import {
 } from 'vue-feather-icons';
 
 export default {
-    props: ['title', 'onClick'],
+    props: ['title', 'onClick', 'infoShow'],
     components: {
         ChevronUpIcon,
         ChevronDownIcon
     },
     data(){
         return {
-            show: true
+            show: this.infoShow
         }
     },
     methods: {
@@ -33,7 +33,7 @@ export default {
             <ChevronUpIcon
                 class="border"
                 style="cursor: pointer; border-radius: 50%"
-                v-if="this.show"
+                v-if="show"
             />
             <ChevronDownIcon
                 class="border"

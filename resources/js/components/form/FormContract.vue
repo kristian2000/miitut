@@ -1,5 +1,6 @@
 <script>
 import BtnDesp from '../btnDespliegue';
+import CardStripe from '../CardStripe';
 
 export default {
     props: [
@@ -7,10 +8,14 @@ export default {
         'contract',
         'onSubmit',
         'edit',
-        'typeForm'
+        'typeForm',
+        'rejectCall',
+        'acceptCall',
+        'onClose'
     ],
     components: {
-        BtnDesp
+        BtnDesp,
+        CardStripe
     },
     data(){
         return {
@@ -59,6 +64,10 @@ export default {
             this.typeContract = this.contract.type_contract
             this.startTime = this.contract.start_time
             this.daysSelected = this.contract.daysSelected
+
+            if (this.contract.status.name === "pendingPayment"){
+                this.infoShow = false;
+            }
         }
 
         if (this.typeForm === 'create'){
@@ -193,6 +202,9 @@ export default {
             console.log('submit', form)
 
             this.onSubmit(form);
+        },
+        async processPayment(tokenStripe){
+            console.log(tokenStripe)
         }
     }
 }
@@ -201,11 +213,12 @@ export default {
 <template>
     <div class="container" >
         <div class="row">
-            <div class="col-12 mb-4" v-if="this.typeForm !== 'create'">
-                <div class="d-flex justify-content-center border-bottom">
+            <div class="col-12" v-if="this.typeForm !== 'create'">
+                <div class="d-flex justify-content-center border-bottom  mb-4">
                     <div class="d-flex justify-content-center">
                         <BtnDesp
-                            title="Informacion"
+                            title="Informacion Contrato"
+                            :show="this.infoShow"
                             :onClick="(show)=>{ this.infoShow = show}"
                         />
                     </div>
@@ -269,7 +282,7 @@ export default {
                         </div>
 
                     </div>
-                    <div v-if="typeContract === 'habitual'" class="col">
+                    <!-- <div v-if="typeContract === 'habitual'" class="col">
                         <div class="row">
                             <div class="col-12">
                                 <label for="datepicker" class="text-muted">Fecha Final</label>
@@ -298,7 +311,7 @@ export default {
                                 </b-input-group>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -306,8 +319,8 @@ export default {
             <!-- Start Fecha de Inicio y Fecha Final -->
 
             <!-- Start hours -->
-            <div class="col-12 mb-1">
-                <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-12 ">
+                <div class="row d-flex align-items-center justify-content-center mb-1">
                     <div class="col-4">
                         <div>
                             <label for="" class="text-muted">Hora Inicial</label>
@@ -348,8 +361,8 @@ export default {
             <!-- End hours -->
 
             <!-- Start Days Selected ( Only Contract habitual ) -->
-            <div v-if="typeContract === 'habitual'" class="col-12 my-3">
-                <div class="text-muted">
+            <div v-if="typeContract === 'habitual'" class="col-12 ">
+                <div class="text-muted my-3">
                     <label for="">Días Seleccionados:</label>
                     <div class="d-flex justify-content-center">
                         <div v-for="day in daysSelected" :key="day.key">
@@ -399,7 +412,7 @@ export default {
             <!-- End Descripcion -->
 
             <!-- Start Direccion -->
-            <div class="col-12">
+            <div class="col-12 mb-2">
                 <label for=""  class="text-muted">Dirección</label>
                 <b-form-textarea
                     id="textarea"
@@ -434,8 +447,8 @@ export default {
                 <!-- End Total -->
                 <!-- Btn Action create -->
                 <div class="col-12" >
-                    <div class="col-12 mt-3" v-if="!contract">
-                        <div class="d-flex justify-content-center">
+                    <div class="col-12 " v-if="!contract">
+                        <div class="d-flex justify-content-center mt-3">
                             <b-button pill variant="outline-secondary" @click="validate">
                                 Enviar Contrato
                             </b-button>
@@ -448,34 +461,90 @@ export default {
 
         <div class="row" v-if="contract">
             <!-- Btn Acciones -->
-            <div class="col-12">
+
                 <!-- Si el estado es pending
                     - Si eres empleado [accion -> aceptar, rechazar }
                     - Si eres empleador [accion -> cancelar]
                 -->
-                    <div class="col-12" v-if="contract.status.name === 'pending'">
-                        <div class="d-flex justify-content-center"
-                            v-if="$store.state.user.userType === 'work'"
-                        >
+                <div class="col-12" v-if="contract.status.name === 'pending'">
+                    <div class=""
+                        v-if="$store.state.user.userType === 'work'"
+                    >
+                        <div class="d-flex justify-content-center mt-4">
                             <div class="mr-2">
-                                <b-button pill variant="outline-secondary" @click="validate">
+                                <b-button pill variant="outline-secondary" @click="acceptCall">
                                     Aceptar
                                 </b-button>
                             </div>
                             <div>
-                                <b-button pill variant="outline-secondary" @click="validate">
+                                <b-button pill variant="outline-secondary" @click="rejectCall">
                                     Rechazar
                                 </b-button>
                             </div>
                         </div>
+                    </div>
 
-                        <div v-else class="d-flex justify-content-center">
-                            <b-button pill variant="outline-secondary" @click="validate">
-                                Cancelar
-                            </b-button>
+                    <div v-else class="d-flex justify-content-center">
+                        <b-button pill variant="outline-secondary" @click="validate">
+                            Cancelar
+                        </b-button>
+                    </div>
+                </div>
+
+            <!-- Si esta rechazado [accion -> archivar, cerrar] -->
+                <div class="col-12" v-if="contract.status.name === 'reject'">
+                    <div class="">
+                        <div class="d-flex justify-content-center mt-4">
+                            <!-- <div class="mr-2">
+                                <b-button pill variant="outline-secondary" @click="acceptCall">
+                                    Archivar
+                                </b-button>
+                            </div> -->
+                            <div>
+                                <b-button pill variant="outline-secondary" @click="onClose">
+                                    Cerrar
+                                </b-button>
+                            </div>
                         </div>
                     </div>
-            </div>
+
+                </div>
+
+            <!-- Si esta pendiente de pago [ empleado -> info, empleador -> pagar ] -->
+                <div class="col-12" v-if="contract.status.name === 'pendingPayment'">
+                    <div class=""
+                        v-if="$store.state.user.userType === 'help'"
+                    >
+                        <div class="d-flex justify-content-center flex-column ">
+                            <div class="text-center">
+                                <div class="">
+                                    <p class="text-muted">
+                                        Al realizar el pago, se continuara con el proceso
+                                    </p>
+                                </div>
+                                <div>
+                                    <CardStripe
+                                        :stripeTokenHandler="processPayment"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="d-flex justify-content-center flex-column">
+                            <div class="text-center">
+                                <h3> Información </h3>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <p class="text-muted" style="width: 80%;">
+                                    El Contrato esta pendiente de pago, cuando el empleador realice el pago se te notificara
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
 
         </div>
 

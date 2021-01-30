@@ -54,4 +54,51 @@ class ContractController extends Controller
         ]);
     }
 
+    public function rejectContract(Contract $contract){
+        $contract->status_id = Status::where('name', 'reject')->first()->id;
+        $contract->save();
+
+        // relaciones
+        $contract->status;
+        $contract->categoryUser;
+
+        return response()->json([
+            'msg' => '',
+            'contract' => $contract
+        ]);
+    }
+
+    public function acceptContract(Contract $contract){
+        $contract->status_id = Status::where('name', 'pendingPayment')->first()->id;
+        $contract->save();
+
+        // relaciones
+        $contract->status;
+        $contract->categoryUser;
+
+        return response()->json([
+            'msg' => '',
+            'contract' => $contract
+        ]);
+    }
+
+    public function archiveContract(Contract $contract){
+        return response()->json([
+            'msg' => '',
+        ]);
+    }
+
+    public function finaliceContract(Contract $contract){
+        return response()->json([
+            'msg' => '',
+        ]);
+    }
+
+    public function cancelContract(){
+        // Los Empleadores pueen cancelar su contrato
+        return response()->json([
+            'msg' => '',
+        ]);
+    }
+
 }
