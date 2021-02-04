@@ -33,7 +33,10 @@ export default {
     ],
     data() {
         return {
-            user: this.$store.state.user
+            user: this.$store.state.user,
+            loading: {
+                avatar: false
+            }
         }
     },
     components: {
@@ -59,6 +62,33 @@ export default {
         GlobeIcon,
         GiftIcon,
         MapPinIcon
+    },
+    computed: {
+        avatar(){
+          return this.user.avatar ? this.user.avatar : '/images/avatarDefault.jpg';
+        }
+    },
+    methods: {
+        selectImage(){
+            this.$refs.fileInput.click()
+        },
+        async onFileChange(e){
+            const image = e.target.files[0]
+            if (image){
+                this.loading.avatar = true;
+                
+                const formData = new FormData();
+                formData.append('avatar', image);
+
+                const res = await this.callApi('post', 'app/users/updateAvatar', formData);
+
+                if (res.status === 200){
+                    console.log(res);
+                    this.loading.avatar = false;
+                }
+                this.$forceUpdate();
+            }            
+        },
     }
 }
 </script>
@@ -77,10 +107,18 @@ export default {
                         <div class="card-body" >
                             <div class="row align-items-center" >
                                 <div class="col-lg-2 col-md-3 text-md-left text-center">
-                                    <img
-                                        :src="user.avatar ? user.avatar : '/images/avatarDefault.jpg'"
-                                        class="avatar avatar-large rounded-circle shadow d-block mx-auto" alt=""
-                                    >
+                                    <div v-if="loading.avatar">
+                                        <b-spinner type="grow" label="Spinning" />
+                                    </div>
+                                    <div v-else>
+                                        <img
+                                            :src="avatar"
+                                            class="avatar avatar-large rounded-circle shadow d-block mx-auto" alt=""
+                                            style="cursor:pointer;"
+                                            @click="selectImage()"
+                                        >
+                                        <input ref="fileInput" id="input" type="file" @change="onFileChange" style='display:none;'>
+                                    </div>
                                 </div>
                                 <!--end col-->
 

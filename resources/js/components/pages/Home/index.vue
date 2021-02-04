@@ -29,17 +29,22 @@ export default {
     created(){
         const user = this.$store.state.user;
         if (user){
-            switch(user.fase_registry){
-                case 'registro': {
-                     this.$router.push('/completeProfile');
-                } break;
-                case 'registroWork': {
-                    this.$router.push('/completeProfileWork');
-                } break;
-                default: {
-                    this.$router.push('/account-profile');
+            if (user.userType === 'admin'){
+                this.$router.push('/admin-users');
+            }else {
+                switch(user.fase_registry){
+                    case 'registro': {
+                         this.$router.push('/completeProfile');
+                    } break;
+                    case 'registroWork': {
+                        this.$router.push('/completeProfileWork');
+                    } break;
+                    default: {
+                        this.$router.push('/account-profile');
+                    }
                 }
             }
+
         }
     }
 };

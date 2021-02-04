@@ -18,7 +18,8 @@ export default {
             description: '',
 
             loading: {
-                localizar: false
+                localizar: false,
+                avatar: false
             },
             own_vehicle: false,
             driving_license: false,
@@ -42,14 +43,22 @@ export default {
             this.$refs.fileInput.click()
         },
         async onFileChange(e){
+
             const image = e.target.files[0]
-            const formData = new FormData();
-            formData.append('avatar', image);
 
-            const res = await this.callApi('post', 'app/users/updateAvatar', formData);
-            console.log(res);
+            if (image){
+                this.loading.avatar = true;
+                this.url = null;
+                
+                const formData = new FormData();
+                formData.append('avatar', image);
 
-            this.url = res.data.url;
+                const res = await this.callApi('post', 'app/users/updateAvatar', formData);
+                console.log(res);
+
+                this.loading.avatar = false;
+                this.url = res.data.url;
+            }            
         },
         onContext(ctx) {
             // The date formatted in the locale, or the `label-no-date-selected` string
@@ -185,15 +194,20 @@ export default {
             <!-- Start Selecionar Foto -->
             <div class="col-12 mt-2">
                 <div id='preview' class="d-flex justify-content-center">
-                    <img
-                        v-if="url"
-                        :src="url"
-                        width="100"
-                        height="100"
-                        style="cursor:pointer;"
-                        @click="selectImage()"
-                    />
-                    <div v-else class="d-flex justify-content-center">
+                    <div v-if="loading.avatar">
+                        <b-spinner type="grow" label="Spinning" />
+                    </div>
+                    <div v-else>
+                        <img
+                            v-if="url"
+                            :src="url"
+                            width="100"
+                            height="100"
+                            style="cursor:pointer;"
+                            @click="selectImage()"
+                        />
+                    </div>
+                    <div v-if="!url && !loading.avatar" class="d-flex justify-content-center">
                         <p class="text-muted mt-2" style="width:250px; font-size: 12px;">
                             Los perfiles sin fotografia inspiran confianza a los otros usuarios
                         </p>

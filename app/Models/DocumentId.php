@@ -18,4 +18,12 @@ class DocumentId extends Model
     ];
 
     protected $table = 'documents_id';
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function status(){
+        return $this->belongsTo(Status::class);
+    }
 }

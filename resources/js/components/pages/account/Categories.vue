@@ -36,7 +36,11 @@ export default {
     data() {
         return {
             categoriesUser: [],
-            currentItem: null
+            currentItem: null,
+            memberships: [],
+            loading: {
+                memberships: false
+            }
         }
     },
     components: {
@@ -70,6 +74,18 @@ export default {
                 }
                 return category
             })
+        },
+        async addCategory(){
+            this.loading.memberships = true;
+
+            const response = await this.callApi('get', `app/memberships`);
+            console.log(response)
+            this.$bvModal.show('modalAddCategory')
+
+            if (response.status === 200){
+                this.memberships = response.data;
+                this.loading.memberships = false;
+            }
         }
     }
 }
@@ -160,7 +176,7 @@ export default {
                     variant="outline-success"
                     class="btn-add"
                     hide-footer
-                    @click="$bvModal.show('modalAddCategory')"
+                    @click="addCategory"
                 >
                     <PlusIcon
                         style="cursor: pointer"
@@ -189,30 +205,63 @@ export default {
     <!-- End Modal Edit -->
 
     <!-- Start Modal Agregar Categoria -->
-        <b-modal id="modalAddCategory" title="Agregar Categoria" scrollable hide-footer>
-            <div class="container">
+        <b-modal id="modalAddCategory" title="Hazte Premium" scrollable hide-footer size="lg">
+            <div class="m-4">
                 <div class="row justify-content-center text-center">
                     <div class="col-lg-12">
-                        <h2 class="font-weight-light">Actualizar Plan</h2>
-                        <p class="text-muted mt-4 title-subtitle mx-auto">Una enorme ventaja obtienes al actualizar tu plan!.</p>
-                    </div>
-                </div>
-                <div class="row card">
-                    <div class="col-12">
-                        <div class="bg-white mt-3 price-box">
-                            <div class="pricing-name text-center">
-                                <h4 class="mb-0 text-bold">Premium</h4>
-                            </div>
-                            <div class="plan-price text-center mt-4">
-                                <h1 class="text-custom font-weight-normal mb-0">$5<span>/Mes</span></h1>
-                            </div>
-                            <div class="price-features mt-5">
-                                <p><i class="mdi mdi-check"></i> Categorias: <span class="font-weight-bold">0-3</span></p>
-                            </div>
-                            <div class="text-center mt-5">
-                                <a href="#" class="btn btn-custom text-white">Adquirir Ahora</a>
+                        <h2 class="font-weight-bold">Hazte Premium</h2>
+                        <p class="text-muted mx-auto">Obten una enorme ventaja!</p>
+                        <div class="">
+                            <div style="">
+                                <div class="price-features">
+                                    <i class="mdi mdi-check"></i>
+                                    <span class="text-muted" style="font-size: 14px"> 
+                                        Mejor ubicacion en los resultados
+                                    </span>
+                                </div>
+                                <div class="price-features">
+                                    <i class="mdi mdi-check"></i>
+                                    <span class="text-muted" style="font-size: 14px"> 
+                                        Perfil Recomendado
+                                    </span>
+                                    
+                                </div>
+                                <div class="price-features">
+                                    <i class="mdi mdi-check"></i> 
+                                    <span class="text-muted" style="font-size: 14px"> 
+                                        Ofrecer mas servicios
+                                    </span>
+                                    
+                                </div>                                
                             </div>
                         </div>
+
+                    </div>
+                </div>
+                <div class="d-flex justify-content-around m-2"  v-if="!loading.memberships">
+                    <div class="" v-for="membership in memberships" :key="membership.id">
+                        <div class="">
+                            <div class="card bg-white price-box">
+                                <div class="pricing-name text-center">
+                                    <h4 class="mb-0 font-weight-bold">{{ membership.label }}</h4>
+                                </div>
+                                <div class="plan-price text-center mt-2">
+                                    <h3 class="text-custom font-weight-normal mb-0">${{ membership.price }}<span>/{{ membership.period }}</span></h3>
+                                </div>
+
+                                <div class="text-center mt-2">
+                                    <a href="#" class="btn btn-custom text-white">Adquirir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="d-flex justify-content-center mt-4">
+                        <b-spinner 
+                            type="grow" 
+                            label="Spinning" 
+                        />
                     </div>
                 </div>
             </div>
@@ -227,7 +276,7 @@ export default {
     .navbar-custom .navbar-nav li a:active,
     .navbar-custom .navbar-nav li.active a,
     .service-box .services-icon,
-    .price-features p i,
+    .price-features i,
     .faq-icon,
     .social .social-icon:hover {
         color: #f6576e !important;
@@ -248,7 +297,7 @@ export default {
     }
 
     .service-box .services-icon,
-    .price-features p i {
+    .price-features i {
         background-color: rgba(246, 87, 110, 0.1);
     }
 
@@ -267,15 +316,15 @@ export default {
 
 
     .price-box {
-        padding: 40px 50px;
+        padding: 20px 30px;
     }
 
-    .plan-price h1 span {
+    .plan-price span {
         font-size: 16px;
         color: #000;
     }
 
-    .price-features p i {
+    .price-features i {
         height: 20px;
         width: 20px;
         display: inline-block;

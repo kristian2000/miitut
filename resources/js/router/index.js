@@ -30,14 +30,30 @@ import CompleteProfileWork from '../components/pages/auth/CompleteProfileWork'
 import INDEX from '../components/pages/Home/index.vue'
 
 // Admin
-import AdminUsers from '../components/pages/Admin/Users.vue'
+import AdminUsers from '../components/pages/Admin/Users'
+import AdminVerify from '../components/pages/Admin/Verify'
+import AdminReports from '../components/pages/Admin/Reports'
+import AdminPayments from '../components/pages/Admin/Payments'
 
 const routes = [
     // Admin
     {
-        path: '/admin/users',
+        path: '/admin-users',
         component: AdminUsers
     },
+    {
+        path: '/admin-verify',
+        component: AdminVerify
+    },
+    {
+        path: '/admin-reports',
+        component: AdminReports
+    },
+    {
+        path: '/admin-payments',
+        component: AdminPayments
+    },
+
     {
         path: '/',
         component: INDEX

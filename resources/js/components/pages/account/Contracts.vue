@@ -84,7 +84,7 @@ export default {
 
 <template>
     <LayoutAccount :active="'Contratos'">
-        <div class="col-lg-8 col-12">
+        <div class="col-12 col-md-8">
             <div v-if="!contracts.length">
                 <div class="text-center text-muted">
                     Sin Contratos
@@ -95,11 +95,98 @@ export default {
                 <div class="row" v-for="contract in contracts" :key="contract.id">
 
                     <div class="col-12 border shadow caja" @click="showContract(contract)">
-                        <h2 class="font-weight-bold">Contrato ({{ contract.status.label }})</h2>
-                        <h3 class="font-weight-bold">{{ contract.category_user.title }}</h3>
-                        <p class="text-muted">Mensaje: {{ contract.message }}</p>
-                        <p class="text-muted">Creado:  {{ new Date(contract.created_at).toISOString().slice(0, 10) }}</p>
-                        <button id="btn-modify-2" class="text-white">ver más</button>
+
+                        <div class="border p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <img 
+                                            :src="'/assets/icon_services/' + contract.category_user.category.name + '.svg'"  
+                                            alt="" 
+                                            width="80px"
+                                            style="cursor:pointer; width: 80px; height: 80px; border-radius: 50%"
+                                        >
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2 class="font-weight-bold">
+                                        Contrato ({{ contract.status.label }})
+                                    </h2>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex justify-content-around align-items-center">
+                                    <div class="">
+                                        <div class="text-muted">
+                                            <span class="font-weight-bold"> Tipo Contrato: </span>
+                                            {{ contract.type_contract === "occasional" ? 'Ocacional' : 'Habitual' }}
+                                        </div>
+                                        <div class="text-muted">
+                                            <span class="font-weight-bold"> Categoria: </span>
+                                            {{ contract.category_user.category.label }}
+                                        </div>
+                                        <div class="text-muted">
+                                            <span class="font-weight-bold"> Creado: </span>
+                                            {{ new Date(contract.created_at).toISOString().slice(0, 10) }}
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div>
+                                            <span class="text-muted font-weight-bold border-bottom">
+                                               Usuario {{ 
+                                                   $store.state.user.userType === 'help' ?
+                                                        'Contratado'
+                                                        :
+                                                        "Empleador"
+                                                }}:
+                                            </span>
+                                        </div>
+                                        <div class="d-flex align-items-center ">
+                                            <div>
+                                                <img 
+                                                    :src="$store.state.user.userType === 'help' ?
+                                                        contract.category_user.user.avatar
+                                                        :
+                                                        contract.user.avatar
+                                                    "  
+                                                    alt="" 
+                                                    width="80px"
+                                                    style="cursor:pointer; width: 80px; height: 80px; border-radius: 50%"
+                                                >
+                                            </div>
+                                            <div class="">
+                                                <div class="text-muted">
+                                                    {{ $store.state.user.userType === 'help' ?
+                                                            contract.category_user.user.name
+                                                            :
+                                                            contract.user.name
+                                                    }}
+                                                </div>
+                                                <!-- <div class="text-center ">
+                                                    <span style="font-size: 11px;">
+                                                        {{ calculateAge($store.state.user.userType === 'help' ?
+                                                            contract.category_user.user.birthdate
+                                                            :
+                                                            contract.user.birthdate) 
+                                                        }} años
+                                                    </span>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button id="btn-modify-2" class="text-white">ver más</button>
+                        </div>
                     </div>
 
                 </div>

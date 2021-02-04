@@ -84,8 +84,8 @@ class UserController extends Controller
                 $dni = DocumentId::create([
                     'user_id' => $user->id,
                     'status_id' => Status::where('name', 'pending')->first()->id,
-                    'img_front' => $picNameDocFront,
-                    'img_back' => $picNameDocBack
+                    'img_front' => '/DNIS/'.$user->id.'/'.$picNameDocFront,
+                    'img_back' => '/DNIS/'.$user->id.'/'.$picNameDocBack
                     ]);
 
                 $dni->save();

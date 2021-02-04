@@ -6,7 +6,8 @@ import {
 export default {
     props: [
         'user',
-        'title'
+        'title',
+        'forceUpdate'
     ],
     data(){
         return {
@@ -26,7 +27,8 @@ export default {
             loading: {
                 localizar: false
             },
-            address: ''
+            address: '',
+            loadingAvatar: false
         }
     },
     created(){
@@ -60,8 +62,24 @@ export default {
         selectImage(){
             this.$refs.fileInput.click()
         },
-        onFileChange(){
+        async onFileChange(e){
+            const image = e.target.files[0]
+            if (image){
+                this.form.avatar = null;
+                this.loadingAvatar = true;
+                
+                const formData = new FormData();
+                formData.append('avatar', image);
 
+                const res = await this.callApi('post', 'app/users/updateAvatar', formData);
+
+                if (res.status === 200){
+                    console.log(res);
+    
+                    this.form.avatar = res.data.url;
+                    this.loadingAvatar = false;
+                }
+            }            
         },
         async validate(){
             let errors = {};
@@ -143,19 +161,21 @@ export default {
             <!-- Start Selecionar Foto -->
             <div class="col-12 mt-2">
                 <div id='preview' class="d-flex justify-content-center">
-                    <img
-                        v-if="form.avatar"
-                        :src="form.avatar"
-                        width="100"
-                        height="100"
-                        style="cursor:pointer;"
-                        @click="selectImage()"
-                    />
-                    <div v-else class="d-flex justify-content-center">
-                        <p class="text-muted mt-2" style="width:250px; font-size: 12px;">
-                            Los perfiles sin fotografia inspiran confianza a los otros usuarios
-                        </p>
-                        <b-button class='m-2' pill variant="info" @click="selectImage()">Subir Foto</b-button>
+                    <div>
+                        <div v-if="loadingAvatar">
+                            <b-spinner type="grow" label="Spinning" />
+                        </div>
+                        <div v-else>
+                                <!-- v-if="!loadingAvatar" -->
+                            <img
+                                v-if="form.avatar"
+                                :src="form.avatar"
+                                width="100"
+                                height="100"
+                                style="cursor:pointer;"
+                                @click="selectImage()"
+                            />
+                        </div>
                     </div>
                     <input ref="fileInput" id="input" type="file" @change="onFileChange" style='display:none;'>
                 </div>

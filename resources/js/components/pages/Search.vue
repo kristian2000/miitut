@@ -514,6 +514,26 @@ export default {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="" style="position:relative">
+                                                                <div style="position:absolute;bottom:0">
+                                                                    <div class="" v-if="Number(categoryUser.user.membership_id)">
+                                                                        <div class="">
+                                                                            <div style= "color: green; border-radius: 5px;">
+                                                                                <span 
+                                                                                    class="d-flex flex-column justify-content-center align-items-center" 
+                                                                                    style="font-size: 10px"
+                                                                                >
+                                                                                    <AwardIcon width="20" />
+                                                                                    <span class="text-center">
+                                                                                        Perfil <br> Recomendado
+                                                                                    </span>
+                                                                                </span>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
                                                     </div>

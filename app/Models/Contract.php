@@ -38,6 +38,7 @@ class Contract extends Model
     }
 
     public function categoryUser(){
-        return $this->belongsTo(CategoryUser::class, 'category_user_id');
+        return $this->belongsTo(CategoryUser::class, 'category_user_id')
+            ->with('user', 'category');
     }
 }

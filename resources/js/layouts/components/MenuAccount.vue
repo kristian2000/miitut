@@ -7,6 +7,30 @@ export default {
         return {
             options: [
                 {
+                    title: 'Usuarios',
+                    iconClass: 'uil uil-user',
+                    path: '/admin-users',
+                    viewOnly: ['admin']
+                },
+                {
+                    title: 'Verificaciones',
+                    iconClass: 'uil uil-dashboard',
+                    path: '/admin-verify',
+                    viewOnly: ['admin']
+                },
+                {
+                    title: 'Reportes',
+                    iconClass: 'uil uil-dashboard',
+                    path: '/admin-reports',
+                    viewOnly: ['admin']
+                },
+                {
+                    title: 'Pagos',
+                    iconClass: 'uil uil-dashboard',
+                    path: '/admin-payments',
+                    viewOnly: ['admin']
+                },
+                {
                     title: 'Perfil',
                     iconClass: 'uil uil-dashboard',
                     path: '/account-profile',
@@ -42,12 +66,12 @@ export default {
                     path: '/account-messages',
                     viewOnly: ['help', 'work']
                 },
-                {
-                    title: 'Empleados',
-                    iconClass: 'uil uil-setting',
-                    path: '/account-employees',
-                    viewOnly: ['help']
-                }
+                // {
+                //     title: 'Empleados',
+                //     iconClass: 'uil uil-setting',
+                //     path: '/account-employees',
+                //     viewOnly: ['help']
+                // }
             ]
         }
     },

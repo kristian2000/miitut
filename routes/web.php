@@ -6,6 +6,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\AdminController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +58,15 @@ Route::get('app/contracts/rejectContract/{contract}', [ContractController::class
 Route::get('app/contracts/acceptContract/{contract}', [ContractController::class, 'acceptContract']);
 Route::post('app/contracts/cancelContract/{contract}', [ContractController::class, 'cancelContract']);
 
-// Route::post('app/categoriesUser', [])
+// Membresia
+Route::get('app/memberships', [MembershipController::class, 'index']);
+
+// Admin
+Route::get('app/admin/users', [AdminController::class, 'getUsers']);
+Route::put('app/admin/users', [AdminController::class, 'updateUser']);
+Route::get('app/admin/docs', [AdminController::class, 'getDocs']);
+Route::post('app/admin/docs/{doc}/reject', [AdminController::class, 'rejectDoc']);
+Route::post('app/admin/docs/{doc}/accept', [AdminController::class, 'acceptDoc']);
 
 Route::get('/', [AuthController::class, 'index']);
 

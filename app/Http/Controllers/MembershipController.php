@@ -7,7 +7,7 @@ use App\Models\Membership;
 
 class MembershipController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $memberships = Membership::all();
 

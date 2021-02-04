@@ -41,7 +41,10 @@ export default {
             docBack: null,
             urlFront: null,
             urlBack: null,
-            docStatus: { loading: false, doc: null}
+            docStatus: { loading: false, doc: null, isExists: false},
+            loading: {
+                avatar: false
+            }
         }
     },
     created(){
@@ -69,7 +72,7 @@ export default {
         },
         async showModalVerifDNI(){
             // llamar a la api, verificar si existe un document
-            this.docStatus = { loading: true, doc: null }
+            this.docStatus.loading = true;
 
             this.$bvModal.show('modalVerifDNI')
 
@@ -107,17 +110,15 @@ export default {
                     console.log(this.docStatus)
 
                 }else{
-                    this.docStatus = {
-                        loading: false,
-                        doc: {
-                            isExists: false
-                        }
-                    }
+                    this.docStatus.loading = false;
+                    this.docStatus.doc = false;
+                    this.docStatus.isExists = false;
                 }
             }
             console.log(response)
         },
         async sendDocumentDNI(){
+            this.docStatus.loading = true;
             // llamar a la api subir DNI
 
             let formdata = new FormData();
@@ -125,8 +126,14 @@ export default {
             formdata.append('docBack', this.docBack)
 
             const response = await this.callApi('post', `app/users/uploadDNI`, formdata);
+
+            if (response.status === 200){
+                this.$bvModal.hide('modalVerifDNI')
+                this.makeNotice('success', 'Envio Exitoso', 'Su documento ha sido enviado')
+            }
+            this.docStatus.loading = false;
             console.log(response)
-            this.$bvModal.hide('modalVerifDNI')
+            
         },
         async previewDoc(e, type){
             // console.log(e, type)
@@ -136,7 +143,8 @@ export default {
             }else{
                 this.urlBack = URL.createObjectURL(image);
             }
-        },
+        }, 
+
     }
 }
 </script>
@@ -268,7 +276,7 @@ export default {
                     ...cargando
                 </div>
                 <div v-else>
-                    <div v-if="!docStatus.doc">
+                    <div v-if="docStatus.isExists === false">
                         <div class="container" >
                             <div>
                                 <p class="text-muted" style="font-size: 15px">

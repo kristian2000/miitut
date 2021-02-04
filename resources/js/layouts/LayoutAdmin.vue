@@ -1,23 +1,170 @@
-<template>
-    <div>
-        <Navbar />
-
-        <main>
-            <slot />
-        </main>
-
-        <!-- <Footer /> -->
-    </div>
-</template>
-
 <script>
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+import {
+    ArrowUpIcon,
+    FacebookIcon,
+    InstagramIcon,
+    TwitterIcon,
+    LinkedinIcon,
+    GithubIcon,
+    YoutubeIcon,
+    GitlabIcon,
+    MailIcon,
+    UserPlusIcon,
+    UsersIcon,
+    MessageCircleIcon,
+    BellIcon,
+    ToolIcon,
+    PhoneIcon,
+    BookmarkIcon,
+    ItalicIcon,
+    GlobeIcon,
+    GiftIcon,
+    MapPinIcon
+} from 'vue-feather-icons';
 
+import MenuAccount from './components/MenuAccount'
+
+/**
+ * Account-profile component
+ */
 export default {
+    props: [
+        'active'
+    ],
+    data() {
+        return {
+            user: this.$store.state.user,
+            loading: {
+                avatar: false
+            }
+        }
+    },
     components: {
-        Navbar,
-        Footer
+        MenuAccount,
+
+        ArrowUpIcon,
+        FacebookIcon,
+        InstagramIcon,
+        TwitterIcon,
+        LinkedinIcon,
+        GithubIcon,
+        YoutubeIcon,
+        GitlabIcon,
+        MailIcon,
+        UserPlusIcon,
+        UsersIcon,
+        MessageCircleIcon,
+        BellIcon,
+        ToolIcon,
+        PhoneIcon,
+        BookmarkIcon,
+        ItalicIcon,
+        GlobeIcon,
+        GiftIcon,
+        MapPinIcon
+    },
+    computed: {
+        avatar(){
+          return this.user.avatar ? this.user.avatar : '/images/avatarDefault.jpg';
+        }
+    },
+    methods: {
+
     }
 }
 </script>
+
+
+<template>
+<div>
+    <!-- <Navbar :nav-light="true" /> -->
+
+    <!-- Hero Start -->
+    <section class="bg-admin vh-max w-100" style="background: url('images/account/bg.png') center center;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <h2 class="title-admin font-weight-bold my-3">
+                            Acceso Admin
+                        </h2>
+                    </div>
+                    <div class="card public-profile border-0 rounded shadow" style="z-index: 1;">
+                        <div class="card-body" >
+                            <div class="row" >
+
+                                <!-- Profile Start -->
+                                <section class="col-12" style="height: 60vh">
+                                    <div class="mt-lg-3">
+                                        <div class="row">
+                                            <MenuAccount :active="this.active"/>
+
+                                            <!-- Content -->
+                                            <slot />
+                                        </div>
+                                        <!--end row-->
+                                    </div>
+                                    <!--end container-->
+                                </section>
+                                <!-- Profile end -->
+
+
+                                
+                            </div>
+                            <!--end row-->
+                        </div>
+                    </div>
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--ed container-->
+    </section>
+    <!--end section-->
+    <!-- Hero End -->
+
+</div>
+</template>
+
+<style>
+
+    .vh-max {
+        height: 100vh;
+    }
+
+    .bg-admin {
+        height: 100%;
+        /* margin-top: 30px; */
+    }
+
+    .title-admin {
+        /* color: #ff4b64; */
+        color: white;
+    }
+
+    .public-profile {
+        padding: 30px;
+    }
+
+    .avatar {
+        border: solid 1px #eeeeee;
+        padding: 10px;
+        background-clip: content-box; /* support: IE9+ */
+        background-color: #ccc;
+    }
+
+    .accounts:hover, .accounts.active {
+        background: rgb(244,124,59);
+        background: linear-gradient(170deg, rgba(244,124,59,1) 0%, rgba(241,89,56,1) 51%);
+    }
+
+    #title {
+        color: #f1905a;
+    }
+
+    .bg-primary, .btn-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-soft-primary:hover, .btn-soft-primary:focus, .btn-soft-primary:active, .btn-soft-primary.active, .btn-soft-primary.focus, .badge-primary, .pagination .page-item.active .page-link, .nav-pills .nav-link.active, .custom-control-input:checked ~ .custom-control-label::before, #preloader #status .spinner .double-bounce1, #preloader #status .spinner .double-bounce2, .social-icon li a:hover, #topnav .navbar-toggle.open span:hover, .gradient, .flex-control-paging li a.flex-active, .owl-theme .owl-dots .owl-dot span, .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots.clickable .owl-dot:hover span, .watch-video a .play-icon-circle, .sidebar .widget .tagcloud > a:hover, .flatpickr-day.selected, .flatpickr-day.selected:hover, .bg-animation-left.crypto-home::after, .bg-animation-left.task-management-home::after, .classic-app-image .bg-app-shape::after, .classic-saas-image .bg-saas-shape::after, .work-container.work-modern .icons .work-icon:hover, .features.fea-primary:hover, .accounts:hover, .accounts.active, .timeline-page .timeline-item .date-label-left::after, .timeline-page .timeline-item .duration-right::after, .swiper-slider-hero .swiper-container .swiper-button-prev:hover, .swiper-slider-hero .swiper-container .swiper-button-next:hover {
+            background-color: rgb(244,124,59) !important;
+    }
+
+</style>
