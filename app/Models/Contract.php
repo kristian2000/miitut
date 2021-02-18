@@ -27,6 +27,9 @@ class Contract extends Model
         'message',
         'type_contract',
         'daysSelected',
+        'qualification_hired_id',
+        'qualification_employer_id',
+        'price'
     ];
 
     public function status(){
@@ -37,8 +40,13 @@ class Contract extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function userHired(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function categoryUser(){
         return $this->belongsTo(CategoryUser::class, 'category_user_id')
             ->with('user', 'category');
     }
+
 }

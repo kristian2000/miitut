@@ -25,7 +25,6 @@ export default {
         Footer,
         HelpCircleIcon
     },
-    methods: {},
     created(){
         const user = this.$store.state.user;
         if (user){
@@ -44,9 +43,8 @@ export default {
                     }
                 }
             }
-
         }
-    }
+    },
 };
 </script>
 

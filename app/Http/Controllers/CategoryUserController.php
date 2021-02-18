@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\CategoryUser;
+use App\Models\Qualification;
 use App\Models\Status;
 use App\Models\TimesAvailable;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ class CategoryUserController extends Controller
         $category->user;
         $category->category;
         $category->timesAvailable;
+        $category->comments;
 
         return response()->json($category);
     }
@@ -188,6 +190,17 @@ class CategoryUserController extends Controller
             'lat' => $lat,
             'lng' => $lng,
             'radius' => $radius
+        ]);
+    }
+
+    public function getCategoryUserQualifications(CategoryUser $categoryUser){
+        $qualifications =  $categoryUser
+            ->qualifications()
+            ->where('type', '==', 'help')
+            ->get();
+
+        return response()->json([
+            'qualifications' => $qualifications
         ]);
     }
 }

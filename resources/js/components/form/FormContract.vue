@@ -1,6 +1,12 @@
 <script>
+import {
+    StarIcon,
+} from 'vue-feather-icons';
+
 import BtnDesp from '../btnDespliegue';
 import CardStripe from '../CardStripe';
+
+import moment from 'moment';
 
 export default {
     props: [
@@ -11,14 +17,21 @@ export default {
         'typeForm',
         'rejectCall',
         'acceptCall',
-        'onClose'
+        'finalizeCall',
+        'qualityCall',
+        'onClose',
+        'payContractOccasional',
+        'payContractHabitual',
+        'renovarCall'
     ],
     components: {
         BtnDesp,
-        CardStripe
+        CardStripe,
+        StarIcon
     },
     data(){
         return {
+            //contract
             dateInitial: {
                 date: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
                 valid: true
@@ -33,46 +46,25 @@ export default {
             address: '',
             typeContract: 'habitual',
             startTime: '',
-            daysSelected: [
-                { key: 'LUN', value: false},
-                { key: 'MAR', value: false},
-                { key: 'MIE', value: false},
-                { key: 'JUE', value: false},
-                { key: 'VIE', value: false},
-                { key: 'SAB', value: false},
-                { key: 'DOM', value: false},
+            days: [
+                { key: 'LUN', value: 1},
+                { key: 'MAR', value: 2},
+                { key: 'MIE', value: 3},
+                { key: 'JUE', value: 4},
+                { key: 'VIE', value: 5},
+                { key: 'SAB', value: 6},
+                { key: 'DOM', value: 7},
             ],
+            daysSelected: [],
             disabled: true,
-            infoShow: true
+            infoShow: true,
+            scoreStar: 1,
+            comment: '',
+            loadingPayment: false
         }
     },
     created(){
-        // Si el usuario es empleador se crea el contrato
-        // Si no solo puede observarlo
-        if (this.contract){
-            this.dateInitial = {
-                date: this.contract.date_start,
-                valid: true
-            }
-            this.dateEnd = {
-                date: this.contract.date_end,
-                valid: true
-            }
-            this.hours = this.contract.hours
-            this.message = this.contract.message
-            this.address = this.contract.address
-            this.typeContract = this.contract.type_contract
-            this.startTime = this.contract.start_time
-            this.daysSelected = this.contract.daysSelected
-
-            if (this.contract.status.name === "pendingPayment"){
-                this.infoShow = false;
-            }
-        }
-
-        if (this.typeForm === 'create'){
-            this.disabled = false;
-        }
+        this.refreshContract();
     },
     computed: {
         totalPrice(){
@@ -80,18 +72,51 @@ export default {
         }
     },
     methods: {
+        refreshContract(){
+            // Si el usuario es empleador se crea el contrato
+            // Si no solo puede observarlo
+            if (this.contract){
+                this.dateInitial = {
+                    date: this.contract.date_start,
+                    valid: true
+                }
+                this.dateEnd = {
+                    date: this.contract.date_end,
+                    valid: true
+                }
+                this.hours = this.contract.hours
+                this.message = this.contract.message
+                this.address = this.contract.address
+                this.typeContract = this.contract.type_contract
+                this.startTime = this.contract.start_time
+                this.daysSelected = this.contract.daysSelected
+
+                if (this.contract.status.name === "pending"){
+                    this.infoShow = true;
+                }else {
+                    this.infoShow = false;
+                }
+            }
+
+            if (this.typeForm === 'create'){
+                this.disabled = false;
+            }
+        },
         changeHandleDay(day){
             if (this.disabled){
                 return ;
             }
 
-            this.daysSelected = this.daysSelected
-            .map( d =>
-                d.key !== day.key ? d
+            this.daysSelected.includes(day.value) ? 
+                this.daysSelected = this.daysSelected
+                    .filter( d => d != day.value)
                 :
-                { key: day.key, value: !day.value }
-            )
+                this.daysSelected = [
+                    ...this.daysSelected,
+                    day.value
+                ].sort()
         },
+
         onContextStart(ctx) {
             // The date formatted in the locale, or the `label-no-date-selected` string
             this.dateInitial.valid = ctx.selectedFormatted !== 'No date selected'
@@ -122,7 +147,7 @@ export default {
                     dateEnd: this.dateEnd,
                     hours: this.hours,
                     message: this.message,
-                     daysSelected: this.daysSelected.filter( d => d.value === true).length
+                    daysSelected: this.daysSelected.filter( d => d.value === true).length
                 }
             }
 
@@ -160,7 +185,7 @@ export default {
                         }
                     };break;
                     case 'daysSelected': {
-                        if (!value){
+                        if (value.length){
                             errors[field] = [ 'Debe de tener seleccionado algun dia' ];
                             errorsExist = true;
                         }
@@ -203,8 +228,33 @@ export default {
 
             this.onSubmit(form);
         },
-        async processPayment(tokenStripe){
-            console.log(tokenStripe)
+        changeHandleScore(newScore){
+            this.scoreStar = newScore;
+        },
+        proccessPay(result){
+            this.contract.typeContract === 'habitual' ?
+            this.payContractHabitual(result)
+            :
+            this.payContractOccasional(result)
+        },
+        dateFormatRenovar(date){
+            console.log({date, f: new Date(date)})
+            return moment(new Date(date))
+                .add(1, 'month')
+                .format('YYYY-MM-DD')
+                .toString();
+
+        },
+        dateFormat(date){
+            return moment(new Date(date))
+                .format('YYYY-MM-DD')
+                .toString();
+        },
+        dateIsMenor(dateA, dateB){
+            let d1 = new Date(dateA).getTime();
+            let d2 = new Date(dateB).getTime();
+
+            return d1 < d2;
         }
     }
 }
@@ -224,7 +274,6 @@ export default {
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="row" v-if="infoShow">
@@ -240,7 +289,7 @@ export default {
                             :disabled="this.disabled"
                             :options="[
                             { text: 'Habitual', value: 'habitual' },
-                            { text: 'Ocacional', value: 'occasional' },
+                            { text: 'Ocasional', value: 'occasional' },
                         ]"></b-form-select>
                     </div>
                 </div>
@@ -365,10 +414,11 @@ export default {
                 <div class="text-muted my-3">
                     <label for="">Días Seleccionados:</label>
                     <div class="d-flex justify-content-center">
-                        <div v-for="day in daysSelected" :key="day.key">
+                        <div v-for="day in days" :key="day.key">
                             <div class="p-1" style="width:70px">
                                 <div
-                                    :class="day.value ? 'day-btn-active' : 'day-btn'"
+                                    :class="daysSelected.includes(day.value) ? 
+                                        'day-btn-active' : 'day-btn'"
                                     @click="changeHandleDay(day)"
                                 >
                                     {{ day.key }}
@@ -425,11 +475,22 @@ export default {
             </div>
             <!-- End Direccion -->
 
+            <div class="col-12 border-bottom mb-1">
+                <div class="text-muted">
+                    <label>Informacion Pago: </label>
+                    <span class="text-center">
+                        {{ typeContract === 'occasional' ? 'este contrato es de un unico pago' :
+                            'este Contrato es de pago por un mes, y se puede renovar'
+                        }}
+                    </span>
+                </div>
+            </div>
+
             <!-- TypeForm Create -->
             <div class="col-12" v-if="this.typeForm === 'create'">
 
                 <!-- Start Total -->
-                <div class="col-12 my-2">
+                <!-- <div class="col-12 my-2">
                     <hr>
                     <div class="">
                         <label class="border-bottom font-weight-bold">Calculo del Contrato :</label>
@@ -443,7 +504,7 @@ export default {
                         </div>
                     </div>
                     <hr>
-                </div>
+                </div> -->
                 <!-- End Total -->
                 <!-- Btn Action create -->
                 <div class="col-12" >
@@ -485,9 +546,19 @@ export default {
                     </div>
 
                     <div v-else class="d-flex justify-content-center">
-                        <b-button pill variant="outline-secondary" @click="validate">
+                        <div class="d-flex justify-content-center flex-column">
+                            <div class="text-center">
+                                <h3> Información </h3>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <p class="text-muted" style="width: 80%;">
+                                    El Contrato esta pendiente, de ser aceptado o rechazado por el usuario de la categoria
+                                </p>
+                            </div>
+                        </div>
+                        <!-- <b-button pill variant="outline-secondary" @click="validate">
                             Cancelar
-                        </b-button>
+                        </b-button> -->
                     </div>
                 </div>
 
@@ -516,15 +587,20 @@ export default {
                         v-if="$store.state.user.userType === 'help'"
                     >
                         <div class="d-flex justify-content-center flex-column ">
-                            <div class="text-center">
-                                <div class="">
+                            <div class="d-flex justify-content-center flex-column">
+                                <div class="text-center">
+                                    <h3> Información </h3>
+                                </div>
+                                <div class="d-flex justify-content-center">
                                     <p class="text-muted">
                                         Al realizar el pago, se continuara con el proceso
                                     </p>
                                 </div>
+                            </div>
+                            <div class="text-center">
                                 <div>
                                     <CardStripe
-                                        :stripeTokenHandler="processPayment"
+                                        :stripeTokenHandler="proccessPay"
                                     />
                                 </div>
                             </div>
@@ -542,10 +618,132 @@ export default {
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-
+            <!-- Si esta en proceso [ empleado -> finalizar, empleador -> finalizar ] -->
+                <div class="col-12" v-if="contract.status.name === 'process'">
+                    <div>
+                        <div class="d-flex justify-content-center flex-column">
+                            <div class="text-center">
+                                <h3> Información </h3>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <p class="text-muted" style="width: 80%;">
+                                    El Contrato esta en proceso, cuando se culmine los acuerdos dale click en finalizar y da tu opinión  
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-center border mb-2">
+                            <div>
+                                <p class="text-muted">
+                                    Este contrato se puede renovar {{ dateFormatRenovar(contract.date_start) }}
+                                </p>
+                            </div>
+                            <div 
+                                v-if="contract.type_contract === 'habitual'" 
+                                class="mb-2"
+                            >
+                                <b-button 
+                                    pill 
+                                    variant="outline-secondary" 
+                                    @click="renovarCall"
+                                    size="sm"
+                                    :disabled="dateIsMenor(contract.date_start, dateFormatRenovar(contract.date_start) )"
+                                >             
+                                    Renovar
+                                </b-button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div>
+                                <b-button 
+                                    pill 
+                                    variant="outline-secondary" 
+                                    @click="finalizeCall"
+                                >
+                                    Finalizar
+                                </b-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- Si esta en finalizar [ empleado -> calificar, empleador -> calificar ] -->
+                <div 
+                    class="col-12" 
+                    v-if="contract.status.name === 'finalized' 
+                    && ($store.state.user.userType === 'work' ? 
+                        !contract.qualification_hired_id
+                        :
+                        !contract.qualification_employer_id)"
+                >
+                    <div>
+                        <div class="d-flex justify-content-center flex-column">
+                            <div class="">
+                                <div class="text-center">
+                                    <h3 style="font-size: 18px"> 
+                                        Contrato Finalizado, Califica 
+                                    </h3> 
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="m-1">
+                                    <img 
+                                        :src="$store.state.user.userType === 'help' ?
+                                            contract.category_user.user.avatar
+                                            :
+                                            contract.user.avatar
+                                        "  
+                                        alt="" 
+                                        style="cursor:pointer; width: 60px; height: 60px; border-radius: 50%"
+                                    >
+                                </div>
+                                <div class="">
+                                    <div class="text-muted">
+                                        {{ $store.state.user.userType === 'help' ?
+                                                contract.category_user.user.name
+                                                :
+                                                contract.user.name
+                                        }}
+                                    </div>
+                                    <div class="">
+                                        <div>
+                                            <span
+                                                class="m-1"
+                                                v-for="(star, index) in [1, 2, 3, 4, 5]" :key="index"
+                                                @click="changeHandleScore(star)"
+                                            >
+                                                <b-icon
+                                                    :icon="(star) <= Number(scoreStar) ? 'star-fill' : 'star'"
+                                                    variant="warning"
+                                                    style="width: 20px; cursor: pointer"
+                                                />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div >
+                                    <b-form-input 
+                                        v-model="comment" 
+                                        placeholder="Escribe un comentario" 
+                                    />
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <b-button 
+                                    pill 
+                                    variant="outline-secondary" 
+                                    @click="qualityCall(scoreStar, comment)"
+                                >
+                                    Calificar
+                                </b-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
 
     </div>

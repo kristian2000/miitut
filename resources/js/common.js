@@ -101,6 +101,15 @@ export default {
             }
 
             return yearOld;
+        },
+
+        async getNotifications(){
+            const response = await this.callApi('get', `app/users/notifications`);
+
+            if(response.status === 200){
+                // console.log('notifications', response.data.notifications)
+                this.$store.commit('setUpdateNotifications', response.data.notifications)
+            }
         }
 
     }

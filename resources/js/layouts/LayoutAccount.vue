@@ -66,6 +66,9 @@ export default {
     computed: {
         avatar(){
           return this.user.avatar ? this.user.avatar : '/images/avatarDefault.jpg';
+        },
+        notifications(){
+            return this.$store.state.notifications;
         }
     },
     methods: {
@@ -154,6 +157,7 @@ export default {
 
                 <!-- Content -->
                 <slot />
+
             </div>
             <!--end row-->
         </div>

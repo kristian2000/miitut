@@ -1,26 +1,8 @@
 <script>
 import {
-    ArrowUpIcon,
-    FacebookIcon,
-    InstagramIcon,
-    TwitterIcon,
-    LinkedinIcon,
-    GithubIcon,
-    YoutubeIcon,
-    GitlabIcon,
-    MailIcon,
-    UserPlusIcon,
-    UsersIcon,
-    MessageCircleIcon,
-    BellIcon,
-    ToolIcon,
-    PhoneIcon,
-    BookmarkIcon,
-    ItalicIcon,
-    GlobeIcon,
-    GiftIcon,
-    MapPinIcon
+    SendIcon
 } from 'vue-feather-icons';
+import Vue from 'vue';
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
 
@@ -29,10 +11,97 @@ import LayoutAccount from '../../../layouts/LayoutAccount'
  */
 export default {
     data() {
-        return {}
+        return {
+            loading: false,
+            loadingMessages: false,
+            loadingSendMessage: false,
+            conversations: [],
+            currentConversation: null,
+            messagesConversation: [],
+            textMessage: ''
+        }
     },
     components: {
-        LayoutAccount
+        LayoutAccount,
+        SendIcon
+    },
+    created(){
+        setInterval(()=>{ 
+            this.getConversations();
+        }, 50000)
+    },
+    computed: {
+        userType(){
+            return this.$store.state.user.userType;
+        }
+    },
+    methods: {
+        async getConversations(){
+            this.loading = true;
+            const response = await this.callApi('get', `app/chats/getConversations`);
+            if (response.status === 200){
+                this.conversations = response.data.conversations;
+                this.loading = false;
+            }
+            console.log(response.data.conversations);
+        },
+        async openConversation(currentConversation){
+            this.currentConversation = currentConversation;
+            // console.log('open Conversation', currentConversation);
+            this.$bvModal.show('modalConversation')
+
+            this.getMessages();
+        },
+        async getMessages(){
+            this.loadingMessages = true;
+            const response = await this.callApi('get', `app/chats/messagesConversation/${this.currentConversation.id}`);
+
+            if (response.status === 200){
+                this.loadingMessages = false;
+                this.messagesConversation = response.data.messages;
+
+            // Mover el scroll al ultimo mensaje
+                this.scrollBoxMessagesTopEnd();
+                console.log('messagesConversation', response.data.messages);
+            }
+        },
+        async sendMessage(){
+            if (!this.textMessage.trim().length){
+                return ''
+            }
+
+            this.loadingSendMessage = true;
+            console.log('sendMessage');
+
+            let form = {
+                to: this.currentConversation.from_id === this.$store.state.user ? 
+                    this.currentConversation.to_id :
+                    this.currentConversation.from_id,
+                message: this.textMessage
+            }
+            console.log('sendMessage', form)
+
+            const response = await this.callApi('post', '/app/chats/sendMessage', form);
+            console.log('responseAxios', response)
+            if (response.status === 200){
+                this.textMessage = '';
+                this.loadingSendMessage = false;
+
+                // Actualizar los datos del chat
+                this.messagesConversation = response.data.messages
+                this.conversations = this.conversations
+                    .map( c => c.id !== this.currentConversation.id ?
+                        c : response.data.conversation
+                    )
+                this.scrollBoxMessagesTopEnd();
+            }
+        },
+        scrollBoxMessagesTopEnd(){
+            Vue.nextTick()
+                .then(()=>{
+                    this.$refs.boxMessages.scrollTop = this.$refs.boxMessages.scrollHeight;
+                })
+        }
     }
 }
 </script>
@@ -41,61 +110,204 @@ export default {
     <LayoutAccount :active="'Mensajes'">
         <div class="col-lg-8 col-12">
 
-            <div class="border-bottom pb-4">
-                <div class="row">
+            <div class=" pb-4">
+                <div class="border-bottom">
+                    <h3 class="font-weight-bold col-sm-12">Conversaciones:</h3>
+                </div>
+                <!-- <label class="container">
+                    <input type="checkbox">
+                    <span class="font-weight-bold">Seleccionar Todos</span>
+                </label> -->
+                <div v-if="!loading">
+                    <div v-if="conversations.length">
+                        <div class="row" v-for="conversation in conversations" :key="conversation.id">
 
-                    <h3 class="font-weight-bold col-sm-12">Mensajes:</h3>
-                    <label class="container">
-                        <input type="checkbox">
-                        <span class="font-weight-bold">Seleccionar Todos</span>
-                    </label>
-
-
-                    <div class="col-12 container caja">
-                        <div class="row">
-                            <div class="col-lg-2 col-md-3 col-sm-4">
-                                <img src="images/client/05.jpg" class="avatar rounded-circle shadow d-block" width="80px" alt="">
+                            <div class="col-12 container caja" style="cursor:pointer">
+                                <div class="row" @click="openConversation(conversation)">
+                                    <div class="col-lg-2 col-md-3 col-sm-4">
+                                        <img :src="userType === 'work' ? 
+                                                conversation.user_help.avatar 
+                                                : 
+                                                conversation.user_work.avatar" 
+                                            class="rounded-circle shadow d-block" 
+                                            width="80px" 
+                                            height="80px"
+                                            alt=""
+                                        >
+                                    </div>
+                                    <div class="col-lg-10 col-md-9 col-sm-8">
+                                        <h3 class="font-weight-bold">
+                                            {{ userType === 'work' ?
+                                                conversation.user_help.name 
+                                                : 
+                                                conversation.user_work.name  
+                                            }}
+                                        </h3>
+                                        <p class="text-muted">{{ conversation.message }}.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-10 col-md-9 col-sm-8">
-                                <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                            </div>
+                        </div> 
+                    </div>
+                    <div v-else>
+                        <div class="text-center text-muted font-weight-bold m-5">
+                            Sin Conversaciones
                         </div>
                     </div>
-
-                    <div class="col-12 container caja">
-                        <div class="row">
-                            <div class="col-lg-2 col-md-3 col-sm-4">
-                                <img src="images/client/05.jpg" class="avatar rounded-circle shadow d-block" width="80px" alt="">
-                            </div>
-                            <div class="col-lg-10 col-md-9 col-sm-8">
-                                <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                            </div>
+                </div>
+                <div v-else>
+                    <div class="d-flex justify-content-center">
+                        <div>
+                            <b-spinner 
+                                type="grow" 
+                                label="Spinning" 
+                            />
                         </div>
                     </div>
-
-
-                    <div class="col-12 container caja">
-                        <div class="row">
-                            <div class="col-lg-2 col-md-3 col-sm-4">
-                                <img src="images/client/05.jpg" class="avatar rounded-circle shadow d-block" width="80px" alt="">
-                            </div>
-                            <div class="col-lg-10 col-md-9 col-sm-8">
-                                <h3 class="font-weight-bold">Calvin Carlo</h3>
-                                <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
 
+    <!-- Modal Conversation Start -->
+        <div>
+            <b-modal id="modalConversation" hide-footer title="Conversacion">
+                <div>
+                   <div v-if="currentConversation">
+                       <div class="">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="">
+                                    <img :src="userType === 'work' ? 
+                                            currentConversation.user_help.avatar 
+                                            : 
+                                            currentConversation.user_work.avatar"
+                                        class="rounded-circle shadow d-block mr-2" 
+                                        width="50px" 
+                                        height="50px"
+                                        alt=""
+                                    >
+                                </div>
+                                <div class="">
+                                    <div>
+                                        <h3 class="font-weight-bold" style="font-size:18px">
+                                            {{ userType === 'work' ? 
+                                                currentConversation.user_help.name 
+                                                : 
+                                                currentConversation.user_work.name  
+                                            }}
+                                        </h3> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                   <div v-if="!loadingMessages">
+                       <div class="box-messages" style="height:300px" ref="boxMessages">
+                           <div v-for="message in messagesConversation" :key="message.id">
+                               <div :class="`message ${$store.state.user.id === message.user_id ? 
+                                 'my-message' : 'you-message'
+                               }`">
+                                   <!-- <span class=""> -->
+                                       {{ message.message }}
+                                   <!-- </span> -->
+                               </div>
+                               
+                           </div>
+                       </div>
+                       <div class="">
+                           <div class="d-flex align-items-center" style="height: 50px">
+                                <div style="width: 90%;">
+                                    <b-form-input 
+                                        v-model="textMessage" 
+                                        placeholder="Escribe Tu mensaje"
+                                        @keyup.enter="sendMessage"
+                                    />
+                                </div>
+                                <div style="width: 10%;" >
+                                    <div class="m-1">
+                                        <div 
+                                            class="btn-send"
+                                            v-if="!loadingSendMessage"
+                                            @click="sendMessage" 
+                                        >
+                                            <SendIcon size="1.5x"/>
+                                        </div>
+                                        <div v-else>
+                                            <b-spinner 
+                                                type="grow" 
+                                                label="Spinning" 
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                       </div>
+                   </div>
+                    <div v-else>
+                        <div style="height:400px;" 
+                            class="d-flex justify-content-center align-items-center"
+                        >
+                            <div>
+                                <div>
+                                    <b-spinner 
+                                        type="grow" 
+                                        label="Spinning" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </b-modal>
+
+        </div>
+    <!-- Modal Conversation End -->
     </LayoutAccount>
 </template>
 
 <style>
+    .btn-send {
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        cursor: pointer;
+    }
+
+    .box-messages {
+        margin-top: 10px;
+        padding-top: 5px;
+        /* margin-bottom: 15px; */
+        background: rgb(245, 245, 245);
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .message {
+        padding: 10px;
+        margin: 5px;
+        border-radius: 10px;
+        max-width: 75%;
+        height: auto;
+        box-shadow: 1px 1px 1px 2px rgba(228, 228, 228, 0.2), 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    }
+
+    .you-message {
+        background: #FFF;
+        /* border: 0.5px solid #ddd; */
+        float: left;
+
+    }
+
+    .my-message {
+        background: #DCF8C6;
+        float: right;
+    }
 
     h1 {
         color: #ff4b64;
@@ -105,7 +317,7 @@ export default {
         padding: 30px;
     }
 
-    .avatar1 {
+    .avatar {
         border: solid 1px #eeeeee;
         padding: 10px;
         background-clip: content-box; /* support: IE9+ */

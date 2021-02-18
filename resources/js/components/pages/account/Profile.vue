@@ -66,6 +66,13 @@ export default {
         CheckIcon,
         AlertTriangleIcon
     },
+    created(){
+        setInterval(()=>{ 
+            if (this.$store.state.user){
+                this.getNotifications() 
+            }
+        }, 50000)
+    },
     methods: {
         sendEmailConfirmation(){
             this.makeNotice('success', 'Email Enviado!', `Email de verificación de cuenta enviado al correo example@test.com`);

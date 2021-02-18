@@ -1,73 +1,85 @@
 <script>
 export default {
-    props: ['stripeTokenHandler'],
+    props: [
+        'stripeTokenHandler'
+    ],
     data(){
         return {
-
+            stripeAPIToken: 'pk_test_51IEjGjFMHGc5BcHAXf1QcLCGWdsOx7ZFYtYyqRr7q99bWQ0zoNdW3fejDmCGgVDzHTPWCFYBpfeVL62bUYf2xS6q00efHHqCYH',
+            name: '',
+            stripe: '',
+            elements: '',
+            card: ''
         }
     },
     mounted(){
-        // Set your publishable key: remember to change this to your live publishable key in production
-        // See your keys here: https://dashboard.stripe.com/account/apikeys
-        let stripe = Stripe('pk_test_51IEjGjFMHGc5BcHAXf1QcLCGWdsOx7ZFYtYyqRr7q99bWQ0zoNdW3fejDmCGgVDzHTPWCFYBpfeVL62bUYf2xS6q00efHHqCYH');
-        let elements = stripe.elements();
+        this.includeStripe('js.stripe.com/v3/', function(){
+            this.configureStripe();
+        }.bind(this) );
+    },
+    methods: {
+        
+        /*
+            Includes Stripe.js dynamically
+        */
+        includeStripe( URL, callback ){
+            let documentTag = document, tag = 'script',
+                object = documentTag.createElement(tag),
+                scriptTag = documentTag.getElementsByTagName(tag)[0];
+            object.src = '//' + URL;
+            if (callback) { object.addEventListener('load', function (e) { callback(null, e); }, false); }
+            scriptTag.parentNode.insertBefore(object, scriptTag);
+        },
+        /*
+            Configures Stripe by setting up the elements and 
+            creating the card element.
+        */
+        configureStripe(){
+            this.stripe = Stripe(this.stripeAPIToken);
 
-        var style = {
-            base: {
-                // Add your base input styles here. For example:
-                border: '1px solid #D8D8D8',
-                borderRadius: '4px',
-                color: "#000",
-                fontSize: '16px'
-            },
-        };
+            this.elements = this.stripe.elements();
+            this.card = this.elements.create('card');
+            this.card.mount('#card-element');
+        },
+        async createTokenStripe(){
+            let result = await this.stripe.createToken(this.card);
+            
+            if (result.error){
+                // Inform the customer that there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            }else {
+                // Send the token to your server.
+                this.stripeTokenHandler(result.token);
+            }
+        },
+    
+    },
 
-        // // Create an instance of the card Element.\
-        // let CardElement = document.getElementById('card-element');
-        let card = elements.create('card', {style: style});
-        card.mount('#card-element');
-
-        // CardElement.append(card)
-        console.log(card)
-
-        // // Add an instance of the card Element into the `card-element` <div>.
-
-        let form = document.getElementById('payment-form');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            stripe.createToken(card).then(function(result) {
-                if (result.error) {
-                    // Inform the customer that there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Send the token to your server.
-                    stripeTokenHandler(result.token);
-                }
-        });
-});
-    }
 }
 </script>
 <template>
 
         <!-- <form action="/payment" method="post" id="payment-form"> -->
-        <form id="payment-form">
+        <div id="payment-form">
             <div class="form-row my-4">
+                <div class="col-12">
+                    <label 
+                        for="card-element" 
+                        class="labelElement mb-4 text-muted"
+                    >
+                        Tarjeta de Debito o Crédito
+                    </label>
+                </div>
 
-                <label for="card-element" class="labelElement mb-4 text-muted">
-                    Tarjeta de Debito o Crédito
-                </label>
-
-                <div class="col-12 d-flex flex-row align-items-center justify-content-center">
-                    <div class="d-flex justify-content-center cardElement" >
-                        <div id="card-element" style="width: 450px">
+                <div class="col-12">
+                    <div class="cardElement col-12" >
+                        <div id="card-element">
                         <!-- A Stripe Element will be inserted here. -->
                         </div>
                     </div>
-                    <div class="">
-                        <b-button type="submit">
+                    <div class="mt-4">
+                        <b-button type="submit" @click="createTokenStripe">
                             Enviar Pago
                         </b-button>
                     </div>
@@ -77,7 +89,7 @@ export default {
                 <!-- Used to display Element errors. -->
                 <div id="card-errors" role="alert"></div>
             </div>
-        </form>
+        </div>
 
 </template>
 
@@ -86,6 +98,7 @@ export default {
         background: white;
         padding: 10px;
         border-radius: 10px;
+        width: 100%;
     }
     .labelElement{
         font-size: 16px;
@@ -94,5 +107,6 @@ export default {
     .form-row {
         background: #f8f7f7;
         padding: 25px;
+        width: 100%;
     }
 </style>

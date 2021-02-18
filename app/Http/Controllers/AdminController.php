@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\DocumentId;
+use App\Models\Report;
 use App\Models\Status;
 
 class AdminController extends Controller
@@ -100,6 +101,16 @@ class AdminController extends Controller
         return response()->json([
             'doc' => $doc,
             'msg' => 'Documents'
+        ]);
+    }
+
+    public function getReports(){
+        // $statusPending = Status::where('name', 'pending')->first();
+        $docs = Report::with('userReported')->get();
+
+        return response()->json([
+            'docs' => $docs,
+            'msg' => 'Reports'
         ]);
     }
 }

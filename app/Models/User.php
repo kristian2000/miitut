@@ -11,11 +11,13 @@ use App\Models\CategoryUser;
 use App\Models\Status;
 use App\Models\Category;
 use App\Models\Contract;
-use PDO;
+use App\Models\Conversation;
+use Laravel\Cashier\Billable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -94,11 +96,25 @@ class User extends Authenticatable
         if ($this->userType !== 'work'){
             // si  es un empleador
             return $this->hasMany(Contract::class, 'user_id')
-                ->with('categoryUser', 'status', 'user');
+                ->with('categoryUser', 'status', 'user')
+                ->orderBy('created_at', 'DESC');
 
         }
 
         return $this->hasManyThrough(Contract::class, CategoryUser::class,'user_id', 'category_user_id')
-            ->with('categoryUser', 'status', 'user');
+            ->with('categoryUser', 'status', 'user')
+            ->orderBy('created_at', 'DESC');
+    }
+
+    public function conversations(){
+         Conversation::where('from_id', $this->id)
+            ->orWhere('to_id', $this->id)
+            ->get();
+            // ->with('categoryUser', 'status', 'user');
+    }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'users.'.$this->id;
     }
 }

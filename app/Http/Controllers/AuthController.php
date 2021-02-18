@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\CategoryUser;
 use App\Models\Status;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -34,6 +35,9 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
+            // $tokenResult = $user->createtoken('Personal Access');
+            // $token = $tokenResult->token;
+            // $token->save();
 
             //El email debe estar verificado
             // if (!$user->email_check){
@@ -45,7 +49,8 @@ class AuthController extends Controller
 
             return response()->json([
                 'msg' => 'Login Exitoso, Bienvenido!',
-                'user' => $user
+                'user' => $user,
+                // 'token' => $token
             ]);
 
         }else{

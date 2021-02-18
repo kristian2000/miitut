@@ -33,8 +33,14 @@ class CreateContractsTable extends Migration
             $table->string('address');
             $table->string('message');
 
+            $table->float('price');
+
             $table->json('daysSelected')->nullable();
 
+            $table->unsignedBigInteger('qualification_hired_id')->nullable();
+            $table->unsignedBigInteger('qualification_employer_id')->nullable();
+
+            $table->date('renovation')->nullable();
             $table->timestamps();
         });
     }

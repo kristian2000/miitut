@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ContractEvent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -8,8 +9,14 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\AdminController;
-
-
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\PaymentController;
+use App\Models\Payment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\ContractNotification;
+use App\Models\Contract;
+use Illuminate\Support\Facades\Broadcast;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +44,11 @@ Route::post('app/users/completeProfile', [UserController::class, 'completeProfil
 Route::post('app/users/updateAvatar', [UserController::class, 'updateAvatar']);
 Route::post('app/users/uploadDNI', [UserController::class, 'uploadDNI']);
 Route::get('app/users/getInfoDNI', [UserController::class, 'getInfoDNI']);
+Route::post('app/users/reportUser', [UserController::class, 'reportUser']);
+
+Route::get('app/users/notifications', [UserController::class, 'listNotifications']);
+Route::get('app/users/notifications/markAsReads', [UserController::class, 'notificationsMarkAsReads']);
+Route::delete('app/users/notifications/{notification}', [UserController::class, 'deleteNotification']);
 
 // Categories
 Route::get('app/categories/getWithSubcategories', [CategoryController::class, 'getCategoriesAndSubcategories']);
@@ -50,6 +62,7 @@ Route::put('app/categoriesUser/{category}', [CategoryUserController::class, 'upd
 Route::post('app/categoriesUser/{category}/completeProfileWork', [CategoryUserController::class, 'completeProfileWork']);
 Route::post('app/categoriesUser/{category}/changeTimeAvailable', [CategoryUserController::class, 'changeTimeAvailable']);
 Route::post('app/categoriesUser/getCategoriesUserWork', [CategoryUserController::class, 'getCategoriesUserWork']);
+Route::get('app/categoriesUser/qualifications/{categoryUser}', [CategoryUserController::class, 'getCategoryUserQualifications']);
 
 // Contract
 Route::get('app/contracts', [ContractController::class, 'getAll']);
@@ -57,9 +70,14 @@ Route::post('app/contracts/create', [ContractController::class, 'store']);
 Route::get('app/contracts/rejectContract/{contract}', [ContractController::class, 'rejectContract']);
 Route::get('app/contracts/acceptContract/{contract}', [ContractController::class, 'acceptContract']);
 Route::post('app/contracts/cancelContract/{contract}', [ContractController::class, 'cancelContract']);
+Route::post('app/contracts/finalize/{contract}', [ContractController::class, 'finalizeContract']);
+Route::post('app/contracts/qualify/{contract}', [ContractController::class, 'qualifyContract']);
 
 // Membresia
 Route::get('app/memberships', [MembershipController::class, 'index']);
+Route::post('app/chats/sendMessage', [ChatController::class, 'sendMessage']);
+Route::get('app/chats/getConversations', [ChatController::class, 'getConversations']);
+Route::get('app/chats/messagesConversation/{conversation}', [ChatController::class, 'messagesConversation']);
 
 // Admin
 Route::get('app/admin/users', [AdminController::class, 'getUsers']);
@@ -67,12 +85,17 @@ Route::put('app/admin/users', [AdminController::class, 'updateUser']);
 Route::get('app/admin/docs', [AdminController::class, 'getDocs']);
 Route::post('app/admin/docs/{doc}/reject', [AdminController::class, 'rejectDoc']);
 Route::post('app/admin/docs/{doc}/accept', [AdminController::class, 'acceptDoc']);
+Route::get('app/admin/reports', [AdminController::class, 'getReports']);
 
-Route::get('/', [AuthController::class, 'index']);
+Route::post('app/payment/contract/occasional', [PaymentController::class, 'payContractOccasional']);
+Route::post('app/payment/contract/habitual', [PaymentController::class, 'payContractHabitual']);
+Route::get('app/payment/contract/commission', [PaymentController::class, 'commission']);
+Route::get('app/payments', [PaymentController::class, 'getAll']);
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('app/fired', function(){
+    event(new ContractEvent);
+    return 'fired';
+});
 
 Route::get('/{any}', function () {
     return view('welcome');

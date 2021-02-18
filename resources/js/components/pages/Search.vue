@@ -106,7 +106,10 @@ export default {
         },
         centerMap: {
             get(){
-                return this.addressSearch ? [Number(this.addressSearch.lon), Number(this.addressSearch.lat) ]: [0, 0]
+                return this.addressSearch ? 
+                    [Number(this.addressSearch.lon), Number(this.addressSearch.lat) ]
+                    : 
+                    [0, 0]
             },
             set(){
                 return ;

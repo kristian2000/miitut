@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\DocumentId;
 use App\Models\Status;
+use App\Models\Report;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -223,6 +224,42 @@ class UserController extends Controller
         return response()->json([
             'user' => $user,
             'msg' => 'User Update success'
+        ]);
+    }
+
+    public function reportUser(Request $request){
+        $formReport = [
+            'user_id' => Auth::user()->id,
+            'user_reported' => $request['userReported'],
+            'category_id' => $request['categoryReported'],
+            'description' => $request['description']
+        ];
+
+        $report = Report::create($formReport);
+
+        return response()->json([
+            'msg' => 'Reporte creado exitosamente',
+            'report' => $report
+        ]);
+    }
+
+    public function listNotifications(){
+        $user = Auth::user();
+        $notifications = $user->unreadNotifications;
+
+        return response()->json([
+            'msg' => 'Lista de Notificaciones No leidas',
+            'notifications' => $notifications
+        ]);
+    }
+
+    public function notificationsMarkAsReads(){
+
+        $user = Auth::user();
+        $user->unreadNotifications()->update(['read_at' => now()]);
+
+        return response()->json([
+            'msg' => 'Notificaciones Marcadas como leidas'
         ]);
     }
 

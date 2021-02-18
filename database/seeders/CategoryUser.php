@@ -87,7 +87,7 @@ class CategoryUser extends Seeder
             ],
             [
                 'user_id' => 2,
-                'category_id' => 2,
+                'category_id' => 3,
                 'status_id' => 2,
                 'price' => 3,
                 'title' => 'Titulo Informativo',

@@ -19,6 +19,12 @@ export default {
     components: {
         LayoutDefault
     },
+    mounted(){
+        // window.Echo.private(`App.User.${this.user.id}`)
+        //     .notification((notification) => {
+        //         console.log('OMG realtime', notification)
+        //     });
+    },
     created(){
         console.log('APP CREATED', this)
         console.log('User', this.user)

@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\Category;
 use App\Models\TimesAvailable;
 use App\Models\User;
+use App\Models\Qualification;
 
 class CategoryUser extends Model
 {
@@ -52,6 +53,21 @@ class CategoryUser extends Model
     public function timesAvailable(){
         return $this->hasMany(TimesAvailable::class, 'category_user_id')
             ->with('category');
+    }
+
+    public function qualifications(){
+        return $this->hasManyThrough(
+            Qualification::class, 
+            Contract::class
+        );
+    }
+
+    public function comments(){
+        return $this->hasManyThrough(
+            Qualification::class, 
+            Contract::class
+        )->with('user')
+        ->where('type', 'help');
     }
 }
 

@@ -23,7 +23,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test12'),
                 'userType' => 'admin',
                 'state' => "Estado",
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '8.59185',
+                'lng' => '-71.13831'
             ],
 
             // Usuarios Empleados
@@ -33,7 +36,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test12'),
                 'userType' => 'work',
                 'state' => "Estado",
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '8.59083',
+                'lng' => '-71.16281'
             ],
             [
                 'name' => Str::random(6),
@@ -41,7 +47,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test12'),
                 'userType' => 'work',
                 'state' => 'Estado',
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '8.59083',
+                'lng' => '-71.16281'
             ],
             [
                 'name' => Str::random(6),
@@ -49,7 +58,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test12'),
                 'userType' => 'work',
                 'state' => 'Estado',
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '8.59083',
+                'lng' => '-71.16281'
             ],
             [
                 'name' => Str::random(6),
@@ -59,7 +71,10 @@ class UserSeeder extends Seeder
                 'state' => 'Estado',
                 'country' => "Pais",
                 'state' => "Estado",
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '8.59083',
+                'lng' => '-71.16281'
             ],
 
             // Usuarios Empleadores
@@ -69,7 +84,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test12'),
                 'userType' => 'help',
                 'state' => "Estado",
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '8.59083',
+                'lng' => '-71.16281'
             ],
             [
                 'name' => Str::random(6),
@@ -77,7 +95,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test12'),
                 'userType' => 'help',
                 'state' => "Estado",
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '8.59083',
+                'lng' => '-71.16281'
             ],
             [
                 'name' => Str::random(6),
@@ -85,7 +106,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test12'),
                 'userType' => 'help',
                 'state' => "Estado",
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '8.59083',
+                'lng' => '-71.16281'
             ],
             [
                 'name' => Str::random(6),
@@ -93,7 +117,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test12'),
                 'userType' => 'help',
                 'state' => "Estado",
-                'country' => "Pais"
+                'country' => "Pais",
+                'fase_registry' => 'completed',
+                'lat' => '36.46',
+                'lng' => '-6.20'
             ]
         ]);
 

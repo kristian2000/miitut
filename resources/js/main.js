@@ -15,8 +15,11 @@ import Multiselect from 'vue-multiselect'
 import VueLayers from 'vuelayers'
 import 'vuelayers/lib/style.css'
 
+import VueMoment from 'vue-moment'
+
 Vue.component('multiselect', Multiselect)
 
+Vue.use(VueMoment)
 Vue.use(VueTelInput)
 Vue.use(VueLayers)
 Vue.mixin(common);
@@ -30,5 +33,16 @@ Vue.component('app', require('./App.vue').default)
 new Vue({
     router,
     store,
-    el: '#app'
+    el: '#app',
+    // mounted(){
+
+    //     // window.Echo.channel('contract-tracker')
+    //     //     .listen('ContractEvent', (e) => {
+    //     //         console.log('OMG realtime')
+    //     //     });
+    //     window.Echo.private(`App.User.${10}`)
+    //         .notification((notification) => {
+    //             console.log('OMG realtime', notification)
+    //         });
+    // }
 });

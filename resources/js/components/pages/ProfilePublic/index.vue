@@ -1,7 +1,8 @@
 <script>
 import {
     XIcon,
-    CheckIcon
+    CheckIcon,
+    FlagIcon
 } from 'vue-feather-icons';
 
 import MenuAccount from './MenuPublic'
@@ -19,6 +20,7 @@ export default {
             geolocPosition: undefined,
             loading: true,
             active: 'Servicio',
+            textMessage: '',
             user: {},
             categoryUser: null,
             menuOptions: [
@@ -38,12 +40,14 @@ export default {
                     title: 'Ubicacion',
                     iconClass: 'uil uil-file'
                 },
-                // {
-                //     title: 'Valoracion',
-                //     iconClass: 'uil uil-envelope-star'
-                // }
+                {
+                    title: 'Valoraciones',
+                    iconClass: 'uil uil-star'
+                }
             ],
-            sheduleData: []
+            sheduleData: [],
+            descriptionReport: '',
+            loadingReport: false
         }
     },
     components: {
@@ -52,7 +56,8 @@ export default {
         XIcon,
         Shedule,
         FormContract,
-        Score
+        Score,
+        FlagIcon
     },
     async created(){
         const id = this.$route.params.id;
@@ -121,6 +126,47 @@ export default {
                  this.makeNotice('danger', 'Error', 'Se presento un error al enviar el contrato');
             }
             this.$bvModal.hide('modalSendContract')
+        },
+        async sendMessage(){
+            let form = {
+                to: this.categoryUser.user.id,
+                message: this.textMessage
+            }
+            console.log('sendMessage', form)
+
+            const response = await this.callApi('post', '/app/chats/sendMessage', form);
+            console.log('responseAxios', response)
+            if (response.status === 200){
+                this.textMessage = '';
+                this.makeNotice('success', 'Mensaje Enviado', 'Felicidades tu mensaje se ha enviado exitosamente');
+            }else {
+                 this.makeNotice('danger', 'Error', 'Se presento un error al enviar el mensaje');
+            }
+
+            this.$bvModal.hide('modalSendMessage')
+        },
+        async reportUser(){
+            if (!this.descriptionReport.trim().length){
+                return '';
+            }
+
+            this.loadingReport = true;
+
+            let form = {
+                userReported: this.categoryUser.user.id,
+                categoryReported: this.categoryUser.id,
+                description: this.descriptionReport
+            }
+
+            const response = await this.callApi('post', '/app/users/reportUser', form);
+
+            if (response.status === 200){
+                this.$bvModal.hide('modalReport')
+                this.descriptionReport = '';
+                this.makeNotice('success', 'Informacion', 'Reporte enviado exitosamente!');
+            }
+            this.loadingReport = false;
+            console.log('responseAxios', response)
         }
     }
 }
@@ -151,14 +197,14 @@ export default {
                                         <div class="col-12 text-md-left text-center mt-4 mt-sm-0">
                                             <div class="d-flex flex-column align-items-center">
                                                 <h1 class="title mb-0 font-weight-bold"><span class="text-capitalize">{{categoryUser.user.name}}</span></h1>
-                                                <div>
+                                                <!-- <div>
                                                     <Score
                                                         :scoreStar="Number(categoryUser.user.score) ?
                                                             Number(categoryUser.user.score)/Number(categoryUser.user.ratings)
                                                             :
                                                             0"
                                                     />
-                                                </div>
+                                                </div> -->
                                                 <p class="text-muted h6 mr-2">{{user.description}}</p>
                                             </div>
                                         </div>
@@ -167,7 +213,7 @@ export default {
                                 </div>
                                 <!--end col-->
 
-                                <div class="col-lg-4 col-md-12" >
+                                <div class="col-lg-4 col-md-12" v-if="$store.state.user.userType !== 'admin'">
                                     <div class="d-flex justify-content-center justify-content-md-center" >
                                         <div >
                                             <b-button
@@ -194,7 +240,15 @@ export default {
                             </div>
                             <!--end row-->
 
-
+                            <div style="position:relative" v-if="$store.state.user.userType !== 'admin'">
+                                <div 
+                                    class="font-weight-bold report" 
+                                    @click="$bvModal.show('modalReport')"
+                                >
+                                    <FlagIcon size="1.2x"/>
+                                    Reportar 
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -443,6 +497,72 @@ export default {
 
                     </div>
                     <!-- End Ubicacion -->
+
+                    <!-- Star Valoracion -->
+                    <div v-if="active === 'Valoraciones'">
+                        <div>
+                            <div class="m-2 border-bottom">
+                                <div class="d-flex justify-content-center">
+                                    <Score
+                                        :scoreStar="Number(categoryUser.user.score) ?
+                                            Number(categoryUser.user.score)/Number(categoryUser.user.ratings)
+                                            :
+                                            0"
+                                        sizeStar="lg"
+                                    />
+                                    <div class="m-3">
+                                        <div 
+                                            class="text-muted font-weight-bold" 
+                                            style="font-size: 20px"
+                                        >
+                                            ( {{ categoryUser.user.ratings }} )
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <!-- <div>
+                                    <span class="text-muted font-weight-bold" >Numero de Calificaciones: </span>
+                                    {{ categoryUser.user.ratings }}
+                                </div> -->
+                                <!-- Comentarios -->
+                                <div>
+                                    <div>
+                                        <h3>Comentarios</h3>
+                                    </div>
+                                    <div class="container" style="max-height: 800px; overflow: scroll">
+                                        <div v-for="(comment, index) in categoryUser.comments" :key="index">
+                                            <div class="d-flex">
+                                                <div class="user-comment ">
+                                                    <div>
+                                                        <img
+                                                            :src="comment.user.avatar ? comment.user.avatar : 'images/avatarDefault.jpg'"
+                                                            class="avatar-comment"
+                                                            width="80px"
+                                                            height="80px"
+                                                            alt=""
+                                                        >
+                                                    </div>
+                                                    <div>
+                                                        <!-- Nombre -->
+                                                        <span class="font-weight-bold name" style="font-size: 14px">
+                                                            {{ comment.user.name }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="border p-2 comment" >
+                                                    <div style="max-height: 150px; overflow: scroll">
+                                                        {{ comment.comment }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Valoracion -->
                 </div>
 
             </div>
@@ -462,12 +582,16 @@ export default {
             hide-footer
         >
             <b-form-textarea
+                v-model="textMessage"
                 id="textarea"
                 placeholder="Escribe tu mensaje..."
                 rows="3"
                 max-rows="6"
             ></b-form-textarea>
-            <div class="d-flex justify-content-center mt-3">
+            <div 
+                class="d-flex justify-content-center mt-3"
+                @click="sendMessage"
+            >
                 <b-button pill variant="outline-secondary">
                     Enviar
                 </b-button>
@@ -496,10 +620,93 @@ export default {
     </div>
     <!-- End Modal Contrato -->
 
+    <!-- Start Modal Report -->
+    <div>
+        <b-modal
+            id="modalReport"
+            title="Reportar Usuario"
+            scrollable
+            hide-footer
+        >
+            <div 
+                v-if="!loadingReport" 
+                style="min-height: 200px"
+            >
+                <b-form-group
+                    description="Su reporte sera evaluado y se realizaran las acciones necesarias ."
+                    label="Describe el problema que observas en este perfil"
+                    label-for="report"
+                >
+                    <b-form-textarea
+                        id="report"
+                        v-model="descriptionReport"
+                        placeholder="Escribe aqui..."
+                        rows="3"
+                        max-rows="6"
+                    ></b-form-textarea>
+                </b-form-group>
+                <div>
+                    <div class="d-flex justify-content-center" >
+                        <b-button 
+                            pill 
+                            variant="outline-secondary"
+                            @click="reportUser"
+                        >
+                            Enviar
+                        </b-button>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <div 
+                    class="d-flex justify-content-center align-items-center" 
+                    style="min-height: 250px"
+                >
+                    <div>
+                        <b-spinner 
+                            type="grow" 
+                            label="Spinning" 
+                        />
+                    </div>
+                </div>
+            </div>
+        </b-modal>
+    </div>
+    <!-- End Modal Report -->
+
 </div>
 </template>
 
 <style>
+
+    .user-comment {
+        width: 100px;
+    }
+
+    .avatar-comment {
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+    }
+
+    .comment {
+        width: 350px;
+        border-radius: 15px;
+    }
+
+    .report {
+        position: absolute; 
+        right:0; 
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    .report:hover {
+        background: #eee
+    }
+
     h1 {
         color: #ff4b64;
     }

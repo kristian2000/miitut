@@ -1,29 +1,9 @@
 <script>
-import {
-    ArrowUpIcon,
-    FacebookIcon,
-    InstagramIcon,
-    TwitterIcon,
-    LinkedinIcon,
-    GithubIcon,
-    YoutubeIcon,
-    GitlabIcon,
-    MailIcon,
-    UserPlusIcon,
-    UsersIcon,
-    MessageCircleIcon,
-    BellIcon,
-    ToolIcon,
-    PhoneIcon,
-    BookmarkIcon,
-    ItalicIcon,
-    GlobeIcon,
-    GiftIcon,
-    MapPinIcon
-} from 'vue-feather-icons';
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
 import FormContract from '../../form/FormContract';
+
+import CardStripe from '../../CardStripe';
 /**
  * Account-profile component
  */
@@ -31,12 +11,14 @@ export default {
     data() {
         return {
             contracts: [],
-            currentContract: null
+            currentContract: null,
+            loading: false
         }
     },
     components: {
         LayoutAccount,
-        FormContract
+        FormContract,
+        CardStripe
     },
     async created(){
         const response = await this.callApi('get', `app/contracts`);
@@ -61,13 +43,14 @@ export default {
                     :
                     newContract
                 )
+                this.currentContract = null;
                 this.$bvModal.hide('modalContract')
                 this.makeNotice('success', 'Info', 'El rechazo del contrato ha sido enviado');
             }
         },
         async acceptContract(){
            const response = await this.callApi('get', `app/contracts/acceptContract/${this.currentContract.id}`);
-            console.log('rejectContract', response)
+            console.log('acceptContract', response)
             if (response.status === 200){
                 let newContract = response.data.contract;
                 this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
@@ -75,8 +58,82 @@ export default {
                     :
                     newContract
                 )
+                this.currentContract = null;
                 this.$bvModal.hide('modalContract')
+                this.makeNotice('success', 'Info', 'La aceptacion del contrato ha sido enviado');
             }
+        },
+        async finalizeContract(){
+            const response = await this.callApi('post', `app/contracts/finalize/${this.currentContract.id}`);
+            console.log('finalizeContract', response)
+            if (response.status === 200){
+                let newContract = response.data.contract;
+                this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
+                    contract
+                    :
+                    newContract
+                )
+                this.currentContract = null;
+                this.$bvModal.hide('modalContract')
+                this.makeNotice('success', 'Info', 'Contrato Finalizado');
+            }
+        },
+        async qualityContract(score, comment){
+            let form = {
+                score,
+                comment
+            }
+            const response = await this.callApi('post', `app/contracts/qualify/${this.currentContract.id}`, form);
+            console.log('calificacionContract', response)
+
+            if (response.status === 200){
+                let newContract = response.data.contract;
+                this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
+                    contract
+                    :
+                    newContract
+                )
+                this.currentContract = null;
+                this.$bvModal.hide('modalContract')
+                this.makeNotice('success', 'Info', 'Se ha enviado tu calificacion');
+            }
+        },
+        async payContract(result, info){
+            // Contrato Ocasional el pago es directo
+            let form = {
+                token: result,
+                contract: this.currentContract.id
+            }
+
+            if (info === 'renovar'){
+                form['renovation'] = true;
+            }
+
+            this.loading = true;
+            const response = await this.callApi('post', `app/payment/contract/${this.currentContract.type_contract}`, form);
+            console.log('responesApi', response)
+
+            if (response.status === 200){
+                let newContract = response.data.contract;
+                this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
+                    contract
+                    :
+                    newContract
+                )
+                this.currentContract = null;
+
+                this.$bvModal.hide('modalContract')
+                this.$bvModal.hide('modalRenovarContract')
+                this.makeNotice('success', 'Felicitaciones', 'Pago efectuado exitosamente!');
+
+            }else{
+                this.makeNotice('danger', 'Oops Ocurrio un error', 
+                    response.message ? 
+                        response.message : 'surgio un problema!'
+                );
+            }
+
+            this.loading = false;
         }
     }
 }
@@ -210,11 +267,32 @@ export default {
                     :onClose="()=>{this.$bvModal.hide('modalContract')}"
                     :acceptCall="this.acceptContract"
                     :rejectCall="this.rejectContract"
+                    :finalizeCall="this.finalizeContract"
+                    :qualityCall="this.qualityContract"
+                    :renovarCall="()=> { this.$bvModal.show('modalRenovarContract') }"
+                    :payContractOccasional="this.payContract"
+                    :payContractHabitual="this.payContract"
                     :edit="true"
                 />
             </b-modal>
         </div>
         <!-- End Modal Contrato -->
+
+        <!-- Start Modal Renovar -->
+        <div>
+            <b-modal
+                id="modalRenovarContract"
+                title="Renovar Contrato"
+                hide-footer
+            >
+                <div>
+                    <CardStripe
+                        :stripeTokenHandler="(result)=> {this.payContract(result, 'renovar')}"
+                    />
+                </div>
+            </b-modal>
+        </div>
+        <!-- End Modal Renovar -->
 
     </LayoutAccount>
 </template>

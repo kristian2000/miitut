@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        user: false
+        user: false,
+        notifications: []
     },
     getters: {
 
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     mutations: {
         setUpdateUser(state, data){
             state.user = data;
+        },
+        setUpdateNotifications(state, data){
+            state.notifications = data
         }
     },
     actions: {
