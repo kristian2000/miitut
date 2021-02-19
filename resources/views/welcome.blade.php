@@ -30,7 +30,7 @@
             <app :user="false"></app>
             @endif
         </div>
-        <script src="{{mix('js/main.js')}}"></script>
+        <script src="{{asset('js/main.js')}}"></script>
         <!-- <script src="https://js.stripe.com/v3/"></script> -->
     </body>
 </html>
