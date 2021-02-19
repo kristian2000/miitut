@@ -6,7 +6,7 @@
 
         <title>Miitut</title>
 
-        <link rel="stylesheet" href="/css/all.css">
+        <link rel="stylesheet" href="{{asset('css/all.css')}}">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.2/css/line.css">
@@ -30,7 +30,7 @@
             <app :user="false"></app>
             @endif
         </div>
-        <script src="{{mix('/js/main.js')}}"></script>
+        <script src="{{mix('js/main.js')}}"></script>
         <!-- <script src="https://js.stripe.com/v3/"></script> -->
     </body>
 </html>
