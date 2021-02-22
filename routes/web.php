@@ -31,68 +31,68 @@ use Illuminate\Support\Facades\Broadcast;
 //Routes APP
 
 // Autentication
-Route::post('app/login', [AuthController::class, 'login']);
-Route::get('app/logout', [AuthController::class, 'logout']);
-Route::post('app/register', [AuthController::class, 'register']);
-Route::post('app/verifyUserEmail', [AuthController::class, 'verifyUserEmail']);
-Route::get('app/authorize/{driver}/redirect', [AuthController::class, 'redirectToProvider']);
-Route::post('app/authorize/{driver}/callback', [AuthController::class, 'handleProviderCallback']);
+Route::post('/app/login', [AuthController::class, 'login']);
+Route::get('/app/logout', [AuthController::class, 'logout']);
+Route::post('/app/register', [AuthController::class, 'register']);
+Route::post('/app/verifyUserEmail', [AuthController::class, 'verifyUserEmail']);
+Route::get('/app/authorize/{driver}/redirect', [AuthController::class, 'redirectToProvider']);
+Route::post('/app/authorize/{driver}/callback', [AuthController::class, 'handleProviderCallback']);
 
 // Users
-Route::post('app/users/updateProfile', [UserController::class, 'updateProfile']);
-Route::post('app/users/completeProfile', [UserController::class, 'completeProfile']);
-Route::post('app/users/updateAvatar', [UserController::class, 'updateAvatar']);
-Route::post('app/users/uploadDNI', [UserController::class, 'uploadDNI']);
-Route::get('app/users/getInfoDNI', [UserController::class, 'getInfoDNI']);
-Route::post('app/users/reportUser', [UserController::class, 'reportUser']);
+Route::post('/app/users/updateProfile', [UserController::class, 'updateProfile']);
+Route::post('/app/users/completeProfile', [UserController::class, 'completeProfile']);
+Route::post('/app/users/updateAvatar', [UserController::class, 'updateAvatar']);
+Route::post('/app/users/uploadDNI', [UserController::class, 'uploadDNI']);
+Route::get('/app/users/getInfoDNI', [UserController::class, 'getInfoDNI']);
+Route::post('/app/users/reportUser', [UserController::class, 'reportUser']);
 
-Route::get('app/users/notifications', [UserController::class, 'listNotifications']);
-Route::get('app/users/notifications/markAsReads', [UserController::class, 'notificationsMarkAsReads']);
-Route::delete('app/users/notifications/{notification}', [UserController::class, 'deleteNotification']);
+Route::get('/app/users/notifications', [UserController::class, 'listNotifications']);
+Route::get('/app/users/notifications/markAsReads', [UserController::class, 'notificationsMarkAsReads']);
+Route::delete('/app/users/notifications/{notification}', [UserController::class, 'deleteNotification']);
 
 // Categories
-Route::get('app/categories/getWithSubcategories', [CategoryController::class, 'getCategoriesAndSubcategories']);
-Route::get('app/categories/{category}/subcategories', [CategoryController::class, 'getSubcategoryByCategory']);
+Route::get('/app/categories/getWithSubcategories', [CategoryController::class, 'getCategoriesAndSubcategories']);
+Route::get('/app/categories/{category}/subcategories', [CategoryController::class, 'getSubcategoryByCategory']);
 
 // CategoriesUser
-Route::get('app/categoriesUser', [CategoryUserController::class, 'getCategoriesUser']);
-Route::get('app/categoriesUser/pending', [CategoryUserController::class, 'getCategoryPending']);
-Route::get('app/categoriesUser/{category}', [CategoryUserController::class, 'showCategoriesUser']);
-Route::put('app/categoriesUser/{category}', [CategoryUserController::class, 'updateCategoryUser']);
-Route::post('app/categoriesUser/{category}/completeProfileWork', [CategoryUserController::class, 'completeProfileWork']);
-Route::post('app/categoriesUser/{category}/changeTimeAvailable', [CategoryUserController::class, 'changeTimeAvailable']);
-Route::post('app/categoriesUser/getCategoriesUserWork', [CategoryUserController::class, 'getCategoriesUserWork']);
-Route::get('app/categoriesUser/qualifications/{categoryUser}', [CategoryUserController::class, 'getCategoryUserQualifications']);
+Route::get('/app/categoriesUser', [CategoryUserController::class, 'getCategoriesUser']);
+Route::get('/app/categoriesUser/pending', [CategoryUserController::class, 'getCategoryPending']);
+Route::get('/app/categoriesUser/{category}', [CategoryUserController::class, 'showCategoriesUser']);
+Route::put('/app/categoriesUser/{category}', [CategoryUserController::class, 'updateCategoryUser']);
+Route::post('/app/categoriesUser/{category}/completeProfileWork', [CategoryUserController::class, 'completeProfileWork']);
+Route::post('/app/categoriesUser/{category}/changeTimeAvailable', [CategoryUserController::class, 'changeTimeAvailable']);
+Route::post('/app/categoriesUser/getCategoriesUserWork', [CategoryUserController::class, 'getCategoriesUserWork']);
+Route::get('/app/categoriesUser/qualifications/{categoryUser}', [CategoryUserController::class, 'getCategoryUserQualifications']);
 
 // Contract
-Route::get('app/contracts', [ContractController::class, 'getAll']);
-Route::post('app/contracts/create', [ContractController::class, 'store']);
-Route::get('app/contracts/rejectContract/{contract}', [ContractController::class, 'rejectContract']);
-Route::get('app/contracts/acceptContract/{contract}', [ContractController::class, 'acceptContract']);
-Route::post('app/contracts/cancelContract/{contract}', [ContractController::class, 'cancelContract']);
-Route::post('app/contracts/finalize/{contract}', [ContractController::class, 'finalizeContract']);
-Route::post('app/contracts/qualify/{contract}', [ContractController::class, 'qualifyContract']);
+Route::get('/app/contracts', [ContractController::class, 'getAll']);
+Route::post('/app/contracts/create', [ContractController::class, 'store']);
+Route::get('/app/contracts/rejectContract/{contract}', [ContractController::class, 'rejectContract']);
+Route::get('/app/contracts/acceptContract/{contract}', [ContractController::class, 'acceptContract']);
+Route::post('/app/contracts/cancelContract/{contract}', [ContractController::class, 'cancelContract']);
+Route::post('/app/contracts/finalize/{contract}', [ContractController::class, 'finalizeContract']);
+Route::post('/app/contracts/qualify/{contract}', [ContractController::class, 'qualifyContract']);
 
 // Membresia
-Route::get('app/memberships', [MembershipController::class, 'index']);
-Route::post('app/chats/sendMessage', [ChatController::class, 'sendMessage']);
-Route::get('app/chats/getConversations', [ChatController::class, 'getConversations']);
-Route::get('app/chats/messagesConversation/{conversation}', [ChatController::class, 'messagesConversation']);
+Route::get('/app/memberships', [MembershipController::class, 'index']);
+Route::post('/app/chats/sendMessage', [ChatController::class, 'sendMessage']);
+Route::get('/app/chats/getConversations', [ChatController::class, 'getConversations']);
+Route::get('/app/chats/messagesConversation/{conversation}', [ChatController::class, 'messagesConversation']);
 
 // Admin
-Route::get('app/admin/users', [AdminController::class, 'getUsers']);
-Route::put('app/admin/users', [AdminController::class, 'updateUser']);
-Route::get('app/admin/docs', [AdminController::class, 'getDocs']);
-Route::post('app/admin/docs/{doc}/reject', [AdminController::class, 'rejectDoc']);
-Route::post('app/admin/docs/{doc}/accept', [AdminController::class, 'acceptDoc']);
-Route::get('app/admin/reports', [AdminController::class, 'getReports']);
+Route::get('/app/admin/users', [AdminController::class, 'getUsers']);
+Route::put('/app/admin/users', [AdminController::class, 'updateUser']);
+Route::get('/app/admin/docs', [AdminController::class, 'getDocs']);
+Route::post('/app/admin/docs/{doc}/reject', [AdminController::class, 'rejectDoc']);
+Route::post('/app/admin/docs/{doc}/accept', [AdminController::class, 'acceptDoc']);
+Route::get('/app/admin/reports', [AdminController::class, 'getReports']);
 
-Route::post('app/payment/contract/occasional', [PaymentController::class, 'payContractOccasional']);
-Route::post('app/payment/contract/habitual', [PaymentController::class, 'payContractHabitual']);
-Route::get('app/payment/contract/commission', [PaymentController::class, 'commission']);
-Route::get('app/payments', [PaymentController::class, 'getAll']);
+Route::post('/app/payment/contract/occasional', [PaymentController::class, 'payContractOccasional']);
+Route::post('/app/payment/contract/habitual', [PaymentController::class, 'payContractHabitual']);
+Route::get('/app/payment/contract/commission', [PaymentController::class, 'commission']);
+Route::get('/app/payments', [PaymentController::class, 'getAll']);
 
-Route::get('app/fired', function(){
+Route::get('/app/fired', function(){
     event(new ContractEvent);
     return 'fired';
 });
