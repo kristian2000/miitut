@@ -37,6 +37,7 @@ class ChatController extends Controller
             })
             ->first();
         }
+
         
         if ($conversation != null){
             $conversation->message = $message;
@@ -48,15 +49,16 @@ class ChatController extends Controller
                 'user_help_id' => $user_help_id,
                 'message' => $message,
                 'status' => false,
-            ]);
+                ]);
         }
-
+        
+        
         $newMessage = Message::create([
             'conversation_id' => $conversation->id,
             'user_id' => $user->id,
             'message' => $message
         ]);
-
+            
         $conversation->userWork;
         $conversation->userHelp;
 

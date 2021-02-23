@@ -11,6 +11,8 @@ class Message extends Model
 
     public $fillable = [
         'user_id',
+        'message',
+        'conversation_id',
         'contract_id',
         'category_id',
     ];

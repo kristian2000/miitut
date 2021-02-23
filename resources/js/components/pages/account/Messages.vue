@@ -25,7 +25,9 @@ export default {
         LayoutAccount,
         SendIcon
     },
-    created(){
+    async created(){
+        this.getConversations();
+
         setInterval(()=>{ 
             this.getConversations();
         }, 50000)
@@ -37,20 +39,27 @@ export default {
     },
     methods: {
         async getConversations(){
-            this.loading = true;
+            console.log('getConversations')
+            // this.loading = true;
             const response = await this.callApi('get', `app/chats/getConversations`);
+
             if (response.status === 200){
                 this.conversations = response.data.conversations;
-                this.loading = false;
+                // this.loading = false;
             }
-            console.log(response.data.conversations);
+            console.log('conversation', response);
         },
         async openConversation(currentConversation){
+            console.log('openConversation');
             this.currentConversation = currentConversation;
             // console.log('open Conversation', currentConversation);
             this.$bvModal.show('modalConversation')
 
             this.getMessages();
+
+        },
+        async closeConversation(){
+            console.log('closeConversation')
         },
         async getMessages(){
             this.loadingMessages = true;
@@ -118,8 +127,7 @@ export default {
                     <input type="checkbox">
                     <span class="font-weight-bold">Seleccionar Todos</span>
                 </label> -->
-                <div v-if="!loading">
-                    <div v-if="conversations.length">
+                    <div v-if="conversations.length > 0">
                         <div class="row" v-for="conversation in conversations" :key="conversation.id">
 
                             <div class="col-12 container caja" style="cursor:pointer">
@@ -154,8 +162,8 @@ export default {
                             Sin Conversaciones
                         </div>
                     </div>
-                </div>
-                <div v-else>
+                <!-- </div> -->
+                <!-- <div v-else>
                     <div class="d-flex justify-content-center">
                         <div>
                             <b-spinner 
@@ -164,14 +172,19 @@ export default {
                             />
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
     <!-- Modal Conversation Start -->
         <div>
-            <b-modal id="modalConversation" hide-footer title="Conversacion">
-                <div>
+            <b-modal 
+                id="modalConversation" 
+                hide-footer 
+                title="Conversacion"
+                @hidden="closeConversation"
+            >
+                <div ref="box-conversation">
                    <div v-if="currentConversation">
                        <div class="">
                             <div class="d-flex align-items-center justify-content-center">

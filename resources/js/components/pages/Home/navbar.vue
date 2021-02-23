@@ -17,9 +17,9 @@ export default {
         }
     },
     mounted: () => {
-        window.onscroll = function () {
-            onwindowScroll();
-        };
+        // window.onscroll = function () {
+        //     onwindowScroll();
+        // };
 
         function onwindowScroll() {
             if (
