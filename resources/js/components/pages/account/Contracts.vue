@@ -141,7 +141,7 @@ export default {
 
 <template>
     <LayoutAccount :active="'Contratos'">
-        <div class="col-12 col-md-8">
+        <div class="col-lg-8 col-12 mt-4">
             <div v-if="!contracts.length">
                 <div class="text-center text-muted">
                     Sin Contratos

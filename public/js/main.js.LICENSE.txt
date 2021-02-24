@@ -1,5 +1,5 @@
 /*!
- * BootstrapVue Icons, generated from Bootstrap Icons 1.1.0
+ * BootstrapVue Icons, generated from Bootstrap Icons 1.2.2
  *
  * @link https://icons.getbootstrap.com/
  * @license MIT
@@ -28,8 +28,8 @@
  */
 
 /*!
- * vuex v3.6.0
- * (c) 2020 Evan You
+ * vuex v3.6.2
+ * (c) 2021 Evan You
  * @license MIT
  */
 
@@ -84,9 +84,9 @@ PERFORMANCE OF THIS SOFTWARE.
  *
  * @package vuelayers
  * @author Vladimir Vershinin <ghettovoice@gmail.com>
- * @version 0.11.30
+ * @version 0.11.31
  * @license MIT
- * @copyright (c) 2017-2020, Vladimir Vershinin <ghettovoice@gmail.com>
+ * @copyright (c) 2017-2021, Vladimir Vershinin <ghettovoice@gmail.com>
  */
 
 /**!

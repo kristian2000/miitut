@@ -2191,7 +2191,7 @@ section {
  }
 
  #topnav {
-   position: fixed;
+   position: absolute;
    right: 0;
    left: 0;
    top: 0;
@@ -2268,7 +2268,7 @@ section {
  #topnav .navbar-toggle span {
    height: 2px;
    width: 100%;
-   background-color: #3c4858;
+   background-color: black;
    display: block;
    margin-bottom: 5px;
    -webkit-transition: -webkit-transform .5s ease;
@@ -2660,7 +2660,7 @@ section {
 
  @media (max-width: 991px) {
    #topnav {
-     background-color: #ffffff;
+     /* background-color: #ffffff; */
      -webkit-box-shadow: 0 0 3px rgba(60, 72, 88, 0.15);
              box-shadow: 0 0 3px rgba(60, 72, 88, 0.15);
      min-height: 74px;

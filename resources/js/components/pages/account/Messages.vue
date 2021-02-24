@@ -83,10 +83,11 @@ export default {
             console.log('sendMessage');
 
             let form = {
-                to: this.currentConversation.from_id === this.$store.state.user ? 
+                to: this.currentConversation.from_id === this.$store.state.user.id ? 
                     this.currentConversation.to_id :
                     this.currentConversation.from_id,
-                message: this.textMessage
+                message: this.textMessage,
+                conversation: this.currentConversation.id
             }
             console.log('sendMessage', form)
 
@@ -117,7 +118,7 @@ export default {
 
 <template>
     <LayoutAccount :active="'Mensajes'">
-        <div class="col-lg-8 col-12">
+        <div class="col-lg-8 col-12 mt-4">
 
             <div class=" pb-4">
                 <div class="border-bottom">

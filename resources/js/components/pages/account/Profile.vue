@@ -160,7 +160,7 @@ export default {
 <template>
 <div>
     <LayoutAccount :active="'Perfil'">
-        <div class="col-lg-8 col-12">
+        <div class="col-lg-8 col-12 mt-4">
             <div class="border-bottom">
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="text-muted mb-0 mt-4">

@@ -31,11 +31,9 @@ class ChatController extends Controller
         if ($conversationId){
             $conversation = Conversation::find($conversationId);
         }else {
-            $conversation = Conversation::when($user, function($query) use ($user){
-                $userType = $user->userType == 'work' ? 'user_work_id' : 'user_help_id';
-                return $query->where($userType, $user->id);
-            })
-            ->first();
+            $conversation = Conversation::where('user_work_id', $user_work_id)
+                ->where('user_help_id', $user_help_id)
+                ->first();
         }
 
         

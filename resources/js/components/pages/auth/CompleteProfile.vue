@@ -182,15 +182,18 @@ export default {
 </script>
 
 <template>
-<section class="d-flex align-items-center justify-content-center" style="height:85vh; min-height: 800px">
-    <div class="container col-md-6 col-12 mt-4">
-        <div class="row">
+<section 
+    class="d-flex align-items-center justify-content-center" 
+    style="min-height: 950px"
+>
+    <div class="container col-md-6 col-12">
+        <div class="row mt-2">
             <div class="col-12 text-center mb-4">
                 <h2 class="h2 text-muted">Completa Tu Perfil</h2>
             </div>
 
         </div>
-        <div class="row">
+        <div class="row mb-4">
             <!-- Start Selecionar Foto -->
             <div class="col-12 mt-2">
                 <div id='preview' class="d-flex justify-content-center">
@@ -270,29 +273,31 @@ export default {
             <div class="col-12">
                 <div class=" d-flex justify-content-center">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-sm-6 col-12 text-center">
                             <label for="datepicker" class="text-muted">Fecha de Nacimiento</label>
                         </div>
-                        <div class="col-6">
-                            <b-input-group class="mb-3">
-                                <b-form-input
-                                    id="example-input"
-                                    v-model="date.birthdate"
-                                    type="text"
-                                    placeholder="YYYY-MM-DD"
-                                    autocomplete="off"
-                                ></b-form-input>
-                                <b-input-group-append>
-                                    <b-form-datepicker
-                                    v-model="date.birthdate"
-                                    button-only
-                                    right
-                                    locale="en-US"
-                                    aria-controls="example-input"
-                                    @context="onContext"
-                                    ></b-form-datepicker>
-                                </b-input-group-append>
-                            </b-input-group>
+                        <div class="col-sm-6 col-12">
+                            <div class="d-flex justify-content-center">
+                                <b-input-group class="mb-3">
+                                    <b-form-input
+                                        id="example-input"
+                                        v-model="date.birthdate"
+                                        type="text"
+                                        placeholder="YYYY-MM-DD"
+                                        autocomplete="off"
+                                    ></b-form-input>
+                                    <b-input-group-append>
+                                        <b-form-datepicker
+                                        v-model="date.birthdate"
+                                        button-only
+                                        right
+                                        locale="en-US"
+                                        aria-controls="example-input"
+                                        @context="onContext"
+                                        ></b-form-datepicker>
+                                    </b-input-group-append>
+                                </b-input-group>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -304,18 +309,20 @@ export default {
             <div class="col-12">
                 <div class=" d-flex justify-content-center">
                     <div class="row">
-                        <div class="col-md-6 col-12">
+                        <div class="col-sm-6 col-12 text-center">
                             <label for="" class="text-muted">Agrega una descripcion</label>
                         </div>
-                        <div class="col-md-6 col-12">
-                            <b-form-textarea
-                                id="textarea"
-                                v-model="description"
-                                placeholder="Escribe aqui..."
-                                rows="2"
-                                max-rows="4"
-                                style="width:300px"
-                            />
+                        <div class="col-sm-6 col-12">
+                            <div class="d-flex justify-content-center">
+                                <b-form-textarea
+                                    id="textarea"
+                                    v-model="description"
+                                    placeholder="Escribe aqui..."
+                                    rows="2"
+                                    max-rows="4"
+                                    style="width:300px"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -327,15 +334,17 @@ export default {
             <div class="col-12">
                 <div class=" d-flex justify-content-center">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-sm-6 text-center">
                             <label for="dni" class="text-muted">DNI</label>
                         </div>
-                        <div class="col-md-6">
-                            <b-form-input
-                                type="number"
-                                v-model="dni"
-                                style="width:200px"
-                            />
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-center">
+                                <b-form-input
+                                    type="number"
+                                    v-model="dni"
+                                    style="width:200px"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -347,15 +356,17 @@ export default {
             <div class="col-12">
                 <div class=" d-flex justify-content-center">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-sm-6 text-center">
                             <label class="text-muted">Nacionalidad</label>
                         </div>
-                        <div class="col-6">
-                            <b-form-input
-                                type="text"
-                                v-model="nationality"
-                                style="width:200px"
-                            />
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-center">
+                                <b-form-input
+                                    type="text"
+                                    v-model="nationality"
+                                    style="width:200px"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -383,52 +394,63 @@ export default {
             <!-- END Telefono -->
 
             <!-- Informacion Personal -->
-            <div class="col-12" v-if="$store.state.user.userType !== 'help'">
+            <div class="col-12" 
+                v-if="$store.state.user.userType !== 'help'"
+            >
                 <div class="d-flex justify-content-center">
-                    <div class="row">
-                        <div class="col-md-6 col-12 text-muted">
-                            <b-form-checkbox
-                                v-model="driving_license"
-                                name="check-button"
-                                switch
-                                size="lg"
+                    <div class="text-muted">
+                        <div class="row">
+                            <div 
+                                class="col-md-6 col-12 d-flex justify-content-center"
                             >
-                                Carnet de Conducir
-                            </b-form-checkbox>
+                                <b-form-checkbox
+                                    v-model="driving_license"
+                                    name="check-button"
+                                    switch
+                                    size="lg"
+                                    style="width: 220px"
+                                >
+                                    Carnet de Conducir
+                                </b-form-checkbox>
+                            </div>
+                            <div class="col-md-6 col-12 d-flex justify-content-center">
+                                <b-form-checkbox
+                                    v-model="own_vehicle"
+                                    name="check-button"
+                                    switch
+                                    size="lg"
+                                    style="width: 220px"
+                                >
+                                    Vehículo Propio
+                                </b-form-checkbox>
+                            </div>
                         </div>
-                        <div class="col-md-6 col-12 text-muted">
-                            <b-form-checkbox
-                                v-model="own_vehicle"
-                                name="check-button"
-                                switch
-                                size="lg"
-                            >
-                                Vehículo Propio
-                            </b-form-checkbox>
+                        <div class="row">
+                            <div class="col-md-6 col-12 d-flex justify-content-center">
+                                <b-form-checkbox
+                                    v-model="first_aid"
+                                    name="check-button"
+                                    switch
+                                    size="lg"
+                                    style="width: 220px"
+                                >
+                                    Primeros Auxilios
+                                </b-form-checkbox>
+                            </div>
+                            <div class="col-md-6 col-12 d-flex justify-content-center">
+                                <b-form-checkbox
+                                    v-model="has_children"
+                                    name="check-button"
+                                    switch
+                                    size="lg"
+                                    style="width: 220px"
+                                >
+                                    Tiene niños
+                                </b-form-checkbox>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 col-12 text-muted">
-                            <b-form-checkbox
-                                v-model="first_aid"
-                                name="check-button"
-                                switch
-                                size="lg"
-                            >
-                                Primeros Auxilios
-                            </b-form-checkbox>
-                        </div>
-                        <div class="col-md-6 col-12 text-muted">
-                            <b-form-checkbox
-                                v-model="has_children"
-                                name="check-button"
-                                switch
-                                size="lg"
-                            >
-                                Tiene niños
-                            </b-form-checkbox>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 

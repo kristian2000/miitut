@@ -94,7 +94,7 @@ export default {
 <template>
 <div>
     <LayoutAccount :active="'Categorias'">
-        <div class="col-lg-8 col-12">
+        <div class="col-lg-8 col-12 mt-4">
 
             <!-- Start List de categoriesUser -->
             <div class="border-bottom pb-4">
@@ -102,12 +102,12 @@ export default {
 
                     <div class="col-12 m-2 card-category" v-for="categoryUser in categoriesUser" :key="categoryUser.id">
                         <div class="row">
-                            <div class="col-5 p-2 bg">
+                            <div class="col-md-5 col-12 p-2 bg">
                                 <div class="d-flex align-items-center">
                                     <img :src="'/assets/icon_services/' + categoryUser.category.name + '.svg'"  alt="" width="130px">
                                     <div  class="" style="">
                                         <div style="text-align:center">
-                                            <h2>{{categoryUser.category.label }}</h2>
+                                            <h2>{{ categoryUser.category.label }}</h2>
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <div style="color: green">
@@ -139,7 +139,7 @@ export default {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-7 p-2" >
+                            <div class="col-md-7 col-12 p-2" >
                                 <div class="container">
                                     <h2 class="">{{categoryUser.title}}</h2>
                                     <div class="desc">
@@ -365,19 +365,19 @@ export default {
     }
 
 
-    .card-category .col-5 h2 {
+    .card-category .col-md-5 h2 {
         font-size: 1.5rem;
         font-weight: bold;
         color: black;
         /* text-align: center; */
     }
 
-    .card-category .col-7 h2{
+    .card-category .col-md-7 h2{
         word-break: break-all;
         text-overflow: ellipsis;
         font-size: 1.5rem;
     }
-    .card-category .col-7 {
+    .card-category .col-md-7 {
 
         font-weight: bold;
         color: white;

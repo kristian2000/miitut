@@ -3,14 +3,17 @@
         <Navbar />
 
         <main
-            class="pb-4"
             style="background: url('images/account/bg.png') center center; padding-top: 100px;"
         >
             <div
-                class="container d-table p-3"
-                :style="bgWhite ? 'background:white; border-radius: 25px;' : ''"
+                class="py-5 pl-3 pr-3"
             >
-                <slot />
+                <div
+                    class="container p-3"
+                    :style="bgWhite ? 'background:white; border-radius: 25px;' : ''"
+                >
+                    <slot />
+                </div>
             </div>
         </main>
 

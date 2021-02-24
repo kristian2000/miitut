@@ -34,7 +34,7 @@ export default {
 <template>
     <LayoutAccount :active="'Facturas'">
 
-        <div class="col-lg-8 col-12">
+        <div class="col-lg-8 col-12 mt-4">
 
             <div class="border-bottom pb-4">
                 <div class="row">

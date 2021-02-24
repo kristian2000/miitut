@@ -131,7 +131,7 @@ export default {
 </script>
 
 <template>
-<section class="d-flex align-items-center" v-if="!loading">
+<section class="d-flex align-items-center my-3" v-if="!loading">
     <div class="container col-md-6 col-12 mt-4">
         <div class="row">
             <div class="col-12 text-center mb-4">

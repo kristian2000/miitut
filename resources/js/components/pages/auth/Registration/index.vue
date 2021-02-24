@@ -62,7 +62,7 @@ export default {
 <template>
 <div>
     <LayoutStandar :bgWhite="true">
-        <section  >
+        <section>
             <div>
                 <b-button @click="goBack()">
                     <ArrowLeftIcon />

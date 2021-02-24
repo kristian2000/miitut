@@ -127,9 +127,11 @@ export default {
 
                                 <div class="col-lg-10 col-md-9 welcome" >
                                     <div class="row align-items-end">
-                                        <div class="col-12">
-                                            <h1 class="title mb-2 font-weight-bold">Bienvenido <span class="text-capitalize">{{user.name}}</span></h1>
-                                            <p class="text-muted h6 mr-2">{{user.description}}</p>
+                                        <div class="col-12 text-md-left text-center mt-4 mt-sm-0">
+                                            <div class="d-flex flex-column align-items-center">                                                
+                                                <h1 class="title mb-2 font-weight-bold">Bienvenido <span class="text-capitalize">{{ user.name }}</span></h1>
+                                                <p class="text-muted h6 mr-2">{{ user.description }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--end row-->

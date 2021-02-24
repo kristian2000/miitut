@@ -25,7 +25,7 @@ export default {
     ],
     data() {
         return {
-            acceptTerm: false,
+            acceptTerm: true,
             showAlert: false,
             message: '',
             form: {
@@ -157,8 +157,20 @@ export default {
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox" v-on:click="handleAcceptTerm">
-                                        <input type="checkbox" class="custom-control-input" id="acceptTerm" v-model="acceptTerm">
-                                        <label class="custom-control-label" for="customCheck1">Acepto <a href="#" class="text-primary">los terminos y condiciones</a></label>
+                                        <div class="text-center">
+                                            <span class="text-muted" style="font-size: 12px">
+                                                Al hacer clic en "Registrarte", aceptas nuestras 
+                                                <span 
+                                                    class="text-info" 
+                                                    style="cursor:pointer"
+                                                    @click="()=> { this.$bvModal.show('modalPermitsAndConditions')}"
+                                                >
+                                                    Condiciones.
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <!-- <input type="checkbox" class="custom-control-input" id="acceptTerm" v-model="acceptTerm">
+                                        <label class="custom-control-label" for="customCheck1">Acepto <a href="#" class="text-primary">los terminos y condiciones</a></label> -->
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +205,21 @@ export default {
             </div>
         </div>
 
+        <!-- Start Modal Contrato -->
+        <b-modal
+            id="modalPermitsAndConditions"
+            title="Terminos y Condiciones"
+            scrollable
+            hide-footer
+        >
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, sapiente asperiores blanditiis est omnis tempora harum, velit officiis rerum voluptatum alias hic accusamus suscipit enim ut cum ad praesentium magni!
+            </p>
+
+        </b-modal>
+        <!-- End Modal Contrato -->
     </div>
+
 
 <!-- </section> -->
 </template>

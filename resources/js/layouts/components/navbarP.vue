@@ -17,9 +17,9 @@ export default {
         }
     },
     mounted: () => {
-        window.onscroll = function () {
-            onwindowScroll();
-        };
+        // window.onscroll = function () {
+        //     onwindowScroll();
+        // };
 
         function onwindowScroll() {
             if (
@@ -176,7 +176,7 @@ export default {
 
                     <li class="has-submenu">
                         <router-link to='/registration'>
-                            <span class="text-white" id="registrate">REGISTRATE GRATIS</span>
+                            <span id="registrate">REGISTRATE GRATIS</span>
                         </router-link>
                     </li>
 
@@ -194,7 +194,7 @@ export default {
 </div>
 </template>
 
-<style>
+<style scoped>
 
     #registrate {
         border: 1px solid white;
@@ -204,14 +204,14 @@ export default {
     }
 
     .buy-button {
-    display: none;
-}
+        display: none;
+    }
 
-@media (min-width: 991px) {
+@media (max-width: 991px) {
 
     #topnav .navigation-menu > li > a {
         display: block;
-        color: #fff;
+        /* color: #fff; */
         background-color: transparent !important;
         font-weight: 700;
         letter-spacing: 1px;
@@ -223,6 +223,12 @@ export default {
         padding-left: 15px;
         padding-right: 15px;
         font-size: 15px;
+    }
+
+    #registrate {
+        border: 1px solid black;
+        border-radius: 10px;
+        margin: 0;
     }
 
 }
