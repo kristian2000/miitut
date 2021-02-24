@@ -13,10 +13,14 @@
             })
 
             if (res.status === 200){
-                // this.makeNotice('success', 'Verificacion Exitosa', res.data.msg);
+                this.makeNotice('success', 'Verificacion Exitosa', res.data.msg);
                 // this.$store.commit('setUpdateUser', res.data.user);
                 this.msg = res.data.msg;
                 this.loading = false;
+
+                setTimeout(()=>{
+                    window.location.href = '/'
+                }, 2000)
 
             }else {
                 if (res.status === 400){

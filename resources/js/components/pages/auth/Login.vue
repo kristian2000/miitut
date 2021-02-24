@@ -27,8 +27,9 @@ export default {
     methods: {
          ...mapActions(['loginSocialRedirect']),
         async submit(){
-            try{
+            
                 const res = await this.callApi('post', 'app/login', this.form)
+                console.log('Response Login', res)
 
                 if (res.status === 200){
                     // this.makeNotice('success', 'Inicio Exitoso', res.data.msg);
@@ -38,16 +39,19 @@ export default {
                     //     this.$router.push('/');
                     // }, 1500)
                 }
-                console.log('Response Login', res)
+                else if (res.status === 403) {
+                        this.makeNotice('info', 'Info', res.data.msg)
+                }
+                else {
+                    console.log('hubo un error', res)
+                    // if (res.status === 403){
+                        this.makeNotice('danger', 'Error', res.data.msg ? res.data.msg : 'Oops ocurrio un error interno');
+                    // }else {
+                    // }
+                }
 
-            }catch(error){
-                console.log('hubo un error', error)
-                // if (res.status === 403){
-                //     this.makeNotice('warning', 'Verificacion Pendiente', res.data.msg)
-                // }else {
-                    this.makeNotice('danger', 'Error', 'Oops ocurrio un error interno');
-                // }
-            }
+            
+            
         },
         async loginSocial(driver){
             try{

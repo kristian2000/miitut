@@ -40,12 +40,12 @@ class AuthController extends Controller
             // $token->save();
 
             //El email debe estar verificado
-            // if (!$user->email_check){
-            //     Auth::logout();
-            //     return response()->json([
-            //         'msg' => 'Verifique su email para iniciar sesion'
-            //     ], 403);
-            // }
+            if (!$user->email_check){
+                Auth::logout();
+                return response()->json([
+                    'msg' => 'Verifique su email para iniciar sesion'
+                ], 403);
+            }
 
             return response()->json([
                 'msg' => 'Login Exitoso, Bienvenido!',
@@ -54,10 +54,18 @@ class AuthController extends Controller
             ]);
 
         }else{
+            $register = User::where('email', $request->email)->first();
 
-            return response()->json([
-                'msg' => 'Los datos no coinciden con nuestros registros'
-            ], 401);
+            if ($register){
+                return response()->json([
+                    'msg' => 'Usuario o contraseña incorrectos'
+                ], 400);
+            }else {
+                return response()->json([
+                    'msg' => 'Usuario no registrado'
+                ], 401);   
+            }
+
         }
     }
 
@@ -112,12 +120,12 @@ class AuthController extends Controller
         }
 
         // Se envia en email de codigo de verificacion
-        // MailController::sendSignupEmail($user);
+        MailController::sendSignupEmail($user);
 
-        Auth::login($user, true);
+        // Auth::login($user, true);
 
         return response()->json([
-            'msg' => 'Registro exitoso, Inicia sesion',
+            'msg' => 'Registro exitoso, verifica tu correo para iniciar sesion',
             'user' => $user
         ], 201);
     }

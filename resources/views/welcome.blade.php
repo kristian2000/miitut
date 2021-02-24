@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Miitut</title>
+        <title> Miitut </title>
 
         <link rel="stylesheet" href="{{asset('css/all.css')}}">
         <!-- Fonts -->
@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         <!-- Styles -->
 
-        {{-- Scripts --}}
+        <!-- Scripts  -->
         <script>
             (function(){
                 window.Laravel = {

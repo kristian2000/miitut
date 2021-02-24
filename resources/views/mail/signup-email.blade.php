@@ -1,12 +1,12 @@
-Hello {{ $data['name'] }}
+Hola {{ $data['name'] }}
 <br><br>
-Welcome to my Website!
+Bienvenido a Miitut!
 <br>
-Please Click the below link to verify your email and activate your account!
+Por favor click en el enlace para verificar su email y activar su cuenta!
 <br><br>
-<a href="http://{{ env('APP_URL') }}/verify?code={{$data['verification_code']}}">Click Here!</a>
+<a href="{{ env('APP_URL') }}/verify?code={{$data['verification_code']}}">Verificar Cuenta!</a>
 
 <br><br>
-Thank You!
+Gracias!
 <br>
 
