@@ -60,7 +60,10 @@ export default {
 
             if (res.status === 201){
                 this.makeNotice('success', 'Registro Exitoso', res.data.msg);
-                window.location.href = '/'
+                
+                setTimeout(()=>{
+                    window.location.href = '/'
+                }, 3000)
 
             }else if (res.status === 422){
                 const dataError = res.data.errors
@@ -156,7 +159,7 @@ export default {
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <div class="custom-control custom-checkbox" v-on:click="handleAcceptTerm">
+                                    <div class="custom-control custom-checkbox">
                                         <div class="text-center">
                                             <span class="text-muted" style="font-size: 12px">
                                                 Al hacer clic en "Registrarte", aceptas nuestras 

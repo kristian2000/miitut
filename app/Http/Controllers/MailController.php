@@ -40,4 +40,23 @@ class MailController extends Controller
             ]
         );
     }
+
+    public static function sendResetPasswordEmail($user){
+        $data = [
+            'email' => $user->email,
+            'name' => $user->name,
+            'verification_code' => $user->verification_code
+        ];
+
+        $domain = env('MAILGUN_DOMAIN');
+        $ms = Mailgun::create(env('MAILGUN_SECRET'));
+
+        $ms->messages()->send($domain, [
+                'from'	=> 'Miitut <miitut@gmail.com>',
+                'to'	=> $user->name.'<'.$user->email. '>',
+                'subject' => 'Recuperar Contraseña!',
+                'html' => view('mail.reset-password-email', [ 'data' => $data ])->render()
+            ]
+        );
+    }
 }

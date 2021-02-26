@@ -5,6 +5,7 @@ Vue.use(Router)
 
 // Pages
 import Home from '../components/pages/Home/index.vue'
+import AboutCategory from '../components/pages/Home/AboutCategory'
 import Search from '../components/pages/Search.vue'
 import ProfilePublic from '../components/pages/ProfilePublic/index'
 
@@ -25,6 +26,7 @@ import VerifyCode from '../components/pages/auth/VerifyCode'
 import LoginSocial from '../components/pages/auth/LoginSocial'
 import CompleteProfile from '../components/pages/auth/CompleteProfile'
 import CompleteProfileWork from '../components/pages/auth/CompleteProfileWork'
+import ResetPassword from '../components/pages/auth/ResetPassword'
 
 //Plantilla
 import INDEX from '../components/pages/Home/index.vue'
@@ -62,6 +64,10 @@ const routes = [
         path: '/test',
         component: Home
     },
+    {
+        path: '/aboutCategory/:category',
+        component: AboutCategory
+    },
     //Autentificacion
     {
         path: '/login',
@@ -74,6 +80,10 @@ const routes = [
     {
         path: '/verify',
         component: VerifyCode
+    },
+    {
+        path: '/resetPassword',
+        component: ResetPassword
     },
     {
         path: '/authorize/:drive/callback',
@@ -120,8 +130,12 @@ const routes = [
     },
 
     {
+        name: 'search',
         path: '/search',
-        component: Search
+        component: Search,
+        props: props => ({
+            ...props
+        })
     },
     {
         path: '/profilePublic/:id',

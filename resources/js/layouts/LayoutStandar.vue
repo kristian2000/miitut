@@ -1,9 +1,9 @@
 <template>
     <div >
-        <Navbar />
-
+        <NavbarAuthorization v-if="user"/>
+        <NavbarUnauthorization v-else/>
         <main
-            style="background: url('images/account/bg.png') center center; padding-top: 100px;"
+            style="background: url('/images/account/bg.png') center center; padding-top: 100px;"
         >
             <div
                 class="py-5 pl-3 pr-3"
@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import Navbar from './components/navbarP.vue'
+import NavbarAuthorization from './components/navbarP.vue'
+import NavbarUnauthorization from '../components/pages/Home/navbar';
 import Footer from './components/Footer'
 
 export default {
@@ -36,8 +37,14 @@ export default {
         }
     },
     components: {
-        Navbar,
+        NavbarAuthorization,
+        NavbarUnauthorization,
         Footer
+    },
+    computed: {
+        user(){
+            return this.$store.state.user;
+        }
     }
 }
 </script>

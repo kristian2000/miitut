@@ -1,6 +1,9 @@
 <template>
     <div>
-        <Navbar />
+        <NavbarAuthorization v-if="user"/>
+        <div v-else>
+            <NavbarUnauthorization />
+        </div>
 
         <main>
             <slot />
@@ -11,13 +14,20 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar'
+import NavbarAuthorization from './components/Navbar'
+import NavbarUnauthorization from '../components/pages/Home/navbar'
 import Footer from './components/Footer'
 
 export default {
     components: {
-        Navbar,
+        NavbarAuthorization,
+        NavbarUnauthorization,
         Footer
+    },
+    computed: {
+        user(){
+            return this.$store.state.user;
+        }
     }
 }
 </script>

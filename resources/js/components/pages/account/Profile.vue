@@ -71,7 +71,7 @@ export default {
             if (this.$store.state.user){
                 this.getNotifications() 
             }
-        }, 50000)
+        }, 3000)
     },
     methods: {
         sendEmailConfirmation(){

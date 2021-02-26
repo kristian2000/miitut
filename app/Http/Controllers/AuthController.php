@@ -294,4 +294,61 @@ class AuthController extends Controller
 
     }
 
+    public function sendResetPassword(Request $request){
+        $this->validate($request, [
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user){
+            // modificar verificar code
+            $user->verification_code = sha1(time());
+            $user->save();
+
+            // Se envia en email
+            MailController::sendResetPasswordEmail($user);
+
+            return response()->json([
+                "status" => true,
+                'msg' => 'Correo de recuperacion enviado'
+            ]);
+        }
+
+        return response()->json([
+            "status" => false,
+            'msg' => 'Email no registrado'
+        ], 401);
+    }
+
+    public function resetPassword(Request $request){
+
+        $this->validate($request, [
+            'email' => 'required|email',
+            'code' => 'required',
+            'password' => 'required'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user){
+            // modificar verificar code
+            $user->verification_code = null;
+            $user->password = Hash::make($request->password);
+            $user->email_check = true;
+            $user->save();
+
+            return response()->json([
+                "status" => true,
+                'msg' => 'Contraseña Modificada'
+            ]);
+        }
+
+        return response()->json([
+            "status" => false,
+            'msg' => 'Email no registrado'
+        ], 401);
+
+    }
+
 }

@@ -18,7 +18,8 @@ export default {
                 email: '',
                 password: ''
             },
-            isLogging: false
+            isLogging: false,
+            emailReset: ''
         }
     },
     created(){
@@ -35,19 +36,20 @@ export default {
                     // this.makeNotice('success', 'Inicio Exitoso', res.data.msg);
                     this.$store.commit('setUpdateUser', res.data.user);
                     window.location.href = '/'
-                    // setTimeout(()=>{
-                    //     this.$router.push('/');
-                    // }, 1500)
+
                 }
                 else if (res.status === 403) {
                         this.makeNotice('info', 'Info', res.data.msg)
                 }
                 else {
                     console.log('hubo un error', res)
-                    // if (res.status === 403){
-                        this.makeNotice('danger', 'Error', res.data.msg ? res.data.msg : 'Oops ocurrio un error interno');
-                    // }else {
-                    // }
+
+                    this.makeNotice('danger', 'Error', 
+                        res.data.msg ? 
+                            res.data.msg 
+                            : 
+                            'Oops ocurrio un error interno'
+                    );
                 }
 
             
@@ -71,6 +73,37 @@ export default {
                     this.makeNotice('danger', 'Error', 'Oops ocurrio un error interno');
                 }
             }
+        },
+        async sendResetPassword(){
+            if (!this.emailReset.length){
+                return;
+            }
+
+            const res = await this.callApi('post', 'app/auth/sendResetPassword', {
+                email: this.emailReset
+            })
+
+            if (res.status === 200 ){
+                this.makeNotice(
+                    'success', 
+                    'Info', 
+                    `correo de recuperacion enviado, 
+                    ingresa a tu correo para resetear tu contraseña`
+                );
+
+                this.$bvModal.hide('modalResetPassword')
+                this.emailReset = '';  
+            }else {
+
+                this.makeNotice('danger', 'Error', 
+                    res.data.msg ? 
+                        res.data.msg 
+                        : 
+                        'Oops ocurrio un error interno'
+                );
+            }
+
+            console.log(res);
         }
     },
     components: {
@@ -101,7 +134,14 @@ export default {
                                     <div class="form-group position-relative">
                                         <label>Correo <span class="text-danger">*</span></label>
                                         <user-icon class="fea icon-sm icons mt-1"></user-icon>
-                                        <input v-model="form.email" type="email" class="form-control pl-5" placeholder="Escribe tu correo..." name="email" required="">
+                                        <input 
+                                            v-model="form.email" 
+                                            type="email"
+                                            class="form-control pl-5" 
+                                            placeholder="Escribe tu correo..." 
+                                            name="email" 
+                                            required=""
+                                        >
                                     </div>
                                 </div>
 
@@ -109,7 +149,13 @@ export default {
                                     <div class="form-group position-relative">
                                         <label>Contraseña <span class="text-danger">*</span></label>
                                         <key-icon class="fea icon-sm icons mt-1"></key-icon>
-                                        <input v-model="form.password" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
+                                        <input 
+                                            v-model="form.password" 
+                                            type="password" 
+                                            class="form-control pl-5" 
+                                            placeholder="Escribe tu contraseña..." 
+                                            required=""
+                                        >
                                     </div>
                                 </div>
 
@@ -122,7 +168,13 @@ export default {
                                             </div> -->
                                         </div>
                                         <p class="forgot-pass mb-0">
-                                            <router-link to="/template/auth-re-password" class="text-dark font-weight-bold">¿Olvidaste tu contraseña ?</router-link>
+                                            <span
+                                                @click="()=>{this.$bvModal.show('modalResetPassword') }"
+                                                class="text-dark font-weight-bold"
+                                                style="cursor:pointer"
+                                            >
+                                                ¿Olvidaste tu contraseña ?
+                                            </span>
                                         </p>
                                     </div>
                                 </div>
@@ -160,6 +212,51 @@ export default {
             <!--end col-->
         </div>
         <!--end row-->
+
+        <!-- Start Modal reset password -->
+        <b-modal
+            id="modalResetPassword"
+            title="Resetear Contraseña"
+            scrollable
+            hide-footer
+        >
+            <!-- Start DNI -->
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <label for="dni" class="text-muted">Ingresa tu Email</label>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center">
+                                <b-form-input
+                                    type="email"
+                                    v-model="emailReset"
+                                    style="width:250px"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <div class="d-flex justify-content-center">
+                                <div>
+                                    <b-button  
+                                        pill
+                                        variant="outline-secondary"
+                                        @click="sendResetPassword"
+                                        :disabled="Boolean(!emailReset.length)"
+                                    >
+                                        Enviar
+                                    </b-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <!-- END DNI -->
+        </b-modal>
+        <!-- End Modal reset password -->
     </div>
 </LayoutStandar>
 </template>

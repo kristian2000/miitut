@@ -37,6 +37,8 @@ Route::post('/app/register', [AuthController::class, 'register']);
 Route::post('/app/verifyUserEmail', [AuthController::class, 'verifyUserEmail']);
 Route::get('/app/authorize/{driver}/redirect', [AuthController::class, 'redirectToProvider']);
 Route::post('/app/authorize/{driver}/callback', [AuthController::class, 'handleProviderCallback']);
+Route::post('/app/auth/sendResetPassword', [AuthController::class, 'sendResetPassword']);
+Route::post('/app/auth/resetPassword', [AuthController::class, 'resetPassword']);
 
 // Users
 Route::post('/app/users/updateProfile', [UserController::class, 'updateProfile']);

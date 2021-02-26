@@ -102,7 +102,7 @@ export default {
     <!-- <Navbar :nav-light="true" /> -->
 
     <!-- Hero Start -->
-    <section class="bg-profile d-table w-100" style="background: url('images/account/bg.png') center center;">
+    <section class="bg-profile d-table w-100" style="background: url('/images/account/bg.png') center center;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

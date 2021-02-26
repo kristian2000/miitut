@@ -213,7 +213,10 @@ export default {
                                 </div>
                                 <!--end col-->
 
-                                <div class="col-lg-4 col-md-12" v-if="$store.state.user.userType !== 'admin'">
+                                <div 
+                                    class="col-lg-4 col-md-12" 
+                                    v-if="$store.state.user.userType === 'help'"
+                                >
                                     <div class="d-flex justify-content-center justify-content-md-center" >
                                         <div >
                                             <b-button
@@ -240,7 +243,7 @@ export default {
                             </div>
                             <!--end row-->
 
-                            <div style="position:relative" v-if="$store.state.user.userType !== 'admin'">
+                            <div style="position:relative" v-if="$store.state.user.userType === 'help'">
                                 <div 
                                     class="font-weight-bold report" 
                                     @click="$bvModal.show('modalReport')"

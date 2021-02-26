@@ -11,6 +11,7 @@ import {
 import Navbar from "./navbar";
 import Footer from "./footer";
 
+import QuickSearch from '../../QuickSearch'
 
 /**
  * Index-1
@@ -23,7 +24,8 @@ export default {
         KeyIcon,
         ArrowUpIcon,
         Footer,
-        HelpCircleIcon
+        HelpCircleIcon,
+        QuickSearch
     },
     created(){
         const user = this.$store.state.user;
@@ -45,6 +47,11 @@ export default {
             }
         }
     },
+    computed: {
+        categories(){
+            return this.$store.state.categories;
+        }
+    }
 };
 </script>
 
@@ -59,9 +66,13 @@ export default {
                     <div class="title-heading">
                         <h1 class="heading">Our Creativity Is Your</h1>
                         <p class="para-desc">Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap4 html page.</p>
-                        <div class="botones">
+                        <!-- <div class="botones">
                             <router-link to="/page-contact-one" class="btn btn-primary mt-2 mr-2"><i class="mdi mdi-email"></i> Get Started</router-link>
                             <router-link to="/documentation" class="btn btn-outline-primary mt-2"><i class="mdi mdi-book-outline"></i> Documentation</router-link>
+                        </div> -->
+
+                        <div v-if="categories.length">
+                            <QuickSearch />
                         </div>
                     </div>
                 </div>
@@ -93,44 +104,44 @@ export default {
 
         <div class="container-fluid categoriesGroup" style="max-width: 1200px">
             <div class="d-flex justify-content-center flex-wrap">
-                <div class="m-2">
-                    <img src="images/categories/niñera.jpg" width="320px" height="220px" />
+                <div class="m-2" @click="$router.push(`/aboutCategory/babySitter`)">
+                    <img src="images/categories/babySitter.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Niñera</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2">
-                    <img src="images/categories/cuidadoMayores.jpg" width="320px" height="220px" />
+                <div class="m-2" @click="$router.push(`/aboutCategory/ederlycare`)">
+                    <img src="images/categories/ederlycare.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Cuidado de Mayores</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2">
-                    <img src="images/categories/cuidadoMascotas.jpg" width="320px" height="220px" />
+                <div class="m-2" @click="$router.push(`/aboutCategory/petcare`)">
+                    <img src="images/categories/petcare.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Cuidado de Mascotas</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2">
-                        <img src="images/categories/limpieza.jpg" width="320" height="220px" />
+                <div class="m-2" @click="$router.push(`/aboutCategory/housekeeping`)">
+                        <img src="images/categories/housekeeping.jpg" width="320" height="220px" />
                         <h3 class="mt-2 font-weight-bold">Servicio de Limpieza</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2">
-                        <img src="images/categories/mantenimiento.jpg" width="320px" height="220px" />
+                <div class="m-2" @click="$router.push(`/aboutCategory/maintenance`)">
+                        <img src="images/categories/maintenance.jpg" width="320px" height="220px" />
                         <h3 class="mt-2 font-weight-bold">Mantenimiento</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2">
-                        <img src="images/categories/parasanitario.jpg" width="320px" height="220px" />
+                <div class="m-2" @click="$router.push(`/aboutCategory/parasanitary`)">
+                        <img src="images/categories/parasanitary.jpg" width="320px" height="220px" />
                         <h3 class="mt-2 font-weight-bold">Parasanitario</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2">
-                    <img src="images/categories/profesores.jpg" width="320px" height="220px" />
+                <div class="m-2" @click="$router.push(`/aboutCategory/tutoring`)">
+                    <img src="images/categories/tutoring.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Profesores Particulares</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>

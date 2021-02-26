@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
 import LayoutDefault from './layouts/LayoutDefault'
 import LayoutStandar from './layouts/LayoutStandar'
 
@@ -13,7 +14,7 @@ export default {
     name: 'App',
     data() {
         return {
-            Layout: this.user ? LayoutDefault : 'div'
+            Layout: LayoutDefault
         }
     },
     components: {
@@ -25,12 +26,14 @@ export default {
         //         console.log('OMG realtime', notification)
         //     });
     },
-    created(){
+    async created(){
         console.log('APP CREATED', this)
         console.log('User', this.user)
         this.$store.commit('setUpdateUser', this.user)
         //Mensaje de Bienvenida
         // this.makeNotice('primary', 'HOLA!', 'Bienvenido a Miitut')
+
+        // this.getCategories();
     }
 }
 </script>

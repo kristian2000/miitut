@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         user: false,
-        notifications: []
+        notifications: [],
+        categories: []
     },
     getters: {
 
@@ -18,7 +19,10 @@ export default new Vuex.Store({
             state.user = data;
         },
         setUpdateNotifications(state, data){
-            state.notifications = data
+            state.notifications = data;
+        },
+        setUpdateCategories(state, data){
+            state.categories = data;
         }
     },
     actions: {

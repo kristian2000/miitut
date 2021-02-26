@@ -20,8 +20,11 @@ export default {
 
                 <div class="row ">
                     <div class="col-md-6 col-12" >
-                        <div class="features text-center" @click="selectedOption('help')">
-                            <div class="row">
+                        <div 
+                            class="features text-center" 
+                            @click="selectedOption('help')"   
+                        >
+                            <div class="row" style="cursor:pointer">
                                 <div class="col-12">
                                     <img 
                                         src="assets/icon_help.png" 
@@ -39,8 +42,10 @@ export default {
 
                     <!-- <router-link :to="{path: this.$router.currentRoute.path + '/work' + '/signup'}" class="col-6"> -->
                     <div class="col-md-6 col-12" >
-                        <div class="features text-center" @click="selectedOption('work')">
-                            <div class="row">
+                        <div class="features text-center" 
+                            @click="selectedOption('work')"
+                        >
+                            <div class="row" style="cursor:pointer">
                                 <div class="col-12">
                                     <img 
                                         src="assets/icon_work.png" 

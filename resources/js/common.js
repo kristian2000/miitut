@@ -110,6 +110,14 @@ export default {
                 // console.log('notifications', response.data.notifications)
                 this.$store.commit('setUpdateNotifications', response.data.notifications)
             }
+        },
+        async getCategories(){
+            const response = await this.callApi('get', `/app/categories/getWithSubcategories`);
+
+            if(response.status === 200){
+                // console.log('categories app', response.data)
+                this.$store.commit('setUpdateCategories', response.data)
+            }
         }
 
     }

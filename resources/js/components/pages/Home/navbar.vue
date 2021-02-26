@@ -16,6 +16,9 @@ export default {
             type: Boolean
         }
     },
+    async created(){
+       await this.getCategories();
+    },
     mounted: () => {
         // window.onscroll = function () {
         //     onwindowScroll();
@@ -72,6 +75,11 @@ export default {
                     }
                 }
             }
+        }
+    },
+    computed: {
+        categories(){
+            return this.$store.state.categories;
         }
     },
     methods: {
@@ -156,18 +164,17 @@ export default {
                         <a class="" href="javascript:void(0)" @click="onMenuClick">Categorias</a><span class="menu-arrow"></span>
                         <ul class="submenu">
 
-                                    <li>
-                                        <router-link to="/page-aboutus" class="side-nav-link-ref">Categoria 1</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/page-aboutus" class="side-nav-link-ref">Categoria 2</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/page-aboutus" class="side-nav-link-ref">Categoria 3</router-link>
-                                    </li>
+                            <!-- <li>
+                                <router-link to="/page-aboutus" class="side-nav-link-ref">Categoria 1</router-link>
+                            </li> -->
 
+                            <li v-for="category in categories" :key="category.id">
+                                <router-link :to="`/aboutCategory/${category.name}`" class="side-nav-link-ref">
+                                    {{ category.label }}
+                                </router-link>
+                            </li>   
 
-                            </ul>
+                        </ul>
                     </li>
 
                     <li>

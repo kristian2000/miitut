@@ -23,11 +23,15 @@ import Score from '../score.vue';
 export default {
     data() {
         return {
+            // Map
             zoom: 13,
             center: [0, 0],
             rotation: 0,
             geolocPosition: undefined,
             markers: [],
+            showMap: true,
+
+            // Form
             form: {
                 category: '',
                 subCategory: '',
@@ -40,12 +44,11 @@ export default {
 
             },
             locationQuery: '',
-            addressSearch: null,
+            addressSearch: null, //lat y long
             suggestions: [{text: 'Sugerencias al buscar tu ubicacion', value: null}],
             categoriesForm : [],
             categories: [],
             categoriesUserWork: [],
-            user: this.$store.state.user,
             scoreOptions: [
                 { text: 'Todos', value: 1},
                 { text: 'De 2 en adelante', value: 2},
@@ -53,7 +56,10 @@ export default {
                 { text: 'De 4 en adelante', value: 4},
                 { text: 'Solo 5 Estrellas', value: 5}
             ],
-            showMap: true
+
+            //loading,
+            loadingCategoriesUser: false,
+            loadingSearchAddress: false
         }
     },
     components: {
@@ -73,29 +79,46 @@ export default {
         XIcon
     },
     async created(){
-        if (this.$store.state.user){
-            const response = await this.callApi('get', `app/categories/getWithSubcategories`);
-            console.log(response)
-            if (response.status === 200){
-                let categories = response.data.map( category => ({
-                    value: category,
-                    text: category.label,
-                }));
+        const response = await this.callApi('get', `app/categories/getWithSubcategories`);
+        console.log(response)
 
-                this.categories = categories;
-                console.log('categories',categories)
-            }
+        if (response.status === 200){
+            let categories = response.data.map( category => ({
+                value: category,
+                text: category.label,
+            }));
+
+            this.categories = categories;
+            console.log('categories',categories)
+        }
+
+        // Si se detecta un usuario registrado
+        if (this.$store.state.user){
 
             this.locationQuery = this.$store.state.user.address;
             this.addressSearch = {
                 lat: this.$store.state.user.lat,
                 lon: this.$store.state.user.lng
             }
-
-
-        }else {
-            this.$router.push('/');
         }
+
+        if (this.$route.params.type === 'quickSearch'){
+            this.form.category = this.$route.params.category;
+            this.locationQuery = this.$route.params.address;
+            this.form.radius = 30;
+
+           // Buscar la lat, lng con la direccion
+           await this.geolocalizationAddress();
+
+           // hacer la busqueda de categoryUser
+           
+            if (this.addressSearch){
+                this.submit();
+            }
+        }
+
+        console.log('Params', this.$route.params);
+
     },
     computed: {
         subCategories(){
@@ -114,17 +137,22 @@ export default {
             set(){
                 return ;
             }
+        },
+        user() {
+            this.$store.state.user
         }
     },
     methods: {
         validate(){
             if (!this.addressSearch){
-                this.makeNotice('danger', 'La ubicacion es requerida', 'Por favor escribe tu direccion, dale click en el icono de buscar y escoge una sugerencia de ubicacion')
-                return;
+                return this.makeNotice('danger', 'La ubicacion es requerida', 'Por favor escribe tu direccion, dale click en el icono de buscar y escoge una sugerencia de ubicacion')
             }
             this.submit();
         },
         async submit(){
+            // loading
+            this.loadingCategoriesUser = true;
+
             let form = this.form;
             let formData = Object.keys(form)
                 .reduce( (acc, value)=> {
@@ -163,12 +191,17 @@ export default {
             }catch(error){
                 console.log(error)
             }
+
+            this.loadingCategoriesUser = false;
         },
         async geolocalizationAddress(){
             // Validacion
             if (this.locationQuery === ''){
                 return ;
             }
+
+            // loading
+            this.loadingSearchAddress = true;
 
             const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${this.locationQuery}`)
             console.log('response location', response);
@@ -180,6 +213,8 @@ export default {
 
             this.suggestions = suggestions;
             this.addressSearch =  suggestions.length ? suggestions[0].value : null;
+
+            this.loadingSearchAddress = false;
         }
 
     }
@@ -191,10 +226,13 @@ export default {
     <!-- <Navbar :nav-light="true" /> -->
 
     <!-- Hero Start -->
-    <section class="bg-profile d-table w-100 bg-primary" style="background: url('images/account/bg.png') center center;">
+    <section 
+        class="bg-profile d-table w-100 bg-primary" 
+        style="background: url('images/account/bg.png') center center;"
+    >
         <div class="container">
 
-                    <div class="card public-profile border-0 rounded shadow" style="z-index: 1;">
+                    <div class="card public-profile border-0 rounded shadow " style="z-index: 1; margin-top: 100px">
                         <div class="card-body ">
 
                             <div class="row">
@@ -372,6 +410,7 @@ export default {
                                                 </label>
                                             </div>
                                         </div>
+                                <div v-if="!this.loadingCategoriesUser">
                                         <div class="border shadow"
                                             :style="`height: ${!showMap? 800 : 500}px; overflow:scroll; overflow-x:hidden; border-radius:15px;`"
                                         >
@@ -562,7 +601,23 @@ export default {
                                             </div>
                                         </div>
                                         <!-- End List Usuario -->
-
+                                </div>
+                                <div v-else>
+                                    <!-- Spinner -->
+                                    <div
+                                        class="border shadow"
+                                        :style="`height: ${!showMap? 800 : 500}px; border-radius:15px;`"
+                                    >
+                                        <div 
+                                            class="d-flex justify-content-center align-items-center" 
+                                            style="height: 100%;"
+                                        >
+                                            <div>
+                                                <b-spinner type="grow" label="Spinning" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                     </div>
                                 </div>
                                 <!-- END Column lateral -->
