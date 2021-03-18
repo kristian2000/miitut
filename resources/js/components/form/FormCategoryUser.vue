@@ -10,7 +10,8 @@ export default {
     props: [
         'type',
         'categoryUser',
-        'setCategoryUser'
+        'setCategoryUser',
+        'updateCategoryUser'
     ],
     data(){
         return {
@@ -55,7 +56,17 @@ export default {
                 lng: this.$store.state.user.lng
             }
 
+            this.subcategoriesSelected = this.categoryUser.sub_categories ?? []
             //Subcategories
+            const responseSubCat = await this.callApi('get', `app/categories/${this.categoryUser.category.id}/subcategories`)
+
+            if (responseSubCat.status === 200){
+                // console.log('res', responseSubCat)
+                this.subcategories = responseSubCat.data.map( sub => ({
+                    name: sub.label,
+                    code: sub.id
+                }))
+            }
 
         }
 
@@ -63,20 +74,21 @@ export default {
 
         let mapTimesAvailable = {};
 
-        this.categoryUser.times_available.forEach( time => {
-            let doc = mapTimesAvailable[time.hours]
-            if (!doc){
-                mapTimesAvailable[time.hours] = { days: [ time.day ]}
-            }else {
-                mapTimesAvailable[time.hours].days.push(time.day)
-            }
-        })
+        // this.categoryUser.times_available.forEach( time => {
+        //     let doc = mapTimesAvailable[time.hours]
+        //     if (!doc){
+        //         mapTimesAvailable[time.hours] = { days: [ time.day ]}
+        //     }else {
+        //         mapTimesAvailable[time.hours].days.push(time.day)
+        //     }
+        // })
 
         this.userCategory = {
             ...this.categoryUser,
-            times_available: mapTimesAvailable
+            // times_available: mapTimesAvailable
         };
 
+        this.sheduleData = this.categoryUser.shedule;
     },
     methods: {
         setSheduleData(value){
@@ -89,12 +101,12 @@ export default {
                 code: newTag
             }
             this.subcategoriasSelected.push(tag)
-            this.subcategories.push(tag)
+            // this.subcategories.push(tag)
         },
-        async changeHandleTimeAvailable(time){
-            const response = await this.callApi('post', `app/categoriesUser/${this.categoryUser.id}/changeTimeAvailable`, time);
-            return response;
-        },
+        // async changeHandleTimeAvailable(time){
+        //     const response = await this.callApi('post', `app/categoriesUser/${this.categoryUser.id}/changeTimeAvailable`, time);
+        //     return response;
+        // },
         async getUbicacion(){
             const response = await this.localizar();
             this.form.address = response.address;
@@ -106,20 +118,12 @@ export default {
             const form = this.form;
 
             const data = {
-                ...form
+                ...form,
+                shedule: this.sheduleData,
+                sub_categories: this.subcategoriesSelected
             }
 
-            console.log('data', data);
-            //     console.log('form', form)
-            const res = await this.callApi('put', `app/categoriesUser/${this.categoryUser.id}`, data)
-
-            if (res.status === 200){
-                this.makeNotice('success', 'Categoria Actualizada', 'La categoria a sido actualizada exitosamente!');
-                this.setCategoryUser({ ...this.categoryUser, ...res.data.category});
-            }
-
-            console.log('response', res)
-
+            this.updateCategoryUser(data);
         }
 
     }
@@ -251,11 +255,11 @@ export default {
             <div class="col-12 mt-3">
                 <b-card-group deck class="mb-3">
                     <b-card border-variant="light" header="Asigna tu horario" class="text-center">
+                            <!-- :changeHandleServer="changeHandleTimeAvailable" -->
                         <Shedule
                             :sheduleData="sheduleData"
                             :setSheduleData="setSheduleData"
-                            :changeHandleServer="changeHandleTimeAvailable"
-                            :dataInitial = categoryUser.times_available
+                            :dataInitial = categoryUser.shedule
                         />
                     </b-card>
                 </b-card-group>

@@ -45,26 +45,14 @@ export default {
                         name: sub.label,
                         code: sub.id
                     }))
+                    
                 }
-            }
-
-            let mapTimesAvailable = {};
-
-            if (response.data.times_available){
-                response.data.times_available.forEach( time => {
-                    let doc = mapTimesAvailable[time.hours]
-                    if (!doc){
-                        mapTimesAvailable[time.hours] = { days: [ time.day ]}
-                    }else {
-                        mapTimesAvailable[time.hours].days.push(time.day)
-                    }
-                })
             }
 
 
             this.userCategory = {
                 ...response.data,
-                times_available: mapTimesAvailable
+                // times_available: mapTimesAvailable
             };
 
             // console.log('map',mapTimesAvailable)
@@ -82,7 +70,7 @@ export default {
                 code: newTag
             }
             this.subcategoriasSelected.push(tag)
-            this.subcategories.push(tag)
+            // this.subcategories.push(tag)
         },
         async changeHandleTimeAvailable(time){
             // const response = await this.callApi('post', `app/categoriesUser/${this.userCategory.id}/changeTimeAvailable`, time);
@@ -110,11 +98,11 @@ export default {
                 lat: this.user.lat,
                 lng: this.user.lng,
                 shedule: this.sheduleData,
-                subcategoriasSelected: this.subcategoriesSelected.map( sub => sub.code)
+                subcategoriasSelected: this.subcategoriesSelected
             }
 
             console.log('data', data);
-            console.log('shedule', this.sheduleData)
+            // console.log('shedule', this.sheduleData)
             //     console.log('form', form)
             const res = await this.callApi('post', `app/categoriesUser/${this.userCategory.id}/completeProfileWork`, data)
 
@@ -242,10 +230,11 @@ export default {
                 <b-card-group deck class="mb-3">
                     <b-card border-variant="light" header="Asigna tu horario" class="text-center">
                             <!-- :changeHandleServer="changeHandleTimeAvailable" -->
+                            <!-- :dataInitial = userCategory.times_available -->
                         <Shedule
                             :sheduleData="sheduleData"
                             :setSheduleData="setSheduleData"
-                            :dataInitial = userCategory.times_available
+                            :create="true"
                         />
                     </b-card>
                 </b-card-group>

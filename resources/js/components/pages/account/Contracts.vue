@@ -2,6 +2,7 @@
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
 import FormContract from '../../form/FormContract';
+import FormActionContractAccept from '../../form/FormActionContractAccept';
 
 import CardStripe from '../../CardStripe';
 /**
@@ -18,7 +19,8 @@ export default {
     components: {
         LayoutAccount,
         FormContract,
-        CardStripe
+        CardStripe,
+        FormActionContractAccept
     },
     async created(){
         const response = await this.callApi('get', `app/contracts`);
@@ -250,7 +252,7 @@ export default {
 
             </div>
         </div>
-                <!-- Start Modal Contrato -->
+        <!-- Start Modal Contrato -->
         <div >
             <b-modal
                 id="modalContract"
@@ -273,6 +275,17 @@ export default {
                     :payContractOccasional="this.payContract"
                     :payContractHabitual="this.payContract"
                     :edit="true"
+                />
+
+                <FormActionContractAccept 
+                    :contract="currentContract"
+                    :acceptCall="this.acceptContract"
+                    :rejectCall="this.rejectContract"
+                    :finalizeCall="this.finalizeContract"
+                    :qualityCall="this.qualityContract"
+                    :renovarCall="()=> { this.$bvModal.show('modalRenovarContract') }"
+                    :payContractOccasional="this.payContract"
+                    :payContractHabitual="this.payContract"
                 />
             </b-modal>
         </div>

@@ -540,7 +540,8 @@ export default {
                                                                                             <CheckIcon
                                                                                                 width="10"
                                                                                                 v-if="categoryUser.sub_categories ?
-                                                                                                    categoryUser.sub_categories.includes(subService.id) : false"
+                                                                                                    categoryUser.sub_categories
+                                                                                                        .every(subCat => subCat.code === subService.id) : false"
                                                                                             />
                                                                                             <XIcon
                                                                                                 v-else

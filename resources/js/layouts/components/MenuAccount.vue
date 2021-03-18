@@ -43,17 +43,23 @@ export default {
                     viewOnly: ['work']
                 },
                 {
+                    title: 'Anuncios',
+                    iconClass: 'uil uil-file',
+                    path: '/account-ads',
+                    viewOnly: ['help']
+                },
+                {
+                    title: 'Ofertas',
+                    iconClass: 'uil uil-file',
+                    path: '/account-offers',
+                    viewOnly: ['work']
+                },
+                {
                     title: 'Contratos',
                     iconClass: 'uil uil-users-alt',
                     path: '/account-contracts',
                     viewOnly: ['help', 'work']
                 },
-                // {
-                //     title: 'Anuncios',
-                //     iconClass: 'uil uil-file',
-                //     path: '/account-advertisements',
-                //     viewOnly: ['']
-                // },
                 {
                     title: 'Facturas',
                     iconClass: 'uil uil-envelope-star',

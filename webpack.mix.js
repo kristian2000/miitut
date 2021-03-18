@@ -18,3 +18,12 @@ mix.styles([
     'resources/css/materialdesignicons.min.css',
     'resources/css/app.css',
 ], 'public/css/all.css');
+
+
+mix.webpackConfig({
+    devServer: {
+        proxy: {
+            '*': 'http://localhost:8000'
+        }
+    }
+});

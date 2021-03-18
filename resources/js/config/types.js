@@ -17,7 +17,8 @@ const TYPE_CATEGORIES = {
     HAIRDRESSING: 'hairdressing',
     MAINTENANCE: 'maintenance',
     BABY_SITTER: 'babySitter',
-    TUTORING: 'tutoring'
+    TUTORING: 'tutoring',
+    PARASANITARY: 'parasanitary'
 };
 
 export {

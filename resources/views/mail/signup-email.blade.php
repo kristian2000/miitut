@@ -1,12 +1,12 @@
 Hola {{ $data['name'] }}
 <br><br>
-Bienvenido a Miitut!
+Bienvenido a Miitut, tu plataforma digital de atención domiciliaria que facilita el contacto entre las familias y las personas que ofrecen sus servicios.
 <br>
-Por favor click en el enlace para verificar su email y activar su cuenta!
+Haz clic para completar el registro.
 <br><br>
 <a href="{{ env('APP_URL') }}/verify?code={{$data['verification_code']}}">Verificar Cuenta!</a>
 
 <br><br>
-Gracias!
+¡¡¡Muchas gracias por confiar en nosotros!!!
 <br>
 

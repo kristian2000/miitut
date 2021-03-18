@@ -15,6 +15,7 @@ class Contract extends Model
     ];
 
     protected $fillable = [
+        'category_id',
         'status_id',
         'user_id',
         'user_hired_id',
@@ -29,7 +30,8 @@ class Contract extends Model
         'daysSelected',
         'qualification_hired_id',
         'qualification_employer_id',
-        'price'
+        'price',
+        'ad'
     ];
 
     public function status(){
@@ -47,6 +49,14 @@ class Contract extends Model
     public function categoryUser(){
         return $this->belongsTo(CategoryUser::class, 'category_user_id')
             ->with('user', 'category');
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+    
+    public function requests(){
+        return $this->hasMany(RequestContract::class)->with('user');
     }
 
 }

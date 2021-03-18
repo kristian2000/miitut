@@ -15,9 +15,10 @@ import AccountProfile from '../components/pages/account/Profile'
 import AccountContracts from '../components/pages/account/Contracts'
 import AccountBills from '../components/pages/account/Bills'
 import AccountMessages from '../components/pages/account/Messages'
-import AccountAdvertisements from '../components/pages/account/Advertisements'
+import AccountAds from '../components/pages/account/Ads'
 import AccountEmployees from '../components/pages/account/Employees'
 import AccountCategories from '../components/pages/account/Categories'
+import AccountOffers from '../components/pages/account/Offers'
 
 // Autentication
 import Registration from '../components/pages/auth/Registration/index'
@@ -37,6 +38,8 @@ import AdminVerify from '../components/pages/Admin/Verify'
 import AdminReports from '../components/pages/Admin/Reports'
 import AdminPayments from '../components/pages/Admin/Payments'
 
+import Aboutus from '../components/pages/Home/Aboutus'
+
 const routes = [
     // Admin
     {
@@ -55,7 +58,6 @@ const routes = [
         path: '/admin-payments',
         component: AdminPayments
     },
-
     {
         path: '/',
         component: INDEX
@@ -63,6 +65,10 @@ const routes = [
     {
         path: '/test',
         component: Home
+    },
+    {
+        path: '/Aboutus',
+        component: Aboutus
     },
     {
         path: '/aboutCategory/:category',
@@ -117,8 +123,8 @@ const routes = [
         component: AccountMessages
     },
     {
-        path: '/account-advertisements',
-        component: AccountAdvertisements
+        path: '/account-ads',
+        component: AccountAds
     },
     {
         path: '/account-employees',
@@ -128,7 +134,10 @@ const routes = [
         path: '/account-categories',
         component: AccountCategories
     },
-
+    {
+        path: '/account-offers',
+        component: AccountOffers
+    },
     {
         name: 'search',
         path: '/search',

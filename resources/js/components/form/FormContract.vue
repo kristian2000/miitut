@@ -10,6 +10,7 @@ import moment from 'moment';
 
 export default {
     props: [
+        'type',
         'categoryUser',
         'contract',
         'onSubmit',
@@ -57,14 +58,17 @@ export default {
             ],
             daysSelected: [],
             disabled: true,
-            infoShow: true,
+            infoShow: false,
             scoreStar: 1,
             comment: '',
-            loadingPayment: false
+            loadingPayment: false,
+            category: '',
+            categories: [],
+            price: 1
         }
     },
-    created(){
-        this.refreshContract();
+    async created(){
+        await this.refreshContract();
     },
     computed: {
         totalPrice(){
@@ -72,10 +76,11 @@ export default {
         }
     },
     methods: {
-        refreshContract(){
+        async refreshContract(){
             // Si el usuario es empleador se crea el contrato
             // Si no solo puede observarlo
             if (this.contract){
+                // Datos de un contrato
                 this.dateInitial = {
                     date: this.contract.date_start,
                     valid: true
@@ -90,16 +95,39 @@ export default {
                 this.typeContract = this.contract.type_contract
                 this.startTime = this.contract.start_time
                 this.daysSelected = this.contract.daysSelected
+                this.price = this.contract.price
+
+                this.infoShow = false;
 
                 if (this.contract.status.name === "pending"){
                     this.infoShow = true;
-                }else {
-                    this.infoShow = false;
+                }
+
+                // Solo en caso de ser contrato de un anuncio, categoria
+
+                if (this.contract && this.contract.category){
+                    this.categories = [{
+                        value: this.contract.category,
+                        text: this.contract.category.label
+                    }];
+
+                    this.category = this.contract.category;
                 }
             }
 
             if (this.typeForm === 'create'){
                 this.disabled = false;
+
+                if (this.type === 'ad'){
+                    await this.getCategories();
+
+                    this.categories = this.$store.state.categories
+                        .map(category => ({
+                            value: category,
+                            text: category.label
+                        }))
+                    this.category = this.$store.state.categories[0];
+                }
             }
         },
         changeHandleDay(day){
@@ -130,6 +158,7 @@ export default {
             this.selected = ctx.selectedYMD
         },
         validate(){
+            
             let errors = {};
             let errorsExist = false;
 
@@ -140,25 +169,24 @@ export default {
                 address: this.address,
                 message: this.message
             }
-
+            
             if (this.typeContract === 'habitual'){
                 form = {
                     ...form,
                     dateEnd: this.dateEnd,
                     hours: this.hours,
                     message: this.message,
-                    daysSelected: this.daysSelected.filter( d => d.value === true).length
+                    daysSelected: this.daysSelected.length
                 }
             }
-
-            // console.log('validateForm', form)
-
+            
             //Hacer Validaciones manuales
 
             Object.keys(form).forEach( field => {
                 const value = form[field];
                 // console.log('field', value)
                 switch(field){
+                    case 'message' :
                     case 'description':
                     case 'address': {
                         if (!value || !value.length){
@@ -185,34 +213,35 @@ export default {
                         }
                     };break;
                     case 'daysSelected': {
-                        if (value.length){
+                        if (!value){
                             errors[field] = [ 'Debe de tener seleccionado algun dia' ];
                             errorsExist = true;
                         }
                     }
 
                 }
-                // console.log('value', field, value)
+                // console.log('value', field, value
             })
 
             // Compruebo los errors y doy mensaje
             if (errorsExist){
-                this.makeNoticeListErrors(errors);
-                return;
+                return this.makeNoticeListErrors(errors);
             }
 
             this.submit();
         },
         async submit(){
             let form = {
-                userHired: this.categoryUser.user.id,
+                userHired: this.categoryUser?.user.id,
                 dateStart: this.dateInitial.date,
                 startTime: this.startTime,
                 hours: this.hours,
                 address: this.address,
                 message: this.message,
-                categoryUser: this.categoryUser.id,
-                typeContract: this.typeContract
+                categoryUser: this.categoryUser?.id,
+                typeContract: this.typeContract,
+                category: this.category?.id,
+                price: this.price
             }
 
             if (this.typeContract === 'habitual'){
@@ -224,7 +253,8 @@ export default {
                     daysSelected: this.daysSelected
                 }
             }
-            console.log('submit', form)
+            
+            // console.log('submit', form)
 
             this.onSubmit(form);
         },
@@ -269,7 +299,7 @@ export default {
                         <BtnDesp
                             title="Informacion Contrato"
                             :show="this.infoShow"
-                            :onClick="(show)=>{ this.infoShow = show}"
+                            :onClick="()=>{ this.infoShow = !this.infoShow}"
                         />
                     </div>
                 </div>
@@ -277,6 +307,43 @@ export default {
         </div>
 
         <div class="row" v-if="infoShow">
+            <!-- Tipo Ad -->
+            <div class="col-12" v-if="type === 'ad'"> 
+                <!-- Seleccionar Categoria -->
+                <div class="col-12">
+                    <b-form-group
+                        id="category"
+                        description=""
+                        label="Selecciona una Categoria"
+                        label-for="selectCategory"
+                    >
+                        <b-form-select 
+                            id="selectCategory"
+                            v-model="category" 
+                            :options="this.categories" 
+                            :disabled="this.disabled"
+                        />
+                    </b-form-group>
+                </div>
+
+                <!-- Price -->
+                <div class="col-12">
+                    <b-form-group
+                        description=""
+                        label="Precio Hora/Euro"
+                        label-for="precio"
+                    >
+                        <b-form-input 
+                            id="price" 
+                            type="number"
+                            v-model="price" 
+                            min="1"
+                            :disabled="this.disabled"
+                        />
+                    </b-form-group>
+                </div>
+            </div>
+
             <!-- Start Tipo de Contrato -->
             <div class="col-12 mb-2">
                 <div class="row">
@@ -511,239 +578,13 @@ export default {
                     <div class="col-12 " v-if="!contract">
                         <div class="d-flex justify-content-center mt-3">
                             <b-button pill variant="outline-secondary" @click="validate">
-                                Enviar Contrato
+                                Enviar
                             </b-button>
                         </div>
                     </div>
                 </div>
 
             </div>
-        </div>
-
-        <div class="row" v-if="contract">
-            <!-- Btn Acciones -->
-
-                <!-- Si el estado es pending
-                    - Si eres empleado [accion -> aceptar, rechazar }
-                    - Si eres empleador [accion -> cancelar]
-                -->
-                <div class="col-12" v-if="contract.status.name === 'pending'">
-                    <div class=""
-                        v-if="$store.state.user.userType === 'work'"
-                    >
-                        <div class="d-flex justify-content-center mt-4">
-                            <div class="mr-2">
-                                <b-button pill variant="outline-secondary" @click="acceptCall">
-                                    Aceptar
-                                </b-button>
-                            </div>
-                            <div>
-                                <b-button pill variant="outline-secondary" @click="rejectCall">
-                                    Rechazar
-                                </b-button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div v-else class="d-flex justify-content-center">
-                        <div class="d-flex justify-content-center flex-column">
-                            <div class="text-center">
-                                <h3> Información </h3>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <p class="text-muted" style="width: 80%;">
-                                    El Contrato esta pendiente, de ser aceptado o rechazado por el usuario de la categoria
-                                </p>
-                            </div>
-                        </div>
-                        <!-- <b-button pill variant="outline-secondary" @click="validate">
-                            Cancelar
-                        </b-button> -->
-                    </div>
-                </div>
-
-            <!-- Si esta rechazado [accion -> archivar, cerrar] -->
-                <div class="col-12" v-if="contract.status.name === 'reject'">
-                    <div class="">
-                        <div class="d-flex justify-content-center mt-4">
-                            <!-- <div class="mr-2">
-                                <b-button pill variant="outline-secondary" @click="acceptCall">
-                                    Archivar
-                                </b-button>
-                            </div> -->
-                            <div>
-                                <b-button pill variant="outline-secondary" @click="onClose">
-                                    Cerrar
-                                </b-button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            <!-- Si esta pendiente de pago [ empleado -> info, empleador -> pagar ] -->
-                <div class="col-12" v-if="contract.status.name === 'pendingPayment'">
-                    <div class=""
-                        v-if="$store.state.user.userType === 'help'"
-                    >
-                        <div class="d-flex justify-content-center flex-column ">
-                            <div class="d-flex justify-content-center flex-column">
-                                <div class="text-center">
-                                    <h3> Información </h3>
-                                </div>
-                                <div class="d-flex justify-content-center">
-                                    <p class="text-muted">
-                                        Al realizar el pago, se continuara con el proceso
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <div>
-                                    <CardStripe
-                                        :stripeTokenHandler="proccessPay"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-else>
-                        <div class="d-flex justify-content-center flex-column">
-                            <div class="text-center">
-                                <h3> Información </h3>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <p class="text-muted" style="width: 80%;">
-                                    El Contrato esta pendiente de pago, cuando el empleador realice el pago se te notificara
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            <!-- Si esta en proceso [ empleado -> finalizar, empleador -> finalizar ] -->
-                <div class="col-12" v-if="contract.status.name === 'process'">
-                    <div>
-                        <div class="d-flex justify-content-center flex-column">
-                            <div class="text-center">
-                                <h3> Información </h3>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <p class="text-muted" style="width: 80%;">
-                                    El Contrato esta en proceso, cuando se culmine los acuerdos dale click en finalizar y da tu opinión  
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="text-center border mb-2">
-                            <div>
-                                <p class="text-muted">
-                                    Este contrato se puede renovar {{ dateFormatRenovar(contract.date_start) }}
-                                </p>
-                            </div>
-                            <div 
-                                v-if="contract.type_contract === 'habitual'" 
-                                class="mb-2"
-                            >
-                                <b-button 
-                                    pill 
-                                    variant="outline-secondary" 
-                                    @click="renovarCall"
-                                    size="sm"
-                                    :disabled="dateIsMenor(contract.date_start, dateFormatRenovar(contract.date_start) )"
-                                >             
-                                    Renovar
-                                </b-button>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <div>
-                                <b-button 
-                                    pill 
-                                    variant="outline-secondary" 
-                                    @click="finalizeCall"
-                                >
-                                    Finalizar
-                                </b-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <!-- Si esta en finalizar [ empleado -> calificar, empleador -> calificar ] -->
-                <div 
-                    class="col-12" 
-                    v-if="contract.status.name === 'finalized' 
-                    && ($store.state.user.userType === 'work' ? 
-                        !contract.qualification_hired_id
-                        :
-                        !contract.qualification_employer_id)"
-                >
-                    <div>
-                        <div class="d-flex justify-content-center flex-column">
-                            <div class="">
-                                <div class="text-center">
-                                    <h3 style="font-size: 18px"> 
-                                        Contrato Finalizado, Califica 
-                                    </h3> 
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="m-1">
-                                    <img 
-                                        :src="$store.state.user.userType === 'help' ?
-                                            contract.category_user.user.avatar
-                                            :
-                                            contract.user.avatar
-                                        "  
-                                        alt="" 
-                                        style="cursor:pointer; width: 60px; height: 60px; border-radius: 50%"
-                                    >
-                                </div>
-                                <div class="">
-                                    <div class="text-muted">
-                                        {{ $store.state.user.userType === 'help' ?
-                                                contract.category_user.user.name
-                                                :
-                                                contract.user.name
-                                        }}
-                                    </div>
-                                    <div class="">
-                                        <div>
-                                            <span
-                                                class="m-1"
-                                                v-for="(star, index) in [1, 2, 3, 4, 5]" :key="index"
-                                                @click="changeHandleScore(star)"
-                                            >
-                                                <b-icon
-                                                    :icon="(star) <= Number(scoreStar) ? 'star-fill' : 'star'"
-                                                    variant="warning"
-                                                    style="width: 20px; cursor: pointer"
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="">
-                                <div >
-                                    <b-form-input 
-                                        v-model="comment" 
-                                        placeholder="Escribe un comentario" 
-                                    />
-                                </div>
-                            </div>
-                            <div class="text-center mt-3">
-                                <b-button 
-                                    pill 
-                                    variant="outline-secondary" 
-                                    @click="qualityCall(scoreStar, comment)"
-                                >
-                                    Calificar
-                                </b-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
         </div>
 
     </div>

@@ -66,15 +66,15 @@ export default {
             this.currentItem = item;
             this.$bvModal.show('modalEdit')
         },
-        setCategoryUser(categoryUser){
+        // setCategoryUser(categoryUser){
 
-            this.categoriesUser = this.categoriesUser.map( category => {
-                if (category.id === categoryUser.id){
-                    return categoryUser;
-                }
-                return category
-            })
-        },
+        //     this.categoriesUser = this.categoriesUser.map( category => {
+        //         if (category.id === categoryUser.id){
+        //             return categoryUser;
+        //         }
+        //         return category
+        //     })
+        // },
         async addCategory(){
             this.loading.memberships = true;
 
@@ -86,6 +86,28 @@ export default {
                 this.memberships = response.data;
                 this.loading.memberships = false;
             }
+        },
+        async updateCategoryUser(data){
+
+            console.log('data', data);
+            //     console.log('form', form)
+            const res = await this.callApi('put', `app/categoriesUser/${this.currentItem.id}`, data)
+
+            if (res.status === 200){
+                this.makeNotice('success', 'Categoria Actualizada', 'La categoria a sido actualizada exitosamente!');
+                let newCategory = res.data.category;
+
+                this.categoriesUser = this.categoriesUser.map( category => {
+                    if (category.id === this.currentItem.id){
+                        return newCategory;
+                    }
+                    return category
+                })
+
+                this.$bvModal.hide('modalEdit')
+            }
+
+            console.log('response', res)
         }
     }
 }
@@ -109,7 +131,7 @@ export default {
                                         <div style="text-align:center">
                                             <h2>{{ categoryUser.category.label }}</h2>
                                         </div>
-                                        <div class="d-flex justify-content-center">
+                                        <!-- <div class="d-flex justify-content-center">
                                             <div style="color: green">
                                                 <b-button
                                                     v-b-tooltip.hover
@@ -135,7 +157,7 @@ export default {
                                                     Iniciar
                                                 </b-button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -195,10 +217,11 @@ export default {
             hide-footer
             size="lg"
         >
+                <!-- :setCategoryUser="setCategoryUser" -->
             <FormCategoryUser
                 :type="'edit'"
                 :categoryUser="currentItem"
-                :setCategoryUser="setCategoryUser"
+                :updateCategoryUser="updateCategoryUser"
             />
         </b-modal>
     </div>

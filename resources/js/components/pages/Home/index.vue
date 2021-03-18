@@ -95,7 +95,7 @@ export default {
     <!--end section-->
 
     <!-- SECCICON 2 -->
-    <section class="bg-gray" style="min-height: 1250px">
+    <section class="bg-gray" style="min-height: 900px">
 
         <div class="text-center mb-4 ">
             <h2 id="titlecolor" class="h1 font-weight-bold">Nuestras Categorías</h2>
@@ -110,8 +110,8 @@ export default {
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2" @click="$router.push(`/aboutCategory/ederlycare`)">
-                    <img src="images/categories/ederlycare.jpg" width="320px" height="220px" />
+                <div class="m-2" @click="$router.push(`/aboutCategory/eldercare`)">
+                    <img src="images/categories/eldercare.jpg" width="320px" height="220px" />
                     <h3 class="mt-2 font-weight-bold">Cuidado de Mayores</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
@@ -128,11 +128,11 @@ export default {
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2" @click="$router.push(`/aboutCategory/maintenance`)">
+                <!-- <div class="m-2" @click="$router.push(`/aboutCategory/maintenance`)">
                         <img src="images/categories/maintenance.jpg" width="320px" height="220px" />
                         <h3 class="mt-2 font-weight-bold">Mantenimiento</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
-                </div>
+                </div> -->
 
                 <div class="m-2" @click="$router.push(`/aboutCategory/parasanitary`)">
                         <img src="images/categories/parasanitary.jpg" width="320px" height="220px" />

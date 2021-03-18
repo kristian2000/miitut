@@ -19,7 +19,6 @@ export default {
     },
     computed: {
         categories(){
-
             return this.$store.state.categories
                 .map( category => ({
                     value: category,

@@ -10,17 +10,18 @@ export default {
         ChevronUpIcon,
         ChevronDownIcon
     },
-    data(){
-        return {
-            show: this.infoShow
+    computed: {
+        show(){
+            return this.infoShow;
         }
     },
     methods: {
         changeHandle(){
-            if (this.onClick){
-                this.onClick(!this.show);
-            }
-            this.show = !this.show
+            this.onClick();
+            // if (this.onClick){
+            //     this.onClick(!this.show);
+            // }
+            // this.show = !this.show
         }
     }
 }

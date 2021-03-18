@@ -9,7 +9,9 @@ use App\Models\Status;
 use App\Models\Qualification;
 use App\Models\User;
 use App\Notifications\ContractNotification;
+use GrahamCampbell\ResultType\Result;
 use Illuminate\Support\Facades\Auth;
+use App\Models\RequestContract;
 
 class ContractController extends Controller
 {
@@ -195,5 +197,148 @@ class ContractController extends Controller
         ]);
         
     }
+
+    public function getCreateAd(){
+        $user = Auth::user();
+
+        $ads = $user->ads;
+
+        return response()->json($ads);
+    }
+
+    public function createAd(Request $request){
+
+        $this->validate($request, [
+            'dateStart' => 'date',
+            'dateEnd' => 'date',
+            'startTime' => 'date_format:H:i:s',
+            'hours' => 'numeric',
+            'address' => 'string',
+            'message' => 'string',
+            'daysSelected' => 'array',
+            'typeContract' => 'string',
+            'category' => 'required',
+            'price' => 'required|numeric'
+        ]);
+
+        $user = Auth::user();
+        $status = Status::where('name', 'pending')->first();
+
+        $contract = Contract::create([
+            'category_id' => $request['category'],
+            'status_id' => $status->id,
+            'user_id' => $user->id,
+            'date_start' => $request['dateStart'],
+            'date_end' => $request['dateEnd'],
+            'start_time' => $request['startTime'],
+            'hours' => $request['hours'],
+            'address' => $request['address'],
+            'message' => $request['message'],
+            'type_contract' => $request['typeContract'],
+            'daysSelected' => $request['daysSelected'],
+            'price' => $request['price'],
+            'ad' => true
+        ]);
+
+        $contract->category;
+        $contract->status;
+        $contract->user;
+
+        return response()->json([
+            'status' => true,
+            'msg' => 'Anuncio Creado',
+            'ad' => $contract
+        ]);
+    }
+
+    public function getOffers(){
+        $user = Auth::user();
+        $categoriesUser = $user->categories;
+        $contractsOffer = [];
+
+        $offers = Contract::where('ad', true)
+            ->where('category_id', $categoriesUser[0]->category_id)
+            ->with('category', 'status', 'user')
+            ->get();
+
+        // $contractsOffer = $offers;
+
+        // foreach ($categoriesUser as $categoryUser){
+        // }
+
+        return response()->json([
+            'offers' => $offers,
+            'categoriesUser' => $categoriesUser
+        ]);
+    }
+
+    
+    public function destroyContract(Contract $contract){
+        if ($contract){
+            
+            $contract->delete();
+            
+            return response()->json([
+                'msg' => "Eliminacion correcta"
+                ]);
+        }
+            
+        return response()->json([
+            'msg' => 'contract not exist'
+        ], 401);
+    }
+        
+    public function getRequestSendOffer(Contract $contract){
+        $requestContract = RequestContract::where('contract_id', $contract->id)->first();
+
+        if ($requestContract){
+            return response()->json([
+                'exists' => true,
+                'msg' => 'Tiene Solicitud',
+                'request' => $requestContract
+            ]);
+        }
+
+        return response()->json([
+            'exists' => false,
+            'msg' => 'No tiene solicitud'
+        ]);
+
+    }
+
+    public function requestOffer(Contract $contract, Request $request){
+        $user = Auth::user();
+        $status = Status::where('name', 'pending')->first();
+
+        // Agregar validaciones contract ad
+        
+        $requestContract = new RequestContract();
+        $requestContract->contract_id = $contract->id;
+        $requestContract->status_id = $status->id;
+        $requestContract->user_id = $user->id;
+        $requestContract->message = '';
+
+        $requestContract->save();
+            
+        return response()->json([
+            'msg' => 'Solicitud enviada exitosamente',
+            "requestContract" => $requestContract
+        ]);
+    }
+
+    public function acceptRequestContract(Contract $contract, RequestContract $requestContract){
+
+        // se ajusta de contract ad a contrato en proceso
+        $contract->ad = false;
+        $contract->category_user_id = $requestContract->category_user_id;
+        $contract->status_id = Status::where('name', 'pendingPayment')->first()->id;
+        $contract->save();
+
+        return response()->json([
+            'msg' => "Solicitud aceptada correctamente"
+        ]);
+    }
+
+
 
 }

@@ -67,18 +67,18 @@ export default {
 
             let mapTimesAvailable = {};
 
-            response.data.times_available.forEach( time => {
-                let doc = mapTimesAvailable[time.hours]
-                if (!doc){
-                    mapTimesAvailable[time.hours] = { days: [ time.day ]}
-                }else {
-                    mapTimesAvailable[time.hours].days.push(time.day)
-                }
-            })
+            // response.data.times_available.forEach( time => {
+            //     let doc = mapTimesAvailable[time.hours]
+            //     if (!doc){
+            //         mapTimesAvailable[time.hours] = { days: [ time.day ]}
+            //     }else {
+            //         mapTimesAvailable[time.hours].days.push(time.day)
+            //     }
+            // })
 
             this.categoryUser = {
                 ...response.data,
-                times_available: mapTimesAvailable
+                // times_available: mapTimesAvailable
             };
 
             let coords = [ Number(response.data.lng), Number(response.data.lat) ]
@@ -446,11 +446,11 @@ export default {
                             <div class="col-12 mt-3">
                                 <b-card-group deck class="mb-3">
                                     <b-card border-variant="light" header="Disponibilidad" class="text-center">
+                                            <!-- :dataInitial = categoryUser.shedule -->
                                         <Shedule
                                             :disabled="true"
-                                            :sheduleData="sheduleData"
-                                            :setSheduleData="setSheduleData"
-                                            :dataInitial = categoryUser.times_available
+                                            :sheduleData="categoryUser.shedule"
+                                            :setSheduleData="()=>{}"
                                         />
                                     </b-card>
                                 </b-card-group>

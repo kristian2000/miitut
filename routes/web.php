@@ -74,6 +74,15 @@ Route::get('/app/contracts/acceptContract/{contract}', [ContractController::clas
 Route::post('/app/contracts/cancelContract/{contract}', [ContractController::class, 'cancelContract']);
 Route::post('/app/contracts/finalize/{contract}', [ContractController::class, 'finalizeContract']);
 Route::post('/app/contracts/qualify/{contract}', [ContractController::class, 'qualifyContract']);
+Route::delete('/app/contracts/{contract}', [ContractController::class, 'destroyContract']);
+
+//Ads | Offer
+Route::get('/app/contracts/ads', [ContractController::class, 'getCreateAd']);
+Route::post('/app/contracts/ads', [ContractController::class, 'createAd']);
+Route::get('/app/contracts/offers', [ContractController::class, 'getOffers']);
+Route::post('/app/contracts/{contract}/requestOffer', [ContractController::class, 'requestOffer']);
+Route::get('/app/contracts/{contract}/requestSendOffer', [ContractController::class, 'getRequestSendOffer']);
+Route::post('/app/contracts/{contract}/acceptRequest/{requestContract}', [ContractController::class, 'acceptRequestContract']);
 
 // Membresia
 Route::get('/app/memberships', [MembershipController::class, 'index']);

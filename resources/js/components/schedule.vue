@@ -11,7 +11,7 @@ export default {
         'sheduleData',
         'setSheduleData',
         'changeHandleServer',
-        'dataInitial',
+        'create',
         'disabled'
     ],
     data(){
@@ -21,12 +21,21 @@ export default {
         }
     },
     created(){
-        this.valuesInitial();
+        this.create && this.crearSheduleeEmpty();
     },
     components: {
         CheckIcon
     },
     methods: {
+        crearSheduleeEmpty(){
+            let values = hours.map( hour => {
+                return {
+                    hours: hour,
+                    days: days.map( day => ({ key: day, value: false }))
+                }
+            })
+            this.setSheduleData(values)
+        },
         valuesInitial (){
 
             let values = hours.map( hour => {
@@ -99,7 +108,7 @@ export default {
                 <tr>
                     <th colspan="3" style="background: none; border: none;"></th>
                     <th v-for="day in days" :key="day">
-                        {{day}}
+                        {{ day }}
                     </th>
                 </tr>
             </thead>

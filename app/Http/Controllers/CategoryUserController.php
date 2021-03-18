@@ -49,7 +49,9 @@ class CategoryUserController extends Controller
             'lng' => 'numeric',
             'price' => 'numeric',
             'yearExperience' => 'numeric',
-            'descriptionExperience' => 'nullable|string'
+            'descriptionExperience' => 'nullable|string',
+            'shedule' => 'array',
+            'sub_categories' => 'array'
         ]);
 
         $data = $request->only([
@@ -60,10 +62,14 @@ class CategoryUserController extends Controller
             'lng',
             'price',
             'yearExperience',
-            'descriptionExperience'
+            'descriptionExperience',
+            'shedule',
+            'sub_categories'
         ]);
 
         $category->update($data);
+        $category->status;
+        $category->category;
 
         return response()->json([
             'category' => $category,
@@ -113,6 +119,7 @@ class CategoryUserController extends Controller
         $category->update([
             'title' => $request['title'],
             'description' => $request['description'],
+            'descriptionExperience' => $request['descriptionExperience'],
             'address' => $request['address'],
             'lat' => $request['lat'],
             'lng' => $request['lng'] ,

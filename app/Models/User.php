@@ -97,6 +97,7 @@ class User extends Authenticatable
             // si  es un empleador
             return $this->hasMany(Contract::class, 'user_id')
                 ->with('categoryUser', 'status', 'user')
+                ->where('ad', false)
                 ->orderBy('created_at', 'DESC');
 
         }
@@ -104,6 +105,12 @@ class User extends Authenticatable
         return $this->hasManyThrough(Contract::class, CategoryUser::class,'user_id', 'category_user_id')
             ->with('categoryUser', 'status', 'user')
             ->orderBy('created_at', 'DESC');
+    }
+
+    public function ads(){ // solo help
+        return $this->hasMany(Contract::class, 'user_id')
+            ->with('category', 'status', 'requests')
+            ->where('ad', true);
     }
 
     public function conversations(){

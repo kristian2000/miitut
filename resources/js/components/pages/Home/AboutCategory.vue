@@ -15,19 +15,18 @@ import {
   GitMergeIcon,
   SettingsIcon,
 } from "vue-feather-icons";
-// import { Carousel, Slide } from "vue-carousel";
 
 import Navbar from "./navbar";
 // import Switcher from "@/components/switcher";
 import Footer from "./footer";
 // import Team from "@/components/team";
 
-/**
- * Page-aboutus component
- */
+import categories from '../../../config/categories'
+
 export default {
   data() {
     return {
+      infoCategory: {},
       teamData: [
         {
           image: "images/client/01.jpg",
@@ -76,6 +75,11 @@ export default {
   },
   created(){
       window.scroll(0, 0);
+      const category = categories.filter(c => c.id === this.$route.params.category)[0]
+
+      this.infoCategory = category;
+
+      console.log(category)
 
       // console.log(this.$route.params.category)
   }
@@ -92,7 +96,9 @@ export default {
         <div class="row justify-content-center">
           <div class="col-lg-12 text-center">
             <div class="page-next-level">
-              <h4 class="title text-white">Categoria</h4>
+              <h4 class="title text-white">
+                {{ infoCategory.label }}
+              </h4>
               <div class="page-next">
                 <nav aria-label="breadcrumb" class="d-inline-block">
                   <ul class="breadcrumb bg-white rounded shadow mb-0">
@@ -145,51 +151,14 @@ export default {
                 class="rounded img-fluid mx-auto d-block"
                 alt=""
               />
-              <div class="play-icon">
-                <a
-                  v-b-modal.modal
-                  href="javascript:void(0);"
-                  class="play-btn video-play-icon"
-                >
-                  <i
-                    class="mdi mdi-play text-primary rounded-circle bg-white shadow"
-                  ></i>
-                </a>
-
-                <b-modal
-                  id="modal"
-                  hide-footer
-                  size="lg"
-                  header-close-variant="white"
-                  header-class="border-0"
-                  content-class="border-0"
-                  centered
-                >
-                  <vimeo-player
-                    ref="player"
-                    :player-width="750"
-                    :player-height="450"
-                    :video-id="287684225"
-                  />
-                </b-modal>
-              </div>
             </div>
           </div>
           <!--end col-->
 
           <div class="col-lg-7 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
             <div class="section-title ml-lg-4">
-              <h4 class="title mb-4">Our Story</h4>
-              <p class="text-muted">
-                Start working with
-                <span class="text-primary font-weight-bold">Landrick</span> that
-                can provide everything you need to generate awareness, drive
-                traffic, connect. Dummy text is text that is used in the
-                publishing industry or by web designers to occupy the space
-                which will later be filled with 'real' content. This is required
-                when, for example, the final text is not yet available. Dummy
-                texts have been in use by typesetters since the 16th century.
-              </p>
+              <h4 class="title mb-4"> {{ infoCategory.desc.title }} </h4>
+              <p class="text-muted">{{ infoCategory.desc.text }}</p>
               <a href="javascript:void(0)" class="btn btn-primary mt-3"
                 >Buy Now <i class="mdi mdi-chevron-right"></i
               ></a>

@@ -156,7 +156,7 @@ export default {
                     </li>
 
                     <li>
-                        <router-link to="/" class="side-nav-link-reftext-white">Quienes Somos</router-link>
+                        <router-link to="/aboutus" class="side-nav-link-reftext-white">Quienes Somos</router-link>
                     </li>
 
 

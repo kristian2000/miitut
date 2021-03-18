@@ -15,8 +15,12 @@ class CreateContractsTable extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
+            $table->boolean('ad')->default(false); // si es un anuncio de un empleador
+            
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
-            $table->unsignedBigInteger('category_user_id');
+            $table->unsignedBigInteger('category_user_id')->nullable();
             $table->foreign('category_user_id')->references('id')->on('categories_user');
 
             $table->unsignedBigInteger('status_id');
@@ -28,7 +32,7 @@ class CreateContractsTable extends Migration
             $table->date('date_end')->nullable();
             $table->time('start_time');
 
-            $table->string('type_contract');
+            $table->string('type_contract'); // ocasional | habitual
             $table->integer('hours');
             $table->string('address');
             $table->string('message');
