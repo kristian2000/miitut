@@ -9,6 +9,7 @@ use App\Models\DocumentId;
 use App\Models\Status;
 use App\Models\Report;
 use Illuminate\Support\Facades\Storage;
+use App\Models\BankAccount;
 
 class UserController extends Controller
 {
@@ -216,7 +217,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         if ($user->userType === 'work'){
-            $user->update(array_merge($data , ['fase_registry' => 'registroWork']));
+            $user->update(array_merge($data , ['fase_registry' => 'completeProfileWork']));
         }else {
             $user->update(array_merge($data , ['fase_registry' => 'completed']));
         }
@@ -263,4 +264,35 @@ class UserController extends Controller
         ]);
     }
 
+    public function accountRetirement(request $request){
+        $this->validate($request, [
+            'nameOfBeneficiary' => 'string',
+            'code' => 'string',
+            'ccc' => 'string'
+        ]);
+
+        $user = Auth::user();
+        $user->fase_registry = 'completed';
+        $user->save();
+
+        $bankAccount = new BankAccount();
+        $bankAccount->user_id = $user->id;
+        $bankAccount->nameOfBeneficiary = $request->nameOfBeneficiary;
+        $bankAccount->code = $request->code;
+        $bankAccount->ccc = $request->ccc;
+        $bankAccount->save();
+
+        return response()->json([
+            'msg' => 'account register'
+        ]);
+    }
+
+    public function showAccountRetirement(){
+        $user = Auth::user();
+        $account = $user->account;
+        
+        return response()->json([
+            'account' => $account
+        ]);
+    }
 }

@@ -29,6 +29,7 @@ export default {
     },
     created(){
         const user = this.$store.state.user;
+        console.log('faseRegistro', user.fase_registry)
         if (user){
             if (user.userType === 'admin'){
                 this.$router.push('/admin-users');
@@ -37,8 +38,11 @@ export default {
                     case 'registro': {
                          this.$router.push('/completeProfile');
                     } break;
-                    case 'registroWork': {
+                    case 'completeProfileWork': {
                         this.$router.push('/completeProfileWork');
+                    } break;
+                    case 'accountRetirement': {
+                        this.$router.push('/accountRetirement');
                     } break;
                     default: {
                         this.$router.push('/account-profile');

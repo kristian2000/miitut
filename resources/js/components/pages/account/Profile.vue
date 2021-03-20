@@ -1,24 +1,8 @@
 <script>
 import {
-    ArrowUpIcon,
-    FacebookIcon,
-    InstagramIcon,
-    TwitterIcon,
-    LinkedinIcon,
-    GithubIcon,
-    YoutubeIcon,
-    GitlabIcon,
     MailIcon,
-    UserPlusIcon,
-    UsersIcon,
-    MessageCircleIcon,
-    BellIcon,
-    ToolIcon,
-    PhoneIcon,
     BookmarkIcon,
     ItalicIcon,
-    GlobeIcon,
-    GiftIcon,
     MapPinIcon,
     CheckIcon,
     AlertCircleIcon,
@@ -44,11 +28,9 @@ export default {
             docStatus: { loading: false, doc: null, isExists: false},
             loading: {
                 avatar: false
-            }
+            },
+            docAccount: { loading: true, doc: null}
         }
-    },
-    created(){
-        console.log('accountProfile', this.user)
     },
     components: {
         LayoutAccount,
@@ -67,11 +49,12 @@ export default {
         AlertTriangleIcon
     },
     created(){
-        setInterval(()=>{ 
-            if (this.$store.state.user){
-                this.getNotifications() 
-            }
-        }, 3000)
+        console.log('accountProfile', this.user)
+        // setInterval(()=>{ 
+        //     if (this.$store.state.user){
+        //         this.getNotifications() 
+        //     }
+        // }, 3000)
     },
     methods: {
         sendEmailConfirmation(){
@@ -151,6 +134,21 @@ export default {
                 this.urlBack = URL.createObjectURL(image);
             }
         }, 
+        async getDocAccount(){
+            this.docAccount.loading = true;
+            const response = await this.callApi('get', `app/users/accountRetirement`);
+
+            if (response.status === 200){
+                this.docAccount.doc = response.data.account;
+                console.log('docAccount', response)
+            }
+
+            this.docAccount.loading = false;
+        },
+        showModalAccount(){
+            this.getDocAccount();
+            this.$bvModal.show('modalAccount');
+        }
 
     }
 }
@@ -268,6 +266,16 @@ export default {
                                 <div class="media-body">
                                     <h6 id="title" class="mb-0">Address :</h6>
                                     <a href="javascript:void(0)" class="text-muted">{{user.address}}</a>
+                                </div>
+                            </div>
+                            <div 
+                                v-if="user.userType === 'work'"
+                                class="media align-items-center justify-content-center mt-5"
+                            >
+                                <div>
+                                    <b-button pill size="sm" variant="outline-secondary" @click="showModalAccount">
+                                        Ver Cuenta Retiro
+                                    </b-button>
                                 </div>
                             </div>
                         </div>
@@ -396,8 +404,47 @@ export default {
                     />
                 </div>
             </b-modal>
+            <!-- END Modal Edit -->
+            <b-modal id="modalAccount" hide-footer title="Cuenta de Retiro">
+                <div>
+                    <h4 class="text-center font-weight-bold"> Cuenta de retiro </h4>
+                    <div v-if="!docAccount.loading">
+                        <div class="p-2" v-if="docAccount.doc">
+                            <div>
+                                <span class="font-weight-bold">Nombre del Beneficiario: </span>
+                                <span class="text-muted">
+                                    {{ docAccount.doc.nameOfBeneficiary }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="font-weight-bold">Code:</span>
+                                <span class="text-muted">
+                                    {{ docAccount.doc.code }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="font-weight-bold">Numero de cuenta: </span>
+                                <span class="text-muted">
+                                    {{ docAccount.doc.ccc }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mt-2 text-muted text-center">
+                            <div style="font-size: 12px">
+                                Para modificar esta informacion contactar a soporte
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div>
+                            <b-spinner type="grow" label="Spinning"></b-spinner>
+                        </div>
+                    </div>
+                </div>
+            </b-modal>
+            <!-- END Modal Edit -->
         </div>
-        <!-- END Modal Edit -->
     </LayoutAccount>
 </div>
 </template>

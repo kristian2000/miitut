@@ -243,6 +243,7 @@ class ContractController extends Controller
         $contract->category;
         $contract->status;
         $contract->user;
+        $contract->requests;
 
         return response()->json([
             'status' => true,

@@ -29,6 +29,8 @@ export default {
                 case 'dateEnd': return 'Fecha Final';
                 case 'startTime': return 'Hora Inicial';
                 case 'daysSelected': return 'Seleccion de dias';
+                case 'nameOfBeneficiary': return 'Nombre del Beneficiario';
+                case 'ccc': return 'Numero de Cuenta';
                 default:
                     return field;
             }
@@ -104,11 +106,13 @@ export default {
         },
 
         async getNotifications(){
-            const response = await this.callApi('get', `app/users/notifications`);
+            const response = await this.callApi('get', `/app/users/notifications`);
 
-            if(response.status === 200){
+            if(this.$store.state.user && response.status === 200){
                 // console.log('notifications', response.data.notifications)
-                this.$store.commit('setUpdateNotifications', response.data.notifications)
+                if (response.data.notifications){
+                    this.$store.commit('setUpdateNotifications', response.data.notifications)
+                }
             }
         },
         async getCategories(){

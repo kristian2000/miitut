@@ -124,4 +124,8 @@ class User extends Authenticatable
     {
         return 'users.'.$this->id;
     }
+
+    public function account(){
+        return $this->hasOne(BankAccount::class, 'user_id');
+    }
 }

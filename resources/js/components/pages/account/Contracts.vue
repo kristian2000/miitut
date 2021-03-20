@@ -284,6 +284,7 @@ export default {
                     :finalizeCall="this.finalizeContract"
                     :qualityCall="this.qualityContract"
                     :renovarCall="()=> { this.$bvModal.show('modalRenovarContract') }"
+                    :onClose="()=>{this.$bvModal.hide('modalContract') }"
                     :payContractOccasional="this.payContract"
                     :payContractHabitual="this.payContract"
                 />

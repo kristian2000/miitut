@@ -615,9 +615,9 @@ export default {
             <FormContract
                 :categoryUser="categoryUser"
                 :onSubmit="sendContract"
-                typeForm="create"
                 userType="help"
                 :edit="true"
+                typeForm="create"
             />
         </b-modal>
     </div>

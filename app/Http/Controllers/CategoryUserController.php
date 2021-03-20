@@ -131,7 +131,8 @@ class CategoryUserController extends Controller
         ]);
 
         // Actualizar Usuario
-        $user->fase_registry = 'completed';
+        
+        $user->fase_registry = 'accountRetirement';
         $user->save();
 
         return response()->json([

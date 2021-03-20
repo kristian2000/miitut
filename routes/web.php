@@ -52,6 +52,9 @@ Route::get('/app/users/notifications', [UserController::class, 'listNotification
 Route::get('/app/users/notifications/markAsReads', [UserController::class, 'notificationsMarkAsReads']);
 Route::delete('/app/users/notifications/{notification}', [UserController::class, 'deleteNotification']);
 
+Route::post('/app/users/accountRetirement', [UserController::class, 'accountRetirement']);
+Route::get('/app/users/accountRetirement', [UserController::class, 'showAccountRetirement']);
+
 // Categories
 Route::get('/app/categories/getWithSubcategories', [CategoryController::class, 'getCategoriesAndSubcategories']);
 Route::get('/app/categories/{category}/subcategories', [CategoryController::class, 'getSubcategoryByCategory']);

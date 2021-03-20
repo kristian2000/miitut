@@ -123,7 +123,8 @@ class AuthController extends Controller
         MailController::sendSignupEmail($user);
 
         // Auth::login($user, true);
-
+        Auth::logout();
+        
         return response()->json([
             'msg' => 'Registro exitoso, verifica tu correo para iniciar sesion',
             'user' => $user

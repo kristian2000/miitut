@@ -28,6 +28,7 @@ import LoginSocial from '../components/pages/auth/LoginSocial'
 import CompleteProfile from '../components/pages/auth/CompleteProfile'
 import CompleteProfileWork from '../components/pages/auth/CompleteProfileWork'
 import ResetPassword from '../components/pages/auth/ResetPassword'
+import AccountRetirement from '../components/pages/auth/Registration/AccountRetirement'
 
 //Plantilla
 import INDEX from '../components/pages/Home/index.vue'
@@ -103,6 +104,10 @@ const routes = [
     {
         path: '/completeProfileWork',
         component: CompleteProfileWork
+    },
+    {
+        path: '/accountRetirement',
+        component: AccountRetirement
     },
 
     // Rutas Account

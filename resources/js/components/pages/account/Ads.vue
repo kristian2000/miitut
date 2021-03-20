@@ -10,7 +10,7 @@ import {
 } from 'vue-feather-icons';
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
-import FormContract from '../../form/FormContract';
+import FormContractAd from '../../form/FormContractAd';
 
 /**
  * Account-profile component
@@ -27,7 +27,7 @@ export default {
     components: {
         LayoutAccount,
         PlusIcon,
-        FormContract,
+        FormContractAd,
         BellIcon,
         ClipboardIcon
     },
@@ -218,8 +218,6 @@ export default {
                 </div>
             </div>
             <!-- End Btn Agregar -->
-        
-
 
             <!-- Start Modal Ad -->
             <div >
@@ -230,14 +228,16 @@ export default {
                     hide-footer
                     size="lg"
                 >
-                    <FormContract
-                        :onSubmit="addAdContract"
+                        <!-- :onSubmit="addAdContract"
                         :contract="currentAd"
                         :edit="false"
-                        :typeForm="action"
-                        type="ad"
-                    />
+                        :typeForm="action" -->
+                    <FormContractAd
+                        :onSubmit="addAdContract"
+                        :contract="currentAd"
+                        :action="action"
 
+                    />
                     <div 
                         class="d-flex justify-content-center"
                         v-if="action !== 'create'"
@@ -298,6 +298,13 @@ export default {
                                             </b-button>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="!currentAd.requests.length">
+                            <div class="text-center">
+                                <div>
+                                    No Hay Solicitudes
                                 </div>
                             </div>
                         </div>

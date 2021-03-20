@@ -10,12 +10,11 @@ import moment from 'moment';
 
 export default {
     props: [
-        'type',
         'categoryUser',
         'contract',
         'onSubmit',
         'edit',
-        'typeForm',
+        'action',
         'rejectCall',
         'acceptCall',
         'finalizeCall',
@@ -58,7 +57,7 @@ export default {
             ],
             daysSelected: [],
             disabled: true,
-            infoShow: false,
+            infoShow: true,
             scoreStar: 1,
             comment: '',
             loadingPayment: false,
@@ -102,11 +101,30 @@ export default {
                 if (this.contract.status.name === "pending"){
                     this.infoShow = true;
                 }
+
+                // Solo en caso de ser contrato de un anuncio, categoria
+
+                if (this.contract && this.contract.category){
+                    this.categories = [{
+                        value: this.contract.category,
+                        text: this.contract.category.label
+                    }];
+
+                    this.category = this.contract.category;
+                }
             }
 
-            if (this.typeForm === 'create'){
+            if (this.action === 'create'){
                 this.disabled = false;
-                this.infoShow = true;
+                await this.getCategories();
+
+                this.categories = this.$store.state.categories
+                    .map(category => ({
+                        value: category,
+                        text: category.label
+                    }))
+                this.category = this.$store.state.categories[0];
+                
             }
         },
         changeHandleDay(day){
@@ -272,7 +290,7 @@ export default {
 <template>
     <div class="container" >
         <div class="row">
-            <div class="col-12" v-if="this.typeForm !== 'create'">
+            <div class="col-12">
                 <div class="d-flex justify-content-center border-bottom  mb-4">
                     <div class="d-flex justify-content-center">
                         <BtnDesp
@@ -287,7 +305,7 @@ export default {
 
         <div class="row" v-if="infoShow">
             <!-- Tipo Ad -->
-            <div class="col-12" v-if="type === 'ad'"> 
+            <div class="col-12"> 
                 <!-- Seleccionar Categoria -->
                 <div class="col-12">
                     <b-form-group
@@ -377,36 +395,6 @@ export default {
                         </div>
 
                     </div>
-                    <!-- <div v-if="typeContract === 'habitual'" class="col">
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="datepicker" class="text-muted">Fecha Final</label>
-                            </div>
-                            <div class="col-12">
-                                <b-input-group class="mb-3">
-                                    <b-form-input
-                                        id="example-input"
-                                        v-model="dateEnd.date"
-                                        type="text"
-                                        placeholder="YYYY-MM-DD"
-                                        autocomplete="off"
-                                        :disabled="disabled"
-                                    ></b-form-input>
-                                    <b-input-group-append>
-                                        <b-form-datepicker
-                                        v-model="dateEnd.date"
-                                        button-only
-                                        right
-                                        locale="en-US"
-                                        aria-controls="example-input"
-                                        @context="onContextEnd"
-                                        :disabled="disabled"
-                                        ></b-form-datepicker>
-                                    </b-input-group-append>
-                                </b-input-group>
-                            </div>
-                        </div>
-                    </div> -->
 
                 </div>
 
@@ -476,23 +464,6 @@ export default {
             </div>
             <!-- End  Days Selected -->
 
-            <!-- Start Price -->
-            <!-- <div class="col-12 mt-3">
-                <div class="row">
-                    <div class="col">
-                        <label for="price" class="text-muted">Precio por hora publicado</label>
-                    </div>
-                    <div class="col">
-                        <b-form-input
-                            :placeholder="'€ ' + categoryUser.price"
-                            disabled
-                            style="text-align: center"
-                        />
-                    </div>
-                </div>
-            </div> -->
-            <!-- End Price -->
-
             <!-- Start Descripcion -->
             <div class="col-12 ">
                 <label for=""  class="text-muted">Mensaje</label>
@@ -532,29 +503,10 @@ export default {
                 </div>
             </div>
 
-            <!-- TypeForm Create -->
-            <div class="col-12" v-if="this.typeForm === 'create'">
-
-                <!-- Start Total -->
-                <!-- <div class="col-12 my-2">
-                    <hr>
-                    <div class="">
-                        <label class="border-bottom font-weight-bold">Calculo del Contrato :</label>
-                        <div class="text-center">
-                            <div class="my-2" v-if="this.typeContract === 'occasional'">
-                                <div class="font-weight-bold">
-                                    Precio Publicado: <span class="text-muted"> € {{ categoryUser.price }} </span>
-                                </div>
-                            </div>
-                            <p>Total € <span class="" style="font-weight: 900">{{ totalPrice }}</span></p>
-                        </div>
-                    </div>
-                    <hr>
-                </div> -->
-                <!-- End Total -->
-                <!-- Btn Action create -->
+            <!-- Action Create -->
+            <div class="col-12" v-if="this.action === 'create'">
                 <div class="col-12" >
-                    <div class="col-12 " v-if="!contract">
+                    <div class="col-12" >
                         <div class="d-flex justify-content-center mt-3">
                             <b-button pill variant="outline-secondary" @click="validate">
                                 Enviar

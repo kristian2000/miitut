@@ -27,6 +27,13 @@
                 return this.$store.state.notifications;
             }
         },
+        created(){
+            if (this.$store.state.user){
+                setInterval(()=> {
+                    this.getNotifications();
+                }, 5000)
+            }
+        },
         methods: {
             async logout(){
                 const res = await this.callApi('get', 'app/logout')
