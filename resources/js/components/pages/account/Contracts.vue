@@ -75,8 +75,8 @@ export default {
                     :
                     newContract
                 )
-                this.currentContract = null;
-                this.$bvModal.hide('modalContract')
+                this.currentContract = newContract;
+                // this.$bvModal.hide('modalContract')
                 this.makeNotice('success', 'Info', 'Contrato Finalizado');
             }
         },
@@ -136,7 +136,23 @@ export default {
             }
 
             this.loading = false;
+        },
+        async meditation(){
+            const response = await this.callApi('post', `app/contracts/meditation/${this.currentContract.id}`);
+            console.log('meditationContract', response)
+            if (response.status === 200){
+                let newContract = response.data.contract;
+                this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
+                    contract
+                    :
+                    newContract
+                )
+                this.currentContract = null;
+                this.$bvModal.hide('modalContract')
+                this.makeNotice('success', 'Info', 'Contrato en mediacion, espere a que soporte revise su caso');
+            }
         }
+
     }
 }
 </script>
@@ -221,15 +237,6 @@ export default {
                                                             contract.user.name
                                                     }}
                                                 </div>
-                                                <!-- <div class="text-center ">
-                                                    <span style="font-size: 11px;">
-                                                        {{ calculateAge($store.state.user.userType === 'help' ?
-                                                            contract.category_user.user.birthdate
-                                                            :
-                                                            contract.user.birthdate) 
-                                                        }} años
-                                                    </span>
-                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -287,6 +294,7 @@ export default {
                     :onClose="()=>{this.$bvModal.hide('modalContract') }"
                     :payContractOccasional="this.payContract"
                     :payContractHabitual="this.payContract"
+                    :meditationCall="this.meditation"
                 />
             </b-modal>
         </div>

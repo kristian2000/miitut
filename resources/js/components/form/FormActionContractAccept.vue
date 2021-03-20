@@ -22,7 +22,8 @@ export default {
         'onClose',
         'payContractOccasional',
         'payContractHabitual',
-        'renovarCall'
+        'renovarCall',
+        'meditationCall'
     ],
     components: {
         BtnDesp,
@@ -31,7 +32,7 @@ export default {
     },
     data(){
         return {
-
+            scoreStar: 1
         }
     },
     created(){
@@ -213,15 +214,29 @@ export default {
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <div>
-                                <b-button 
-                                    pill 
-                                    variant="outline-secondary" 
-                                    @click="finalizeCall"
-                                >
-                                    Finalizar
-                                </b-button>
+                            <div class="d-flex justify-content-center mr-2">
+                                <div>
+                                    <b-button 
+                                        pill 
+                                        variant="outline-secondary" 
+                                        @click="meditationCall"
+                                    >
+                                        Entrar en Mediacion
+                                    </b-button>
+                                </div>
                             </div>
+                            <div class="d-flex justify-content-center">
+                                <div>
+                                    <b-button 
+                                        pill 
+                                        variant="outline-secondary" 
+                                        @click="finalizeCall"
+                                    >
+                                        Finalizar
+                                    </b-button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

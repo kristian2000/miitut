@@ -377,37 +377,6 @@ export default {
                         </div>
 
                     </div>
-                    <!-- <div v-if="typeContract === 'habitual'" class="col">
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="datepicker" class="text-muted">Fecha Final</label>
-                            </div>
-                            <div class="col-12">
-                                <b-input-group class="mb-3">
-                                    <b-form-input
-                                        id="example-input"
-                                        v-model="dateEnd.date"
-                                        type="text"
-                                        placeholder="YYYY-MM-DD"
-                                        autocomplete="off"
-                                        :disabled="disabled"
-                                    ></b-form-input>
-                                    <b-input-group-append>
-                                        <b-form-datepicker
-                                        v-model="dateEnd.date"
-                                        button-only
-                                        right
-                                        locale="en-US"
-                                        aria-controls="example-input"
-                                        @context="onContextEnd"
-                                        :disabled="disabled"
-                                        ></b-form-datepicker>
-                                    </b-input-group-append>
-                                </b-input-group>
-                            </div>
-                        </div>
-                    </div> -->
-
                 </div>
 
             </div>
@@ -474,26 +443,6 @@ export default {
                     </div>
                 </div>
             </div>
-            <!-- End  Days Selected -->
-
-            <!-- Start Price -->
-            <!-- <div class="col-12 mt-3">
-                <div class="row">
-                    <div class="col">
-                        <label for="price" class="text-muted">Precio por hora publicado</label>
-                    </div>
-                    <div class="col">
-                        <b-form-input
-                            :placeholder="'€ ' + categoryUser.price"
-                            disabled
-                            style="text-align: center"
-                        />
-                    </div>
-                </div>
-            </div> -->
-            <!-- End Price -->
-
-            <!-- Start Descripcion -->
             <div class="col-12 ">
                 <label for=""  class="text-muted">Mensaje</label>
                 <b-form-textarea
@@ -535,23 +484,6 @@ export default {
             <!-- TypeForm Create -->
             <div class="col-12" v-if="this.typeForm === 'create'">
 
-                <!-- Start Total -->
-                <!-- <div class="col-12 my-2">
-                    <hr>
-                    <div class="">
-                        <label class="border-bottom font-weight-bold">Calculo del Contrato :</label>
-                        <div class="text-center">
-                            <div class="my-2" v-if="this.typeContract === 'occasional'">
-                                <div class="font-weight-bold">
-                                    Precio Publicado: <span class="text-muted"> € {{ categoryUser.price }} </span>
-                                </div>
-                            </div>
-                            <p>Total € <span class="" style="font-weight: 900">{{ totalPrice }}</span></p>
-                        </div>
-                    </div>
-                    <hr>
-                </div> -->
-                <!-- End Total -->
                 <!-- Btn Action create -->
                 <div class="col-12" >
                     <div class="col-12 " v-if="!contract">

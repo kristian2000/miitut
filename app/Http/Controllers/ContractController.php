@@ -129,6 +129,31 @@ class ContractController extends Controller
         ]);
     }
 
+    public function meditationContract(Contract $contract){
+        $user = Auth::user();
+
+        $contract->status_id = Status::where('name', 'mediation')->first()->id;
+        $contract->save();
+
+        // relaciones
+        $contract->status;
+        $contract->categoryUser;
+        $contract->user;
+
+        // enviar notificacion
+
+        if ($contract->user_id == $user->id){
+            $contract->categoryUser->user->notify(new ContractNotification($contract));
+        }else{
+            $contract->user->notify(new ContractNotification($contract));
+        }
+
+        return response()->json([
+            'msg' => 'Contrato Finalizado',
+            'contract' => $contract
+        ]);
+    }
+
     public function cancelContract(){
         // Los Empleadores pueen cancelar su contrato
         return response()->json([

@@ -76,6 +76,7 @@ Route::get('/app/contracts/rejectContract/{contract}', [ContractController::clas
 Route::get('/app/contracts/acceptContract/{contract}', [ContractController::class, 'acceptContract']);
 Route::post('/app/contracts/cancelContract/{contract}', [ContractController::class, 'cancelContract']);
 Route::post('/app/contracts/finalize/{contract}', [ContractController::class, 'finalizeContract']);
+Route::post('/app/contracts/meditation/{contract}', [ContractController::class, 'meditationContract']);
 Route::post('/app/contracts/qualify/{contract}', [ContractController::class, 'qualifyContract']);
 Route::delete('/app/contracts/{contract}', [ContractController::class, 'destroyContract']);
 

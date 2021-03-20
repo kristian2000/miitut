@@ -80,6 +80,10 @@ class ContractNotification extends Notification
                 $desc = "Contrato Finalizado, revisalo y da tu comentario";
             }; break;
 
+            case "En Mediacion": {
+                $desc = "Contrato en Mediacion, espera que soporte revise tu caso";
+            }; break;
+
             case "En Proceso": {
                 $desc = "Contrato Pagado, en proceso para que las dos partes inicien";
             }; break;

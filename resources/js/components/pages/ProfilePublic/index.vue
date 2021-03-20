@@ -508,7 +508,7 @@ export default {
                                 <div class="d-flex justify-content-center">
                                     <Score
                                         :scoreStar="Number(categoryUser.user.score) ?
-                                            Number(categoryUser.user.score)/Number(categoryUser.user.ratings)
+                                            Number(categoryUser.user.score)/Number(categoryUser.user.ratings) + 1
                                             :
                                             0"
                                         sizeStar="lg"
