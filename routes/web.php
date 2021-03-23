@@ -101,6 +101,10 @@ Route::get('/app/admin/docs', [AdminController::class, 'getDocs']);
 Route::post('/app/admin/docs/{doc}/reject', [AdminController::class, 'rejectDoc']);
 Route::post('/app/admin/docs/{doc}/accept', [AdminController::class, 'acceptDoc']);
 Route::get('/app/admin/reports', [AdminController::class, 'getReports']);
+Route::get('/app/admin/contracts/terminated', [AdminController::class, 'getContractsTerminated']);
+Route::get('/app/admin/paymentsContract', [AdminController::class, 'getPaymentsContract']);
+Route::get('/app/admin/paymentsContractFinalize/{payment}', [AdminController::class, 'paymentsContractFinalize']);
+Route::get('/app/admin/paymentsStripe', [AdminController::class, 'getPaymentsStripe']);
 
 Route::post('/app/payment/contract/occasional', [PaymentController::class, 'payContractOccasional']);
 Route::post('/app/payment/contract/habitual', [PaymentController::class, 'payContractHabitual']);

@@ -267,7 +267,6 @@ export default {
                 scrollable
                 hide-footer
                 size="lg"
-                style="background: blue;"
 
             >
                 <FormContract

@@ -21,7 +21,11 @@ class CreatePaymentsTable extends Migration
             $table->boolean('subscription')->default(0);
             $table->foreignId('user_id')->constrained()->nullable();
             $table->foreignId('contract_id')->constrained()->nullable();
-            $table->string('status');
+
+            $table->unsignedBigInteger('status_id');
+            $table->foreign('status_id')->references('id')->on('status');
+            
+            $table->string('type')->default(0);
             $table->string('charge')->nullable();
             $table->json('data')->nullable();
             $table->timestamps();

@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contract;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\DocumentId;
+use App\Models\Payment;
 use App\Models\Report;
 use App\Models\Status;
+use PDO;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class AdminController extends Controller
 {
+    public function __construct() {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+    }
+
     public function getUsers(){
         $users = User::all();
 
@@ -112,5 +121,47 @@ class AdminController extends Controller
             'docs' => $docs,
             'msg' => 'Reports'
         ]);
+    }
+
+    public function getPaymentsStripe(){
+        $payment = Charge::all();
+
+        return response()->json([
+            'payment' => $payment
+        ]);
+    }
+
+    public function getPaymentsContract(){
+        $payment = Payment::where('type_payment', 'withdrawal')
+            ->with('contract', 'user', 'status')
+            ->get();
+
+        return response()->json([
+            'payments' => $payment
+        ]);
+    }
+
+    public function paymentsContractFinalize(Payment $payment){
+        $statusFinalize = Status::where('name', 'finalized')->first();
+        $payment->status_id = $statusFinalize->id;
+
+        $payment->status;
+        $payment->contract;
+        $payment->user;
+        $payment->save();
+
+        return response()->json([
+            'payment' => $payment
+        ]);
+    }
+
+    public function getContractsTerminated(){
+        $statusFinalize = Status::where('name', 'finalized')->first();
+        $contracts = Contract::where('status_id', $statusFinalize->id)->get();
+
+        return response()->json([
+            'contracts' => $contracts,
+            'msg' => 'Contracts Finalized'
+        ]); 
     }
 }

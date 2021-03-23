@@ -16,9 +16,10 @@ class Payment extends Model
     protected $fillable = [
         'method_payment',
         'type_payment',
+        'type',
         'amount',
         'contract_id',
-        'status',
+        'status_id',
         'subscription',
         'user_id',
         'data',
@@ -27,6 +28,14 @@ class Payment extends Model
 
     public function contract(){
         return $this->belongsTo(Contract::class, 'contract_id')
-            ->with('categoryUser');
+            ->with('categoryUser.user.account');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function status(){
+        return $this->belongsTo(Status::class);
     }
 }

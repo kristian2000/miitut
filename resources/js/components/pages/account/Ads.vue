@@ -92,17 +92,20 @@ export default {
         },
         async acceptRequest(doc){
             this.loading = true;
-            console.log('acceptRequest')
+            console.log('acceptRequest', { currentAd: this.currentAd, doc})
 
             const response = await this.callApi('post', `app/contracts/${this.currentAd.id}/acceptRequest/${doc.id}`);
 
             console.log(response)
             if (response.status === 200){
-                // this.docs = this.docs.filter(d => d.id != this.currentAd.id);
-                // this.$bvModal.hide('modalAddAd')
-                // this.action = '';
-                // this.currentAd = null;
-                // this.loading = false;
+                this.docs = this.docs.filter(d => d.id != this.currentAd.id);
+                this.$bvModal.hide('modalRequests')
+                this.$bvModal.hide('modalAddAd')
+                this.action = '';
+                this.currentAd = null;
+                this.loading = false;
+
+                this.makeNotice('success', 'info', 'Solicitud Aceptada, dirigete a los contratos y revisalo')
             }
 
             this.loading = false;

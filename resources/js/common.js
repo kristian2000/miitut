@@ -104,6 +104,14 @@ export default {
 
             return yearOld;
         },
+        dateFormat(date){
+            let objDate = new Date(date)
+            let d = objDate.getDate()
+            let m = objDate.getMonth() + 1
+            let y = objDate.getFullYear()
+
+            return `${d < 10 ? ( '0' + d ) : d }-${m < 10 ? ( '0' + m) : m}-${y}`
+        },
 
         async getNotifications(){
             const response = await this.callApi('get', `/app/users/notifications`);

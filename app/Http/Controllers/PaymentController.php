@@ -48,13 +48,14 @@ class PaymentController extends Controller
             // 'receipt_mail' => $user->email
         ]);
 
-        // // Crear pago en BD
+        // Crear pago en BD
         $payment = Payment::create([
             'method_payment' => 'stripe',
             'type_payment' => 'contract',
             'amount' => $amount,
             'contract_id' => $contract->id,
-            'status' => 'in',
+            'type' => 'in',
+            "status_id" => Status::where('name', 'finalized')->first()->id,
             'subscription' => false,
             'user_id' => $user->id,
             'charge' => $charge->id
@@ -126,7 +127,8 @@ class PaymentController extends Controller
             'type_payment' => 'contract',
             'amount' => $amount,
             'contract_id' => $contract->id,
-            'status' => 'in',
+            'type' => 'in',
+            "status_id" => Status::where('name', 'finalized')->first()->id,
             'subscription' => false,
             'user_id' => $user->id,
             'data' => [

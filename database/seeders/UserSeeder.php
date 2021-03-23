@@ -26,7 +26,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '8.59185',
-                'lng' => '-71.13831'
+                'lng' => '-71.13831',
+                'email_check' => true
             ],
 
             // Usuarios Empleados
@@ -39,7 +40,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '8.59083',
-                'lng' => '-71.16281'
+                'lng' => '-71.16281',
+                'email_check' => true
             ],
             [
                 'name' => Str::random(6),
@@ -50,7 +52,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '8.59083',
-                'lng' => '-71.16281'
+                'lng' => '-71.16281',
+                'email_check' => true
             ],
             [
                 'name' => Str::random(6),
@@ -61,7 +64,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '8.59083',
-                'lng' => '-71.16281'
+                'lng' => '-71.16281',
+                'email_check' => true
             ],
             [
                 'name' => Str::random(6),
@@ -74,7 +78,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '8.59083',
-                'lng' => '-71.16281'
+                'lng' => '-71.16281',
+                'email_check' => true
             ],
 
             // Usuarios Empleadores
@@ -87,7 +92,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '8.59083',
-                'lng' => '-71.16281'
+                'lng' => '-71.16281',
+                'email_check' => true
             ],
             [
                 'name' => Str::random(6),
@@ -98,7 +104,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '8.59083',
-                'lng' => '-71.16281'
+                'lng' => '-71.16281',
+                'email_check' => true
             ],
             [
                 'name' => Str::random(6),
@@ -109,7 +116,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '8.59083',
-                'lng' => '-71.16281'
+                'lng' => '-71.16281',
+                'email_check' => true
             ],
             [
                 'name' => Str::random(6),
@@ -120,7 +128,8 @@ class UserSeeder extends Seeder
                 'country' => "Pais",
                 'fase_registry' => 'completed',
                 'lat' => '36.46',
-                'lng' => '-6.20'
+                'lng' => '-6.20',
+                'email_check' => true
             ]
         ]);
 

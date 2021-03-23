@@ -18,18 +18,30 @@ export default {
                     path: '/admin-verify',
                     viewOnly: ['admin']
                 },
+                // {
+                //     title: 'Mediaciones',
+                //     iconClass: 'uil uil-file',
+                //     path: '/admin-mediations',
+                //     viewOnly: ['admin']
+                // },
+                {
+                    title: 'Pagos de Contrato',
+                    iconClass: 'uil uil-file',
+                    path: '/admin-payment-contracts',
+                    viewOnly: ['admin']
+                },
                 {
                     title: 'Reportes',
                     iconClass: 'uil uil-dashboard',
                     path: '/admin-reports',
                     viewOnly: ['admin']
                 },
-                {
-                    title: 'Pagos',
-                    iconClass: 'uil uil-dashboard',
-                    path: '/admin-payments',
-                    viewOnly: ['admin']
-                },
+                // {
+                //     title: 'Pagos',
+                //     iconClass: 'uil uil-dashboard',
+                //     path: '/admin-payments',
+                //     viewOnly: ['admin']
+                // },
                 {
                     title: 'Perfil',
                     iconClass: 'uil uil-dashboard',

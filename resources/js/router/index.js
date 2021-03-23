@@ -38,6 +38,8 @@ import AdminUsers from '../components/pages/Admin/Users'
 import AdminVerify from '../components/pages/Admin/Verify'
 import AdminReports from '../components/pages/Admin/Reports'
 import AdminPayments from '../components/pages/Admin/Payments'
+import AdminMediations from '../components/pages/Admin/Mediations'
+import AdminPaymentContract from '../components/pages/Admin/PaymentContract'
 
 import Aboutus from '../components/pages/Home/Aboutus'
 
@@ -58,6 +60,14 @@ const routes = [
     {
         path: '/admin-payments',
         component: AdminPayments
+    },
+    {
+        path: '/admin-mediations',
+        component: AdminMediations
+    },
+    {
+        path: '/admin-payment-contracts',
+        component: AdminPaymentContract
     },
     {
         path: '/',

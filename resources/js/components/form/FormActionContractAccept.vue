@@ -192,7 +192,7 @@ export default {
                         </div>
                     </div>
                     <div>
-                        <div class="text-center border mb-2">
+                        <div class="text-center border mb-2" v-if="contract.type_contract === 'habitual'">
                             <div>
                                 <p class="text-muted">
                                     Este contrato se puede renovar {{ dateFormatRenovar(contract.date_start) }}
@@ -214,7 +214,7 @@ export default {
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <div class="d-flex justify-content-center mr-2">
+                            <!-- <div class="d-flex justify-content-center mr-2">
                                 <div>
                                     <b-button 
                                         pill 
@@ -224,7 +224,7 @@ export default {
                                         Entrar en Mediacion
                                     </b-button>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="d-flex justify-content-center">
                                 <div>
                                     <b-button 

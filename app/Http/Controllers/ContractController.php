@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\CategoryUser;
 use Illuminate\Http\Request;
 use App\Models\Contract;
+use App\Models\Payment;
 use App\Models\Status;
 use App\Models\Qualification;
 use App\Models\User;
 use App\Notifications\ContractNotification;
+use App\Notifications\RequestContractNotification;
 use GrahamCampbell\ResultType\Result;
 use Illuminate\Support\Facades\Auth;
 use App\Models\RequestContract;
@@ -123,6 +125,21 @@ class ContractController extends Controller
             $contract->user->notify(new ContractNotification($contract));
         }
 
+        // crear payment tipo sistema para que el admin libere
+        $paymentIn = Payment::where('contract_id', $contract->id)->first();
+
+        $paymentOut = new Payment();
+        $paymentOut->method_payment = 'manual';
+        $paymentOut->type_payment = 'withdrawal';
+        $paymentOut->amount = $paymentIn->amount;
+        $paymentOut->user_id = $paymentIn->user_id;
+        $paymentOut->contract_id = $paymentIn->contract_id;
+        $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
+        $paymentOut->type = 'out';
+        $paymentOut->save();
+
+        // falta mensaje al admin
+        
         return response()->json([
             'msg' => 'Contrato Finalizado',
             'contract' => $contract
@@ -336,15 +353,23 @@ class ContractController extends Controller
         $user = Auth::user();
         $status = Status::where('name', 'pending')->first();
 
+        $categoryUser = CategoryUser::where('user_id', $user->id)
+            ->where('category_id', $contract->category_id)
+            ->first();
+
         // Agregar validaciones contract ad
         
         $requestContract = new RequestContract();
         $requestContract->contract_id = $contract->id;
+        $requestContract->category_user_id = $categoryUser->id;
         $requestContract->status_id = $status->id;
         $requestContract->user_id = $user->id;
         $requestContract->message = '';
 
         $requestContract->save();
+
+        // enviar notificacion
+        $contract->user->notify(new RequestContractNotification($contract, 'send'));
             
         return response()->json([
             'msg' => 'Solicitud enviada exitosamente',
@@ -359,6 +384,9 @@ class ContractController extends Controller
         $contract->category_user_id = $requestContract->category_user_id;
         $contract->status_id = Status::where('name', 'pendingPayment')->first()->id;
         $contract->save();
+
+        // enviar notificacion
+        $requestContract->user->notify(new RequestContractNotification($contract, 'accept'));
 
         return response()->json([
             'msg' => "Solicitud aceptada correctamente"

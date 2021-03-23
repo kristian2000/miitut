@@ -50,11 +50,6 @@ class CategoryUser extends Model
             ->with('subcategories');
     }
 
-    public function timesAvailable(){
-        return $this->hasMany(TimesAvailable::class, 'category_user_id')
-            ->with('category');
-    }
-
     public function qualifications(){
         return $this->hasManyThrough(
             Qualification::class, 
