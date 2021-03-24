@@ -134,6 +134,7 @@ class AdminController extends Controller
     public function getPaymentsContract(){
         $payment = Payment::where('type_payment', 'withdrawal')
             ->with('contract', 'user', 'status')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json([

@@ -25,7 +25,7 @@ class CreatePaymentsTable extends Migration
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')->on('status');
             
-            $table->string('type')->default(0);
+            $table->string('type')->nullable();
             $table->string('charge')->nullable();
             $table->json('data')->nullable();
             $table->timestamps();

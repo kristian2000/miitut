@@ -207,7 +207,7 @@ export default {
                                     variant="outline-secondary" 
                                     @click="renovarCall"
                                     size="sm"
-                                    :disabled="dateIsMenor(contract.date_start, dateFormatRenovar(contract.date_start) )"
+                                    :disabled="!(dateIsMenor(contract.date_start, dateFormatRenovar(contract.date_start)))"
                                 >             
                                     Renovar
                                 </b-button>

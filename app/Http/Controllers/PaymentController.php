@@ -52,9 +52,9 @@ class PaymentController extends Controller
         $payment = Payment::create([
             'method_payment' => 'stripe',
             'type_payment' => 'contract',
-            'amount' => $amount,
+            'amount' => $amount/100,
             'contract_id' => $contract->id,
-            'type' => 'in',
+            // 'type' => 'in',
             "status_id" => Status::where('name', 'finalized')->first()->id,
             'subscription' => false,
             'user_id' => $user->id,
@@ -82,7 +82,7 @@ class PaymentController extends Controller
 
     public function payContractHabitual(Request $request){
         $token = $request['token']['id'];
-        $contract = Contract::find(1);
+        $contract = Contract::find($request['contract']);
         $user = Auth::user();
 
         /*
@@ -103,6 +103,7 @@ class PaymentController extends Controller
                 // $daysSem[] = date('l', $i)." | ".date('N', $i);
             }
         }
+
 
         $priceCentimos =  $contract->price * 100;
         $price = $priceCentimos * $contract->hours * count($daysRange);
@@ -125,9 +126,9 @@ class PaymentController extends Controller
         $payment = Payment::create([
             'method_payment' => 'stripe',
             'type_payment' => 'contract',
-            'amount' => $amount,
+            'amount' => $amount/100,
             'contract_id' => $contract->id,
-            'type' => 'in',
+            // 'type' => 'in',
             "status_id" => Status::where('name', 'finalized')->first()->id,
             'subscription' => false,
             'user_id' => $user->id,
@@ -141,6 +142,16 @@ class PaymentController extends Controller
         // Si se esta renovando modificar fecha de inicio y fin
         if ($request['renovation']){
             $contract->date_start = date('Y-m-d' , $dateFinal);
+
+            $paymentOut = new Payment();
+            $paymentOut->method_payment = 'manual';
+            $paymentOut->type_payment = 'withdrawal';
+            $paymentOut->amount = $amount/100;
+            $paymentOut->user_id = $user->id;
+            $paymentOut->contract_id = $contract->id;
+            $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
+            // $paymentOut->type = 'out';
+            $paymentOut->save();
         }
 
         // Modificar status del contrato
