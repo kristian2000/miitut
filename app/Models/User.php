@@ -88,7 +88,7 @@ class User extends Authenticatable
 
     public function categories()
     {
-        return $this->hasMany(CategoryUser::class)->with('status', 'category', 'timesAvailable');
+        return $this->hasMany(CategoryUser::class)->with('status', 'category');
     }
 
     public function contracts(){

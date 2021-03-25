@@ -65,7 +65,7 @@ Route::get('/app/categoriesUser/pending', [CategoryUserController::class, 'getCa
 Route::get('/app/categoriesUser/{category}', [CategoryUserController::class, 'showCategoriesUser']);
 Route::put('/app/categoriesUser/{category}', [CategoryUserController::class, 'updateCategoryUser']);
 Route::post('/app/categoriesUser/{category}/completeProfileWork', [CategoryUserController::class, 'completeProfileWork']);
-Route::post('/app/categoriesUser/{category}/changeTimeAvailable', [CategoryUserController::class, 'changeTimeAvailable']);
+// Route::post('/app/categoriesUser/{category}/changeTimeAvailable', [CategoryUserController::class, 'changeTimeAvailable']);
 Route::post('/app/categoriesUser/getCategoriesUserWork', [CategoryUserController::class, 'getCategoriesUserWork']);
 Route::get('/app/categoriesUser/qualifications/{categoryUser}', [CategoryUserController::class, 'getCategoryUserQualifications']);
 

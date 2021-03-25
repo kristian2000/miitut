@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\CategoryUser;
 use App\Models\Qualification;
 use App\Models\Status;
-use App\Models\TimesAvailable;
 use Illuminate\Support\Facades\DB;
 
 class CategoryUserController extends Controller
@@ -16,7 +15,6 @@ class CategoryUserController extends Controller
     public function showCategoriesUser(CategoryUser $category){
         $category->user;
         $category->category;
-        $category->timesAvailable;
         $category->comments;
 
         return response()->json($category);
@@ -77,27 +75,27 @@ class CategoryUserController extends Controller
         ]);
     }
 
-    public function changeTimeAvailable(CategoryUser $category, Request $request){
-        $data = $request->only(['day', 'hours']);
+    // public function changeTimeAvailable(CategoryUser $category, Request $request){
+    //     $data = $request->only(['day', 'hours']);
 
-        $time = $category->timesAvailable()->where('day',  $data['day'])->firstWhere('hours', $data['hours']);
+    //     $time = $category->timesAvailable()->where('day',  $data['day'])->firstWhere('hours', $data['hours']);
 
-        if ($time === null) {
-            $newtime = TimesAvailable::create([
-                'category_user_id' => $category->id,
-                'day' => $data['day'],
-                'hours' => $data['hours']
-            ]);
-        }else {
-            $time->delete();
-        }
+    //     if ($time === null) {
+    //         $newtime = TimesAvailable::create([
+    //             'category_user_id' => $category->id,
+    //             'day' => $data['day'],
+    //             'hours' => $data['hours']
+    //         ]);
+    //     }else {
+    //         $time->delete();
+    //     }
 
-        return response()->json([
-            'category' => $category,
-            'msg' => '',
-            'time' => $time
-        ]);
-    }
+    //     return response()->json([
+    //         'category' => $category,
+    //         'msg' => '',
+    //         'time' => $time
+    //     ]);
+    // }
 
     public function completeProfileWork(CategoryUser $category, Request $request){
 

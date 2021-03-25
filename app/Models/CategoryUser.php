@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Status;
 use App\Models\Category;
-use App\Models\TimesAvailable;
+// use App\Models\TimesAvailable;
 use App\Models\User;
 use App\Models\Qualification;
 
