@@ -11,6 +11,7 @@ use App\Models\Report;
 use Illuminate\Support\Facades\Storage;
 use App\Models\BankAccount;
 use Illuminate\Notifications\Notification;
+use App\Http\Controllers\MailController;
 
 class UserController extends Controller
 {
@@ -321,6 +322,21 @@ class UserController extends Controller
         
         return response()->json([
             'account' => $account
+        ]);
+    }
+
+    public function supportMessage(request $request){
+        $data = [
+            'subject' => $request->subject,
+            'email' => $request->email,
+            "message" => $request->message,
+            "name" => 'Nombre'
+        ];
+
+        MailController::sendMessageSupport($data);
+
+        return response()->json([
+            'msg' => 'Envio de mensaje exitosamente'
         ]);
     }
 }

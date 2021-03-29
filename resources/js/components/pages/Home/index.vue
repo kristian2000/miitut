@@ -8,8 +8,8 @@ import {
     HelpCircleIcon
 } from 'vue-feather-icons';
 
-import Navbar from "./navbar";
-import Footer from "./footer";
+// import Navbar from "./navbar";
+// import Footer from "";
 
 import QuickSearch from '../../QuickSearch'
 
@@ -18,12 +18,12 @@ import QuickSearch from '../../QuickSearch'
  */
 export default {
     components: {
-        Navbar,
+        // Navbar,
         UserIcon,
         MailIcon,
         KeyIcon,
         ArrowUpIcon,
-        Footer,
+        // Footer,
         HelpCircleIcon,
         QuickSearch
     },

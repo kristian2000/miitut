@@ -32,7 +32,7 @@ export default {
                     <a href="#" class="logo-footer">
                         <img src="https://i.ibb.co/YTDV8yz/Logo-01.png" height="24" alt="">
                     </a>
-                    <p class="mt-4">Start working with Landrick that can provide everything you need to generate awareness, drive traffic, connect.</p>
+                    <p class="mt-4">2Start working with Landrick that can provide everything you need to generate awareness, drive traffic, connect.</p>
                     <ul class="list-unstyled social-icon social mb-0 mt-4">
                         <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
                                 <facebook-icon class="fea icon-sm fea-social"></facebook-icon>

@@ -33,7 +33,7 @@ export default {
                     <a href="#" class="logo-footer">
                         <img src="https://i.ibb.co/YTDV8yz/Logo-01.png" height="24" alt="">
                     </a>
-                    <p class="mt-4">Start working with Landrick that can provide everything you need to generate awareness, drive traffic, connect.</p>
+                    <p class="mt-4">1Start working with Landrick that can provide everything you need to generate awareness, drive traffic, connect.</p>
                     <ul class="list-unstyled social-icon social mb-0 mt-4">
                         <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
                                 <facebook-icon class="fea icon-sm fea-social"></facebook-icon>
@@ -47,19 +47,16 @@ export default {
                 <!--end col-->
 
                 <div class="col-lg-4 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                    <h4 class="text-light footer-head">Links de Ayuda</h4>
+                    <h4 class="text-light footer-head">Ayuda</h4>
                     <ul class="list-unstyled footer-list mt-4">
                         <li>
-                            <router-link to="/page-aboutus" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Terminos y Condiciones</router-link>
+                            <router-link to="/termAndCond" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Terminos y Condiciones</router-link>
                         </li>
-                        <li>
+                        <!-- <li>
                             <router-link to="/page-services" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Politicas de privacidad</router-link>
-                        </li>
+                        </li> -->
                         <li>
-                            <router-link to="/page-team" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Faqs</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/page-pricing" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Soporte</router-link>
+                            <router-link to="/support" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Soporte</router-link>
                         </li>
 
                     </ul>
@@ -97,12 +94,13 @@ export default {
             <div class="row align-items-center">
                 <div class="col-sm-6">
                     <div class="text-sm-left">
-                        <p class="mb-0">© 2020 Landrick. Developed by with <i class="mdi mdi-heart text-danger"></i> by <a href="https://www.themesbrand.com" target="_blank" class="text-reset">Themesbrand</a>.</p>
+                        <p class="mb-0">© 2021 Miitut</p>
+                        <!-- <p class="mb-0">© 2020 Landrick. Developed by with <i class="mdi mdi-heart text-danger"></i> by <a href="https://www.themesbrand.com" target="_blank" class="text-reset">Themesbrand</a>.</p> -->
                     </div>
                 </div>
                 <!--end col-->
 
-                <div class="col-sm-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                <!-- <div class="col-sm-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <ul class="list-unstyled text-sm-right mb-0">
                         <li class="list-inline-item"><a href="javascript:void(0)"><img src="images/payments/american-ex.png" class="avatar avatar-ex-sm" title="American Express" alt=""></a></li>
                         <li class="list-inline-item  ml-1"><a href="javascript:void(0)"><img src="images/payments/discover.png" class="avatar avatar-ex-sm" title="Discover" alt=""></a></li>
@@ -110,7 +108,7 @@ export default {
                         <li class="list-inline-item  ml-1"><a href="javascript:void(0)"><img src="images/payments/paypal.png" class="avatar avatar-ex-sm" title="Paypal" alt=""></a></li>
                         <li class="list-inline-item  ml-1"><a href="javascript:void(0)"><img src="images/payments/visa.png" class="avatar avatar-ex-sm" title="Visa" alt=""></a></li>
                     </ul>
-                </div>
+                </div> -->
                 <!--end col-->
             </div>
             <!--end row-->

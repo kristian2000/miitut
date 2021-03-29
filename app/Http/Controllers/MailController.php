@@ -59,4 +59,19 @@ class MailController extends Controller
             ]
         );
     }
+
+    public static function sendMessageSupport($data){
+
+        $domain = env('MAILGUN_DOMAIN');
+        $ms = Mailgun::create(env('MAILGUN_SECRET'));
+
+        $ms->messages()->send($domain, [
+                'from'	=> '<'.$data['email'].'>',
+                'to'	=> "support miitut <miitutsystem@gmail.com>",
+                'subject' => $data['subject'],
+                'text'	=> $data['message']
+                // 'html' => view('mail.support-message', [ 'message' => 'este es el mensaje'])->render()
+            ]
+        );
+    }
 }

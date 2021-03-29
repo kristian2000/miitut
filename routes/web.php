@@ -47,6 +47,7 @@ Route::post('/app/users/updateAvatar', [UserController::class, 'updateAvatar']);
 Route::post('/app/users/uploadDNI', [UserController::class, 'uploadDNI']);
 Route::get('/app/users/getInfoDNI', [UserController::class, 'getInfoDNI']);
 Route::post('/app/users/reportUser', [UserController::class, 'reportUser']);
+Route::post('/app/users/supportMessage', [UserController::class, 'supportMessage']);
 
 Route::get('/app/users/notifications', [UserController::class, 'listNotifications']);
 Route::get('/app/users/notifications/markAsReads', [UserController::class, 'notificationsMarkAsReads']);

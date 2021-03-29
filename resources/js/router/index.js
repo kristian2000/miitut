@@ -43,7 +43,12 @@ import AdminPayments from '../components/pages/Admin/Payments'
 import AdminMediations from '../components/pages/Admin/Mediations'
 import AdminPaymentContract from '../components/pages/Admin/PaymentContract'
 
+// Info
 import Aboutus from '../components/pages/Home/Aboutus'
+// Soporte
+import Support from '../components/pages/Info/Support'
+// TermAndCond
+import TermAndCond from '../components/pages/Info/TermAndCond'
 
 const routes = [
     // Admin
@@ -128,6 +133,14 @@ const routes = [
     {
         path: '/InfoCheckEmail',
         component: InfoCheckEmail
+    },
+    {
+        path: '/TermAndCond',
+        component: TermAndCond
+    },
+    {
+        path: '/support',
+        component: Support
     },
 
     // Rutas Account
