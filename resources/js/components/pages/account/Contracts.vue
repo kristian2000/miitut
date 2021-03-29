@@ -137,20 +137,27 @@ export default {
 
             this.loading = false;
         },
-        async meditation(){
-            const response = await this.callApi('post', `app/contracts/meditation/${this.currentContract.id}`);
-            console.log('meditationContract', response)
-            if (response.status === 200){
-                let newContract = response.data.contract;
-                this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
-                    contract
-                    :
-                    newContract
-                )
-                this.currentContract = null;
-                this.$bvModal.hide('modalContract')
-                this.makeNotice('success', 'Info', 'Contrato en mediacion, espere a que soporte revise su caso');
+        // async meditation(){
+        //     const response = await this.callApi('post', `app/contracts/meditation/${this.currentContract.id}`);
+        //     console.log('meditationContract', response)
+        //     if (response.status === 200){
+        //         let newContract = response.data.contract;
+        //         this.contracts = this.contracts.map( contract => contract.id !== newContract.id ?
+        //             contract
+        //             :
+        //             newContract
+        //         )
+        //         this.currentContract = null;
+        //         this.$bvModal.hide('modalContract')
+        //         this.makeNotice('success', 'Info', 'Contrato en mediacion, espere a que soporte revise su caso');
+        //     }
+        // },
+        goCategoryUser(contract){
+            // event.stopPropagation()
+            if (this.$store.state.user.userType === 'help'){
+                this.$router.push({path: `/profilePublic/${contract.category_user_id}`})
             }
+            // console.log({contract})
         }
 
     }
@@ -169,7 +176,7 @@ export default {
             <div class="border-bottom pb-4">
                 <div class="row" v-for="contract in contracts" :key="contract.id">
 
-                    <div class="col-12 border shadow caja" @click="showContract(contract)">
+                    <div class="col-12 border shadow caja">
 
                         <div class="border p-3">
                             <div class="d-flex align-items-center">
@@ -189,56 +196,74 @@ export default {
                                     </h2>
                                 </div>
                             </div>
-                            <div>
-                                <div class="d-flex justify-content-around align-items-center">
-                                    <div class="">
-                                        <div class="text-muted">
-                                            <span class="font-weight-bold"> Tipo Contrato: </span>
-                                            {{ contract.type_contract === "occasional" ? 'Ocacional' : 'Habitual' }}
-                                        </div>
-                                        <div class="text-muted">
-                                            <span class="font-weight-bold"> Categoria: </span>
-                                            {{ contract.category_user.category.label }}
-                                        </div>
-                                        <div class="text-muted">
-                                            <span class="font-weight-bold"> Creado: </span>
-                                            {{ new Date(contract.created_at).toISOString().slice(0, 10) }}
+                            <div >
+                                <div class="row" style="min-height: 100px">
+                                    <div class="col-md-8 col-12 d-flex justify-content-center">
+                                        <div>
+                                            <div class="text-muted">
+                                                <span class="font-weight-bold"> Tipo Contrato: </span>
+                                                {{ contract.type_contract === "occasional" ? 'Ocacional' : 'Habitual' }}
+                                            </div>
+                                            <div class="text-muted">
+                                                <span class="font-weight-bold"> Categoria: </span>
+                                                {{ contract.category_user.category.label }}
+                                            </div>
+                                            <div class="text-muted">
+                                                <span class="font-weight-bold"> Creado: </span>
+                                                {{ new Date(contract.created_at).toISOString().slice(0, 10) }}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="">
-                                        <div>
-                                            <span class="text-muted font-weight-bold border-bottom">
-                                               Usuario {{ 
-                                                   $store.state.user.userType === 'help' ?
-                                                        'Contratado'
-                                                        :
-                                                        "Empleador"
-                                                }}:
-                                            </span>
-                                        </div>
-                                        <div class="d-flex align-items-center ">
-                                            <div>
-                                                <img 
-                                                    :src="$store.state.user.userType === 'help' ?
-                                                        contract.category_user.user.avatar
-                                                        :
-                                                        contract.user.avatar
-                                                    "  
-                                                    alt="" 
-                                                    width="80px"
-                                                    style="cursor:pointer; width: 80px; height: 80px; border-radius: 50%"
-                                                >
-                                            </div>
-                                            <div class="">
-                                                <div class="text-muted">
-                                                    {{ $store.state.user.userType === 'help' ?
-                                                            contract.category_user.user.name
-                                                            :
-                                                            contract.user.name
-                                                    }}
+                                    <div class="col-md-4 col-12" style="min-height: 90px">
+                                        <div class="d-flex justify-content-center" style="position:relative;">
+                                            <div 
+                                                :style="`position:absolute; z-index:1; 
+                                                    ${$store.state.user.userType === 'help' ?
+                                                        'cursor: pointer' : ''
+                                                    }`" 
+                                                @click="(event)=> { 
+                                                    event.stopPropagation(); 
+                                                    goCategoryUser(contract);
+                                                }"
+                                            >
+                                                <div>
+                                                    <span class="text-muted font-weight-bold border-bottom">
+                                                    Usuario {{ 
+                                                        $store.state.user.userType === 'help' ?
+                                                                'Contratado'
+                                                                :
+                                                                "Empleador"
+                                                        }}:
+                                                    </span>
                                                 </div>
+                                                <div class="d-flex align-items-center ">
+                                                    <div>
+                                                        <img 
+                                                            :src="$store.state.user.userType === 'help' ?
+                                                                contract.category_user.user.avatar
+                                                                :
+                                                                contract.user.avatar
+                                                            "  
+                                                            alt="" 
+                                                            width="80px"
+                                                            style="width: 80px; height: 80px; border-radius: 50%"
+                                                        >
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="text-muted">
+                                                            {{ $store.state.user.userType === 'help' ?
+                                                                    contract.category_user.user.name
+                                                                    :
+                                                                    contract.user.name
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
+
                                         </div>
+                                    
                                     </div>
                                 </div>
 
@@ -251,7 +276,13 @@ export default {
                             </div>
                         </div>
                         <div class="d-flex justify-content-center mt-2">
-                            <button id="btn-modify-2" class="text-white">ver más</button>
+                            <button 
+                                id="btn-modify-2" 
+                                class="text-white"
+                                @click="showContract(contract)"
+                            >
+                                ver más
+                            </button>
                         </div>
                     </div>
 
@@ -293,8 +324,8 @@ export default {
                     :onClose="()=>{this.$bvModal.hide('modalContract') }"
                     :payContractOccasional="this.payContract"
                     :payContractHabitual="this.payContract"
-                    :meditationCall="this.meditation"
                 />
+                    <!-- :meditationCall="this.meditation" -->
             </b-modal>
         </div>
         <!-- End Modal Contrato -->

@@ -13,6 +13,7 @@ import {
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
 import FormProfile from '../../form/FormProfile'
+import FormPaymentMethods from '../../form/FormPaymentMethods'
 
 /**
  * Account-profile component
@@ -35,6 +36,7 @@ export default {
     components: {
         LayoutAccount,
         FormProfile,
+        FormPaymentMethods,
 
         // Components <-> Icons
         MailIcon,
@@ -148,6 +150,10 @@ export default {
         showModalAccount(){
             this.getDocAccount();
             this.$bvModal.show('modalAccount');
+        },
+        async showPaymentMethods(){
+            // Listar metodos de pago, si no exite crear
+            this.$bvModal.show('modalPaymentMethods');
         }
 
     }
@@ -204,7 +210,7 @@ export default {
                                     <div class="">
                                         <div class="pl-3">
                                             <!-- START Verificacion Button Email-->
-                                            <div class="d-flex flex-row align-items-center">
+                                            <!-- <div class="d-flex flex-row align-items-center">
                                                 <p class="text-muted mr-2" style="margin-bottom:0">
                                                     Email
                                                 </p>
@@ -218,7 +224,7 @@ export default {
                                                     <AlertTriangleIcon v-if="!Number(user.email_check)" style="color:red" size="2x"/>
                                                 </b-button>
                                                 <CheckIcon v-if="Number(user.email_check)" style="color:green" size="1x"/>
-                                            </div>
+                                            </div> -->
                                             <!-- END Verificacion Button Email-->
 
                                             <!-- START Verificacion Button Perfil-->
@@ -268,16 +274,28 @@ export default {
                                     <a href="javascript:void(0)" class="text-muted">{{user.address}}</a>
                                 </div>
                             </div>
-                            <div 
-                                v-if="user.userType === 'work'"
-                                class="media align-items-center justify-content-center mt-5"
-                            >
-                                <div>
-                                    <b-button pill size="sm" variant="outline-secondary" @click="showModalAccount">
-                                        Ver Cuenta Retiro
-                                    </b-button>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-around ">
+                    <div 
+                        class="media align-items-center justify-content-center"
+                    >
+                        <div>
+                            <b-button pill size="sm" variant="outline-secondary" @click="showPaymentMethods">
+                                Metodo de Pago
+                            </b-button>
+                        </div>
+                    </div>
+                    <div 
+                        v-if="user.userType === 'work'"
+                        class="media align-items-center justify-content-center"
+                    >
+                        <div>
+                            <b-button pill size="sm" variant="outline-secondary" @click="showModalAccount">
+                                Ver Cuenta Retiro
+                            </b-button>
                         </div>
                     </div>
                 </div>
@@ -444,6 +462,12 @@ export default {
                 </div>
             </b-modal>
             <!-- END Modal Edit -->
+
+            <!-- START Modal Metodo de Pago -->
+            <b-modal id="modalPaymentMethods" hide-footer title="Metodo de Pago">
+                <FormPaymentMethods />
+            </b-modal>
+            <!-- END Modal Metodo de Pago -->
         </div>
     </LayoutAccount>
 </div>

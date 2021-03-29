@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\MessageNotification;
 
 class ChatController extends Controller
 {
@@ -17,6 +18,7 @@ class ChatController extends Controller
         $message = $request['message'];
         $conversationId = $request['conversation'];
 
+        // Diferenciar usuarios
         if ($user->userType == 'work'){
             $user_work_id = $user->id;
             $user_help_id = $request['to'];
@@ -24,7 +26,6 @@ class ChatController extends Controller
             $user_work_id = $request['to'];
             $user_help_id = $user->id;
         }
-
 
         $conversation = null;
 
@@ -35,7 +36,6 @@ class ChatController extends Controller
                 ->where('user_help_id', $user_help_id)
                 ->first();
         }
-
         
         if ($conversation != null){
             $conversation->message = $message;
@@ -57,8 +57,16 @@ class ChatController extends Controller
             'message' => $message
         ]);
             
+        // relaciones
         $conversation->userWork;
         $conversation->userHelp;
+
+        //enviar mensaje
+        if ($user->userType == 'work'){
+            $conversation->userHelp->notify(new MessageNotification($newMessage));
+        }else {
+            $conversation->userWork->notify(new MessageNotification($newMessage));
+        }
 
         return response()->json([
             'msg' => 'Mensaje Enviado',

@@ -9,7 +9,7 @@ import {
 } from 'vue-feather-icons';
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
-import FormContract from '../../form/FormContract';
+import FormContractAd from '../../form/FormContractAd';
 
 /**
  * Account-profile component
@@ -28,7 +28,7 @@ export default {
     components: {
         LayoutAccount,
         PlusIcon,
-        FormContract
+        FormContractAd
     },
     async created(){
         await this.getCategories();
@@ -218,8 +218,8 @@ export default {
                     size="lg"
                 >
                     <div v-if="!loading && this.currentAd">
-    `                        <!-- :onSubmit="addAdContract" -->
-                        <FormContract
+                            <!-- :onSubmit="addAdContract" -->
+                        <FormContractAd
                             :contract="currentAd"
                             :edit="false"
                             :typeForm="action"

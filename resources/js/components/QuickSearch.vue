@@ -4,6 +4,7 @@ import {
 } from 'vue-feather-icons';
 
 export default {
+    props: ['categorySelected', 'disabled'],
     data(){
         return {
             category: '',
@@ -14,8 +15,14 @@ export default {
         SearchIcon
     },
     async created(){
-        // Seleccionar el primero
-        this.category = this.$store.state.categories[0]
+        if (this.categorySelected){
+            this.category = this.$store.state.categories
+                .find(c => c.name === this.categorySelected.id)
+        }else {
+            // Seleccionar el primero
+            this.category = this.$store.state.categories[0]
+            // console.log('category', this.$store.state.categories)
+        }
     },
     computed: {
         categories(){
@@ -50,6 +57,7 @@ export default {
                     class="input"
                     v-model="category" 
                     :options="categories" 
+                    :disabled="disabled"
                     required
                 />
             </div>

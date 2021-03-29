@@ -29,6 +29,8 @@ import CompleteProfile from '../components/pages/auth/CompleteProfile'
 import CompleteProfileWork from '../components/pages/auth/CompleteProfileWork'
 import ResetPassword from '../components/pages/auth/ResetPassword'
 import AccountRetirement from '../components/pages/auth/Registration/AccountRetirement'
+import DNI from '../components/pages/auth/DNI'
+import InfoCheckEmail from '../components/pages/auth/Registration/InfoCheckEmail'
 
 //Plantilla
 import INDEX from '../components/pages/Home/index.vue'
@@ -118,6 +120,14 @@ const routes = [
     {
         path: '/accountRetirement',
         component: AccountRetirement
+    },
+    {
+        path: '/DNI',
+        component: DNI
+    },
+    {
+        path: '/InfoCheckEmail',
+        component: InfoCheckEmail
     },
 
     // Rutas Account

@@ -36,7 +36,7 @@
         },
         methods: {
             async logout(){
-                const res = await this.callApi('get', 'app/logout')
+                const res = await this.callApi('get', '/app/logout')
                 if (res.status === 200){
                     this.makeNotice('success', 'Hasta Luego!', res.data.msg)
                     this.$store.commit('setUpdateUser', false);
@@ -44,9 +44,14 @@
                 }
             },
             async notificationsMarkAsReads(){
-                const res = await this.callApi('get', 'app/users/notifications/markAsReads')
+                const res = await this.callApi('get', '/app/users/notifications/markAsReads')
 
                 this.getNotifications();
+            },
+            async destroyNotification(notif){
+                // console.log('notif', notif)
+                const res = await this.callApi('delete', `/app/users/notifications/${notif.id}`);
+                console.log('destroyNoty', res)
             }
         }
     }
@@ -135,22 +140,23 @@
                     </div>
                 </div>
                 <div class="px-3 py-2">
+                        <!-- @click="$router.push('/account-contracts')" -->
                     <div 
                         class="notif" 
                         v-for="notif in notifications" :key="notif.id"
-                        @click="$router.push('/account-contracts')"
                     >
-                        <div 
+                        <!-- <div 
                             class="mb-1 d-flex justify-content-end align-item-center"
                             style="position: relative;"
                         >
                             <span 
                                 class="notif-close"
                                 style="position: absolute;"
+                                @click="destroyNotification(notif)"
                             >
                                 <XIcon size="1x"/>
                             </span>
-                        </div>
+                        </div> -->
                         <div class="pt-3">
                             <h3>{{ notif.data.title }}</h3>
                         </div>

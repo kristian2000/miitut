@@ -11,6 +11,7 @@ use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\ContractNotification;
 use Carbon\Carbon;
+use PhpParser\Node\Expr\Cast\Bool_;
 
 class PaymentController extends Controller
 {
@@ -27,6 +28,95 @@ class PaymentController extends Controller
         return response()->json([
             'payments' => $payments
         ]);
+    }
+
+    public function calculatePayContractOccasional($price, $porcentageCommision, $hours){
+        $priceTotal = $price * $hours;
+        $commission = $priceTotal * $porcentageCommision;
+        $amount = $priceTotal + $commission;
+
+        return [
+            "typeContract" => "occasional",
+            "priceHour" => $price,
+            "hours" => $hours,
+            "porcentageComission" => $commission,
+            "totalComission" => $commission,
+            "totalAmount" => $amount
+        ];
+    }
+
+    public function calculatePayContractHabitual(
+        $price, $porcentageCommision, $hours, $daysSem, $dateStart
+    ){
+        $dateInitial = strtotime($dateStart);
+        $dateFinal = strtotime(Carbon::create($dateStart)->addMonth());
+    
+        $daysRange = [];
+        
+        for ($i = $dateInitial; $i <= $dateFinal; $i += 86400){
+            $daySem = array_search(date('N', $i), $daysSem);
+           
+            if ($daySem !== false){
+                $daysRange[] = [ 
+                    "date" => date('d-m-y', $i) ,
+                    "daySem" => $daysSem[$daySem] 
+                ];
+                // $daysSem[] = date('l', $i)." | ".date('N', $i);
+            }
+        }
+
+        $totalDays = count($daysRange);
+        $priceTotal = $price * $hours * $totalDays;
+        $commission = $priceTotal * $porcentageCommision;
+        $amount = $priceTotal + $commission;
+
+        return [
+            "typeContract" => "habitual",
+            "daysSem" => $daysSem,
+            "dateStart" => $dateStart,
+            "dateEnd" => Carbon::create($dateStart)->addMonth()->format('Y-m-d'),
+            "hoursByDay" => $hours,
+
+            "porcentageComission" => $porcentageCommision,
+            "totalComission" => $commission,
+
+            "days" => $daysRange,
+            "priceHour" => $price,
+            "totalHours" => $hours * $totalDays,
+            "totalAmount" => $amount,
+        ];
+    }
+
+    public function calculate(Request $request){
+
+        $this->validate($request, [
+            'typeContract' => 'required|string',
+            'dateStart' => 'date',
+            'price' => 'required|numeric',
+            'daysSelected' => 'array',
+            'hours' => 'required|numeric',
+        ]);
+        
+        $typeContract = $request['typeContract'];
+        $price = $request['price'];
+        $hours = $request['hours'];
+        $daysSem = $request['daysSelected'];
+        $dateStart = $request['dateStart'];
+        $porcentageCommision = 0.10;
+
+        if ($typeContract === 'habitual'){
+            return response()->json(
+                $this->calculatePayContractHabitual(
+                    $price, $porcentageCommision, $hours, $daysSem, $dateStart
+                )
+            );
+        }
+
+        return response()->json(
+            $this->calculatePayContractOccasional(
+                $price, $porcentageCommision, $hours
+            )
+        );
     }
 
     public function payContractOccasional(Request $request){
@@ -103,7 +193,6 @@ class PaymentController extends Controller
                 // $daysSem[] = date('l', $i)." | ".date('N', $i);
             }
         }
-
 
         $priceCentimos =  $contract->price * 100;
         $price = $priceCentimos * $contract->hours * count($daysRange);

@@ -132,7 +132,8 @@ export default {
                             <div class="d-flex justify-content-center">
                                 <div class="">
                                     <h2 class="font-weight-bold">
-                                        Anuncio ({{ ad.status.label }})
+                                        Anuncio 
+                                        <!-- ({{ ad.status.label }}) -->
                                         <span 
                                             class="btn-icon"
                                             v-if="ad"

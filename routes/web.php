@@ -50,7 +50,8 @@ Route::post('/app/users/reportUser', [UserController::class, 'reportUser']);
 
 Route::get('/app/users/notifications', [UserController::class, 'listNotifications']);
 Route::get('/app/users/notifications/markAsReads', [UserController::class, 'notificationsMarkAsReads']);
-Route::delete('/app/users/notifications/{notification}', [UserController::class, 'deleteNotification']);
+// Route::delete('/app/users/notifications/{notification}', [UserController::class, 'destroyNotification']);
+Route::get('/app/users/paymentMethods', [UserController::class, 'paymentMethods']);
 
 Route::post('/app/users/accountRetirement', [UserController::class, 'accountRetirement']);
 Route::get('/app/users/accountRetirement', [UserController::class, 'showAccountRetirement']);
@@ -90,6 +91,9 @@ Route::post('/app/contracts/{contract}/acceptRequest/{requestContract}', [Contra
 
 // Membresia
 Route::get('/app/memberships', [MembershipController::class, 'index']);
+Route::get('/app/plans', [MembershipController::class, 'retrievePlans']);
+Route::get('/app/subscription', [MembershipController::class, 'showSubscription']);
+
 Route::post('/app/chats/sendMessage', [ChatController::class, 'sendMessage']);
 Route::get('/app/chats/getConversations', [ChatController::class, 'getConversations']);
 Route::get('/app/chats/messagesConversation/{conversation}', [ChatController::class, 'messagesConversation']);
@@ -110,6 +114,7 @@ Route::post('/app/payment/contract/occasional', [PaymentController::class, 'payC
 Route::post('/app/payment/contract/habitual', [PaymentController::class, 'payContractHabitual']);
 Route::get('/app/payment/contract/commission', [PaymentController::class, 'commission']);
 Route::get('/app/payments', [PaymentController::class, 'getAll']);
+Route::post('/app/payment/calculate', [PaymentController::class, 'calculate']);
 
 Route::get('/app/fired', function(){
     event(new ContractEvent);

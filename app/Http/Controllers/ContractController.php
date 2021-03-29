@@ -109,36 +109,42 @@ class ContractController extends Controller
     public function finalizeContract(Contract $contract){
         $user = Auth::user();
 
-        $contract->status_id = Status::where('name', 'finalized')->first()->id;
-        $contract->save();
+        $contract['finalized_'.$user->userType] = true;
 
-        // relaciones
-        $contract->status;
-        $contract->categoryUser;
-        $contract->user;
-
-        // enviar notificacion
-
+        // Notification
         if ($contract->user_id == $user->id){
             $contract->categoryUser->user->notify(new ContractNotification($contract));
         }else{
             $contract->user->notify(new ContractNotification($contract));
         }
 
-        // crear payment tipo sistema para que el admin libere
-        $paymentIn = Payment::where('contract_id', $contract->id)->first();
+        // Si los dos finalizaron
+        if ($contract->finalized_work && $contract->finalized_help){
+            // Cambiar status a finalizado
+            $contract->status_id = Status::where('name', 'finalized')->first()->id;
 
-        $paymentOut = new Payment();
-        $paymentOut->method_payment = 'manual';
-        $paymentOut->type_payment = 'withdrawal';
-        $paymentOut->amount = $paymentIn->amount;
-        $paymentOut->user_id = $paymentIn->user_id;
-        $paymentOut->contract_id = $paymentIn->contract_id;
-        $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
-        $paymentOut->type = 'out';
-        $paymentOut->save();
+            // crear payment tipo sistema para que el admin libere
+            $paymentIn = Payment::where('contract_id', $contract->id)->first();
+    
+            $paymentOut = new Payment();
+            $paymentOut->method_payment = 'manual';
+            $paymentOut->type_payment = 'withdrawal';
+            $paymentOut->amount = $paymentIn->amount;
+            $paymentOut->user_id = $paymentIn->user_id;
+            $paymentOut->contract_id = $paymentIn->contract_id;
+            $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
+            $paymentOut->type = 'out';
+            $paymentOut->save();
+        }
 
-        // falta mensaje al admin
+        $contract->save();
+
+        // falta mensaje correo admin
+
+        // relaciones
+        $contract->status;
+        $contract->categoryUser;
+        $contract->user;
         
         return response()->json([
             'msg' => 'Contrato Finalizado',

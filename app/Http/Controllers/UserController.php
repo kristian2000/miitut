@@ -10,6 +10,7 @@ use App\Models\Status;
 use App\Models\Report;
 use Illuminate\Support\Facades\Storage;
 use App\Models\BankAccount;
+use Illuminate\Notifications\Notification;
 
 class UserController extends Controller
 {
@@ -91,6 +92,18 @@ class UserController extends Controller
                     ]);
 
                 $dni->save();
+                
+                // Actualizar fase del usuario
+                if ($user->fase_registry === 'dni'){
+                    if ($user->userType === 'work'){
+                        $user->fase_registry = 'completeProfileWork';
+                    }else {
+                        $user->fase_registry = 'completed';
+                    }
+
+                    $user->save();
+
+                }
 
             }else {
                 $files = glob('DNIS/'.$user->id.'/*');
@@ -215,12 +228,13 @@ class UserController extends Controller
         ]);
 
         $user = Auth::user();
+        $user->update(array_merge($data , ['fase_registry' => 'dni']));
 
-        if ($user->userType === 'work'){
-            $user->update(array_merge($data , ['fase_registry' => 'completeProfileWork']));
-        }else {
-            $user->update(array_merge($data , ['fase_registry' => 'completed']));
-        }
+        // if ($user->userType === 'work'){
+        //     $user->update(array_merge($data , ['fase_registry' => 'completeProfileWork']));
+        // }else {
+        //     $user->update(array_merge($data , ['fase_registry' => 'completed']));
+        // }
 
         return response()->json([
             'user' => $user,
@@ -262,6 +276,20 @@ class UserController extends Controller
         return response()->json([
             'msg' => 'Notificaciones Marcadas como leidas'
         ]);
+    }
+
+    // public function destroyNotification($notif){
+    //     $notification = Notification::find('ContractNotifications', $notif->id);
+    //     return response()->json([
+    //         'msg' => 'destroy',
+    //         'notification' => $notification
+    //     ]);
+    // }
+
+    public function paymentMethods(){
+        $user = Auth::user();
+
+        return response()->json($user->paymentMethods());
     }
 
     public function accountRetirement(request $request){

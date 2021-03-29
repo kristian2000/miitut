@@ -5,11 +5,11 @@
             <NavbarUnauthorization />
         </div>
 
-        <main>
+        <main style="min-height: 80vh">
             <slot />
         </main>
 
-        <!-- <Footer /> -->
+        <Footer />
     </div>
 </template>
 

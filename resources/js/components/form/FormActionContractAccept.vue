@@ -32,7 +32,8 @@ export default {
     },
     data(){
         return {
-            scoreStar: 1
+            scoreStar: 1,
+            Comment: ''
         }
     },
     created(){
@@ -213,18 +214,10 @@ export default {
                                 </b-button>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <!-- <div class="d-flex justify-content-center mr-2">
-                                <div>
-                                    <b-button 
-                                        pill 
-                                        variant="outline-secondary" 
-                                        @click="meditationCall"
-                                    >
-                                        Entrar en Mediacion
-                                    </b-button>
-                                </div>
-                            </div> -->
+                        <div 
+                            v-if="!contract[`finalized_${$store.state.user.userType}`]"
+                            class="d-flex justify-content-center"
+                        >
                             <div class="d-flex justify-content-center">
                                 <div>
                                     <b-button 
@@ -236,7 +229,13 @@ export default {
                                     </b-button>
                                 </div>
                             </div>
-
+                        </div>
+                        <div v-else>
+                            <div class="text-muted text-center" >
+                                <div>
+                                   Finalizaste el contrato, en espera de la contraparte
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -19,6 +19,7 @@ import {
 } from 'vue-feather-icons';
 
 import Score from '../score.vue';
+// import Footer from '../../layouts/components/Footer'
 
 export default {
     data() {
@@ -232,7 +233,9 @@ export default {
     >
         <div class="container">
 
-                    <div class="card public-profile border-0 rounded shadow " style="z-index: 1; margin-top: 100px">
+                    <div class="card public-profile border-0 rounded shadow " 
+                        style="z-index: 1; margin-top: 100px; margin-bottom: 100px"
+                    >
                         <div class="card-body ">
 
                             <div class="row">
@@ -412,7 +415,8 @@ export default {
                                         </div>
                                 <div v-if="!this.loadingCategoriesUser">
                                         <div class="border shadow"
-                                            :style="`height: ${!showMap? 800 : 500}px; overflow:scroll; overflow-x:hidden; border-radius:15px;`"
+                                            :style="`height: ${!showMap? 800 : 500}px; overflow:scroll; overflow-x:hidden; border-radius:15px;
+                                            cursor:pointer`"
                                         >
                                             <div class="my-4" v-if="categoriesUserWork.length">
 

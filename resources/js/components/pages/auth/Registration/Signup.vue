@@ -11,11 +11,6 @@ import {
     KeyIcon
 } from 'vue-feather-icons';
 
-import axios from 'axios';
-/**
- * Auth-signup component
- */
-
 import { mapActions } from 'vuex';
 
 export default {
@@ -25,6 +20,7 @@ export default {
     ],
     data() {
         return {
+            loading: false,
             acceptTerm: true,
             showAlert: false,
             message: '',
@@ -50,6 +46,8 @@ export default {
         },
 
         async submit(){
+            this.loading = true;
+
             let data = this.userType === 'work' ? Object.assign({
                 category: this.category
             } , this.form) : this.form;
@@ -62,7 +60,8 @@ export default {
                 this.makeNotice('success', 'Registro Exitoso', res.data.msg);
                 
                 setTimeout(()=>{
-                    window.location.href = '/'
+                    this.$router.push('/InfoCheckEmail');
+                    // window.location.href = '/'
                 }, 3000)
 
             }else if (res.status === 422){
@@ -90,6 +89,7 @@ export default {
                 this.makeNotice('danger', 'Error', 'Error interno');
             }
 
+            this.loading = false;
         },
         async loginSocial(driver){
             try{
@@ -126,8 +126,13 @@ export default {
         <div >
             <div class="card login_page shadow rounded border-0" style="max-width: 500px">
                 <div class="card-body">
-                    <h4 class="card-title text-center">Registro</h4>
-                    <form class="login-form mt-4" v-on:submit.prevent="submit">
+                    <h4 class="card-title text-center font-weight-bold">
+                        <span class="border-bottom"> Registro </span>
+                    </h4>
+                    <form class="login-form mt-4" 
+                        v-if="!loading"
+                        v-on:submit.prevent="submit" 
+                    >
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group position-relative">
@@ -178,7 +183,12 @@ export default {
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-block" :disabled="!acceptTerm">Register</button>
+                                <button 
+                                    class="btn btn-primary btn-block" 
+                                    :disabled="!acceptTerm"
+                                >
+                                    Register
+                                </button>
                             </div>
                             <div class="col-lg-12 mt-4 text-center">
                                 <h6>ó Registrate Con</h6>
@@ -204,6 +214,16 @@ export default {
                             </div>
                         </div>
                     </form>
+                    <div v-else>
+                        <div 
+                            class="d-flex justify-content-center align-items-center" 
+                            style="min-height: 70vh; min-width: 450px;"
+                        >
+                            <div style="height: 100%;">
+                                <b-spinner type="grow" label="Spinning" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

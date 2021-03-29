@@ -7,6 +7,7 @@ import BtnDesp from '../btnDespliegue';
 import CardStripe from '../CardStripe';
 
 import moment from 'moment';
+import FormPaymentCalculation from './FormPaymentCalculation';
 
 export default {
     props: [
@@ -27,7 +28,8 @@ export default {
     components: {
         BtnDesp,
         CardStripe,
-        StarIcon
+        StarIcon,
+        FormPaymentCalculation
     },
     data(){
         return {
@@ -45,7 +47,7 @@ export default {
             message: '',
             address: '',
             typeContract: 'habitual',
-            startTime: '',
+            startTime: '00:00:00',
             days: [
                 { key: 'LUN', value: 1},
                 { key: 'MAR', value: 2},
@@ -63,7 +65,9 @@ export default {
             loadingPayment: false,
             category: '',
             categories: [],
-            price: 1
+            price: 1,
+            infoPayment: { loading: false, doc: null},
+            loading: false
         }
     },
     async created(){
@@ -154,7 +158,8 @@ export default {
             // The following will be an empty string until a valid date is entered
             this.selected = ctx.selectedYMD
         },
-        validate(){
+        validate(call){
+            console.log('validate', call)
             
             let errors = {};
             let errorsExist = false;
@@ -225,9 +230,9 @@ export default {
                 return this.makeNoticeListErrors(errors);
             }
 
-            this.submit();
+            this.submit(call);
         },
-        async submit(){
+        async submit(call){
             let form = {
                 userHired: this.categoryUser?.user.id,
                 dateStart: this.dateInitial.date,
@@ -251,7 +256,9 @@ export default {
                 }
             }
             
-            // console.log('submit', form)
+            if (call === 'calculatePayment'){
+                return this.calculatePayment(form);
+            }
 
             this.onSubmit(form);
         },
@@ -282,7 +289,28 @@ export default {
             let d2 = new Date(dateB).getTime();
 
             return d1 < d2;
-        }
+        },
+        async calculatePayment(form){
+            console.log('infoPayment', form)
+            this.infoPayment.loading = true;
+
+            const response = await this.callApi('post', `/app/payment/calculate`, {
+                price: form.price,
+                hours: form.hours,
+                typeContract: form.typeContract,
+                daysSelected: form.daysSelected,
+                dateStart: form.dateStart
+            });
+
+            if (response.status === 200){
+                this.infoPayment.doc = response.data;
+                this.$bvModal.show('infoPayment');
+            }
+
+            this.infoPayment.loading = false;
+            console.log('calculatePayment', response)
+
+        },
     }
 }
 </script>
@@ -495,11 +523,38 @@ export default {
             <div class="col-12 border-bottom mb-1">
                 <div class="text-muted">
                     <label>Informacion Pago: </label>
-                    <span class="text-center">
-                        {{ typeContract === 'occasional' ? 'este contrato es de un unico pago' :
-                            'este Contrato es de pago por un mes, y se puede renovar'
-                        }}
-                    </span>
+                    <div class="row">
+                        <div class="col-7">
+                            <span class="text-center">
+                                {{ typeContract === 'occasional' ? 
+                                    'Este contrato es de un unico pago,' :
+                                    'Este Contrato es de pago por un mes, y se puede renovar,'
+                                }}
+                                luego de creado el contrado no se puede editar
+                            </span>
+                        </div>
+                        <div class="col-5 d-flex justify-content-center">
+                            <div>
+                                <b-button 
+                                    pill 
+                                    size="sm"
+                                    variant="outline-primary" 
+                                    v-b-tooltip.hover 
+                                    title="Complete todos los campos para calcular el pago"
+                                    @click="()=>{ validate('calculatePayment'); }"
+                                >
+                                    Calcular Pago
+
+                                    <b-spinner 
+                                        v-if="infoPayment.loading"
+                                        small
+                                        type="grow" 
+                                        label="Spinning"
+                                    />
+                                </b-button>
+                            </div>
+                        </div >
+                    </div>
                 </div>
             </div>
 
@@ -518,6 +573,18 @@ export default {
             </div>
         </div>
 
+        <!-- Modal Payment Calculation -->
+        <b-modal 
+            id="infoPayment" 
+            title="Informacion de Pago"
+            hide-footer
+        >
+            <div v-if="!infoPayment.loading && infoPayment.doc">
+                <FormPaymentCalculation 
+                    :doc="infoPayment.doc"
+                />   
+            </div>
+        </b-modal>
     </div>
 </template>
 

@@ -45,6 +45,9 @@ class CreateContractsTable extends Migration
             $table->unsignedBigInteger('qualification_employer_id')->nullable();
 
             $table->date('renovation')->nullable();
+
+            $table->boolean('finalized_work')->default(0);
+            $table->boolean('finalized_help')->default(0);
             $table->timestamps();
         });
     }

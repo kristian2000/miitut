@@ -1,6 +1,10 @@
 
 <script>
 import axios from 'axios'
+import {
+    SearchIcon,
+    MapPinIcon
+} from 'vue-feather-icons';
 
 export default {
     data(){
@@ -25,8 +29,17 @@ export default {
             driving_license: false,
             first_aid: false,
             has_children: false,
-            nationality: ''
+            nationality: '',
+
+            loadingSearchAddress: false,
+            locationQuery: '',
+            addressSearch: null, //lat y long
+            suggestions: [{text: 'Sugerencias al buscar tu ubicacion', value: null}],
         }
+    },
+    components: {
+        SearchIcon,
+        MapPinIcon
     },
     created(){
         const user = this.$store.state.user;
@@ -39,6 +52,40 @@ export default {
         }
     },
     methods: {
+        async geolocalizationAddress(){
+            // Validacion
+            if (this.locationQuery === ''){
+                return ;
+            }
+
+            // loading
+            this.loading.localizar = true;
+
+            const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${this.locationQuery}&addressdetails=1`)
+            console.log('response location', response);
+
+            console.log('geoLo', response.data)
+
+            let suggestions = response.data.map( address => ({
+                text: address.display_name,
+                value: address
+            }))
+
+            this.suggestions = suggestions;
+            let addressSearch = suggestions.length ? suggestions[0].value : null;
+            console.log('addressSearch', addressSearch)
+            this.address = addressSearch.display_name;
+            // this.country = addressSearch.address.country;
+            // this.state = addressSearch.address.state;
+
+            this.addressSearch =  addressSearch
+            this.coords = {
+                lat: addressSearch.lat,
+                lon: addressSearch.lon
+            }
+
+            this.loading.localizar = false;
+        },
         selectImage(){
             this.$refs.fileInput.click()
         },
@@ -77,14 +124,27 @@ export default {
                 if (response.status === 200){
 
                     this.address = response.data.display_name;
-                    this.country = response.data.address.country;
-                    this.state = response.data.address.state;
+                    // this.country = response.data.address.country;
+                    // this.state = response.data.address.state;
 
-                    this.coords = {
-                        lat: response.data.lat,
-                        lon: response.data.lon
-                    }
+                    // this.coords = {
+                    //     lat: response.data.lat,
+                    //     lon: response.data.lon
+                    // }
                     this.loading.localizar = false;
+
+                // Se agrega en sugerencias
+                    this.locationQuery = response.data.display_name;
+                    let addressSearch =  response.data ?  response.data : null;
+
+                    let suggestions = [{
+                        text: addressSearch.display_name,
+                        value: addressSearch
+                    }]
+
+                    this.addressSearch = addressSearch;
+                    this.suggestions = suggestions;
+
                 }
             },(error)=>{
                 this.makeNotice('danger', 'Error Ubicando', 'Permiso de ubicacion rechazado por el usuario, por favor, aceptar y reintentar.');
@@ -105,6 +165,7 @@ export default {
                 nationality: this.nationality
             }
 
+            // console.log('formValidate', form)
             //Hacer Validaciones manuales
 
             Object.keys(form).forEach( field => {
@@ -147,11 +208,13 @@ export default {
                 phone: this.phone,
                 gender: this.gender,
                 birthdate: this.date.birthdate,
-                address: this.address,
-                country: this.country,
-                state: this.state,
-                lat: this.coords? this.coords.lat : '',
-                lng: this.coords ?  this.coords.lon : '',
+
+                address: this.addressSearch.display_name,
+                country: this.addressSearch.address.country,
+                state: this.addressSearch.address.state,
+                lat: this.addressSearch.lat,
+                lng: this.addressSearch.lon,
+
                 description: this.description,
                 dni: this.dni,
                 nationality: this.nationality,
@@ -161,6 +224,7 @@ export default {
                 has_children: this.has_children,
             }
 
+        // console.log('addressSearch', this.addressSearch);
             console.log('formSubmit', form)
 
             try{
@@ -227,7 +291,7 @@ export default {
             <!-- START Localizacion  -->
             <div class="col-12">
                 <div class=" d-flex justify-content-center" v-if="!loading.localizar">
-                    <div class="row align-items-center" v-if="!address">
+                    <!-- <div class="row align-items-center" v-if="!address">
                         <div class="col-8">
                             <label for="datepicker" class="text-muted">Click para obtener tu ubicacion</label>
                         </div>
@@ -240,6 +304,47 @@ export default {
                             <div style="width:60%;">
                                 <p class="text-muted"> {{address}}  </p>
                             </div>
+                        </div>
+                    </div> -->
+                    <div class="col-12 d-flex align-items-center">
+                        <div class="col-10 item">
+                            <h6 class="font-weight-bold text-center">
+                                Ubicación
+                            </h6>
+                            <div class="d-flex ">
+                                <b-form-input
+                                    id="address"
+                                    placeholder="Direccion Ciudad Estado Pais"
+                                    v-model="locationQuery"
+                                    required
+                                />
+
+                                <div class="border ml-1 p-1"
+                                    style="border-radius: 50%; cursor: pointer"
+                                    placeholder="sugerencias"
+                                    @click="geolocalizationAddress"
+                                >
+                                    <SearchIcon />
+                                </div>
+                            </div>
+                            <!-- <p class="text-muted">{{this.addressSearch.display_name}}</p> -->
+                            <div class="mt-2" v-if="suggestions.length">
+                                <b-form-select
+                                    id="input-3"
+                                    v-model="addressSearch"
+                                    :options="suggestions"
+                                    required
+                                ></b-form-select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <b-button  
+                                class="btn btn-info" pill @click="localizar"
+                                v-b-tooltip.hover title="Click para obtener la ubicacion actual"
+                            >
+                                <MapPinIcon />    
+                            </b-button >
+                        
                         </div>
                     </div>
 

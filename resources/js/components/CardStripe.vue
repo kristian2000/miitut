@@ -1,7 +1,8 @@
 <script>
 export default {
     props: [
-        'stripeTokenHandler'
+        'stripeTokenHandler',
+        'paymentMethod'
     ],
     data(){
         return {
@@ -9,7 +10,8 @@ export default {
             name: '',
             stripe: '',
             elements: '',
-            card: ''
+            card: '',
+            loading: false
         }
     },
     mounted(){
@@ -42,7 +44,13 @@ export default {
             this.card.mount('#card-element');
         },
         async createTokenStripe(){
-            let result = await this.stripe.createToken(this.card);
+            this.loading = true;
+            let result = this.paymentMethod ?
+                await this.stripe.createPaymentMethod('card',this.card, {
+                    billing_details: {
+                        name: this.name 
+                    }
+                }) : await this.stripe.createToken(this.card);
             
             if (result.error){
                 // Inform the customer that there was an error.
@@ -50,8 +58,9 @@ export default {
                 errorElement.textContent = result.error.message;
             }else {
                 // Send the token to your server.
-                this.stripeTokenHandler(result.token);
+                this.stripeTokenHandler(this.paymentMethod ? result.paymentMethod : result.token);
             }
+            this.loading = false;
         },
     
     },
@@ -66,10 +75,13 @@ export default {
                 <div class="col-12">
                     <label 
                         for="card-element" 
-                        class="labelElement mb-4 text-muted"
+                        class="labelElement mb-2 text-muted"
                     >
                         Tarjeta de Debito o Crédito
                     </label>
+                    <div class="mb-2">
+                        <b-form-input v-model="name" placeholder="Escribe nombre completo" />
+                    </div>
                 </div>
 
                 <div class="col-12">
@@ -79,8 +91,18 @@ export default {
                         </div>
                     </div>
                     <div class="mt-4">
-                        <b-button type="submit" @click="createTokenStripe">
-                            Enviar Pago
+                        <b-button 
+                            type="submit"
+                            @click="createTokenStripe" 
+                            :disabled="loading"
+                        >
+                            Enviar Pago 
+                            <b-spinner 
+                                v-if="loading"
+                                type="grow" 
+                                label="Spinning"
+                                small
+                            />
                         </b-button>
                     </div>
                 </div>

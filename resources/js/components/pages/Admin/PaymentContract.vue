@@ -137,6 +137,10 @@ export default {
                     <div class="border-bottom font-weight-bold text-center"> 
                         Informacion
                     </div>
+                    <div class="">
+                        <label> Estatus: </label>
+                        <span> {{ currentDoc.contract.status.label }} </span>
+                    </div>
                     <div class="mt-2">
                         <label> Fecha Inicial: </label>
                         <span> {{ currentDoc.contract.date_start }} </span>

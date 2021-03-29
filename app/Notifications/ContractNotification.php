@@ -34,7 +34,7 @@ class ContractNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'broadcast'];
+        return ['database'];
     }
 
     /**
@@ -106,6 +106,7 @@ class ContractNotification extends Notification
     {
         return new BroadcastMessage([
             'contract' => $this->contract->id,
+            "action" => "account-contracts",
             'user' => Auth::user()
         ]);
     }

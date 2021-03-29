@@ -47,7 +47,9 @@ export default {
             ],
             sheduleData: [],
             descriptionReport: '',
-            loadingReport: false
+            loadingReport: false,
+            loadingCategoryUser: true,
+            loadingContract: false
         }
     },
     components: {
@@ -64,18 +66,6 @@ export default {
         // console.log('ro', this.$route)
         const response = await this.callApi('get', `/app/categoriesUser/${id}`);
         if (response.status === 200){
-
-            let mapTimesAvailable = {};
-
-            // response.data.times_available.forEach( time => {
-            //     let doc = mapTimesAvailable[time.hours]
-            //     if (!doc){
-            //         mapTimesAvailable[time.hours] = { days: [ time.day ]}
-            //     }else {
-            //         mapTimesAvailable[time.hours].days.push(time.day)
-            //     }
-            // })
-
             this.categoryUser = {
                 ...response.data,
                 // times_available: mapTimesAvailable
@@ -86,8 +76,9 @@ export default {
             this.geolocPosition = coords;
             this.center =  coords;
             console.log('categoryUser', response.data)
-            this.loading = false;
         }
+
+        this.loadingCategoryUser = false;
     },
     computed: {
         calculateAge(){
@@ -117,7 +108,7 @@ export default {
             this.$bvModal.show('modalSendContract')
         },
         async sendContract(form){
-
+            this.loadingContract = true;
             const response = await this.callApi('post', '/app/contracts/create', form);
             console.log('responseAxios', response)
             if (response.status === 200){
@@ -125,6 +116,7 @@ export default {
             }else {
                  this.makeNotice('danger', 'Error', 'Se presento un error al enviar el contrato');
             }
+            this.loadingContract = false;
             this.$bvModal.hide('modalSendContract')
         },
         async sendMessage(){
@@ -173,17 +165,14 @@ export default {
 </script>
 
 <template>
-<div v-if="!loading">
-    <!-- <Navbar :nav-light="true" /> -->
-
-    <!-- Hero Start -->
+<div>
     <section class="bg-profile d-table w-100" style="background: url('/images/account/bg.png') center center;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card public-profile border-0 rounded shadow" style="z-index: 1;">
                         <div class="card-body">
-                            <div class="row align-items-center">
+                            <div class="row align-items-center" v-if="!loadingCategoryUser">
                                 <div class="col-lg-2 col-md-3 text-md-left text-center">
                                     <img
                                         :src="categoryUser.user.avatar ? categoryUser.user.avatar : '/images/avatarDefault.jpg'"
@@ -612,13 +601,29 @@ export default {
             hide-footer
             size="lg"
         >
-            <FormContract
-                :categoryUser="categoryUser"
-                :onSubmit="sendContract"
-                userType="help"
-                :edit="true"
-                typeForm="create"
-            />
+            <div v-if="!loadingContract">
+                <FormContract
+                    :categoryUser="categoryUser"
+                    :onSubmit="sendContract"
+                    :loading="loading"
+                    userType="help"
+                    :edit="true"
+                    typeForm="create"
+                />
+            </div>
+            <div v-else>
+                <div 
+                    class="d-flex justify-content-center align-items-center" 
+                    style="min-height: 250px"
+                >
+                    <div>
+                        <b-spinner 
+                            type="grow" 
+                            label="Spinning" 
+                        />
+                    </div>
+                </div>
+            </div>
         </b-modal>
     </div>
     <!-- End Modal Contrato -->
@@ -676,7 +681,6 @@ export default {
         </b-modal>
     </div>
     <!-- End Modal Report -->
-
 </div>
 </template>
 

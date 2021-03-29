@@ -44,6 +44,9 @@ export default {
                     case 'accountRetirement': {
                         this.$router.push('/accountRetirement');
                     } break;
+                    case 'dni': {
+                        this.$router.push('/dni');
+                    } break;
                     default: {
                         this.$router.push('/account-profile');
                     }
@@ -61,7 +64,7 @@ export default {
 
 <template>
 <div>
-    <Navbar />
+    <!-- <Navbar /> -->
     <!-- Hero Start -->
     <section class="bg-half-170 seccion1 d-table w-100">
         <div class="container" id="container">
@@ -235,7 +238,7 @@ export default {
 
     </section>
 
-    <Footer />
+    <!-- <Footer /> -->
 
 </div>
 </template>

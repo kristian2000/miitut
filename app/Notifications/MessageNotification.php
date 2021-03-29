@@ -2,13 +2,14 @@
 
 namespace App\Notifications;
 
+use App\Models\Message;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Carbon\Carbon;
 
-class RequestContractNotification extends Notification
+class MessageNotification extends Notification
 {
     use Queueable;
 
@@ -17,10 +18,9 @@ class RequestContractNotification extends Notification
      *
      * @return void
      */
-    public function __construct($contract, $action)
+    public function __construct(Message $message)
     {
-        $this->contract = $contract;
-        $this->action = $action;
+        $this->message = $message;
     }
 
     /**
@@ -56,27 +56,11 @@ class RequestContractNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        $title = '';
-        $description = '';
-
-        switch($this->action){
-            case 'send': {
-                $title = "Tienes una Solicitud por tu anuncio";
-                $description = "revisa tus anuncios tienes una solicitud";
-            };break;
-            case "accept": {
-                $title = "Tu solicitud fue aceptada";
-                $description = "revisa tus contratos";
-            };break;
-        }
-
         return [
-            'contract' => $this->contract->id,
-            'title' => $title,
-            "action" => $this->action === 'send' ? 
-                "account-ads" : "account-offers",
-            'description' => $description,
-            'time' => Carbon::now()->diffForHumans()
+            'title' => "Tienes un Mensaje",
+            'description' => $this->message->message,
+            "action" => "account-messages",
+            "time" => Carbon::now()->diffForHumans()
         ];
     }
 }
