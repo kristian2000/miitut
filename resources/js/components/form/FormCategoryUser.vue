@@ -24,6 +24,7 @@ export default {
             ],
             subcategoriesSelected: [],
             subcategories: [],
+            categories: [],
             form: {
                 title: '',
                 description: '',
@@ -68,28 +69,40 @@ export default {
                 }))
             }
 
+            this.userCategory = this.categoryUser;
+            this.sheduleData = this.categoryUser.shedule;
+        }else {
+            // Categorias y subcategorias
+            const responseSubCat = await this.callApi('get', `/app/categories/getWithSubcategories`)
+            console.log("caegoryNUll", responseSubCat)
+
+                if (responseSubCat.status === 200){
+                    // console.log('res', responseSubCat)
+                    let categories = responseSubCat.data.map( category => ({
+                        value: category,
+                        text: category.label
+                    }))
+
+                    this.userCategory.category = categories[0];
+                    this.categories = categories;
+
+                }
+
         }
 
-        // Times Available Union
 
-        let mapTimesAvailable = {};
 
-        // this.categoryUser.times_available.forEach( time => {
-        //     let doc = mapTimesAvailable[time.hours]
-        //     if (!doc){
-        //         mapTimesAvailable[time.hours] = { days: [ time.day ]}
-        //     }else {
-        //         mapTimesAvailable[time.hours].days.push(time.day)
-        //     }
-        // })
-
-        this.userCategory = {
-            ...this.categoryUser,
-            // times_available: mapTimesAvailable
-        };
-
-        this.sheduleData = this.categoryUser.shedule;
     },
+    computed: {
+        subCat(){
+            return this.userCategory.category.label === '' ? [] : 
+                this.userCategory.category.subcategories
+                   ?.map( sub => ({
+                        name: sub.label,
+                        code: sub.id
+                    }))
+        }
+    },  
     methods: {
         setSheduleData(value){
             // console.log(value)
@@ -143,7 +156,7 @@ export default {
         <div class="row">
             <!-- START Nombre de la categoria -->
             <div class="col-12">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center" v-if="categoryUser">
                     <h4 class="text-info h4">{{categoryUser.category.label}}</h4>
                 </div>
                 <!-- <hr> -->
@@ -156,12 +169,25 @@ export default {
                 <b-card border-variant="light" header="Informacion Basica" class="text-center">
                     <div class=" d-flex justify-content-center">
                         <div class="row">
+                            <div v-if="!categoryUser" class="col-12 mb-3">
+                                {{ userCategory.category }}
+                                <b-form-select 
+                                    class="input"
+                                    v-model="userCategory.category" 
+                                    :options="categories" 
+                                    @change="()=>{
+                                        this.subcategoriesSelected = []
+                                        
+                                    }"
+                                    required
+                                />
+                            </div>
                             <div class="col-12 mb-3">
                                 <multiselect v-model="subcategoriesSelected"
-                                    tag-placeholder="Agrega un nueva subcategoria"
+                                    tag-placeholder="Agrega una nueva subcategoria"
                                     placeholder="Estoy disponible para"
                                     label="name" track-by="code"
-                                    :options="subcategories" :multiple="true"
+                                    :options="subCat" :multiple="true"
                                     :taggable="true"
                                     @tag="addTag">
                                 </multiselect>
@@ -256,11 +282,11 @@ export default {
                 <b-card-group deck class="mb-3">
                     <b-card border-variant="light" header="Asigna tu horario" class="text-center">
                             <!-- :changeHandleServer="changeHandleTimeAvailable" -->
-                        <Shedule
+                        <!-- <Shedule
                             :sheduleData="sheduleData"
                             :setSheduleData="setSheduleData"
                             :dataInitial = categoryUser.shedule
-                        />
+                        /> -->
                     </b-card>
                 </b-card-group>
             </div>

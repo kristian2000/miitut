@@ -7,6 +7,8 @@ import BtnDesp from '../btnDespliegue';
 import CardStripe from '../CardStripe';
 
 import moment from 'moment';
+import FormPaymentMethods from './FormPaymentMethods';
+import FormPaymentCalculation from './FormPaymentCalculation';
 
 export default {
     props: [
@@ -28,12 +30,15 @@ export default {
     components: {
         BtnDesp,
         CardStripe,
-        StarIcon
+        StarIcon,
+        FormPaymentMethods,
+        FormPaymentCalculation
     },
     data(){
         return {
             scoreStar: 1,
-            Comment: ''
+            Comment: '',
+            infoPayment: { loading: false, doc: null},
         }
     },
     created(){
@@ -71,7 +76,36 @@ export default {
             let d2 = new Date(dateB).getTime();
 
             return d1 < d2;
-        }
+        },
+        dateIsMenorNow(date){
+            let d1 = new Date().getTime();
+            let d2 = new Date(date).getTime();
+
+            return d1 > d2;
+        },
+        async calculatePayment(){
+
+            this.infoPayment.loading = true;
+            
+            let form = {
+                price: this.contract.price,
+                hours:  this.contract.hours,
+                typeContract:  this.contract.type_contract,
+                daysSelected:  this.contract.daysSelected,
+                dateStart:  this.dateFormatRenovar(this.contract.date_start)
+            }
+
+            const response = await this.callApi('post', `/app/payment/calculate`, form);
+
+            if (response.status === 200){
+                this.infoPayment.doc = response.data;
+                this.$bvModal.show('infoRenovatePayment');
+            }
+
+            this.infoPayment.loading = false;
+            console.log('calculatePayment', response)
+
+        },
     }
 }
 </script>
@@ -145,7 +179,7 @@ export default {
                         v-if="$store.state.user.userType === 'help'"
                     >
                         <div class="d-flex justify-content-center flex-column ">
-                            <div class="d-flex justify-content-center flex-column">
+                            <div class="d-flex justify-content-center flex-column border-bottom mb-2">
                                 <div class="text-center">
                                     <h3> Información </h3>
                                 </div>
@@ -157,9 +191,9 @@ export default {
                             </div>
                             <div class="text-center">
                                 <div>
-                                    <CardStripe
-                                        :stripeTokenHandler="proccessPay"
-                                    />
+                                    <FormPaymentMethods>
+                                        <b-button @click="proccessPay" >Continuar</b-button>
+                                    </FormPaymentMethods>
                                 </div>
                             </div>
                         </div>
@@ -203,13 +237,14 @@ export default {
                                 v-if="contract.type_contract === 'habitual'" 
                                 class="mb-2"
                             >
+                                    <!-- :disabled="!(dateIsMenor( dateFormatRenovar(contract.date_start), Date()))" -->
+                                    <!-- @click="renovarCall" -->
                                 <b-button 
                                     pill 
                                     variant="outline-secondary" 
-                                    @click="renovarCall"
                                     size="sm"
-                                    :disabled="!(dateIsMenor(contract.date_start, dateFormatRenovar(contract.date_start)))"
-                                >             
+                                    @click="calculatePayment"
+                                >       
                                     Renovar
                                 </b-button>
                             </div>
@@ -316,6 +351,32 @@ export default {
                 </div>
         </div>
 
+        <!-- Modal Payment Calculation -->
+        <b-modal 
+            id="infoRenovatePayment" 
+            title="Informacion de Pago"
+            hide-footer
+        >
+            <div v-if="!infoPayment.loading && infoPayment.doc">
+                <FormPaymentCalculation 
+                    :doc="infoPayment.doc"
+                />
+                <div class="d-flex justify-content-center mt-4">
+                    <div v-if="!dateIsMenor( dateFormatRenovar(contract.date_start), Date())">
+                        Este contrato se puede renovar despues del : {{ dateFormatRenovar(contract.date_start) }}
+                    </div>
+                    <div >
+                        <b-button 
+                            pill 
+                            variant="outline-success" 
+                            @click="renovarCall"
+                        >       
+                            Pagar Renovacion
+                        </b-button>
+                    </div>
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 

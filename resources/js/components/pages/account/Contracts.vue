@@ -5,6 +5,7 @@ import FormContract from '../../form/FormContract';
 import FormActionContractAccept from '../../form/FormActionContractAccept';
 
 import CardStripe from '../../CardStripe';
+import FormPaymentMethods from '../../form/FormPaymentMethods'
 /**
  * Account-profile component
  */
@@ -20,7 +21,8 @@ export default {
         LayoutAccount,
         FormContract,
         CardStripe,
-        FormActionContractAccept
+        FormActionContractAccept,
+        FormPaymentMethods
     },
     async created(){
         const response = await this.callApi('get', `app/contracts`);
@@ -338,9 +340,21 @@ export default {
                 hide-footer
             >
                 <div>
-                    <CardStripe
+                    <FormPaymentMethods>
+                        <div>
+                            <div>
+                                <b-button 
+                                    pill 
+                                    @click="(result)=> {this.payContract(result, 'renovar')}"
+                                >
+                                    Siguiente
+                                </b-button>
+                            </div>
+                        </div>
+                    </FormPaymentMethods>
+                    <!-- <CardStripe
                         :stripeTokenHandler="(result)=> {this.payContract(result, 'renovar')}"
-                    />
+                    /> -->
                 </div>
             </b-modal>
         </div>

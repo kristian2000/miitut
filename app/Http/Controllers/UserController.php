@@ -12,9 +12,15 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\BankAccount;
 use Illuminate\Notifications\Notification;
 use App\Http\Controllers\MailController;
+use Stripe\Stripe;
+use Stripe\Customer;
 
 class UserController extends Controller
 {
+    public function __construct() {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+    }
+
     public function updateAvatar(Request $request){
 
         if ($request->hasFile('avatar')){
@@ -286,14 +292,81 @@ class UserController extends Controller
     //         'notification' => $notification
     //     ]);
     // }
-
     public function paymentMethods(){
         $user = Auth::user();
 
-        return response()->json($user->paymentMethods());
+        $methods = array();
+
+        if( $user->hasPaymentMethod() ){
+            foreach( $user->paymentMethods() as $method ){
+                array_push( $methods, [
+                    'id' => $method->id,
+                    'type' =>$method->type,
+                    'name' => $method->billing_details->name,
+                    'brand' => $method->card->brand,
+                    'last_four' => $method->card->last4,
+                    'exp_month' => $method->card->exp_month,
+                    'exp_year' => $method->card->exp_year,
+                ] );
+            }
+        }
+
+        return $methods;
     }
 
-    public function accountRetirement(request $request){
+    public function getPaymentMethods(){
+        $user = Auth::user();
+        // $stripeCustomer = $user->createOrGetStripeCustomer();
+
+        $methods = $this->paymentMethods();
+
+        return response()->json( $methods );
+    }
+
+    public function removePaymentMethod( Request $request ){
+        $user = Auth::user();
+        $paymentMethodID = $request->get('id');
+
+        $paymentMethods = $user->paymentMethods();
+
+        foreach( $paymentMethods as $method ){
+            if( $method->id == $paymentMethodID ){
+                $method->delete();
+                break;
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'msg' => "Removed Payment Method Successful",
+            'paymentMethods' => []
+        ]);
+    }
+
+    public function createPaymentMethod(Request $request){
+
+        $user = Auth::user();
+        $paymentMethodID =$request->paymentMethod['id'];
+
+        $stripeCustomer = $user->createOrGetStripeCustomer();
+
+        Customer::createSource($stripeCustomer->id, [
+            'source' => $paymentMethodID
+        ]);
+    
+        // $stripeCustomer->createSource($paymentMethodID);
+        // $user->updateDefaultPaymentMethod( $paymentMethodID );
+
+        $paymentMethods = $this->paymentMethods();
+
+        return response()->json([
+            'status' => true,
+            'msg' => "Add Payment Method Successful",
+            'paymentMethods' => $paymentMethods
+        ]);
+    }
+
+    public function accountRetirement(Request $request){
         $this->validate($request, [
             'nameOfBeneficiary' => 'string',
             'code' => 'string',

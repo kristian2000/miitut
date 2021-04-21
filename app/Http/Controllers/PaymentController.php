@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Charge;
+use Stripe\PaymentIntent;
 use App\Models\Contract;
 use App\Models\Payment;
 use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\ContractNotification;
 use Carbon\Carbon;
-use PhpParser\Node\Expr\Cast\Bool_;
 
 class PaymentController extends Controller
 {
@@ -73,7 +73,7 @@ class PaymentController extends Controller
         return [
             "typeContract" => "habitual",
             "daysSem" => $daysSem,
-            "dateStart" => $dateStart,
+            "dateStart" => Carbon::create($dateStart)->format('Y-m-d'),
             "dateEnd" => Carbon::create($dateStart)->addMonth()->format('Y-m-d'),
             "hoursByDay" => $hours,
 
@@ -121,28 +121,30 @@ class PaymentController extends Controller
 
     public function payContractOccasional(Request $request){
 
-        $token = $request['token']['id'];
         $contract = Contract::find($request['contract']);
         $user = Auth::user();
 
-        $priceCentimos =  $contract->price * 100;
-        $price = $priceCentimos * $contract->hours;
-        $commission = $price * 0.10;
-        $amount = $price + $commission;
+        $calculateContract = $this->calculatePayContractOccasional(
+            $contract->price, 
+            0.10, 
+            $contract->hours
+        );
+
+        $totalAmount = $calculateContract['totalAmount'] * 100;
 
         $charge = Charge::create([
-            'amount' => $amount,
+            'customer' => $user->stripe_id,
+            'amount' => $totalAmount,
             'currency' => 'EUR',
-            'description' => 'Pago contrato id:'.$contract->id,
-            'source' => $token,
-            // 'receipt_mail' => $user->email
+            'description' => 'Pago contrato id:'.$contract->id
         ]);
+        
 
         // Crear pago en BD
         $payment = Payment::create([
             'method_payment' => 'stripe',
             'type_payment' => 'contract',
-            'amount' => $amount/100,
+            'amount' => $calculateContract['totalAmount'],
             'contract_id' => $contract->id,
             // 'type' => 'in',
             "status_id" => Status::where('name', 'finalized')->first()->id,
@@ -171,77 +173,79 @@ class PaymentController extends Controller
     }
 
     public function payContractHabitual(Request $request){
-        $token = $request['token']['id'];
+
         $contract = Contract::find($request['contract']);
         $user = Auth::user();
 
-        /*
-            Calcular los dias del mes, 
-            segun los dias seleccionados en el contrato
-        */
-        
-        $contractDateInitial = date($contract['date_start']);
-        $dateInitial = strtotime($contractDateInitial);
-        $dateFinal = strtotime(Carbon::create($contractDateInitial)->addMonth());
-        
-        $daysSem = $contract['daysSelected'];
-        $daysRange = [];
-        
-        for ($i = $dateInitial; $i <= $dateFinal; $i += 86400){
-            if (array_search(date('N', $i), $daysSem)){
-                $daysRange[] = date('d-m-y', $i);
-                // $daysSem[] = date('l', $i)." | ".date('N', $i);
-            }
+        $price = $contract->price;
+        $hours = $contract->hours;
+        $daysSem = $contract->daysSelected;
+
+        $dateStart = $contract->date_start;
+        $dateInitial = strtotime($dateStart);
+        $dateFinal = strtotime(Carbon::create($dateStart)->addMonth());
+
+        if ($request['renovation']){
+            $paymentIn = Payment::whereMonth('created_at', '=', Carbon::create($contract->date_start)->format('m'))
+                ->where('contract_id', '=' ,$contract->id)
+                ->first();
+            
+            // Registrar Pago Anterior Para el admin
+            $paymentOut = new Payment();
+            $paymentOut->method_payment = 'manual';
+            $paymentOut->type_payment = 'withdrawal';
+            $paymentOut->amount = $paymentIn->amount;
+            $paymentOut->user_id = $user->id;
+            $paymentOut->contract_id = $contract->id;
+            $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
+            // $paymentOut->type = 'out';
+            $paymentOut->save();
+
+            
+            $dateStart = Carbon::create($contract->date_start)->addMonth()->toString();
+            $dateInitial = strtotime($dateStart);
+            $dateFinal = strtotime(Carbon::create($contract->date_start)->addMonth(2));
+            
+            $contract->date_start = date('Y-m-d' , $dateInitial);
+            $contract->date_end = date('Y-m-d' , $dateFinal);
         }
 
-        $priceCentimos =  $contract->price * 100;
-        $price = $priceCentimos * $contract->hours * count($daysRange);
-        $commission = $price * 0.10;
-        $amount = $price + $commission;
+        $calculateContract = $this->calculatePayContractHabitual(
+            $price, 0.10, $hours, $daysSem, $dateStart
+        );
+        
+        $totalAmount = $calculateContract['totalAmount'];
+        $totalAmountCentimos = $totalAmount * 100;
+        $days = $calculateContract['days'];
 
         // se crea el cargo
         $charge = Charge::create([
-            'amount' => $amount,
+            'customer' => $user->stripe_id,
+            'amount' => $totalAmountCentimos,
             'currency' => 'EUR',
             'description' => 'Pago contrato id:'
                 .$contract->id
                 .' | Fecha inicio: '
-                .date('d-m-y', $dateInitial),
-            'source' => $token,
-            // 'receipt_mail' => $user->email
+                .date('d-m-y', $dateInitial)
         ]);
 
         // Crear pago en BD
         $payment = Payment::create([
             'method_payment' => 'stripe',
             'type_payment' => 'contract',
-            'amount' => $amount/100,
+            'amount' => $totalAmount,
             'contract_id' => $contract->id,
             // 'type' => 'in',
             "status_id" => Status::where('name', 'finalized')->first()->id,
             'subscription' => false,
             'user_id' => $user->id,
             'data' => [
-                'daysSem' => $daysSem,
-                'daysMonth' => $daysRange
+                'days' => $days
             ],
             'charge' => $charge->id
         ]);
 
         // Si se esta renovando modificar fecha de inicio y fin
-        if ($request['renovation']){
-            $contract->date_start = date('Y-m-d' , $dateFinal);
-
-            $paymentOut = new Payment();
-            $paymentOut->method_payment = 'manual';
-            $paymentOut->type_payment = 'withdrawal';
-            $paymentOut->amount = $amount/100;
-            $paymentOut->user_id = $user->id;
-            $paymentOut->contract_id = $contract->id;
-            $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
-            // $paymentOut->type = 'out';
-            $paymentOut->save();
-        }
 
         // Modificar status del contrato
         $contract->status_id = Status::where('name', 'process')->first()->id;
@@ -259,11 +263,10 @@ class PaymentController extends Controller
             // 'charge' => $charge,
             'payment' => $payment,
             'contract' => $contract,
-            'amount' => $amount,
+            'amount' => $totalAmount,
             'dateInitial' => date("d-m-y", $dateInitial),
             'dateFinal' => date("d-m-y", $dateFinal),
-            'daysRange' => $daysRange,
-            'daysSem' => $daysSem
+            'days' => $days
         ]);
     }    
 }

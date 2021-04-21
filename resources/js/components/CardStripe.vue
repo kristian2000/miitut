@@ -79,9 +79,9 @@ export default {
                     >
                         Tarjeta de Debito o Crédito
                     </label>
-                    <div class="mb-2">
+                    <!-- <div class="mb-2">
                         <b-form-input v-model="name" placeholder="Escribe nombre completo" />
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-12">
@@ -96,7 +96,7 @@ export default {
                             @click="createTokenStripe" 
                             :disabled="loading"
                         >
-                            Enviar Pago 
+                            Enviar 
                             <b-spinner 
                                 v-if="loading"
                                 type="grow" 

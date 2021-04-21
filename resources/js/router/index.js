@@ -34,6 +34,7 @@ import InfoCheckEmail from '../components/pages/auth/Registration/InfoCheckEmail
 
 //Plantilla
 import INDEX from '../components/pages/Home/index.vue'
+import INDEX_NEW from '../components/pages/Home/index_new.vue'
 
 // Admin
 import AdminUsers from '../components/pages/Admin/Users'
@@ -77,8 +78,12 @@ const routes = [
         component: AdminPaymentContract
     },
     {
-        path: '/',
+        path: '/index',
         component: INDEX
+    },
+    {
+        path: '/',
+        component: INDEX_NEW
     },
     {
         path: '/test',

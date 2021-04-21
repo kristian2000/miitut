@@ -29,6 +29,7 @@ import {
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
 import FormCategoryUser from '../../form/FormCategoryUser'
+
 /**
  * Account-profile component
  */
@@ -37,9 +38,9 @@ export default {
         return {
             categoriesUser: [],
             currentItem: null,
-            memberships: [],
+            subscribed: false,
             loading: {
-                memberships: false
+                subscribed: false
             }
         }
     },
@@ -50,7 +51,7 @@ export default {
         PauseIcon,
         MapPinIcon,
         FormCategoryUser,
-        PlusIcon
+        PlusIcon,
 
     },
     async created(){
@@ -76,15 +77,15 @@ export default {
         //     })
         // },
         async addCategory(){
-            this.loading.memberships = true;
+            this.loading.subscribed = true;
 
-            const response = await this.callApi('get', `app/memberships`);
+            const response = await this.callApi('get', `/app/memberships/subscription`);
             console.log(response)
             this.$bvModal.show('modalAddCategory')
 
             if (response.status === 200){
-                this.memberships = response.data;
-                this.loading.memberships = false;
+                this.subscribed = response.data.subscribed;
+                this.loading.subscribed = false;
             }
         },
         async updateCategoryUser(data){
@@ -200,9 +201,14 @@ export default {
                     hide-footer
                     @click="addCategory"
                 >
-                    <PlusIcon
-                        style="cursor: pointer"
-                    />
+                    <div  v-if="!loading.subscribed">
+                        <PlusIcon
+                            style="cursor: pointer"
+                        />
+                    </div>
+                    <div v-else>
+                        <b-spinner type="grow" small/>
+                    </div>
                 </b-button>
             </div>
         </div>
@@ -228,8 +234,8 @@ export default {
     <!-- End Modal Edit -->
 
     <!-- Start Modal Agregar Categoria -->
-        <b-modal id="modalAddCategory" title="Hazte Premium" scrollable hide-footer size="lg">
-            <div class="m-4">
+        <b-modal id="modalAddCategory" title='Agregar Categoria' scrollable hide-footer size="lg">
+            <div v-if="!subscribed">
                 <div class="row justify-content-center text-center">
                     <div class="col-lg-12">
                         <h2 class="font-weight-bold">Hazte Premium</h2>
@@ -261,102 +267,25 @@ export default {
 
                     </div>
                 </div>
-                <div class="d-flex justify-content-around m-2"  v-if="!loading.memberships">
-                    <div class="" v-for="membership in memberships" :key="membership.id">
-                        <div class="">
-                            <div class="card bg-white price-box">
-                                <div class="pricing-name text-center">
-                                    <h4 class="mb-0 font-weight-bold">{{ membership.label }}</h4>
-                                </div>
-                                <div class="plan-price text-center mt-2">
-                                    <h3 class="text-custom font-weight-normal mb-0">${{ membership.price }}<span>/{{ membership.period }}</span></h3>
-                                </div>
-
-                                <div class="text-center mt-2">
-                                    <a href="#" class="btn btn-custom text-white">Adquirir</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-else>
-                    <div class="d-flex justify-content-center mt-4">
-                        <b-spinner 
-                            type="grow" 
-                            label="Spinning" 
-                        />
-                    </div>
-                </div>
             </div>
+            <div v-else>
+                <FormCategoryUser 
+                
+                />
+            </div>
+            <!-- <div class="d-flex justify-content-center mt-4">
+                <b-spinner 
+                    type="grow" 
+                    label="Spinning" 
+                />
+            </div> -->
+                
         </b-modal>
     <!-- End Modal Agregar Categoria -->
 </div>
 </template>
 
 <style scoped>
-    .text-custom,
-    .navbar-custom .navbar-nav li a:hover,
-    .navbar-custom .navbar-nav li a:active,
-    .navbar-custom .navbar-nav li.active a,
-    .service-box .services-icon,
-    .price-features i,
-    .faq-icon,
-    .social .social-icon:hover {
-        color: #f6576e !important;
-    }
-
-    .bg-custom,
-    .btn-custom,
-    .timeline-page .timeline-item .date-label-left::after,
-    .timeline-page .timeline-item .duration-right::after,.back-to-top:hover {
-        background-color: #f6576e;
-    }
-
-    .btn-custom,
-    .custom-form .form-control:focus,
-    .social .social-icon:hover,
-    .registration-input-box:focus {
-        border-color: #f6576e;
-    }
-
-    .service-box .services-icon,
-    .price-features i {
-        background-color: rgba(246, 87, 110, 0.1);
-    }
-
-    .btn-custom:hover,
-    .btn-custom:focus,
-    .btn-custom:active,
-    .btn-custom.active,
-    .btn-custom.focus,
-    .btn-custom:active,
-    .btn-custom:focus,
-    .btn-custom:hover,
-    .open > .dropdown-toggle.btn-custom {
-        border-color: #e45267;
-        background-color: #e45267;
-    }
-
-
-    .price-box {
-        padding: 20px 30px;
-    }
-
-    .plan-price span {
-        font-size: 16px;
-        color: #000;
-    }
-
-    .price-features i {
-        height: 20px;
-        width: 20px;
-        display: inline-block;
-        text-align: center;
-        line-height: 20px;
-        font-size: 14px;
-        border-radius: 50%;
-        margin-right: 20px;
-    }
 
     .btn-add {
         border-radius:  50%;

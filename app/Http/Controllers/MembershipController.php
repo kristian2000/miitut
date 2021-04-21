@@ -38,13 +38,66 @@ class MembershipController extends Controller
     }
 
     public function showSubscription() {
-        $plans = $this->retrievePlans();
         $user = Auth::user();
+        $verify = $user->subscribed();
+        $subcriptions = [];
 
+        if ($verify){
+            $stripe = new StripeClient(env('STRIPE_SECRET'));
+            $subcriptionsRaw = $user->subscriptions->all();
+
+            foreach($subcriptionsRaw as $subcription) {
+                $id_plan = $subcription->stripe_plan;
+
+                $subcriptions[] = [
+                    'subcription' => $subcription,
+                    'plan' => $stripe->plans->retrieve(
+                        $id_plan,
+                        []
+                    )
+                ];
+            }
+        }
+        
         return response()->json([
             'user' => $user,
-            'intent' => $user->createSetupIntent(),
-            'plans' => $plans
+            "subscribed" => $verify,
+            "subscriptions" => $subcriptions,
+        ]);
+    }
+
+    public function processSubscription(Request $request)
+    {
+        $user = Auth::user();
+        $plan = $request->input('plan');
+
+
+        $verify = $user->subscribed();
+
+        if ($verify){
+            // Ya esta subcrito a un plan
+            return response()->json([
+                "error" => true,
+                "verify" => $verify,
+                'msg' => 'Ya esta subcrito a un plan'
+            ], 400);
+
+        }
+
+        try {
+            $user->newSubscription('default', $plan)->add();
+        } catch (\Exception $e) {
+            return response()->json([
+                'msg' => "Error creating subscription." ,
+                'errors' =>  $e->getMessage()
+            ], 400);
+        }
+
+        $info = $user->subscribed($plan);
+            
+        return response()->json([
+            'msg' => 'Create Subscription exitosamente',
+            'info' => $info
         ]);
     }
 }

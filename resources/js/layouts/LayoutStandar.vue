@@ -1,7 +1,7 @@
 <template>
     <div >
-        <NavbarAuthorization v-if="user"/>
-        <NavbarUnauthorization v-else/>
+        <!-- <NavbarAuthorization v-if="user"/>
+        <NavbarUnauthorization v-else/> -->
         <main
             style="background: url('/images/account/bg.png') center center; padding-top: 100px;"
         >
@@ -17,7 +17,7 @@
             </div>
         </main>
 
-        <Footer />
+        <!-- <Footer /> -->
 
     </div>
 </template>

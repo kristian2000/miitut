@@ -1,6 +1,7 @@
 <script>
 import {
-    SearchIcon
+    SearchIcon,
+    MapPinIcon
 } from 'vue-feather-icons';
 
 export default {
@@ -12,7 +13,8 @@ export default {
         }
     },
     components: {
-        SearchIcon
+        SearchIcon,
+        MapPinIcon
     },
     async created(){
         if (this.categorySelected){
@@ -20,8 +22,10 @@ export default {
                 .find(c => c.name === this.categorySelected.id)
         }else {
             // Seleccionar el primero
-            this.category = this.$store.state.categories[0]
-            // console.log('category', this.$store.state.categories)
+            let OneCategory = this.$store.state.categories[0];
+            console.log('categoriasss', OneCategory)
+            this.category = OneCategory
+  
         }
     },
     computed: {
@@ -51,7 +55,7 @@ export default {
 
 <template>
     <div class="box">
-        <form class="row" @submit.prevent="submit">
+        <!-- <form class="row" @submit.prevent="submit">
             <div class="col-5">
                 <b-form-select 
                     class="input"
@@ -76,7 +80,52 @@ export default {
                     <SearchIcon />
                 </button>
             </div>
+        </form> -->
+
+    <div class="card login_page shadow rounded border-0 ml-lg-5">      
+        <div class="card-body">
+        <h5 class="card-title">Encuentra la ayuda que necesitas</h5>
+
+        <form class="login-form" @submit.prevent="submit">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Categorias</label>
+                        <b-form-select 
+                            class="input"
+                            v-model="category" 
+                            :options="categories" 
+                            :disabled="disabled"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <label>Ciudad</label>
+                    <div class="position-relative">
+                        <map-pin-icon
+                        class="fea icon-sm icons"
+                        style="top:14px;"
+                        ></map-pin-icon>
+                        <input
+                            type="text"
+                            v-model="address" 
+                            class="form-control pl-5"
+                            placeholder="Direccion"
+                            name="s"
+                            required=""
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-success w-100">Buscar Ahora</button>
+            </div>
+            </div>
         </form>
+        </div>
+    </div>
     </div>
 </template>
 

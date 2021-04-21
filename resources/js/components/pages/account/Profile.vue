@@ -14,6 +14,7 @@ import {
 import LayoutAccount from '../../../layouts/LayoutAccount'
 import FormProfile from '../../form/FormProfile'
 import FormPaymentMethods from '../../form/FormPaymentMethods'
+import FormPremium from '../../form/Premium'
 
 /**
  * Account-profile component
@@ -48,7 +49,9 @@ export default {
         AwardIcon,
         XIcon,
         CheckIcon,
-        AlertTriangleIcon
+        AlertTriangleIcon,
+        
+        FormPremium
     },
     created(){
         console.log('accountProfile', this.user)
@@ -154,6 +157,9 @@ export default {
         async showPaymentMethods(){
             // Listar metodos de pago, si no exite crear
             this.$bvModal.show('modalPaymentMethods');
+        },
+        async hidePaymentMethods(){
+
         }
 
     }
@@ -299,6 +305,14 @@ export default {
                         </div>
                     </div>
                 </div>
+
+            </div>
+            <div class="d-flex justify-content-center mt-2" v-if="$store.state.user.userType === 'work'">
+                <b-button variant="secondary" @click="()=>{
+                    $bvModal.show('modaPremium')
+                }">
+                    Hazte Premium
+                </b-button>
             </div>
         </div>
 
@@ -468,6 +482,17 @@ export default {
                 <FormPaymentMethods />
             </b-modal>
             <!-- END Modal Metodo de Pago -->
+
+            <!-- START Modal Premium -->
+            <b-modal 
+                id="modaPremium"  
+                hide-footer 
+                title="Hazte Premium"
+                size="lg" 
+            >
+                <FormPremium />
+            </b-modal>
+            <!-- END Modal Premium -->
         </div>
     </LayoutAccount>
 </div>

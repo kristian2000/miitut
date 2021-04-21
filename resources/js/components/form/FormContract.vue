@@ -295,7 +295,7 @@ export default {
 </script>
 
 <template>
-    <div class="container" >
+    <div class="container">
         <div class="row">
             <div class="col-12" v-if="this.typeForm !== 'create'">
                 <div class="d-flex justify-content-center border-bottom  mb-4">
