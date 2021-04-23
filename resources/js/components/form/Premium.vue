@@ -62,6 +62,11 @@ export default ({
             });
             // console.log('plans', response)
 
+            if (response.status === 200){
+                this.makeNotice('success','Subcripcion Exitosa', '');
+                this.showPlans();
+
+            }
             console.log(response)
         }
     }

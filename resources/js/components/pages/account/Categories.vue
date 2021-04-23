@@ -93,7 +93,7 @@ export default {
         },
         async createCategoryUser(data){
             // console.log('data', data);
-                console.log('form', form)
+                console.log('form', data)
             const res = await this.callApi('post', `app/categoriesUser`,data)
 
             if (res.status === 200){

@@ -153,7 +153,7 @@ export default {
             let error = false;
             // Hacer Validacion manual
             Object.keys(data).forEach( field => {
-                const value = form[field]
+                const value = data[field]
                 console.log(value)
                 if (value === '' ) {
                     this.makeNotice('danger', 'Faltan Datos', 'Por favor complete el campo ' + field)
