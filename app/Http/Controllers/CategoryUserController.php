@@ -75,27 +75,49 @@ class CategoryUserController extends Controller
         ]);
     }
 
-    // public function changeTimeAvailable(CategoryUser $category, Request $request){
-    //     $data = $request->only(['day', 'hours']);
+    public function createCategoryUser(Request $request){
+        $user = Auth::user();
+        $status = Status::firstWhere('name', 'active');
 
-    //     $time = $category->timesAvailable()->where('day',  $data['day'])->firstWhere('hours', $data['hours']);
+        $this->validate($request, [
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'address' => 'required|string',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
+            'price' => 'required|numeric',
+            'yearExperience' => 'required|numeric',
+            'descriptionExperience' => 'required|string',
+            'shedule' => 'array',
+            'sub_categories' => 'array'
+        ]);
 
-    //     if ($time === null) {
-    //         $newtime = TimesAvailable::create([
-    //             'category_user_id' => $category->id,
-    //             'day' => $data['day'],
-    //             'hours' => $data['hours']
-    //         ]);
-    //     }else {
-    //         $time->delete();
-    //     }
+        $categoryUser = new CategoryUser();
+        $categoryUser->user_id = $user->id;
+        $categoryUser->status_id = $status->id;
+        $categoryUser->category_id = $request['category_id'];
+        $categoryUser->title = $request['title'];
+        $categoryUser->description = $request['description'];
+        $categoryUser->lat = $request['lat'];
+        $categoryUser->lng = $request['lng'];
+        $categoryUser->price = $request['price'];
+        $categoryUser->yearExperience = $request['yearExperience'];
+        $categoryUser->descriptionExperience = $request['descriptionExperience'];
+        $categoryUser->shedule = $request['shedule'];
+        $categoryUser->sub_categories = $request['sub_categories'];
+        $categoryUser->save();
 
-    //     return response()->json([
-    //         'category' => $category,
-    //         'msg' => '',
-    //         'time' => $time
-    //     ]);
-    // }
+        // relaciones
+        $categoryUser->status;
+        $categoryUser->category;
+        
+
+        return response()->json([
+            'categoryUser' => $categoryUser,
+            'msg' => 'CategoryUser Creada success'
+        ]);
+
+    }
 
     public function completeProfileWork(CategoryUser $category, Request $request){
 

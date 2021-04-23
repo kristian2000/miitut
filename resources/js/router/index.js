@@ -6,6 +6,7 @@ Vue.use(Router)
 // Pages
 import Home from '../components/pages/Home/index.vue'
 import AboutCategory from '../components/pages/Home/AboutCategory'
+import AllCategories from '../components/pages/Home/AllCategories'
 import Search from '../components/pages/Search.vue'
 import ProfilePublic from '../components/pages/ProfilePublic/index'
 
@@ -92,6 +93,10 @@ const routes = [
     {
         path: '/Aboutus',
         component: Aboutus
+    },
+    {
+        path: '/allCategories',
+        component: AllCategories
     },
     {
         path: '/aboutCategory/:category',

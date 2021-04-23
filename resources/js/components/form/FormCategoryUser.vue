@@ -2,7 +2,7 @@
 import {
     MapPinIcon
 } from 'vue-feather-icons';
-import axios from 'axios'
+
 import Multiselect from 'vue-multiselect'
 import Shedule from '../../components/schedule';
 
@@ -10,8 +10,9 @@ export default {
     props: [
         'type',
         'categoryUser',
+        'categoriesUser',
         'setCategoryUser',
-        'updateCategoryUser'
+        'onCall'
     ],
     data(){
         return {
@@ -31,9 +32,9 @@ export default {
                 price: 1,
                 yearExperience: 0,
                 descriptionExperience: '',
-                address: '',
-                lat: 0,
-                lng: 0
+                address: this.$store.state.user.address,
+                lat: this.$store.state.user.lat,
+                lng: this.$store.state.user.lng
             },
             sheduleData: []
         }
@@ -44,7 +45,7 @@ export default {
         MapPinIcon
     },
     async created(){
-        console.log('createModal', this.categoryUser)
+        // console.log('createModal', this.categoryUser)
         if (this.categoryUser != null){
             this.form = {
                 title: this.categoryUser.title,
@@ -74,28 +75,40 @@ export default {
         }else {
             // Categorias y subcategorias
             const responseSubCat = await this.callApi('get', `/app/categories/getWithSubcategories`)
-            console.log("caegoryNUll", responseSubCat)
+            // console.log("caegoryNUll", responseSubCat)
 
                 if (responseSubCat.status === 200){
-                    // console.log('res', responseSubCat)
-                    let categories = responseSubCat.data.map( category => ({
-                        value: category,
-                        text: category.label
-                    }))
+                    
+                    let categories = responseSubCat.data
+                        .filter(
+                            cat => {
+                                let find = this.categoriesUser
+                                    .find( c => c.category_id === cat.id)
 
-                    this.userCategory.category = categories[0];
+                                return !find
+                            }
+                        )
+                        .map( category => ({
+                            value: category,
+                            text: category.label
+                        }))
+
+                    this.userCategory.category = categories[0]?.value;
                     this.categories = categories;
 
+                    // console.log('categories', categories)
+                        
                 }
 
+
         }
-
-
-
     },
     computed: {
         subCat(){
-            return this.userCategory.category.label === '' ? [] : 
+
+            return (this.userCategory 
+                && !this.userCategory?.category?.label?.length)
+            ? [] : 
                 this.userCategory.category.subcategories
                    ?.map( sub => ({
                         name: sub.label,
@@ -132,11 +145,30 @@ export default {
 
             const data = {
                 ...form,
+                category_id: this.userCategory?.category?.id,
                 shedule: this.sheduleData,
-                sub_categories: this.subcategoriesSelected
+                sub_categories: this.subcategoriesSelected,
             }
 
-            this.updateCategoryUser(data);
+            let error = false;
+            // Hacer Validacion manual
+            Object.keys(data).forEach( field => {
+                const value = form[field]
+                console.log(value)
+                if (value === '' ) {
+                    this.makeNotice('danger', 'Faltan Datos', 'Por favor complete el campo ' + field)
+                    error = true;
+                }
+            })
+
+            if (error) return ;
+
+            if (!this.categoryUser && !this.userCategory?.category?.id){
+                this.makeNotice('danger', 'Error', 'no hay categoria agregada');
+                return ;
+            }
+
+            this.onCall(data);
         }
 
     }
@@ -157,7 +189,7 @@ export default {
             <!-- START Nombre de la categoria -->
             <div class="col-12">
                 <div class="d-flex justify-content-center" v-if="categoryUser">
-                    <h4 class="text-info h4">{{categoryUser.category.label}}</h4>
+                    <h4 class="text-info h4">{{ categoryUser.category.label }}</h4>
                 </div>
                 <!-- <hr> -->
             </div>
@@ -170,7 +202,6 @@ export default {
                     <div class=" d-flex justify-content-center">
                         <div class="row">
                             <div v-if="!categoryUser" class="col-12 mb-3">
-                                {{ userCategory.category }}
                                 <b-form-select 
                                     class="input"
                                     v-model="userCategory.category" 
@@ -282,11 +313,12 @@ export default {
                 <b-card-group deck class="mb-3">
                     <b-card border-variant="light" header="Asigna tu horario" class="text-center">
                             <!-- :changeHandleServer="changeHandleTimeAvailable" -->
-                        <!-- <Shedule
+                            <!-- :dataInitial = categoryUser.shedule  -->
+                        <Shedule
                             :sheduleData="sheduleData"
                             :setSheduleData="setSheduleData"
-                            :dataInitial = categoryUser.shedule
-                        /> -->
+                            :create="!categoryUser"
+                        />
                     </b-card>
                 </b-card-group>
             </div>
@@ -295,7 +327,7 @@ export default {
             <div class="col-12">
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-success" @click="submit">
-                        Editar
+                        {{ categoryUser ? "Editar" : 'Crear' }}
                     </button>
                 </div>
             </div>

@@ -18,61 +18,37 @@ import { Carousel, Slide } from "vue-carousel";
 import QuickSearch from '../../QuickSearch'
 
 export default {
-  data() {
-    return {
-      date: new Date(),
-      checkoutdate: new Date(Date.now() + 3600 * 1000 * 24),
-      testimonialData: [
-        {
-          id: 1,
-          profile: "images/client/01.jpg",
-          message:
-            "It seems that only fragments of the original text remain in the Lorem Ipsum texts used today.",
-          name: "Thomas Israel",
-          designation: "C.E.O",
-        },
-        {
-          id: 2,
-          profile: "images/client/02.jpg",
-          message:
-            "One disadvantage of Lorum Ipsum is that in Latin certain letters appear more frequently than others.",
-          name: "Barbara McIntosh",
-          designation: "M.D",
-        },
-        {
-          id: 3,
-          profile: "images/client/03.jpg",
-          message:
-            "The most well-known dummy text is the 'Lorem Ipsum', which is said to have originated in the 16th century.",
-          name: "Carl Oliver",
-          designation: "P.A",
-        },
-        {
-          id: 4,
-          profile: "images/client/04.jpg",
-          message:
-            "According to most sources, Lorum Ipsum can be traced back to a text composed by Cicero.",
-          name: "Christa Smith",
-          designation: "Manager",
-        },
-        {
-          id: 5,
-          profile: "images/client/05.jpg",
-          message:
-            "There is now an abundance of readable dummy texts. These are usually used when a text is required.",
-          name: "Dean Tolle",
-          designation: "Developer",
-        },
-        {
-          id: 6,
-          profile: "images/client/05.jpg",
-          message:
-            "Thus, Lorem Ipsum has only limited suitability as a visual filler for German texts.",
-          name: "Jill Webb",
-          designation: "Designer",
-        },
-      ],
-    };
+  created(){
+      const user = this.$store.state.user;
+      console.log('faseRegistro', user.fase_registry)
+      if (user){
+          if (user.userType === 'admin'){
+              this.$router.push('/admin-users');
+          }else {
+              switch(user.fase_registry){
+                  case 'registro': {
+                        this.$router.push('/completeProfile');
+                  } break;
+                  case 'completeProfileWork': {
+                      this.$router.push('/completeProfileWork');
+                  } break;
+                  case 'accountRetirement': {
+                      this.$router.push('/accountRetirement');
+                  } break;
+                  case 'dni': {
+                      this.$router.push('/dni');
+                  } break;
+                  default: {
+                      this.$router.push('/account-profile');
+                  }
+              }
+          }
+      }
+  },
+  computed: {
+      categories(){
+          return this.$store.state.categories;
+      }
   },
   components: {
     // Navbar,
@@ -97,7 +73,7 @@ export default {
 
     <!-- Hero Start -->
     <section
-      class="bg-half-170 d-table w-100"
+      class="bg-half-170 d-table w-100 pb-4"
       style="background: url('/images/travel/bg.jpg') center center"
     >
       <div class="bg-overlay"></div>
@@ -197,7 +173,10 @@ export default {
         </div>
 
           <div class="col-lg-12 text-center col-md-4 mt-4 pt-2">
-              <div class="btn btn-primary">
+              <div 
+                class="btn btn-primary"
+                @click="$router.push(`/allCategories`)"  
+              >
                   Ver Mas
               </div>
           </div>

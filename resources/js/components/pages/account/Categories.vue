@@ -1,24 +1,5 @@
 <script>
 import {
-    ArrowUpIcon,
-    FacebookIcon,
-    InstagramIcon,
-    TwitterIcon,
-    LinkedinIcon,
-    GithubIcon,
-    YoutubeIcon,
-    GitlabIcon,
-    MailIcon,
-    UserPlusIcon,
-    UsersIcon,
-    MessageCircleIcon,
-    BellIcon,
-    ToolIcon,
-    PhoneIcon,
-    BookmarkIcon,
-    ItalicIcon,
-    GlobeIcon,
-    GiftIcon,
     MapPinIcon,
     MoreVerticalIcon,
     PlayIcon,
@@ -106,6 +87,22 @@ export default {
                 })
 
                 this.$bvModal.hide('modalEdit')
+            }
+
+            console.log('response', res)
+        },
+        async createCategoryUser(data){
+            // console.log('data', data);
+                console.log('form', form)
+            const res = await this.callApi('post', `app/categoriesUser`,data)
+
+            if (res.status === 200){
+                this.makeNotice('success', 'Categoria agregada', 'La categoria a sido agregada exitosamente!');
+                let newCategory = res.data.categoryUser;
+
+                this.categoriesUser = [ newCategory , ...this.categoriesUser];
+
+                this.$bvModal.hide('modalAddCategory')
             }
 
             console.log('response', res)
@@ -223,11 +220,10 @@ export default {
             hide-footer
             size="lg"
         >
-                <!-- :setCategoryUser="setCategoryUser" -->
             <FormCategoryUser
                 :type="'edit'"
                 :categoryUser="currentItem"
-                :updateCategoryUser="updateCategoryUser"
+                :onCall="updateCategoryUser"
             />
         </b-modal>
     </div>
@@ -270,7 +266,8 @@ export default {
             </div>
             <div v-else>
                 <FormCategoryUser 
-                
+                    :categoriesUser="categoriesUser"
+                    :onCall="createCategoryUser"
                 />
             </div>
             <!-- <div class="d-flex justify-content-center mt-4">

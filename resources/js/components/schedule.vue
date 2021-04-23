@@ -21,7 +21,7 @@ export default {
         }
     },
     created(){
-        this.create && this.crearSheduleeEmpty();
+        this.create === true && this.crearSheduleeEmpty();
     },
     components: {
         CheckIcon
