@@ -6,7 +6,7 @@ import store from './store/index'
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import common from './common'
 
@@ -33,16 +33,5 @@ Vue.component('app', require('./App.vue').default)
 new Vue({
     router,
     store,
-    el: '#app',
-    // mounted(){
-
-    //     // window.Echo.channel('contract-tracker')
-    //     //     .listen('ContractEvent', (e) => {
-    //     //         console.log('OMG realtime')
-    //     //     });
-    //     window.Echo.private(`App.User.${10}`)
-    //         .notification((notification) => {
-    //             console.log('OMG realtime', notification)
-    //         });
-    // }
+    el: '#app'
 });

@@ -49,9 +49,9 @@ export default {
                     viewOnly: ['help', 'work']
                 },
                 {
-                    title: 'Categorias',
+                    title: 'Servicios',
                     iconClass: 'uil uil-file',
-                    path: '/account-categories',
+                    path: '/account-services',
                     viewOnly: ['work']
                 },
                 {
@@ -127,3 +127,6 @@ export default {
     </div>
 </template>
 
+<style scoped>
+    
+</style>

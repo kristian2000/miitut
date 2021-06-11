@@ -19,8 +19,28 @@ import QuickSearch from '../../QuickSearch'
 
 export default {
   created(){
-      const user = this.$store.state.user;
-      console.log('faseRegistro', user.fase_registry)
+
+  },
+  components: {
+    Carousel,
+    Slide,
+    ArrowUpIcon,
+    MailIcon,
+    ArrowRightIcon,
+    MapPinIcon,
+    ArrowDownIcon,
+    QuickSearch
+  },
+  computed: {
+      categories(){
+          return this.$store.state.categories;
+      },
+      user(){
+        return this.$store.state.user;
+      }
+  },
+  methods: {
+    redirect(){
       if (user){
           if (user.userType === 'admin'){
               this.$router.push('/admin-users');
@@ -44,27 +64,8 @@ export default {
               }
           }
       }
-  },
-  computed: {
-      categories(){
-          return this.$store.state.categories;
-      }
-  },
-  components: {
-    // Navbar,
-    // Switcher,
-    // Footer,
-    Carousel,
-    Slide,
-    ArrowUpIcon,
-    MailIcon,
-    ArrowRightIcon,
-    MapPinIcon,
-    ArrowDownIcon,
-    QuickSearch
-    // flatPickr,
-    // Testimonial,
-  },
+    }
+  }
 };
 </script>
 
@@ -122,7 +123,7 @@ export default {
       <div class="container mb-5" style="min-height: 900px">
 
         <div class="text-center mb-4 ">
-            <h2 id="titlecolor" class="h1 font-weight-bold">Nuestras Categorías</h2>
+            <h2 class="font-weight-bold subtitle">Nuestras Categorías</h2>
             <p class="text-muted text-center">Lorem, ipsum dolor sit amet</p>
         </div>
 
@@ -130,25 +131,25 @@ export default {
             <div class="d-flex justify-content-center flex-wrap">
                 <div class="m-2" @click="$router.push(`/aboutCategory/babySitter`)">
                     <img src="images/categories/babySitter.jpg" width="320px" height="220px" />
-                    <h3 class="mt-2 font-weight-bold">Niñera</h3>
+                    <h3 class="textColor mt-2 font-weight-bold">Niñera</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
                 <div class="m-2" @click="$router.push(`/aboutCategory/eldercare`)">
                     <img src="images/categories/eldercare.jpg" width="320px" height="220px" />
-                    <h3 class="mt-2 font-weight-bold">Cuidado de Mayores</h3>
+                    <h3 class="textColor mt-2 font-weight-bold">Cuidado de Mayores</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
                 <div class="m-2" @click="$router.push(`/aboutCategory/petcare`)">
                     <img src="images/categories/petcare.jpg" width="320px" height="220px" />
-                    <h3 class="mt-2 font-weight-bold">Cuidado de Mascotas</h3>
+                    <h3 class="textColor mt-2 font-weight-bold">Cuidado de Mascotas</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
                 <div class="m-2" @click="$router.push(`/aboutCategory/housekeeping`)">
                         <img src="images/categories/housekeeping.jpg" width="320" height="220px" />
-                        <h3 class="mt-2 font-weight-bold">Servicio de Limpieza</h3>
+                        <h3 class="textColor mt-2 font-weight-bold">Servicio de Limpieza</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
@@ -160,13 +161,13 @@ export default {
 
                 <div class="m-2" @click="$router.push(`/aboutCategory/parasanitary`)">
                         <img src="images/categories/parasanitary.jpg" width="320px" height="220px" />
-                        <h3 class="mt-2 font-weight-bold">Parasanitario</h3>
+                        <h3 class="textColor mt-2 font-weight-bold">Parasanitario</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
                 <div class="m-2" @click="$router.push(`/aboutCategory/tutoring`)">
                     <img src="images/categories/tutoring.jpg" width="320px" height="220px" />
-                    <h3 class="mt-2 font-weight-bold">Profesores Particulares</h3>
+                    <h3 class="textColor mt-2 font-weight-bold">Profesores Particulares</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
           </div>
@@ -185,7 +186,7 @@ export default {
     </section>
       <!--end container-->
 
-    <section class="bg-gray p-4">
+    <section class="bg-light p-4">
       <div class="container mt-100 mt-60 mb-5">
         <div class="row align-items-center">
           <div class="col-lg-5 col-md-6 order-1 order-md-2">
@@ -202,8 +203,8 @@ export default {
           >
             <div class="section-title mr-lg-5">
               <h4 class="title mb-4">
-               Encuentra trabajo <br />
-               de forma rápida y sencilla
+                Encuentra trabajo <br />
+                de forma rápida y sencilla
               </h4>
               <p class="text-muted">
                 Si eres una persona activa en busca de trabajo, Miitut es tu web. Entra y regístrate, cientos de personas de tu ciudad necesitan tu ayuda.
@@ -283,8 +284,6 @@ export default {
                     <b-card-body class="px-2 py-4">
                       <p class="text-muted mb-0 faq-ans">
                         Disfrutaras de mayores ventajas respecto a los otros usuarios. Posicionamiento, recomendaciones y multi-servicios.
-                        <br/>
-                        Ultima noticias la dejamos igual pero con las fuentes de la plantilla que hemos escogido y el fondo en blanco. Y eliminamos el newsletter.
                       </p>
                     </b-card-body>
                   </b-collapse>
@@ -299,12 +298,66 @@ export default {
     </section>
       <!--end container-->
 
+    <!-- SECCION-->
+    <section class="section">
+
+        <div class="text-center mb-4 team04">
+            <h1 class="font-weight-bold subtitle">Últimas Noticias</h1>
+            <p class="text-center text-muted">Lorem, ipsum dolor sit amet consectetur</p>
+        </div>
+
+        <div class="container">
+          <div class="row d-flex justify-content-center news">
+
+            <div class="item new">
+                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" />
+                    <p class="mt-4 text-muted">Lorem ipsum dolor sit amet.</p>
+            </div>
+
+            <div class="item new">
+                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" />
+                    <p class="mt-4 text-muted">Lorem ipsum dolor sit amet.</p>
+            </div>
+
+            <div class="item new">
+                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" />
+                    <p class="mt-4 text-muted">Lorem ipsum dolor sit amet.</p>
+            </div>
+
+          </div>
+        </div>
+
+    </section>
+
   </div>
 </template>
 
 
-<style scoped>
+<style>
     .categoriesGroup {
         background: none
+    }
+
+    .seccion4 {
+      background: white;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      min-height: 800px;
+      padding:20px;
+    }
+
+    .subtitle {
+      font-size: 2rem;
+    }
+
+    .new {
+      margin: 10px;
+    }
+
+    .new img {
+      width: 30vw;
+      min-width: 200px;
+      min-height: 150px;
+      background: #eee;
     }
 </style>

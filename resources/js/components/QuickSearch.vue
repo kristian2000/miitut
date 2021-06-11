@@ -8,7 +8,7 @@ export default {
     props: ['categorySelected', 'disabled'],
     data(){
         return {
-            category: '',
+            // category: '',
             address: ''
         }
     },
@@ -16,18 +16,8 @@ export default {
         SearchIcon,
         MapPinIcon
     },
-    async created(){
-        if (this.categorySelected){
-            this.category = this.$store.state.categories
-                .find(c => c.name === this.categorySelected.id)
-        }else {
-            // Seleccionar el primero
-            let OneCategory = this.$store.state.categories[0];
-            console.log('categoriasss', OneCategory)
-            this.category = OneCategory
-  
-        }
-    },
+    // async created(){
+    //     },
     computed: {
         categories(){
             return this.$store.state.categories
@@ -35,6 +25,17 @@ export default {
                     value: category,
                     text: category.label,
                 }));
+        },
+        category(){
+            if (this.categorySelected){
+                return this.$store.state.categories
+                    .find(c => c.name === this.categorySelected.id)
+            }
+        
+            // Seleccionar el primero
+            let OneCategory = this.$store.state.categories[0];
+            console.log('categoriasss', OneCategory)
+            return OneCategory      
         }
     },
     methods: {
@@ -132,7 +133,7 @@ export default {
 <style scoped>
     .box {
         padding: 5px;
-        border: 1px solid rgb(250, 150, 150);
+        /* border: 1px solid rgb(250, 150, 150); */
         /* background: rgb(238, 238, 238); */
         border-radius: 5px;
     }

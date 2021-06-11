@@ -339,7 +339,7 @@ export default {
                     <b-form-group
                         id="category"
                         description=""
-                        label="Selecciona una Categoria"
+                        label="Selecciona un Servicio"
                         label-for="selectCategory"
                     >
                         <b-form-select 
@@ -498,7 +498,7 @@ export default {
                 <b-form-textarea
                     id="textarea"
                     v-model="message"
-                    placeholder="Envia un Mensaje, te recomendamos no enviar numero de telefono o email."
+                    placeholder="Envia un Mensaje"
                     rows="2"
                     max-rows="4"
                     :disabled="disabled"
@@ -530,7 +530,7 @@ export default {
                                     'Este contrato es de un unico pago,' :
                                     'Este Contrato es de pago por un mes, y se puede renovar,'
                                 }}
-                                luego de creado el contrado no se puede editar
+                                luego de creado el contrato no se puede editar
                             </span>
                         </div>
                         <div class="col-5 d-flex justify-content-center">

@@ -1,39 +1,34 @@
 <template>
-    <component v-bind:is="Layout">
+
+    <!-- <component v-bind:is="Layout"> -->
         <router-view />
-    </component>
+    <!-- </component> -->
 </template>
 
 <script>
 
 import LayoutDefault from './layouts/LayoutDefault'
-import LayoutStandar from './layouts/LayoutStandar'
+// import LayoutEmpty from './layouts/LayoutEmpty'
+// import LayoutStandar from './layouts/LayoutStandar'
+
+// const notViewMenu = ['/login'];
 
 export default {
     props: ['user'],
     name: 'App',
     data() {
         return {
-            Layout: LayoutDefault
+            
         }
     },
     components: {
         LayoutDefault
     },
-    mounted(){
-        // window.Echo.private(`App.User.${this.user.id}`)
-        //     .notification((notification) => {
-        //         console.log('OMG realtime', notification)
-        //     });
-    },
     async created(){
         console.log('APP CREATED', this)
         console.log('User', this.user)
         this.$store.commit('setUpdateUser', this.user)
-        //Mensaje de Bienvenida
-        // this.makeNotice('primary', 'HOLA!', 'Bienvenido a Miitut')
 
-        // this.getCategories();
     }
 }
 </script>

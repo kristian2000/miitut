@@ -29,7 +29,7 @@ export default {
         <!-- Precio Por Hora -->
         <div>
             <span class="font-weight-bold">Precio Por Hora:</span>
-            <span class="text-muted">€ {{doc.priceHour}}</span>
+            <span class="text-muted">{{doc.priceHour}} €</span>
         </div>
         <!-- Horas del Contrato -->
         <div>
@@ -39,12 +39,12 @@ export default {
         <!-- Porcentaje Comision -->
         <div>
             <span class="font-weight-bold">Porcentaje de Comision:</span>
-            <span class="text-muted">% {{doc.porcentageComission}}</span>
+            <span class="text-muted"> {{doc.porcentageComission}} %</span>
         </div>
         <!-- Comision -->
         <div>
             <span class="font-weight-bold">Total comision:</span>
-            <span class="text-muted">€ {{Number(doc.totalComission).toFixed(2)}}</span>
+            <span class="text-muted">{{Number(doc.totalComission).toFixed(2)}} €</span>
         </div>
 
         <!-- total -->
@@ -53,7 +53,7 @@ export default {
             style="font-size: 20px;"
         >
             <span class="font-weight-bold">Total:</span>
-            <span class="text-muted">€ {{Number(doc.totalAmount).toFixed(2)}}</span>
+            <span class="text-muted">{{Number(doc.totalAmount).toFixed(2)}} €</span>
         </div>
     </div>
     <!-- Si el Contrato es Habitual -->
@@ -66,7 +66,7 @@ export default {
         <!-- Precio Por Hora -->
         <div>
             <span class="font-weight-bold">Precio Por Hora:</span>
-            <span class="text-muted">€ {{doc.priceHour}}</span>
+            <span class="text-muted">{{doc.priceHour}} € </span>
         </div>
         <!-- Precio Por Hora -->
         <div>
@@ -76,7 +76,7 @@ export default {
         <!-- Porcentaje Comision -->
         <div>
             <span class="font-weight-bold">Porcentaje de Comision:</span>
-            <span class="text-muted">% {{doc.porcentageComission}}</span>
+            <span class="text-muted">{{doc.porcentageComission}} % </span>
         </div>
         <!-- Total de Horas del Contrato -->
         <div>
@@ -86,7 +86,7 @@ export default {
         <!-- Comision -->
         <div>
             <span class="font-weight-bold">Total comision:</span>
-            <span class="text-muted">€ {{Number(doc.totalComission).toFixed(2)}}</span>
+            <span class="text-muted">{{Number(doc.totalComission).toFixed(2)}} €</span>
         </div>
         <!-- Fechas -->
         <div class="mt-2 border-top border-bottom">
@@ -120,7 +120,7 @@ export default {
             style="font-size: 20px;"
         >
             <span class="font-weight-bold">Total:</span>
-            <span class="text-muted">€ {{Number(doc.totalAmount).toFixed(2)}}</span>
+            <span class="text-muted">{{Number(doc.totalAmount).toFixed(2)}} € </span>
         </div>
     </div>
 </div>

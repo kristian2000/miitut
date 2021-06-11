@@ -123,7 +123,7 @@ export default {
     <div class="container col-md-6 col-12 mt-4">
         <div class="row">
             <div class="col-12 text-center mb-4">
-                <h2 class="display-4 text-info">Datos de la Categoria</h2>
+                <h2 class="display-4 text-info">Datos del Servicio</h2>
             </div>
 
         </div>
@@ -150,8 +150,11 @@ export default {
                                     label="name" track-by="code"
                                     :options="subcategories" :multiple="true"
                                     :taggable="true"
-                                    @tag="addTag">
-                                </multiselect>
+                                    @tag="addTag"
+                                    selectedLabel="Seleccionado"
+                                    select-label="+"
+                                    deselect-label="-"
+                                />
                             </div>
                             <div class="col-12 mb-3">
                                 <b-form-input

@@ -3,7 +3,9 @@
         BellIcon,
         UserIcon,
         SearchIcon,
-        XIcon
+        XIcon,
+        HomeIcon,
+        MailIcon
     } from 'vue-feather-icons';
 
     export default {
@@ -17,7 +19,9 @@
             BellIcon,
             UserIcon,
             SearchIcon,
-            XIcon
+            XIcon,
+            HomeIcon,
+            MailIcon
         },
         computed: {
             user(){
@@ -57,8 +61,9 @@
     }
 </script>
 <template>
-    <nav>
-        <b-navbar toggleable="lg" type="light" variant="light" >
+<div class="position-relative">
+    <nav class="navbar-custom">
+        <b-navbar toggleable="lg" >
             <div class="container">
                 <b-navbar-brand @click="$router.push('/')">
                     <img src="/assets/logo.png" alt="logo"  height="30">
@@ -86,16 +91,20 @@
 
                     <!-- Autentication -->
                     <b-navbar-nav class="ml-auto" v-else>
-                        <!-- Only Admin -->
-                        <!-- <b-nav-item-dropdown text="Admin" right v-if="user.userType === 'admin'">
-                            <b-dropdown-item href="#">Usuarios</b-dropdown-item>
-                            <b-dropdown-item href="#">Aprobar Documentos</b-dropdown-item>
-                            <b-dropdown-item href="#">Disputas</b-dropdown-item>
-                            <b-dropdown-item href="#">Pagos</b-dropdown-item>
-                        </b-nav-item-dropdown> -->
-                        <div class="d-flex" v-if="user.userType !== 'admin' && user.fase_registry === 'completed'">
+                        <div 
+                            class="d-flex" 
+                            v-if="user.userType !== 'admin' && user.fase_registry === 'completed'"
+                            >
+                            <b-nav-item>
+                                <home-icon size="1.5x" class="custom-class" @click="$router.push('/search')" />
+                            </b-nav-item>
+
+                            <b-nav-item>
+                                <mail-icon size="1.5x" class="custom-class" @click="$router.push('/account-messages')" />
+                            </b-nav-item>
+
                             <b-nav-item v-if="user.userType === 'help'">
-                                <search-icon size="1.5x" class="custom-class" @click="$router.push('/search')"></search-icon>
+                                <search-icon size="1.5x" class="custom-class" @click="$router.push('/search')" />
                             </b-nav-item>
 
                             <b-nav-item v-b-toggle.sidebar-right>
@@ -103,7 +112,11 @@
                                 <span style="position:relative">
                                     <b-badge 
                                         variant="dark"
-                                        style="position: absolute; right: -2px; font-size: 10px;"
+                                        style="position: absolute; 
+                                            right: 0px; 
+                                            font-size: 10px;
+                                            padding: 2px;
+                                        "
                                     >
                                         {{ notifications.length }}
                                     </b-badge>
@@ -175,6 +188,7 @@
             </div>
         </b-navbar>
     </nav>
+</div>
 </template>
 
 <style scope>
@@ -202,6 +216,13 @@
 
     .notif .desc {
         font-size: 12px;
+    }
+
+    .navbar-custom {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        background: white;
     }
 </style>
 

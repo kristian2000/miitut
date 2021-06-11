@@ -205,9 +205,9 @@ section {
    color: #8492a6 !important;
  }
 
- .text-muted {
-   color: #8492a6 !important;
- }
+  .text-muted {
+    color: #8492a6 !important;
+  }
 
  a {
    -webkit-transition: all 0.5s ease;
@@ -216,10 +216,6 @@ section {
 
  a.text-muted:hover, a.text-muted:focus {
    color: #75859b !important;
- }
-
- .bg-light {
-   background-color: #f8f9fc !important;
  }
 
  .bg-soft-light {
@@ -975,6 +971,12 @@ section {
    border: 1px solid #5a6d90 !important;
  }
 
+ .badge-soft-secondary {
+  background-color: rgba(90, 109, 144, 0.1) !important;
+  border: 1px solid rgba(90, 109, 144, 0.1) !important;
+  color: #5a6d90 !important;
+}
+
  .badge-success {
    background-color: #2eca8b !important;
    color: #ffffff !important;
@@ -985,6 +987,12 @@ section {
    color: #2eca8b !important;
    border: 1px solid #2eca8b !important;
  }
+
+ .badge-soft-success {
+  background-color: rgba(46, 202, 139, 0.1) !important;
+  border: 1px solid rgba(46, 202, 139, 0.1) !important;
+  color: #2eca8b !important;
+}
 
  .badge-warning {
    background-color: #f17425 !important;
@@ -1973,7 +1981,7 @@ section {
  }
 
  body {
-   font-family: "Nunito", sans-serif;
+   font-family: "Nunito", sans-serif !important;
    overflow-x: hidden !important;
    font-size: 16px;
    color: #161c2d;
@@ -4046,6 +4054,36 @@ section {
            transform: translateY(-5px);
  }
 
+ .candidate-list .like {
+  -webkit-text-stroke: 1px #8492a6;
+  -webkit-text-fill-color: transparent;
+}
+
+.candidate-list .like:hover,
+.candidate-list .like:focus {
+  -webkit-text-stroke: #e43f52;
+  -webkit-text-fill-color: #e43f52;
+}
+
+.candidate-list,
+.company-list {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.candidate-list .name:hover,
+.company-list .name:hover {
+  color: #2f55d4 !important;
+}
+
+.candidate-list:hover,
+.company-list:hover {
+  -webkit-box-shadow: 0 5px 13px rgba(60, 72, 88, 0.2) !important;
+  box-shadow: 0 5px 13px rgba(60, 72, 88, 0.2) !important;
+  -webkit-transform: translateY(-5px);
+  transform: translateY(-5px);
+}
+
  @media (min-width: 1024px) {
    .job-profile {
      top: -378px;
@@ -4598,7 +4636,7 @@ section {
  }
 
  .bg-profile .public-profile {
-   top: 35px;
+    top: 175px;
  }
 
  .accounts {
@@ -4733,7 +4771,7 @@ section {
 
  .form-group .icons {
    position: absolute;
-   top: 43px;
+   top: 13px;
    left: 18px;
  }
 

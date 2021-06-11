@@ -1,8 +1,23 @@
 <script>
 import {
-    XIcon,
-    CheckIcon,
-    FlagIcon
+  ArrowUpIcon,
+  UserIcon,
+  MailIcon,
+  FacebookIcon,
+  InstagramIcon,
+  TwitterIcon,
+  LinkedinIcon,
+  GithubIcon,
+  YoutubeIcon,
+  GitlabIcon,
+  GiftIcon,
+  HomeIcon,
+  MapPinIcon,
+  GlobeIcon,
+  ServerIcon,
+  PhoneIcon,
+  BookIcon,
+  MessageCircleIcon,
 } from 'vue-feather-icons';
 
 import MenuAccount from './MenuPublic'
@@ -14,37 +29,14 @@ import Score from '../../score';
 export default {
     data(){
         return {
-            zoom: 15,
+            zoom: 16,
             center: [0, 0],
             rotation: 0,
             geolocPosition: undefined,
             loading: true,
-            active: 'Servicio',
             textMessage: '',
             user: {},
             categoryUser: null,
-            menuOptions: [
-                {
-                    title: 'Servicio',
-                    iconClass: 'uil uil-file'
-                },
-                {
-                    title: 'Perfil',
-                    iconClass: 'uil uil-dashboard'
-                },
-                {
-                    title: 'Horario',
-                    iconClass: 'uil uil-users-alt'
-                },
-                {
-                    title: 'Ubicacion',
-                    iconClass: 'uil uil-file'
-                },
-                {
-                    title: 'Valoraciones',
-                    iconClass: 'uil uil-star'
-                }
-            ],
             sheduleData: [],
             descriptionReport: '',
             loadingReport: false,
@@ -53,13 +45,32 @@ export default {
         }
     },
     components: {
+        ArrowUpIcon,
+        UserIcon,
+        MailIcon,
+        FacebookIcon,
+        InstagramIcon,
+        TwitterIcon,
+        LinkedinIcon,
+        GithubIcon,
+        YoutubeIcon,
+        GitlabIcon,
+        GiftIcon,
+        HomeIcon,
+        MapPinIcon,
+        GlobeIcon,
+        ServerIcon,
+        PhoneIcon,
+        BookIcon,
+        MessageCircleIcon,
+
         MenuAccount,
-        CheckIcon,
-        XIcon,
+        // CheckIcon,
+        // XIcon,
+        // FlagIcon
         Shedule,
         FormContract,
         Score,
-        FlagIcon
     },
     async created(){
         const id = this.$route.params.id;
@@ -88,13 +99,16 @@ export default {
             let m = now.getMonth() - birthdate.getMonth();
 
             if (m < 0 || (m === 0 && now.getDate() < birthdate.getDate())){
-                return --yearOld;
+                return yearOld;
             }
 
-            return yearOld;
+            return --yearOld;
         }
     },
     methods: {
+        booleanToYesOrNot(boolean){
+            return boolean ? 'Si' : 'No'
+        },
         changeHandleMenu(active){
             this.active = active;
         },
@@ -165,432 +179,295 @@ export default {
 </script>
 
 <template>
-<div>
-    <section class="bg-profile d-table w-100" style="background: url('/images/account/bg.png') center center;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card public-profile border-0 rounded shadow" style="z-index: 1;">
-                        <div class="card-body">
-                            <div class="row align-items-center" v-if="!loadingCategoryUser">
-                                <div class="col-lg-2 col-md-3 text-md-left text-center">
-                                    <img
-                                        :src="categoryUser.user.avatar ? categoryUser.user.avatar : '/images/avatarDefault.jpg'"
-                                        class="avatar avatar-large rounded-circle shadow d-block mx-auto" alt=""
-                                    >
-                                </div>
-                                <!--end col-->
-
-                                <div class="col-lg-6 col-md-7 welcome">
-                                    <div class="row align-items-end" >
-                                        <div class="col-12 text-md-left text-center mt-4 mt-sm-0">
-                                            <div class="d-flex flex-column align-items-center">
-                                                <h1 class="title mb-0 font-weight-bold"><span class="text-capitalize">{{categoryUser.user.name}}</span></h1>
-                                                <!-- <div>
-                                                    <Score
-                                                        :scoreStar="Number(categoryUser.user.score) ?
-                                                            Number(categoryUser.user.score)/Number(categoryUser.user.ratings)
-                                                            :
-                                                            0"
-                                                    />
-                                                </div> -->
-                                                <p class="text-muted h6 mr-2">{{user.description}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end row-->
-                                </div>
-                                <!--end col-->
-
-                                <div 
-                                    class="col-lg-4 col-md-12" 
-                                    v-if="$store.state.user.userType === 'help'"
-                                >
-                                    <div class="d-flex justify-content-center justify-content-md-center" >
-                                        <div >
-                                            <b-button
-                                                pill
-                                                variant="outline-secondary"
-                                                @click="showModalSendContract"
-                                            >
-                                                Contratar
-                                            </b-button>
-
-                                        </div>
-                                        <div class="ml-2">
-                                            <b-button
-                                                pill
-                                                variant="outline-secondary"
-                                                @click="showModalSendMessage"
-                                            >
-                                                Enviar Mensaje
-                                            </b-button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end row-->
-
-                            <div style="position:relative" v-if="$store.state.user.userType === 'help'">
-                                <div 
-                                    class="font-weight-bold report" 
-                                    @click="$bvModal.show('modalReport')"
-                                >
-                                    <FlagIcon size="1.2x"/>
-                                    Reportar 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-        </div>
-        <!--ed container-->
+  <div>
+    <!-- Hero Start -->
+    <section
+      class="bg-half-260 d-table w-100"
+      style="
+        background: url('/images/Calendario.png'); 
+        background-size: cover;"
+    >
+      <div class="bg-overlay"></div>
     </section>
     <!--end section-->
     <!-- Hero End -->
 
-    <!-- Profile Start -->
-    <section class=" mt-5 mb-5">
-        <div class="container mt-lg-3">
-            <div class="row">
-                <!-- Start Menu -->
-                <div class="col-lg-4 col-md-12 col-12">
+    <!-- Candidate Detail Start -->
+    <section class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-5 col-12">
+            <div class="card job-profile shadow border-0">
+              <div class="text-center py-5 border-bottom rounded-top">
+                <img
+                  src="/images/client/05.jpg"
+                  class="avatar avatar-medium mx-auto rounded-circle shadow d-block"
+                  alt=""
+                />
+                <h5 class="mt-3 mb-0"> {{ categoryUser.user.name }} </h5>
+                <p class="text-muted mb-0">{{ categoryUser.category.label }}</p>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Detalles Personales :</h5>
 
-                    <div class="sidebar sticky-bar p-4 rounded shadow">
+                <ul class="list-unstyled">
+                    <li class="h6">
+                        <gift-icon class="fea icon-sm text-warning mr-2" />
+                        <span class="text-muted">Edad :
+                        </span> {{ calculateAge }}
+                    </li>
 
-                        <div class="widget">
-                            <div class="row">
+                  <li class="h6">
+                    <home-icon class="fea icon-sm text-warning mr-2" />
+                    <span class="text-muted">Sexo :
+                    </span> {{ categoryUser.user.gender == 'man'? 'Masculino' : 'Femenino' }}
+                  </li>
+                  <li class="h6">
+                    <map-pin-icon
+                      class="fea icon-sm text-warning mr-2"
+                    />
+                    <span class="text-muted">Poblado :
+                    </span> London
+                  </li>
+                  <li class="h6">
+                    <globe-icon
+                      class="fea icon-sm text-warning mr-2"
+                    />
+                    <span class="text-muted">Provincia :
+                    </span> {{ categoryUser.user.state }}
+                  </li>
+                  <li class="h6">
+                    <server-icon
+                      class="fea icon-sm text-warning mr-2"
+                    />
+                    <span class="text-muted">Código Postal :
+                    </span> 521452
+                  </li>
+                  <li class="h6">
+                    <span class="text-muted">Nacionalidad :
+                    </span>{{ categoryUser.user.nationality }}
+                  </li>
 
-                                <div class="col-6 mt-4 pt-2" v-for="item in menuOptions" :key="item.title">
-                                    <div
-                                        v-if="item"
-                                        :class="`accounts rounded d-block shadow text-center py-3
-                                        ${active === item.title ? 'active' : ''}`"
-                                        @click="changeHandleMenu(item.title)"
-                                        style="cursor:pointer"
-                                    >
-                                        <span class="pro-icons h3 text-muted"><i :class="item.iconClass"></i></span>
-                                        <h6 class="title text-dark h6 my-0">{{item.title}}</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <li class="h6">
+                        <span class="text-muted">Carnet de Conducir :
+                        </span> {{ booleanToYesOrNot(categoryUser.user.driving_license) }}
+                    </li>
+                    <li class="h6">
+                        <span class="text-muted">Vehiculo Propio :
+                        </span> {{ booleanToYesOrNot(categoryUser.user.own_vehicle) }}
+                    </li>
+                    <li class="h6">
+                        <span class="text-muted">Primero Auxilios :
+                        </span> {{ booleanToYesOrNot(categoryUser.user.first_aid) }}
+                    </li>
+                    <li class="h6">
+                        <span class="text-muted">Percio por hora :
+                        </span> {{ categoryUser.price }} €
+                    </li>
+                </ul>
+
+                <!-- Start Map -->
+                <div>
+                    <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true"
+                            data-projection="EPSG:4326" style="height: 200px">
+                    <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
+
+                    <template >
+                        <vl-feature v-if="geolocPosition" id="position-feature">
+                            <vl-geom-point :coordinates="geolocPosition"></vl-geom-point>
+                            <vl-style-box>
+                                <vl-style-icon src="/assets/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
+                            </vl-style-box>
+                        </vl-feature>
+                    </template>
+
+                    <vl-layer-tile id="osm">
+                        <vl-source-osm></vl-source-osm>
+                    </vl-layer-tile>
+                    </vl-map>
                 </div>
-                <!-- End Menu -->
-
-                <div class="col-md-8 col-12 mt-4">
-                    <!-- Start Servicio -->
-                    <div>
-                        <div v-if="active === 'Servicio'">
-                            <p class="text-danger">Categoria | {{ categoryUser.category.label }}</p>
-                            <hr>
-                            <h3 class="mt-4">Informacion Basica </h3>
-                            <hr>
-                            <div class="d-flex justify-content-center">
-                                <h2 class="font-weight-bold" style="">{{ categoryUser.title }}</h2>
-                            </div>
-                            <!-- Description -->
-                            <div class="d-flex justify-content-center">
-                                <p class="text-muted mt-4" style="width: 80%;">
-                                    {{ categoryUser.description }}
-                                </p>
-                            </div>
-                            <hr>
-                            <!-- Experiencia -->
-                            <div class="row">
-                                <div class="col-10">
-                                    <h3>Experiencia </h3>
-                                    <p class="text-muted" style="width: 80%;">
-                                        {{categoryUser.descriptionExperience}}
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p>Años de Experiencia: {{categoryUser.yearExperience}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <!-- Detalles -->
-                            <div class="row">
-                                <div class="col-10">
-                                    <h3>Detalles </h3>
-                                </div>
-                                <div class="col-12">
-                                    <p>Precio por hora: <span class="font-weight-bold"> € {{ categoryUser.price }} </span></p>
-                                    <p>Creacion del Servicio: <span class="font-weight-bold">{{ new Date(categoryUser.created_at).toISOString().slice(0, 10) }} </span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Servicio -->
-
-                    <!-- Start Perfil -->
-                    <div>
-                        <div v-if="active === 'Perfil'">
-                            <div>
-                                <h3 class="mt-4">Detalles del Usuario</h3>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-6 col-12">
-                                        <div class="d-flex justify-content-center">
-                                            <div class="" style="">
-                                                <!-- Nombre -->
-                                                <p class="text-capitalize">
-                                                    <span class="font-weight-bold">Nombre: </span>
-                                                    {{categoryUser.user.name}}
-                                                </p>
-                                                <!-- Edad -->
-                                                <p class="text-capitalize">
-                                                    <span class="font-weight-bold">Edad: </span>
-                                                {{calculateAge}}
-                                                </p>
-                                                <!-- Sexo -->
-                                                <p class="text-capitalize">
-                                                    <span class="font-weight-bold">Sexo: </span>
-                                                    {{ categoryUser.user.gender === 'man' ? 'Hombre' : 'Mujer'}}
-                                                </p>
-                                                <!-- Email Verificado -->
-                                                <p class="text-capitalize">
-                                                    <span class="font-weight-bold">Email Verificado: </span>
-                                                    <XIcon v-if="!Number(categoryUser.user.profile_check)" style="color:red"/>
-                                                    <CheckIcon v-else style="color:green"/>
-                                                </p>
-                                                <!-- Perfil Verificado -->
-                                                <p class="text-capitalize">
-                                                    <span class="font-weight-bold">Perfil Verificado: </span>
-                                                    <XIcon v-if="!Number(categoryUser.user.email_check)" style="color:red"/>
-                                                    <CheckIcon v-else style="color:green"/>
-                                                </p>
-                                                <!-- Fecha de Creacion -->
-                                                <p class="text-capitalize">
-                                                    <span class="font-weight-bold">Activo desde: </span>
-                                                    {{ new Date(categoryUser.user.created_at).toISOString().slice(0, 10) }}
-                                                </p>
-                                                <!-- Nacionalidad -->
-                                                <p class="text-capitalize">
-                                                    <span class="font-weight-bold">Nacionalidad: </span>
-                                                    {{ categoryUser.user.nationality}}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <!-- Informacion Extra -->
-                                    <div class="col-md-6 col-12">
-                                        <div class="d-flex justify-content-center flex-column align-items-center">
-                                            <div>
-                                                <div class="">
-                                                    <label class="font-weight-bold">
-                                                        Carnet de Conducir
-                                                    </label>
-                                                    <b-badge>
-                                                        {{ categoryUser.user.driving_license ? 'SI' : 'NO' }}
-                                                    </b-badge>
-                                                </div>
-
-                                                <div class="">
-                                                    <label class="font-weight-bold">
-                                                        Vehiculo propio
-                                                    </label>
-                                                    <b-badge>
-                                                        {{ categoryUser.user.own_vehicle ? 'SI' : 'NO' }}
-                                                    </b-badge>
-                                                </div>
-
-                                                <div class="">
-                                                    <label class="font-weight-bold">
-                                                        Primeros Auxilios
-                                                    </label>
-                                                    <b-badge>
-                                                        {{ categoryUser.user.first_aid ? 'SI' : 'NO' }}
-                                                    </b-badge>
-                                                </div>
-
-                                                <div class="">
-                                                    <label class="font-weight-bold">
-                                                        Tiene Niños
-                                                    </label>
-                                                    <b-badge>
-                                                        {{ categoryUser.user.has_children ? 'SI' : 'NO' }}
-                                                    </b-badge>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Perfil -->
-
-                    <!-- Start Horario -->
-                    <div>
-                        <div v-if="active === 'Horario'">
-                            <!-- START Horario -->
-                            <div class="col-12 mt-3">
-                                <b-card-group deck class="mb-3">
-                                    <b-card border-variant="light" header="Disponibilidad" class="text-center">
-                                            <!-- :dataInitial = categoryUser.shedule -->
-                                        <Shedule
-                                            :disabled="true"
-                                            :sheduleData="categoryUser.shedule"
-                                            :setSheduleData="()=>{}"
-                                        />
-                                    </b-card>
-                                </b-card-group>
-                            </div>
-                            <!-- END Horario -->
-                        </div>
-                    </div>
-                    <!-- End Horario -->
-
-                    <!-- Start Ubicacion -->
-                    <div>
-                        <div v-if="active === 'Ubicacion'">
-                            <h3 class="mt-4">Ubicación</h3>
-                            <hr>
-                            <div class="" style="">
-                                <div class="row mt-4 align-items-center">
-                                    <div class="col-12 font-weight-bold mb-2" style="">
-                                        {{ categoryUser.address }}
-                                    </div>
-                                    <div class="col-12" style="">
-                                        <!-- Start Map -->
-                                            <div>
-                                                <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true"
-                                                        data-projection="EPSG:4326" style="height: 400px">
-                                                <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
-
-                                                <template >
-                                                    <vl-feature v-if="geolocPosition" id="position-feature">
-                                                        <vl-geom-point :coordinates="geolocPosition"></vl-geom-point>
-                                                        <vl-style-box>
-                                                            <vl-style-icon src="/assets/marker.png" :scale="0.4" :anchor="[0.5, 1]"></vl-style-icon>
-                                                        </vl-style-box>
-                                                    </vl-feature>
-                                                </template>
-
-                                                <vl-layer-tile id="osm">
-                                                    <vl-source-osm></vl-source-osm>
-                                                </vl-layer-tile>
-                                                </vl-map>
-                                            </div>
-                                        <!-- End Map -->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Ubicacion -->
-
-                    <!-- Star Valoracion -->
-                    <div v-if="active === 'Valoraciones'">
-                        <div>
-                            <div class="m-2 border-bottom">
-                                <div class="d-flex justify-content-center">
-                                    <Score
-                                        :scoreStar="Number(categoryUser.user.score) ?
-                                            Number(categoryUser.user.score)/Number(categoryUser.user.ratings) + 1
-                                            :
-                                            0"
-                                        sizeStar="lg"
-                                    />
-                                    <div class="m-3">
-                                        <div 
-                                            class="text-muted font-weight-bold" 
-                                            style="font-size: 20px"
-                                        >
-                                            ( {{ categoryUser.user.ratings }} )
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <!-- <div>
-                                    <span class="text-muted font-weight-bold" >Numero de Calificaciones: </span>
-                                    {{ categoryUser.user.ratings }}
-                                </div> -->
-                                <!-- Comentarios -->
-                                <div>
-                                    <div>
-                                        <h3>Comentarios</h3>
-                                    </div>
-                                    <div class="container" style="max-height: 800px; overflow: scroll">
-                                        <div v-for="(comment, index) in categoryUser.comments" :key="index">
-                                            <div class="d-flex">
-                                                <div class="user-comment ">
-                                                    <div>
-                                                        <img
-                                                            :src="comment.user.avatar ? comment.user.avatar : 'images/avatarDefault.jpg'"
-                                                            class="avatar-comment"
-                                                            width="80px"
-                                                            height="80px"
-                                                            alt=""
-                                                        >
-                                                    </div>
-                                                    <div>
-                                                        <!-- Nombre -->
-                                                        <span class="font-weight-bold name" style="font-size: 14px">
-                                                            {{ comment.user.name }}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="border p-2 comment" >
-                                                    <div style="max-height: 150px; overflow: scroll">
-                                                        {{ comment.comment }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Valoracion -->
+                <!-- End Map -->
+                
+                <div class="mt-4">
+                  <div
+                    @click="showModalSendContract"
+                    class="btn btn-block btn-primary"
+                    ><i class="mdi mdi-email"></i> Contratar
+                  </div>
                 </div>
 
+
+                <div class="my-4">
+                  <div class="text-muted">
+                    Valoración
+
+                    <div class="m-2 border-bottom">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <Score
+                                :scoreStar="Number(categoryUser.user.score) ?
+                                    Number(categoryUser.user.score)/Number(categoryUser.user.ratings) + 1
+                                    :
+                                    0"
+                                sizeStar="sm"
+                            />
+                            <div class="">
+                                <div 
+                                    class="text-muted font-weight-bold ml-2" 
+                                    style="font-size: 14px"
+                                >
+                                    ( {{ categoryUser.user.ratings }} )
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
-            <!--end row-->
+          </div>
+          <!--end col-->
+
+          <div class="col-lg-8 col-md-7 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+            <div class="ml-lg-4">
+              <h4>Sobre mi :</h4>
+              <p class="text-muted">
+                {{ categoryUser.description }}
+              </p>
+
+              <h4 class="mt-lg-5 mt-4">Servicios Prestados :</h4>
+              <div>
+                <h5 class="mt-2">{{ categoryUser.category.label }}</h5>
+                <div>
+                  <img 
+                    :src="`/images/categories/${categoryUser.category.name}.jpg`" 
+                    alt=""
+                    width="400"
+                  >
+                </div>
+              </div>
+
+              <!-- Experience Start -->
+              <div class="row">
+                <div class="col-lg-12 mt-4 pt-2">
+                  <div class="media">
+                    <div class="company-logo text-muted h6 mr-3 text-center">
+                      <img
+                        src="/images/job/Codepen.svg"
+                        class="avatar avatar-md-sm mx-auto d-block mb-2"
+                        alt=""
+                      />
+                    </div>
+                    <div class="media-body">
+                      <h5 class="title mb-0">Experiencia :</h5>
+                      <small class="text-muted company-university"
+                        >Promedio de {{ categoryUser.yearExperience }} {{ categoryUser.yearExperience < 1 ? 'Años' : 'Año'}}</small
+                      >
+                      <p class="text-muted mt-2 mb-0">
+                        {{ categoryUser.descriptionExperience }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- end Experiencia -->
+
+                <div class="col-lg-12 mt-4 pt-2">
+                  <div class="media">
+                    <div class="company-logo text-muted h6 mr-3 text-center">
+                      <img
+                        src="/images/job/Circleci.svg"
+                        class="avatar avatar-md-sm mx-auto d-block mb-2"
+                        alt=""
+                      />
+                    </div>
+                    <div class="media-body">
+                      <h5 class="title mb-0">Disponibilidad</h5>
+                      <div class="text-muted mt-2 mb-0">
+                        <b-card-group deck class="mb-3">
+                            <b-card border-variant="light" class="text-center">
+                                    <!-- :dataInitial = categoryUser.shedule -->
+                                <Shedule
+                                    :disabled="true"
+                                    :sheduleData="categoryUser.shedule"
+                                    :setSheduleData="()=>{}"
+                                />
+                            </b-card>
+                        </b-card-group>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- end Disponibilidad -->
+
+                <div 
+                  class="col-lg-12 mt-4 pt-2"
+                  v-if="categoryUser.comments.length"
+                  >
+                  <div class="media">
+                    <div class="company-logo text-muted h6 mr-3 text-center">
+                      <div style="width:40px"></div>
+                    </div>
+                    <div class="media-body">
+                      <h5 class="title mb-0">Comentarios:</h5>
+                      <div class="text-muted mt-2 mb-0">
+                          <div class="container" style="max-height: 400px; overflow: scroll">
+
+                            <div v-for="(comment, index) in categoryUser.comments" :key="index">
+                                <div class="d-flex">
+                                    <div class="user-comment ">
+                                        <div>
+                                            <img
+                                                :src="comment.user.avatar ? comment.user.avatar : 'images/avatarDefault.jpg'"
+                                                class="avatar-comment"
+                                                width="80px"
+                                                height="80px"
+                                                alt=""
+                                            >
+                                        </div>
+                                        <div>
+                                            <!-- Nombre -->
+                                            <span class="font-weight-bold name" style="font-size: 14px">
+                                                {{ comment.user.name }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="border p-2 comment" >
+                                        <div style="max-height: 150px; overflow: scroll">
+                                            {{ comment.comment }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                          </div>
+                      </div>
+                      <!-- end comentarios -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--end row-->
+
+              <!-- Experience End -->
+              <!--end row-->
+<!-- 
+              <div class="mt-4 pt-2">
+                <a href="javascript:void(0)" class="btn btn-primary mr-2"
+                  ><i class="mdi mdi-account-check"></i> Hire me</a
+                >
+                <a href="javascript:void(0)" class="btn btn-outline-primary"
+                  ><i class="mdi mdi-printer"></i> Print CV</a
+                >
+              </div> -->
+            </div>
+          </div>
+          <!--end col-->
         </div>
-        <!--end container-->
+        <!--enn row-->
+      </div>
+      <!--end container-->
     </section>
     <!--end section-->
-    <!-- Profile End -->
-
-    <!-- Start Modal Enviar Mensaje -->
-    <div>
-        <b-modal
-            id="modalSendMessage"
-            title="Enviar Mensaje"
-            scrollable
-            hide-footer
-        >
-            <b-form-textarea
-                v-model="textMessage"
-                id="textarea"
-                placeholder="Escribe tu mensaje..."
-                rows="3"
-                max-rows="6"
-            ></b-form-textarea>
-            <div 
-                class="d-flex justify-content-center mt-3"
-                @click="sendMessage"
-            >
-                <b-button pill variant="outline-secondary">
-                    Enviar
-                </b-button>
-            </div>
-        </b-modal>
-    </div>
-    <!-- End Modal  Enviar Mensaje -->
 
     <!-- Start Modal Contrato -->
     <div>
@@ -627,61 +504,7 @@ export default {
         </b-modal>
     </div>
     <!-- End Modal Contrato -->
-
-    <!-- Start Modal Report -->
-    <div>
-        <b-modal
-            id="modalReport"
-            title="Reportar Usuario"
-            scrollable
-            hide-footer
-        >
-            <div 
-                v-if="!loadingReport" 
-                style="min-height: 200px"
-            >
-                <b-form-group
-                    description="Su reporte sera evaluado y se realizaran las acciones necesarias ."
-                    label="Describe el problema que observas en este perfil"
-                    label-for="report"
-                >
-                    <b-form-textarea
-                        id="report"
-                        v-model="descriptionReport"
-                        placeholder="Escribe aqui..."
-                        rows="3"
-                        max-rows="6"
-                    ></b-form-textarea>
-                </b-form-group>
-                <div>
-                    <div class="d-flex justify-content-center" >
-                        <b-button 
-                            pill 
-                            variant="outline-secondary"
-                            @click="reportUser"
-                        >
-                            Enviar
-                        </b-button>
-                    </div>
-                </div>
-            </div>
-            <div v-else>
-                <div 
-                    class="d-flex justify-content-center align-items-center" 
-                    style="min-height: 250px"
-                >
-                    <div>
-                        <b-spinner 
-                            type="grow" 
-                            label="Spinning" 
-                        />
-                    </div>
-                </div>
-            </div>
-        </b-modal>
-    </div>
-    <!-- End Modal Report -->
-</div>
+  </div>
 </template>
 
 <style>
@@ -714,32 +537,14 @@ export default {
         background: #eee
     }
 
-    h1 {
-        color: #ff4b64;
+    .job-profile {
+      position: 'absolute'
     }
 
-    .public-profile {
-        padding: 30px;
-    }
-
-    .avatar {
-        border: solid 1px #eeeeee;
-        padding: 10px;
-        background-clip: content-box; /* support: IE9+ */
-        background-color: #ccc;
-    }
-
-    .accounts:hover, .accounts.active {
-        background: rgb(244,124,59);
-        background: linear-gradient(170deg, rgba(244,124,59,1) 0%, rgba(241,89,56,1) 51%);
-    }
-
-    #title {
-        color: #f1905a;
-    }
-
-    .bg-primary, .btn-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-soft-primary:hover, .btn-soft-primary:focus, .btn-soft-primary:active, .btn-soft-primary.active, .btn-soft-primary.focus, .badge-primary, .pagination .page-item.active .page-link, .nav-pills .nav-link.active, .custom-control-input:checked ~ .custom-control-label::before, #preloader #status .spinner .double-bounce1, #preloader #status .spinner .double-bounce2, .social-icon li a:hover, #topnav .navbar-toggle.open span:hover, .gradient, .flex-control-paging li a.flex-active, .owl-theme .owl-dots .owl-dot span, .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots.clickable .owl-dot:hover span, .watch-video a .play-icon-circle, .sidebar .widget .tagcloud > a:hover, .flatpickr-day.selected, .flatpickr-day.selected:hover, .bg-animation-left.crypto-home::after, .bg-animation-left.task-management-home::after, .classic-app-image .bg-app-shape::after, .classic-saas-image .bg-saas-shape::after, .work-container.work-modern .icons .work-icon:hover, .features.fea-primary:hover, .accounts:hover, .accounts.active, .timeline-page .timeline-item .date-label-left::after, .timeline-page .timeline-item .duration-right::after, .swiper-slider-hero .swiper-container .swiper-button-prev:hover, .swiper-slider-hero .swiper-container .swiper-button-next:hover {
-            background-color: rgb(244,124,59) !important;
+    @media (min-width: 768px) and (max-width: 1023px){
+      .job-profile {
+        top: -358px;
+      }
     }
 
 </style>

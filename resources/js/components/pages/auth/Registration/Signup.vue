@@ -66,24 +66,10 @@ export default {
 
             }else if (res.status === 422){
                 const dataError = res.data.errors
-                const fieldErrors = Object.keys(res.data.errors)
+                const fieldErrors = Object.keys(dataError)
                 console.log('422', res.data)
 
-                const h = this.$createElement
-                const vNodesMsg = fieldErrors.map(field =>
-                    h(
-                        'div',
-                        { class: ['mb-0'] },
-                        [
-                            field.toUpperCase(),
-                            h('ul',  { class: ['', 'mb-0'] },
-                                dataError[field].map( error => h('li', error))
-                            )
-                        ]
-                    )
-                )
-
-                this.makeNotice('danger', 'Datos Invalidos' ,[vNodesMsg]);
+                this.makeNoticeListErrors(fieldErrors);
 
             }else {
                 this.makeNotice('danger', 'Error', 'Error interno');
@@ -123,7 +109,7 @@ export default {
 <template>
 <!-- <section class=""> -->
     <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-        <div >
+        <div>
             <div class="card login_page shadow rounded border-0" style="max-width: 500px">
                 <div class="card-body">
                     <h4 class="card-title text-center font-weight-bold">
@@ -137,29 +123,51 @@ export default {
                             <div class="col-md-12">
                                 <div class="form-group position-relative">
                                     <label>Nombre <span class="text-danger">*</span></label>
-                                    <user-icon class="fea icon-sm icons mt-2"></user-icon>
-                                    <input v-model="form.name" type="text" class="form-control pl-5" placeholder="Escribe tu nombre..." name="s" required="">
+                                    <div class="position-relative">
+                                        <user-icon class="fea icon-sm icons"></user-icon>
+                                        <input 
+                                            v-model="form.name" 
+                                            type="text" 
+                                            class="form-control pl-5" 
+                                            placeholder="Escribe tu nombre..." 
+                                            name="name" 
+                                            required=""
+                                        >
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group position-relative">
                                     <label>Correo <span class="text-danger">*</span></label>
-                                    <mail-icon class="fea icon-sm icons mt-2"></mail-icon>
-                                    <input v-model="form.email" type="email" class="form-control pl-5" placeholder="Escribe tu Correo..." name="email" required="">
+                                    <div class="position-relative">
+                                        <mail-icon class="fea icon-sm icons"></mail-icon>
+                                        <input 
+                                            v-model="form.email"
+                                            type="email" 
+                                            class="form-control pl-5" 
+                                            placeholder="Escribe tu Correo..." 
+                                            name="email" 
+                                            required=""
+                                        >
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group position-relative">
+                                <div class="form-group position-relative" >
                                     <label>Contraseña <span class="text-danger">*</span></label>
-                                    <key-icon class="fea icon-sm icons mt-2"></key-icon>
-                                    <input v-model="form.password" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
+                                    <div class="position-relative">
+                                        <key-icon class="fea icon-sm icons"></key-icon>
+                                        <input v-model="form.password" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group position-relative">
                                     <label>Confirmar Contraseña <span class="text-danger">*</span></label>
-                                    <key-icon class="fea icon-sm icons mt-2"></key-icon>
-                                    <input v-model="form.password_confirmation" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
+                                    <div class="position-relative">
+                                        <key-icon class="fea icon-sm icons"></key-icon>
+                                        <input v-model="form.password_confirmation" type="password" class="form-control pl-5" placeholder="Escribe tu contraseña..." required="">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">

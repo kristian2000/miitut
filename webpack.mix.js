@@ -16,7 +16,9 @@ mix.js('resources/js/main.js', 'public/js')
 mix.styles([
     'resources/css/bootstrap.min.css',
     'resources/css/materialdesignicons.min.css',
-    'resources/css/app.css',
+    'resources/css/template.css',
+    'resources/css/purple.css',
+    'resources/css/styles.css'
 ], 'public/css/all.css');
 
 

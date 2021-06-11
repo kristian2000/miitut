@@ -1,0 +1,17 @@
+
+.textColor {
+    color: #6d48a4;
+
+}
+
+.bg-light {
+    background-color: #f8f9fc;
+}
+
+body {
+    font-family: "Nunito";
+}
+
+.modal-dialog {
+    background: white;
+}

@@ -57,6 +57,7 @@ Route::post('/app/users/paymentMethods', [UserController::class, 'createPaymentM
 Route::delete('/app/users/paymentMethods', [UserController::class, 'removePaymentMethod']);
 
 Route::post('/app/users/accountRetirement', [UserController::class, 'accountRetirement']);
+Route::put('/app/users/accountRetirement', [UserController::class, 'updateAccountRetirement']);
 Route::get('/app/users/accountRetirement', [UserController::class, 'showAccountRetirement']);
 
 // Categories
@@ -104,6 +105,12 @@ Route::post('/app/chats/sendMessage', [ChatController::class, 'sendMessage']);
 Route::get('/app/chats/getConversations', [ChatController::class, 'getConversations']);
 Route::get('/app/chats/messagesConversation/{conversation}', [ChatController::class, 'messagesConversation']);
 
+Route::post('/app/payment/contract/occasional', [PaymentController::class, 'payContractOccasional']);
+Route::post('/app/payment/contract/habitual', [PaymentController::class, 'payContractHabitual']);
+Route::get('/app/payment/contract/commission', [PaymentController::class, 'commission']);
+Route::get('/app/payments', [PaymentController::class, 'getAll']);
+Route::post('/app/payment/calculate', [PaymentController::class, 'calculate']);
+
 // Admin
 Route::get('/app/admin/users', [AdminController::class, 'getUsers']);
 Route::put('/app/admin/users', [AdminController::class, 'updateUser']);
@@ -116,11 +123,8 @@ Route::get('/app/admin/paymentsContract', [AdminController::class, 'getPaymentsC
 Route::get('/app/admin/paymentsContractFinalize/{payment}', [AdminController::class, 'paymentsContractFinalize']);
 Route::get('/app/admin/paymentsStripe', [AdminController::class, 'getPaymentsStripe']);
 
-Route::post('/app/payment/contract/occasional', [PaymentController::class, 'payContractOccasional']);
-Route::post('/app/payment/contract/habitual', [PaymentController::class, 'payContractHabitual']);
-Route::get('/app/payment/contract/commission', [PaymentController::class, 'commission']);
-Route::get('/app/payments', [PaymentController::class, 'getAll']);
-Route::post('/app/payment/calculate', [PaymentController::class, 'calculate']);
+// Admin-blog
+
 
 Route::get('/app/fired', function(){
     event(new ContractEvent);

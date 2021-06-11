@@ -389,6 +389,25 @@ class UserController extends Controller
         ]);
     }
 
+    public function updateAccountRetirement(Request $request){
+        $this->validate($request, [
+            'nameOfBeneficiary' => 'string',
+            'ccc' => 'string'
+        ]);
+
+        $user = Auth::user();
+
+        $bankAccount =  BankAccount::where('user_id',  $user->id)->first();
+        $bankAccount->nameOfBeneficiary = $request->nameOfBeneficiary;
+        $bankAccount->ccc = $request->ccc;
+        $bankAccount->save();
+
+        return response()->json([
+            'msg' => 'account update',
+            'account' => $bankAccount
+        ]);
+    }
+
     public function showAccountRetirement(){
         $user = Auth::user();
         $account = $user->account;

@@ -26,7 +26,7 @@ export default {
 <template>
 <div>
     <!-- Footer Start -->
-    <footer class="footer">
+    <footer class="footer bg-light">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
@@ -47,7 +47,7 @@ export default {
                 <!--end col-->
 
                 <div class="col-lg-4 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                    <h4 class="text-light footer-head">Ayuda</h4>
+                    <h4 class="text-dark footer-head">Ayuda</h4>
                     <ul class="list-unstyled footer-list mt-4">
                         <li>
                             <router-link to="/termAndCond" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Terminos y Condiciones</router-link>
@@ -65,15 +65,17 @@ export default {
 
 
                 <div class="col-lg-4 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                    <h4 class="text-light footer-head">Newsletter</h4>
+                    <h4 class="text-dark footer-head">Newsletter</h4>
                     <p class="mt-4">Sign up and receive the latest tips via email.</p>
                     <form>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="foot-subscribe form-group position-relative">
                                     <label>Write your email <span class="text-danger">*</span></label>
-                                    <mail-icon class="fea icon-sm icons"></mail-icon>
-                                    <input type="email" name="email" id="emailsubscribe" class="form-control pl-5 rounded" placeholder="Your email : " required>
+                                    <div class="position-relative">
+                                        <mail-icon class="fea icon-sm icons "></mail-icon>
+                                        <input type="email" name="email" id="emailsubscribe" class="form-control pl-5 rounded" placeholder="Your email : " required>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-12">

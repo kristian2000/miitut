@@ -16,7 +16,7 @@ export default {
             }
         },
         fieldSpanish(field){
-            switch(field){
+            switch(field.toLowerCase()){
                 case 'gender' : return 'Sexo';
                 case 'description' : return 'Descriptión';
                 case 'dni' : return 'DNI';
@@ -31,6 +31,8 @@ export default {
                 case 'daysSelected': return 'Seleccion de dias';
                 case 'nameOfBeneficiary': return 'Nombre del Beneficiario';
                 case 'ccc': return 'Numero de Cuenta';
+                case 'password': return 'Contraseña';
+                case 'message': return "Mensaje";
                 default:
                     return field;
             }

@@ -1,4 +1,5 @@
 <script>
+import LayoutStandar from '../../../../layouts/LayoutStandar'
 
 export default {
     data(){
@@ -7,6 +8,7 @@ export default {
         }
     },
     components: {
+        LayoutStandar
     },
     created(){
         
@@ -15,7 +17,7 @@ export default {
 </script>
 
 <template>
-<div>
+<LayoutStandar>
     <!-- Hero Start -->
     <section class="bg-half-170 seccion1 d-table w-100">
         <div class="container" id="container">
@@ -23,11 +25,16 @@ export default {
                 <div class="mt-5 col-12 d-flex justify-content-center">
                     <div class="info">
                         <div class="title-heading">
-                            <h1 class="heading">Verifica tu Correo!</h1>
+                            <h1 class="text-title">Verifica tu Correo!</h1>
                             <ol>
-                                <li>Ingresa a tu correo</li>
-                                <li>Click en el enlace para verificar</li>
-                                <li>Iniciar Sesion en Miitut!</li>
+                                <li class="textColor" >Ingresa a tu correo</li>
+                                <li class="textColor">
+                                    Click en el enlace para verificar 
+                                    <div class="text-muted" style="font-size: 12px;line-height: 1">
+                                        (revisar carpeta SPAM o correo no deseado)
+                                    </div>
+                                </li>
+                                <li class="textColor">Iniciar Sesion en Miitut!</li>
                             </ol>
                         </div>
                     </div>
@@ -38,19 +45,23 @@ export default {
         <!--end container-->
     </section>
     <!--end section-->
-</div>
+</LayoutStandar>
 </template>
 
 <style scoped>
+    .text-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
     li {
-        color: rgb(41, 12, 0);
         font-weight: bold;
-        color:#ff4b64
     }
 
     .info {
         padding: 50px;
         border-radius: 10px;
         background: white;
+        border: 1px solid #eee;
     }
 </style>

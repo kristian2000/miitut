@@ -21,23 +21,32 @@ export default {
     QuickSearch
   },
   created(){
+    this.init();
+  },
+  updated(){
+    this.init();
+  },
+  methods: {
+    init(){
       window.scroll(0, 0);
       const category = categories
         .filter(c => c.id === this.$route.params.category)[0]
-
+  
       this.infoCategory = category;
-
-      // console.log(category)
-
-      // console.log(this.$route.params.category)
+    }
   }
+
 };
 </script>
 
 <template>
   <div>
     <!-- Hero Start -->
-    <section class="bg-half bg-dark d-table w-100">
+    <section 
+      class="bg-half-170 d-table w-100 pb-4"
+      style="background: url('/images/travel/bg.jpg') center center"
+    >
+    <div class="bg-overlay"></div>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-12 text-center">
@@ -113,7 +122,7 @@ export default {
 
           <div class="col-lg-7 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
             <div class="section-title ml-lg-4">
-              <h4 class="title mb-4"> {{ infoCategory.desc.title }} </h4>
+              <h4 class="mb-4"> {{ infoCategory.desc.title }} </h4>
               <p class="text-muted">{{ infoCategory.desc.text }}</p>
             </div>
           </div>

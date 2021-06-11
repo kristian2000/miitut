@@ -126,7 +126,14 @@ export default ({
                                         Ofrecer mas servicios
                                     </span>
                                     
-                                </div>                                
+                                </div>
+                                <div class="price-features">
+                                    <i class="mdi mdi-check"></i> 
+                                    <span class="text-muted" style="font-size: 14px"> 
+                                        Hablar con mas de 3 contactos
+                                    </span>
+                                    
+                                </div>                            
                             </div>
                         </div>
 
@@ -186,8 +193,6 @@ export default ({
 
     </div>
 
-    </div>
-
 </div>
 </template>
 
@@ -203,7 +208,7 @@ export default ({
         font-weight: 600;
         border-radius: 6px;
 
-        background-color: #f6576e;
+        background-color: #7952B3;
         color: white;
         cursor: pointer;
     }
@@ -220,7 +225,7 @@ export default ({
     .price-features i,
     .faq-icon,
     .social .social-icon:hover {
-        color: #f6576e !important;
+        color: #7952B3 !important;
     }
 
     .bg-custom,
@@ -228,14 +233,14 @@ export default ({
     .timeline-page .timeline-item .date-label-left::after,
     .timeline-page .timeline-item .duration-right::after,.back-to-top:hover 
     {
-        background-color: #f6576e;
+        background-color: #7952B3;
     }
 
     .btn-custom,
     .custom-form .form-control:focus,
     .social .social-icon:hover,
     .registration-input-box:focus {
-        border-color: #f6576e;
+        border-color: #7952B3;
     }
 
     .service-box .services-icon,

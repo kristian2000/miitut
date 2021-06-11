@@ -37,7 +37,11 @@ export default {
 <template>
   <div class="mb-5">
     <!-- Hero Start -->
-    <section class="bg-half bg-dark d-table w-100">
+    <section 
+      class="bg-half bg-dark d-table w-100"
+      style="background: url('/images/travel/bg.jpg') center center"
+    >
+    <div class="bg-overlay"></div>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-12 text-center">
@@ -48,8 +52,8 @@ export default {
 
               <div class="mt-3 d-flex justify-content-center">
                   <div class="col-md-6" v-if="categories.length">
-                      <QuickSearch  
-                      />
+                    <QuickSearch  
+                    />
                   </div>
               </div>
 

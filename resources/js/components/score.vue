@@ -28,7 +28,7 @@ export default {
             <b-icon
                 :icon="(index + 1) < Number(scoreStar) ? 'star-fill' : 'star'"
                 variant="warning"
-                :class="sizeStar === 'lg' ? 'star-lg': ''"
+                :class="`star-${sizeStar}`"
             />
         </span>
     </div>
@@ -38,5 +38,10 @@ export default {
     .star-lg {
         width: 50px; 
         height: 50px;
+    }
+
+    .star-sm {
+        width: 25px;
+        height: 25px;
     }
 </style>

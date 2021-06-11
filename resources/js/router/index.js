@@ -3,11 +3,14 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+//Layout
+import Layout from '../layouts/LayoutDefault'
+
 // Pages
 import Home from '../components/pages/Home/index.vue'
 import AboutCategory from '../components/pages/Home/AboutCategory'
 import AllCategories from '../components/pages/Home/AllCategories'
-import Search from '../components/pages/Search.vue'
+import Search from '../components/pages/Search/index'
 import ProfilePublic from '../components/pages/ProfilePublic/index'
 
 // Account
@@ -18,7 +21,7 @@ import AccountBills from '../components/pages/account/Bills'
 import AccountMessages from '../components/pages/account/Messages'
 import AccountAds from '../components/pages/account/Ads'
 import AccountEmployees from '../components/pages/account/Employees'
-import AccountCategories from '../components/pages/account/Categories'
+import AccountServices from '../components/pages/account/Categories'
 import AccountOffers from '../components/pages/account/Offers'
 
 // Autentication
@@ -32,6 +35,9 @@ import ResetPassword from '../components/pages/auth/ResetPassword'
 import AccountRetirement from '../components/pages/auth/Registration/AccountRetirement'
 import DNI from '../components/pages/auth/DNI'
 import InfoCheckEmail from '../components/pages/auth/Registration/InfoCheckEmail'
+import AuthLogin from '../components/pages/auth/auth-cover-login'
+import NewSignup from '../components/pages/auth/Registration/Signup'
+import NewRegistration from '../components/pages/auth/Registration/NewIndex'
 
 //Plantilla
 import INDEX from '../components/pages/Home/index.vue'
@@ -54,150 +60,162 @@ import TermAndCond from '../components/pages/Info/TermAndCond'
 
 const routes = [
     // Admin
+    // {
+    //     path: '/admin-users',
+    //     component: AdminUsers
+    // },
+    // {
+    //     path: '/admin-verify',
+    //     component: AdminVerify
+    // },
+    // {
+    //     path: '/admin-reports',
+    //     component: AdminReports
+    // },
+    // {
+    //     path: '/admin-payments',
+    //     component: AdminPayments
+    // },
+    // {
+    //     path: '/admin-mediations',
+    //     component: AdminMediations
+    // },
+    // {
+    //     path: '/admin-payment-contracts',
+    //     component: AdminPaymentContract
+    // },
+    // {
+    //     path: '/index',
+    //     component: INDEX
+    // },
+    // {
+    //     path: '/test',
+    //     component: Home
+    // },
     {
-        path: '/admin-users',
-        component: AdminUsers
-    },
-    {
-        path: '/admin-verify',
-        component: AdminVerify
-    },
-    {
-        path: '/admin-reports',
-        component: AdminReports
-    },
-    {
-        path: '/admin-payments',
-        component: AdminPayments
-    },
-    {
-        path: '/admin-mediations',
-        component: AdminMediations
-    },
-    {
-        path: '/admin-payment-contracts',
-        component: AdminPaymentContract
-    },
-    {
-        path: '/index',
-        component: INDEX
+        path: '/login',
+        component: AuthLogin
     },
     {
         path: '/',
-        component: INDEX_NEW
-    },
-    {
-        path: '/test',
-        component: Home
-    },
-    {
-        path: '/Aboutus',
-        component: Aboutus
-    },
-    {
-        path: '/allCategories',
-        component: AllCategories
-    },
-    {
-        path: '/aboutCategory/:category',
-        component: AboutCategory
-    },
-    //Autentificacion
-    {
-        path: '/login',
-        component: Login
-    },
-    {
-        path: '/registration',
-        component: Registration
-    },
-    {
-        path: '/verify',
-        component: VerifyCode
-    },
-    {
-        path: '/resetPassword',
-        component: ResetPassword
-    },
-    {
-        path: '/authorize/:drive/callback',
-        name: 'loginCallback',
-        component: LoginSocial
-    },
-    {
-        path: '/completeProfile',
-        component: CompleteProfile
-    },
-    {
-        path: '/completeProfileWork',
-        component: CompleteProfileWork
-    },
-    {
-        path: '/accountRetirement',
-        component: AccountRetirement
-    },
-    {
-        path: '/DNI',
-        component: DNI
-    },
-    {
-        path: '/InfoCheckEmail',
-        component: InfoCheckEmail
-    },
-    {
-        path: '/TermAndCond',
-        component: TermAndCond
-    },
-    {
-        path: '/support',
-        component: Support
-    },
+        component: Layout,
+        children: [
+            //Routes-Autentificacion
+            {
+                path: '/registration',
+                component: NewRegistration
+            },
+            {
+                path: '/verify',
+                component: VerifyCode
+            },
+            {
+                path: '/resetPassword',
+                component: ResetPassword
+            },
+            {
+                path: '/authorize/:drive/callback',
+                name: 'loginCallback',
+                component: LoginSocial
+            },
 
-    // Rutas Account
-    {
-        path: '/account-profile',
-        component: AccountProfile
-    },
-    {
-        path: '/account-contracts',
-        component: AccountContracts
-    },
-    {
-        path: '/account-bills',
-        component: AccountBills
-    },
-    {
-        path: '/account-messages',
-        component: AccountMessages
-    },
-    {
-        path: '/account-ads',
-        component: AccountAds
-    },
-    {
-        path: '/account-employees',
-        component: AccountEmployees
-    },
-    {
-        path: '/account-categories',
-        component: AccountCategories
-    },
-    {
-        path: '/account-offers',
-        component: AccountOffers
-    },
-    {
-        name: 'search',
-        path: '/search',
-        component: Search,
-        props: props => ({
-            ...props
-        })
-    },
-    {
-        path: '/profilePublic/:id',
-        component: ProfilePublic
+            // Routes-Public
+            {
+                path: '',
+                component: INDEX_NEW
+            },
+            {
+                path: '/Aboutus',
+                component: Aboutus
+            },
+            {
+                path: '/allCategories',
+                component: AllCategories
+            },
+            {
+                path: '/aboutCategory/:category',
+                component: AboutCategory
+            },
+
+            // Routes-Privadas
+                //fase Registro
+            {
+                path: '/completeProfile',
+                component: CompleteProfile
+            },
+            {
+                path: '/completeProfileWork',
+                component: CompleteProfileWork
+            },
+            {
+                path: '/accountRetirement',
+                component: AccountRetirement
+            },
+            {
+                path: '/DNI',
+                component: DNI
+            },
+            {
+                path: '/InfoCheckEmail',
+                component: InfoCheckEmail
+            },
+            {
+                path: '/TermAndCond',
+                component: TermAndCond
+            },
+            {
+                path: '/support',
+                component: Support
+            },
+        
+            // Routes Account
+            {
+                path: '/account-profile',
+                component: AccountProfile
+            },
+            {
+                path: '/account-contracts',
+                component: AccountContracts
+            },
+            {
+                path: '/account-bills',
+                component: AccountBills
+            },
+            {
+                path: '/account-messages',
+                component: AccountMessages
+            },
+            {
+                path: '/account-ads',
+                component: AccountAds
+            },
+            {
+                path: '/account-employees',
+                component: AccountEmployees
+            },
+            {
+                path: '/account-services',
+                component: AccountServices
+            },
+            {
+                path: '/account-offers',
+                component: AccountOffers
+            },
+            {
+                name: 'search',
+                path: '/search',
+                component: Search,
+                props: props => ({
+                    ...props
+                })
+            },
+            {
+                path: '/profilePublic/:id',
+                component: ProfilePublic
+            }
+        ]
     }
+
 ]
 
 export default new Router({

@@ -244,12 +244,12 @@ export default {
 </template>
 
 
-<style>
+<style scoped>
     .bg-half-170 {
         padding-bottom: 0;
     }
     .bg-gray {
-        background-color: #edf2f9;
+        background-color: #f8f9fc;
     }
     .categoriesGroup img {
         border-radius: 10%;
@@ -288,9 +288,9 @@ export default {
     color: #fff;
 }
 
-  p {
+  /* p {
     font-size: 18px;
-}
+ } */
 
     @media (min-width: 1024px){
         .content {
@@ -304,11 +304,6 @@ export default {
     .content p {
 
         text-align: justify;
-    }
-
-    #titlecolor {
-        color: #ff4b64;
-
     }
 
     .team01 button {

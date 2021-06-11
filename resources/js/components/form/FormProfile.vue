@@ -3,6 +3,8 @@ import {
     MapPinIcon
 } from 'vue-feather-icons';
 
+import Geolocalization from '../Geolocalization';
+
 export default {
     props: [
         'user',
@@ -50,7 +52,8 @@ export default {
         }
     },
     components: {
-        MapPinIcon
+        MapPinIcon,
+        Geolocalization
     },
     methods: {
         onContext(ctx) {
@@ -136,6 +139,7 @@ export default {
                 if (response.status === 200){
                     this.$store.commit('setUpdateUser', response.data.user)
                     this.$router.push('/');
+                    this.makeNotice('success', 'Info', 'Actualizacion Exitosa')
                 }
                 console.log('responseSubmit', response)
 
@@ -145,28 +149,28 @@ export default {
             }
 
 
+        },
+        changeValuesAddress(data){
+            this.form.address = data.address;
+            this.form.lat = data.coords.lat;
+            this.form.lng = data.coords.lon;
+            // console.log('chageValues', data)
         }
     }
 }
 </script>
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-4">
-                <h2 class="h2">{{ title }}</h2>
-            </div>
 
-        </div>
         <div class="row">
             <!-- Start Selecionar Foto -->
-            <div class="col-12 mt-2">
+            <!-- <div class="col-12 mt-2">
                 <div id='preview' class="d-flex justify-content-center">
                     <div>
                         <div v-if="loadingAvatar">
                             <b-spinner type="grow" label="Spinning" />
                         </div>
                         <div v-else>
-                                <!-- v-if="!loadingAvatar" -->
                             <img
                                 v-if="form.avatar"
                                 :src="form.avatar"
@@ -179,46 +183,16 @@ export default {
                     </div>
                     <input ref="fileInput" id="input" type="file" @change="onFileChange" style='display:none;'>
                 </div>
-                <hr>
-
-            </div>
+            </div> -->
             <!-- END Seleccionar Foto -->
-
-
-            <!-- START Localizacion  -->
-            <div class="col-12 ">
-                <div class="" v-if="!loading.localizar">
-                    <div class="row">
-
-                        <div class="" v-if="!form.address">
-                            <div class="d-flex justify-content-center">
-                                <p class="text-muted"> Click para obtener tu ubicacion </p>
-                            </div>
-                        </div>
-                        <div v-else class="col-10">
-                            <p class="text-muted"> {{form.address}} </p>
-                        </div>
-                        <div class="col-2">
-                            <div class="d-flex justify-content-center">
-                                <b-button  class="btn btn-info" pill @click="localizar">
-                                    <MapPinIcon />
-                                </b-button >
-                            </div>
-                        </div>
-
-                    </div>
-
+            <div class="col-12">
+                <div class="form-group">
+                    <Geolocalization 
+                        :addressDefault="form.address"
+                        :onCall="changeValuesAddress"
+                    />
                 </div>
-                <div class="text-center d-flex justify-content-center" v-else>
-                    <div>
-                        <b-spinner
-                            type="grow"
-                        ></b-spinner>
-                    </div>
-                </div>
-                <hr>
             </div>
-            <!-- END Localizacion -->
 
             <!-- Start Genero -->
             <!-- <div class="col-12">
@@ -238,12 +212,10 @@ export default {
 
             <!-- Start Name -->
             <div class="col-12">
-                <div class="row">
-                    <div class="col-4">
-                        <label for="datepicker" class="text-muted">Nombre</label>
-                    </div>
-                    <div class="col-8">
-                        <b-input-group class="mb-3">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <div>
+                        <b-input-group>
                             <b-form-input
                                 id="example-input"
                                 v-model="form.name"
@@ -251,8 +223,8 @@ export default {
                             ></b-form-input>
                         </b-input-group>
                     </div>
+
                 </div>
-                <hr>
             </div>
             <!-- End Name -->
 
@@ -278,26 +250,25 @@ export default {
 
             <!-- Start Description -->
             <div class="col-12">
-                <div class="row">
-                    <div class="col-12">
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <div>
                         <b-form-textarea
-                            type="textarea" v-model="form.description"
+                            type="textarea" 
+                            v-model="form.description"
                             placeholder="Escribe una descripcion personal..."
+                            max-rows="2"
                         />
-
                     </div>
                 </div>
-                <hr>
             </div>
             <!-- END Description -->
 
             <!-- Start Fecha de Nacimiento -->
             <div class="col-12">
-                <div class="row">
-                    <div class="col-6">
-                        <label for="datepicker" class="text-muted">Fecha de Nacimiento</label>
-                    </div>
-                    <div class="col-6">
+                <div class="form-group">
+                    <label>Fecha de Nacimiento</label>
+                    <div>
                         <b-input-group class="mb-3">
                             <b-form-input
                                 id="example-input"
@@ -319,29 +290,29 @@ export default {
                         </b-input-group>
                     </div>
                 </div>
-                <hr>
             </div>
             <!-- END Fecha de Nacimiento -->
 
             <!-- Start DNI -->
             <div class="col-12">
-                <div class="row">
-                    <div class="col-6">
-                        <label for="dni" class="text-muted">DNI</label>
-                    </div>
-                    <div class="col-6">
-                        <input type="number" v-model="form.dni">
+                <div class="form-group">
+                    <label>DNI/NIF/Passaporte</label>
+                    <div>
+                        <b-form-input 
+                            type="text" 
+                            v-model="form.dni"
+                        />
                     </div>
                 </div>
-                <hr>
             </div>
             <!-- END DNI -->
 
             <!-- START Telefono -->
 
             <div class="col-12">
-                <div class="row">
-                    <div class="col-12">
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <div>
                         <vue-tel-input
                             v-model="form.phone"
                             required
@@ -350,13 +321,17 @@ export default {
                         />
                     </div>
                 </div>
-                <hr>
             </div>
             <!-- END Telefono -->
 
             <div class="col-12">
                 <div class="d-flex justify-content-center">
-                    <button class="btn btn-success" @click="validate">Enviar</button>
+                    <button 
+                        class="btn btn-primary" 
+                        @click="validate"
+                    >
+                        Enviar
+                    </button>
                 </div>
             </div>
         </div>

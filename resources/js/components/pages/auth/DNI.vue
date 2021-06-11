@@ -1,5 +1,7 @@
 
 <script>
+let sizeImgMax = 307200;
+
 export default {
     data(){
         return {
@@ -15,6 +17,16 @@ export default {
         async previewDoc(e, type){
             // console.log(e, type)
             const image = e.target.files[0]
+
+            if (image?.size >= sizeImgMax){
+                this.makeNotice(
+                    'danger', 
+                    'Tamaño Máximo', 
+                    `La imagen debe ser menor a ${Number(sizeImgMax/1024).toFixed(0)}Kb`
+                );
+                return;
+            }
+            
             if (type === 'front'){
                 this.urlFront = URL.createObjectURL(image);
             }else{

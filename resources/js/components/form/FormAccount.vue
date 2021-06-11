@@ -4,7 +4,7 @@ export default {
     data(){
         return {
             form: {
-                code: '',
+                code: 'ES21',
                 ccc: '',
                 nameOfBeneficiary: ''
             }
@@ -62,7 +62,7 @@ export default {
 <template>
     <div class="mt-4 p-4 container-form">
         <div class="container">
-            <h4 class="card-title text-center">Guardar Cuenta de Retiro</h4>
+            <h4 class="card-title text-center">Agregar cuenta bancaria para ingresos</h4>
 
             <form class="login-form mt-4" v-on:submit.prevent="validate">
                 <div class="row">
@@ -72,16 +72,22 @@ export default {
                             <input v-model="form.nameOfBeneficiary" type="text" class="form-control pl-5" placeholder="Escribe el nombre del beneficiario" name="s" required="">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <!-- <div class="col-md-12">
                         <div class="form-group position-relative">
                             <label>Code</label>
                             <input v-model="form.code" type="text" class="form-control pl-5" placeholder="ES21" required="">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-md-12">
                         <div class="form-group position-relative">
-                            <label>Numero de Cuenta</label>
-                            <input v-model="form.ccc" type="text" class="form-control pl-5" placeholder="Escribe tu cuenta" required="">
+                            <label>Numero de Cuenta IBAN</label>
+                            <input 
+                                v-model="form.ccc" 
+                                type="text" 
+                                class="form-control pl-5" 
+                                placeholder="Escribe tu cuenta" 
+                                required=""
+                            >
                         </div>
                     </div>
                 </div>

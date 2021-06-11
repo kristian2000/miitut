@@ -2,11 +2,11 @@
     <div>
         <NavbarAuthorization v-if="user"/>
         <div v-else>
-            <NavbarUnauthorization />
+            <NavbarUnauthorization /> 
         </div>
 
         <main style="min-height: 80vh">
-            <slot />
+            <router-view></router-view>
         </main>
 
         <Footer />

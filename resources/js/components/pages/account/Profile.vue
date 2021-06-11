@@ -15,6 +15,7 @@ import LayoutAccount from '../../../layouts/LayoutAccount'
 import FormProfile from '../../form/FormProfile'
 import FormPaymentMethods from '../../form/FormPaymentMethods'
 import FormPremium from '../../form/Premium'
+import FormAccountBank from '../../form/FormAccountBank'
 
 /**
  * Account-profile component
@@ -51,7 +52,8 @@ export default {
         CheckIcon,
         AlertTriangleIcon,
         
-        FormPremium
+        FormPremium,
+        FormAccountBank
     },
     created(){
         console.log('accountProfile', this.user)
@@ -142,6 +144,17 @@ export default {
         async getDocAccount(){
             this.docAccount.loading = true;
             const response = await this.callApi('get', `app/users/accountRetirement`);
+
+            if (response.status === 200){
+                this.docAccount.doc = response.data.account;
+                console.log('docAccount', response)
+            }
+
+            this.docAccount.loading = false;
+        },
+        async updateAccountBank(newData){
+            this.docAccount.loading = true;
+            const response = await this.callApi('put', `app/users/accountRetirement`, newData);
 
             if (response.status === 200){
                 this.docAccount.doc = response.data.account;
@@ -300,7 +313,7 @@ export default {
                     >
                         <div>
                             <b-button pill size="sm" variant="outline-secondary" @click="showModalAccount">
-                                Ver Cuenta Retiro
+                                Ver Cuenta Bancaria
                             </b-button>
                         </div>
                     </div>
@@ -431,42 +444,19 @@ export default {
             <b-modal id="modalEdit" hide-footer title="Editar Perfil">
                 <div>
                     <FormProfile
-                        title="Actualizar Tu Perfil!"
                         :user="user"
                     />
                 </div>
             </b-modal>
             <!-- END Modal Edit -->
-            <b-modal id="modalAccount" hide-footer title="Cuenta de Retiro">
+            <b-modal id="modalAccount" hide-footer title="Cuenta Bancaria">
                 <div>
-                    <h4 class="text-center font-weight-bold"> Cuenta de retiro </h4>
+                    <!-- <h4 class="text-center font-weight-bold"> Cuenta Bancaria </h4> -->
                     <div v-if="!docAccount.loading">
-                        <div class="p-2" v-if="docAccount.doc">
-                            <div>
-                                <span class="font-weight-bold">Nombre del Beneficiario: </span>
-                                <span class="text-muted">
-                                    {{ docAccount.doc.nameOfBeneficiary }}
-                                </span>
-                            </div>
-                            <div>
-                                <span class="font-weight-bold">Code:</span>
-                                <span class="text-muted">
-                                    {{ docAccount.doc.code }}
-                                </span>
-                            </div>
-                            <div>
-                                <span class="font-weight-bold">Numero de cuenta: </span>
-                                <span class="text-muted">
-                                    {{ docAccount.doc.ccc }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="mt-2 text-muted text-center">
-                            <div style="font-size: 12px">
-                                Para modificar esta informacion contactar a soporte
-                            </div>
-                        </div>
+                        <FormAccountBank 
+                            :doc="docAccount.doc"
+                            :onCall="updateAccountBank"
+                        />
                     </div>
                     <div v-else>
                         <div>
@@ -490,7 +480,7 @@ export default {
                 title="Hazte Premium"
                 size="lg" 
             >
-                <FormPremium />
+                <FormPremium :onCall="updateAccountBank" />
             </b-modal>
             <!-- END Modal Premium -->
         </div>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="margin-top: 200px;">
         <h1 v-if="status">Login, please wait !</h1>
         <h6 v-else>{{ message }}</h6>
     </div>

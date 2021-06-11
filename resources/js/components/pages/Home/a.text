@@ -1,0 +1,51 @@
+1.- Al agregar categoria: 
+
+    nota del usuario: Un error al darle al agregar nuevo servicio + ya que no deja contratar el servicio premium.
+
+    comentario: existe un proceso para ser premium que esta realizado en perfil,
+      el sistema debe buscar si ya tienes una tarjeta, para hacer la subscripcion, si no debe existir el proceso de agregar la tarjeta,
+      en esta parte ya debes ser premium osea, irte a perfil y hacer el proceso.
+
+2.- Benificio agrego al ser premium (5$)
+   nota del usuario: Si no es premium no puede comunicarse con mas de 3 usuarios al mes.
+   comentario: esto no se habia hablado, y hacerlo lleva su trabajo
+
+3.- 
+    nota del usuario: En editar el perfil no te permite ni cambiar la ubicación del usuario.
+    comentario: esto ya existe
+
+4.-
+    - La plantilla base del diseño del buscador tiene que ser esta. (5$)
+    comentario: todo lo que tenga que hacer del buscador es complicado,
+    modificar el panel donde salen los input tengo que reajustar todo la peticion, es volver a hacer la vista lleva trabajo
+
+5.- 5$
+
+    - Perfil del usuario visto por el empleador al buscarlo.
+    comentario: volver a hacer la toda la vista
+
+6.- 5$
+    nota: Preguntar si no enviara el mensaje ?, quitar o dar error ?
+    - Al crear un anuncio, dice impedir que se manden numero de telefono o email
+    Igual en la mensajeria interna.
+    comentario: esto no se habia hablado
+
+7.- 5$
+    - El chat interno debe tener un refresco automático si está abierto
+    comentario: todo lo del chat, esta medio puesto, incluso el chat yo dije que no lo haria, hacer cambios ahi es costoso.
+
+8.- 20$ (IGUAL se necesita mas informacion)
+
+    - La zona factura del empleador debe mejorarse. Debe poder verse el desglose de la factura, que se diferencie la comisión y el precio que le cobra el empleado y que sea descargable en pdf el coste de la comisión por parte de la web.
+   - En la zona de factura del empleado no aparece nada, debe contener dos tipos de facturas
+   comentario: nunca se ha hablado bien de las factura, nunca se hablo de la informacio que deberia contener, dise;o nada de eso y menos decargarla en pdf 
+   eso es algo que agregaron extra
+
+9.- Administrador
+    - Debe añadirse un buscador por nombre o correos. (NUEVO) 2.5$
+    - Se necesita una zona para añadir contenido al blog (Nuevo) 15$
+PREGUNTAR    - No hay control de los mensajes que envían entre usuarios para poder determinar los conflictos entre usuarios.(NUEVO)
+    -El sistema debe permitir enviar mensajes a los usuarios.(Nuevo) 10$
+    -No hay control ni visualización de las facturas.(Nuevo) si hay visualizacion
+    -Zona de suscripción no tenemos control. ?
+    comentario: todos los pagos van a tener cierto control directamente por stripe

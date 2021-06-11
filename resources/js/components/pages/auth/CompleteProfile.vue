@@ -6,6 +6,8 @@ import {
     MapPinIcon
 } from 'vue-feather-icons';
 
+let sizeImgMax = 102400;
+
 export default {
     data(){
         return {
@@ -90,8 +92,18 @@ export default {
             this.$refs.fileInput.click()
         },
         async onFileChange(e){
+            // console.log(e.target.files[0])
 
             const image = e.target.files[0]
+
+            if (image?.size >= sizeImgMax){
+                this.makeNotice(
+                    'danger', 
+                    'Tamaño Máximo', 
+                    `La imagen debe ser menor a ${Number(sizeImgMax/1024).toFixed(0)}Kb`
+                );
+                return;
+            }
 
             if (image){
                 this.loading.avatar = true;
@@ -173,7 +185,6 @@ export default {
 
                 switch(field){
                     case 'gender':
-                    case 'description':
                     case 'dni':
                     case 'address':
                     case 'nationality':
@@ -183,6 +194,17 @@ export default {
                             errorsExist = true;
                         }
                     }; break;
+                    case 'description': {
+                        if (!value.length){
+                            errors[field] = [ 'Por favor completa el campo, es requerido!' ];
+                            errorsExist = true;
+                        }
+                        if (value.length >= 255){
+                            errors[field] = [ 'Maximo de Caracteres!' ];
+                            errorsExist = true;
+                        }
+
+                    };break;
                     case 'birthdate': {
                         if (!value.valid){
                             errors[field] = [ 'La fecha es Invalida' ];
@@ -280,7 +302,14 @@ export default {
                         </p>
                         <b-button class='m-2' pill variant="info" @click="selectImage()">Subir Foto</b-button>
                     </div>
-                    <input ref="fileInput" id="input" type="file" @change="onFileChange" style='display:none;'>
+                    <input 
+                        ref="fileInput" 
+                        id="input" 
+                        type="file" 
+                        style='display:none;'
+                        @change="onFileChange" 
+                        size="1"
+                    >
                 </div>
                 <hr>
 
@@ -440,12 +469,14 @@ export default {
                 <div class=" d-flex justify-content-center">
                     <div class="row">
                         <div class="col-sm-6 text-center">
-                            <label for="dni" class="text-muted">DNI</label>
+                            <label for="dni" class="text-muted">
+                                DNI/NIF/Passaporte 
+                            </label>
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex justify-content-center">
                                 <b-form-input
-                                    type="number"
+                                    type="text"
                                     v-model="dni"
                                     style="width:200px"
                                 />
@@ -568,3 +599,5 @@ export default {
     </div>
 </section>
 </template>
+
+

@@ -75,7 +75,7 @@ export default {
     }
 
     section {
-        min-height: 75vh;
+        min-height: 60vh;
         /* min-height: 500px; */
     }
     .heading {
