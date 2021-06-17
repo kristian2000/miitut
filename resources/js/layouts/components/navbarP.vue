@@ -14,7 +14,13 @@ export default {
         },
         navLight: {
             type: Boolean
+        },
+        isAuth: {
+            type: Boolean
         }
+    },
+    async created(){
+       await this.getCategories();
     },
     mounted: () => {
         // window.onscroll = function () {
@@ -74,6 +80,11 @@ export default {
             }
         }
     },
+    computed: {
+        categories(){
+            return this.$store.state.categories;
+        }
+    },
     methods: {
         /**
          * Toggle menu
@@ -107,6 +118,33 @@ export default {
             }
             return false;
         },
+        redirect(){
+            const user = this.$store.state.user;
+            // console.log('faseRegistro', user.fase_registry)
+            if (user){
+                if (user.userType === 'admin'){
+                    this.$router.push('/admin-users');
+                }else {
+                    switch(user.fase_registry){
+                        case 'registro': {
+                            this.$router.push('/completeProfile');
+                        } break;
+                        case 'completeProfileWork': {
+                            this.$router.push('/completeProfileWork');
+                        } break;
+                        case 'accountRetirement': {
+                            this.$router.push('/accountRetirement');
+                        } break;
+                        case 'dni': {
+                            this.$router.push('/dni');
+                        } break;
+                        default: {
+                            this.$router.push('/account-profile');
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 </script>
@@ -148,7 +186,7 @@ export default {
                     </li>
 
                     <li>
-                        <router-link to="/" class="side-nav-link-reftext-white">Quienes Somos</router-link>
+                        <router-link to="/aboutus" class="side-nav-link-reftext-white">Quienes Somos</router-link>
                     </li>
 
 
@@ -156,28 +194,30 @@ export default {
                         <a class="" href="javascript:void(0)" @click="onMenuClick">Categorias</a><span class="menu-arrow"></span>
                         <ul class="submenu">
 
-                                    <li>
-                                        <router-link to="/page-aboutus" class="side-nav-link-ref">Categoria 1</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/page-aboutus" class="side-nav-link-ref">Categoria 2</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/page-aboutus" class="side-nav-link-ref">Categoria 3</router-link>
-                                    </li>
+                            <!-- <li>
+                                <router-link to="/page-aboutus" class="side-nav-link-ref">Categoria 1</router-link>
+                            </li> -->
 
+                            <li v-for="category in categories" :key="category.id">
+                                <router-link :to="`/aboutCategory/${category.name}`" class="side-nav-link-ref">
+                                    {{ category.label }}
+                                </router-link>
+                            </li>   
 
-                            </ul>
+                        </ul>
                     </li>
 
-                    <li>
+                    <li v-if="!isAuth">
                         <router-link to="/login" class="side-nav-link-reftext-white">Acceder</router-link>
                     </li>
 
                     <li class="has-submenu">
-                        <router-link to='/registration'>
-                            <span id="registrate">REGISTRATE GRATIS</span>
+                        <router-link to='/registration' v-if="!isAuth">
+                            <span class="text-white" id="registrate">REGISTRATE GRATIS</span>
                         </router-link>
+                        <a v-else @click="redirect" style="cursor:pointer;">
+                            <span class="text-white" id="registrate">Ir a Perfil</span>
+                        </a>
                     </li>
 
 
@@ -194,7 +234,7 @@ export default {
 </div>
 </template>
 
-<style scoped>
+<style>
 
     #registrate {
         border: 1px solid white;
@@ -204,14 +244,14 @@ export default {
     }
 
     .buy-button {
-        display: none;
-    }
+    display: none;
+}
 
-@media (max-width: 991px) {
+@media (min-width: 991px) {
 
     #topnav .navigation-menu > li > a {
         display: block;
-        /* color: #fff; */
+        color: #fff;
         background-color: transparent !important;
         font-weight: 700;
         letter-spacing: 1px;
@@ -223,12 +263,6 @@ export default {
         padding-left: 15px;
         padding-right: 15px;
         font-size: 15px;
-    }
-
-    #registrate {
-        border: 1px solid black;
-        border-radius: 10px;
-        margin: 0;
     }
 
 }

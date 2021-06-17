@@ -18,9 +18,6 @@ import { Carousel, Slide } from "vue-carousel";
 import QuickSearch from '../../QuickSearch'
 
 export default {
-  created(){
-
-  },
   components: {
     Carousel,
     Slide,
@@ -31,6 +28,33 @@ export default {
     ArrowDownIcon,
     QuickSearch
   },
+  created(){
+        // const user = this.$store.state.user;
+        // console.log('faseRegistro', user.fase_registry)
+        // if (user){
+        //     if (user.userType === 'admin'){
+        //         this.$router.push('/admin-users');
+        //     }else {
+        //         switch(user.fase_registry){
+        //             case 'registro': {
+        //                  this.$router.push('/completeProfile');
+        //             } break;
+        //             case 'completeProfileWork': {
+        //                 this.$router.push('/completeProfileWork');
+        //             } break;
+        //             case 'accountRetirement': {
+        //                 this.$router.push('/accountRetirement');
+        //             } break;
+        //             case 'dni': {
+        //                 this.$router.push('/dni');
+        //             } break;
+        //             default: {
+        //                 this.$router.push('/account-profile');
+        //             }
+        //         }
+        //     }
+        // }
+  },
   computed: {
       categories(){
           return this.$store.state.categories;
@@ -39,33 +63,7 @@ export default {
         return this.$store.state.user;
       }
   },
-  methods: {
-    redirect(){
-      if (user){
-          if (user.userType === 'admin'){
-              this.$router.push('/admin-users');
-          }else {
-              switch(user.fase_registry){
-                  case 'registro': {
-                        this.$router.push('/completeProfile');
-                  } break;
-                  case 'completeProfileWork': {
-                      this.$router.push('/completeProfileWork');
-                  } break;
-                  case 'accountRetirement': {
-                      this.$router.push('/accountRetirement');
-                  } break;
-                  case 'dni': {
-                      this.$router.push('/dni');
-                  } break;
-                  default: {
-                      this.$router.push('/account-profile');
-                  }
-              }
-          }
-      }
-    }
-  }
+  methods: {}
 };
 </script>
 

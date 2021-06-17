@@ -61,7 +61,7 @@
     }
 </script>
 <template>
-<div class="position-relative">
+<div class="">
     <nav class="navbar-custom">
         <b-navbar toggleable="lg" >
             <div class="container">
@@ -96,12 +96,12 @@
                             v-if="user.userType !== 'admin' && user.fase_registry === 'completed'"
                             >
                             <b-nav-item>
-                                <home-icon size="1.5x" class="custom-class" @click="$router.push('/search')" />
+                                <home-icon size="1.5x" class="custom-class" @click="$router.push('/')" />
                             </b-nav-item>
 
-                            <b-nav-item>
+                            <!-- <b-nav-item>
                                 <mail-icon size="1.5x" class="custom-class" @click="$router.push('/account-messages')" />
-                            </b-nav-item>
+                            </b-nav-item> -->
 
                             <b-nav-item v-if="user.userType === 'help'">
                                 <search-icon size="1.5x" class="custom-class" @click="$router.push('/search')" />
@@ -219,7 +219,7 @@
     }
 
     .navbar-custom {
-        position: absolute;
+        position: relative;
         z-index: 1;
         width: 100%;
         background: white;

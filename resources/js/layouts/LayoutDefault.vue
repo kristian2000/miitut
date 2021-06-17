@@ -5,7 +5,7 @@
             <NavbarUnauthorization /> 
         </div>
 
-        <main style="min-height: 80vh">
+        <main class="main">
             <router-view></router-view>
         </main>
 
@@ -31,3 +31,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .main {
+        min-height: 90vh;
+        height: 100%;
+    }
+</style>

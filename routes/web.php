@@ -11,6 +11,7 @@ use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\BlogController;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -110,6 +111,12 @@ Route::post('/app/payment/contract/habitual', [PaymentController::class, 'payCon
 Route::get('/app/payment/contract/commission', [PaymentController::class, 'commission']);
 Route::get('/app/payments', [PaymentController::class, 'getAll']);
 Route::post('/app/payment/calculate', [PaymentController::class, 'calculate']);
+
+// Blog
+Route::get('/app/blogs/last', [BlogController::class, 'lastThree']);
+Route::post('/app/blogs/notice', [BlogController::class, 'createNotice']);
+Route::put('/app/blogs/{blog}', [BlogController::class, 'update']);
+Route::delete('/app/blogs/{blog}', [BlogController::class, 'destroy']);
 
 // Admin
 Route::get('/app/admin/users', [AdminController::class, 'getUsers']);

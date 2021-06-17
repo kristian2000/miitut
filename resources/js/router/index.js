@@ -5,6 +5,8 @@ Vue.use(Router)
 
 //Layout
 import Layout from '../layouts/LayoutDefault'
+import LayoutPublic from '../layouts/LayoutPublic'
+import LayoutAdmin from '../layouts/LayoutAdmin'
 
 // Pages
 import Home from '../components/pages/Home/index.vue'
@@ -92,6 +94,31 @@ const routes = [
     //     path: '/test',
     //     component: Home
     // },
+
+    // Rutas Publicas
+
+    {
+        path: '/',
+        component: LayoutPublic,
+        children: [
+            {
+                path: '',
+                component: INDEX_NEW
+            },
+            {
+                path: '/Aboutus',
+                component: Aboutus
+            },
+            {
+                path: '/allCategories',
+                component: AllCategories
+            },
+            {
+                path: '/aboutCategory/:category',
+                component: AboutCategory
+            },
+        ]
+    },
     {
         path: '/login',
         component: AuthLogin
@@ -100,6 +127,32 @@ const routes = [
         path: '/',
         component: Layout,
         children: [
+            //Routes Admin
+            {
+                path: '/admin-users',
+                component: AdminUsers
+            },
+            {
+                path: '/admin-verify',
+                component: AdminVerify
+            },
+            {
+                path: '/admin-reports',
+                component: AdminReports
+            },
+            {
+                path: '/admin-payments',
+                component: AdminPayments
+            },
+            {
+                path: '/admin-mediations',
+                component: AdminMediations
+            },
+            {
+                path: '/admin-payment-contracts',
+                component: AdminPaymentContract
+            },
+
             //Routes-Autentificacion
             {
                 path: '/registration',
@@ -117,24 +170,6 @@ const routes = [
                 path: '/authorize/:drive/callback',
                 name: 'loginCallback',
                 component: LoginSocial
-            },
-
-            // Routes-Public
-            {
-                path: '',
-                component: INDEX_NEW
-            },
-            {
-                path: '/Aboutus',
-                component: Aboutus
-            },
-            {
-                path: '/allCategories',
-                component: AllCategories
-            },
-            {
-                path: '/aboutCategory/:category',
-                component: AboutCategory
             },
 
             // Routes-Privadas
