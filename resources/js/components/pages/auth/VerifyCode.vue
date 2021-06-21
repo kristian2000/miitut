@@ -1,10 +1,14 @@
 <script>
+    import LayoutStandar from '../../../layouts/LayoutStandar'
     export default {
         data(){
             return {
                 loading: true,
                 msg: ''
             }
+        },
+        components: {
+            LayoutStandar
         },
         async created(){
 
@@ -18,16 +22,16 @@
                 this.msg = res.data.msg;
                 this.loading = false;
 
-                setTimeout(()=>{
-                    window.location.href = '/'
-                }, 2000)
+                // setTimeout(()=>{
+                //     this.$route.push('/')
+                // }, 2000)
 
             }else {
                 if (res.status === 400){
                     this.makeNotice('danger', 'Error', 'Codigo invalido');
                 }
                 this.loading = false;
-                this.msg = 'Codigo Invalido'
+                this.msg = 'Código Inválido'
 
             }
 
@@ -36,16 +40,49 @@
 </script>
 
 <template>
-<div>
-    <section class="row justify-content-center align-items-center" style="height:80vh">
-        <div class="title-heading mt-4 text-center">
-            <h2 class="heading mb-3 text-primary" v-if="loading">
-               Espere un momento, estamos Verificando el Codigo!
-            </h2>
-            <h2 class="heading mb-3 text-info" v-if="!loading">
-                {{ msg }}
-            </h2>
+<LayoutStandar>
+        <!-- Hero Start -->
+    <section class="bg-half-170 seccion1 d-table w-100">
+        <div class="" id="container">
+            <div class="row">
+                <div class="mt-5 col-12 d-flex justify-content-center">
+                    <div class="info p-3">
+                        <div class="title-heading">
+                            <h2 class="text-title mb-3 text-primary" v-if="loading">
+                                Espere un momento, estamos Verificando el Código!
+                            </h2>
+                            <h2 class="text-title mb-3 text-info" v-if="!loading">
+                                {{ msg }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end row-->
         </div>
+        <!--end container-->
     </section>
-</div>
+    <!--end section-->
+</LayoutStandar>
 </template>
+
+<style>
+    .text-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    li {
+        font-weight: bold;
+    }
+
+    .info {
+        box-sizing: border-box;
+        /* width: 100%; */
+        /* max-width: 800px; */
+        /* padding: 5vw; */
+        border-radius: 10px;
+        background: white;
+        border: 3px solid #eee;
+    }
+</style>

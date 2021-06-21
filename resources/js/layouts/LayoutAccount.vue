@@ -119,7 +119,7 @@ export default {
 
     <!-- Hero Start -->
     <section 
-        class="bg-profile d-table w-100 bg-primary" 
+        class="bg-layout d-table w-100 bg-primary" 
         style="background: url('/images/account/bg.png') center center;"
         >
         <div class="container">
@@ -150,7 +150,7 @@ export default {
                                         <div class="col-md-7 text-md-left text-center mt-4 mt-sm-0">
                                             <h3 class="title mb-0 text-capitalize">{{ user.name }}</h3>
                                             <small class="text-muted h6 mr-2">{{ user.description }}</small>
-                                            <ul class="list-inline mb-0 mt-3">
+                                            <!-- <ul class="list-inline mb-0 mt-3">
                                                 <li class="list-inline-item mr-2"><a href="javascript:void(0)" class="text-muted" title="Instagram">
                                                         <instagram-icon class="fea icon-sm mr-2"></instagram-icon>krista_joseph
                                                     </a></li>
@@ -160,7 +160,7 @@ export default {
                                                         Krista Joseph
                                                     </router-link>
                                                 </li>
-                                            </ul>
+                                            </ul> -->
                                         </div>
                                         <!--end col-->
                                     </div>
@@ -201,6 +201,18 @@ export default {
 </div>
 </template>
 
-<style>
+<style scoped>
+ .bg-layout {
+   padding: 20px 0;
+   background-size: cover;
+   -ms-flex-item-align: center;
+       -ms-grid-row-align: center;
+       align-self: center;
+   position: relative;
+   background-position: center center;
+ }
 
+ .bg-layout .public-profile {
+    top: 100px;
+ }
 </style>

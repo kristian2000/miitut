@@ -16,6 +16,7 @@ import { Carousel, Slide } from "vue-carousel";
 // import Testimonial from "@/components/testimonial";
 
 import QuickSearch from '../../QuickSearch'
+import PostLastest from '../../PostLastest'
 
 export default {
   components: {
@@ -26,7 +27,8 @@ export default {
     ArrowRightIcon,
     MapPinIcon,
     ArrowDownIcon,
-    QuickSearch
+    QuickSearch,
+    PostLastest
   },
   created(){
         // const user = this.$store.state.user;
@@ -301,28 +303,10 @@ export default {
 
         <div class="text-center mb-4 team04">
             <h1 class="font-weight-bold subtitle">Últimas Noticias</h1>
-            <p class="text-center text-muted">Lorem, ipsum dolor sit amet consectetur</p>
         </div>
 
         <div class="container">
-          <div class="row d-flex justify-content-center news">
-
-            <div class="item new">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" />
-                    <p class="mt-4 text-muted">Lorem ipsum dolor sit amet.</p>
-            </div>
-
-            <div class="item new">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" />
-                    <p class="mt-4 text-muted">Lorem ipsum dolor sit amet.</p>
-            </div>
-
-            <div class="item new">
-                    <img src="https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ae/ae_img_EN/childrens-banne-mob.jpg" />
-                    <p class="mt-4 text-muted">Lorem ipsum dolor sit amet.</p>
-            </div>
-
-          </div>
+          <PostLastest />
         </div>
 
     </section>

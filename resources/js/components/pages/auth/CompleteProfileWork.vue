@@ -3,6 +3,8 @@ import axios from 'axios'
 import Multiselect from 'vue-multiselect'
 import Shedule from '../../../components/schedule';
 
+import LayoutStandar from '../../../layouts/LayoutStandar'
+
 export default {
     data(){
         return {
@@ -27,11 +29,14 @@ export default {
     },
     components: {
         Multiselect,
-        Shedule
+        Shedule,
+        LayoutStandar
     },
     async created(){
-        if (!this.$store.state.user){
-              this.$router.push('/');
+        const user = this.$store.state.user;
+
+        if (!user || user.fase_registry !== 'completeProfileWork'){
+            this.isAuthRedirect();
         }else{
             const response = await this.callApi('get', 'app/categoriesUser/pending')
             console.log('CategoryPeding', response.data)
@@ -45,7 +50,6 @@ export default {
                         name: sub.label,
                         code: sub.id
                     }))
-                    
                 }
             }
 
@@ -109,8 +113,9 @@ export default {
             console.log('response', res)
 
             if (res.status === 200){
-                this.$store.commit('setUpdateUser', res.data.user)
-                this.$router.push('/')
+                const user = res.data.user;
+
+                this.$store.dispatch('updateUser', {user})
             }
         }
 
@@ -119,11 +124,12 @@ export default {
 </script>
 
 <template>
-<section class="d-flex align-items-center my-3" v-if="!loading">
-    <div class="container col-md-6 col-12 mt-4">
+<LayoutStandar>
+<section class="col-md-10 col-lg-6 col-12 info my-3" v-if="!loading">
+    <div class="p-3">
         <div class="row">
-            <div class="col-12 text-center mb-4">
-                <h2 class="display-4 text-info">Datos del Servicio</h2>
+            <div class="col-12 text-center">
+                <div class="text-info title-completeWork">Datos del Servicio</div>
             </div>
 
         </div>
@@ -131,15 +137,17 @@ export default {
             <!-- START Nombre de la categoria -->
             <div class="col-12">
                 <div class="d-flex justify-content-center">
-                    <label for="" class="text-info h2">{{userCategory.category.label}}</label>
+                    <label for="" class="text-info subtitle-completeWork">
+                        {{userCategory.category.label}}
+                    </label>
                 </div>
                 <!-- <hr> -->
             </div>
             <!-- End  Nombre de la categoria  -->
 
             <!-- START Informacion Basica -->
-            <div class="col-12 mt-3">
-                <b-card-group deck class="mb-3">
+            <div class="col-12">
+                <b-card-group deck class="">
                 <b-card border-variant="light" header="Informacion Basica" class="text-center">
                     <div class=" d-flex justify-content-center">
                         <div class="row">
@@ -252,5 +260,14 @@ export default {
         </div>
     </div>
 </section>
+</LayoutStandar>
 </template>
 
+<style scoped>
+    .title-completeWork {
+        font-size: 2rem;
+    }
+    .subtitle-completeWork {
+        font-size: 1.5rem;
+    }
+</style>

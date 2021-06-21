@@ -18,6 +18,7 @@ import {
   PhoneIcon,
   BookIcon,
   MessageCircleIcon,
+  FlagIcon
 } from 'vue-feather-icons';
 
 import MenuAccount from './MenuPublic'
@@ -67,7 +68,7 @@ export default {
         MenuAccount,
         // CheckIcon,
         // XIcon,
-        // FlagIcon
+        FlagIcon,
         Shedule,
         FormContract,
         Score,
@@ -197,7 +198,7 @@ export default {
       <div class="container">
         <div class="row">
           <div class="col-lg-4 col-md-5 col-12">
-            <div class="card job-profile shadow border-0">
+            <div class="card job-profile shadow border-0 position-absolute">
               <div class="text-center py-5 border-bottom rounded-top">
                 <img
                   src="/images/client/05.jpg"
@@ -290,9 +291,14 @@ export default {
                 
                 <div class="mt-4">
                   <div
+                    @click="showModalSendMessage"
+                    class="btn btn-block btn-primary"
+                    ><i class="mdi mdi-email"></i> Preguntar
+                  </div>
+                  <div
                     @click="showModalSendContract"
                     class="btn btn-block btn-primary"
-                    ><i class="mdi mdi-email"></i> Contratar
+                    >Contratar
                   </div>
                 </div>
 
@@ -320,6 +326,18 @@ export default {
                             </div>
                         </div>
                     </div>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <div class="m-2" v-if="$store.state.user.userType === 'help'">
+                      <div 
+                          class="font-weight-bold report" 
+                          @click="$bvModal.show('modalReport')"
+                      >
+                          <FlagIcon size="1.2x"/>
+                          Reportar 
+                      </div>
                   </div>
                 </div>
 
@@ -469,6 +487,34 @@ export default {
     </section>
     <!--end section-->
 
+
+    <!-- Start Modal Enviar Mensaje -->
+    <div>
+        <b-modal
+            id="modalSendMessage"
+            title="Enviar Mensaje"
+            scrollable
+            hide-footer
+        >
+            <b-form-textarea
+                v-model="textMessage"
+                id="textarea"
+                placeholder="Escribe tu mensaje..."
+                rows="3"
+                max-rows="6"
+            ></b-form-textarea>
+            <div 
+                class="d-flex justify-content-center mt-3"
+                @click="sendMessage"
+            >
+                <b-button pill variant="outline-secondary">
+                    Enviar
+                </b-button>
+            </div>
+        </b-modal>
+    </div>
+    <!-- End Modal  Enviar Mensaje -->
+
     <!-- Start Modal Contrato -->
     <div>
         <b-modal
@@ -504,6 +550,60 @@ export default {
         </b-modal>
     </div>
     <!-- End Modal Contrato -->
+
+    <!-- Start Modal Report -->
+    <div>
+        <b-modal
+            id="modalReport"
+            title="Reportar Usuario"
+            scrollable
+            hide-footer
+        >
+            <div 
+                v-if="!loadingReport" 
+                style="min-height: 200px"
+            >
+                <b-form-group
+                    description="Su reporte sera evaluado y se realizaran las acciones necesarias ."
+                    label="Describe el problema que observas en este perfil"
+                    label-for="report"
+                >
+                    <b-form-textarea
+                        id="report"
+                        v-model="descriptionReport"
+                        placeholder="Escribe aqui..."
+                        rows="3"
+                        max-rows="6"
+                    ></b-form-textarea>
+                </b-form-group>
+                <div>
+                    <div class="d-flex justify-content-center" >
+                        <b-button 
+                            pill 
+                            variant="outline-secondary"
+                            @click="reportUser"
+                        >
+                            Enviar
+                        </b-button>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <div 
+                    class="d-flex justify-content-center align-items-center" 
+                    style="min-height: 250px"
+                >
+                    <div>
+                        <b-spinner 
+                            type="grow" 
+                            label="Spinning" 
+                        />
+                    </div>
+                </div>
+            </div>
+        </b-modal>
+    </div>
+    <!-- End Modal Report -->
   </div>
 </template>
 
@@ -543,7 +643,7 @@ export default {
 
     @media (min-width: 768px) and (max-width: 1023px){
       .job-profile {
-        top: -358px;
+        top: -450px;
       }
     }
 

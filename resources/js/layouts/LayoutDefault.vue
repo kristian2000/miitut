@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
     .main {
-        min-height: 90vh;
-        height: 100%;
+        min-height: 100vh;
+        height: auto;
     }
 </style>

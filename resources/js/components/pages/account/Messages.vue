@@ -111,6 +111,9 @@ export default {
                 .then(()=>{
                     this.$refs.boxMessages.scrollTop = this.$refs.boxMessages.scrollHeight;
                 })
+        },
+        avatarDefault(img){
+            return img ? img : '/images/avatarDefault.jpg';
         }
     }
 }
@@ -135,9 +138,9 @@ export default {
                                 <div class="row" @click="openConversation(conversation)">
                                     <div class="col-lg-2 col-md-3 col-sm-4">
                                         <img :src="userType === 'work' ? 
-                                                conversation.user_help.avatar 
+                                                avatarDefault(conversation.user_help.avatar)
                                                 : 
-                                                conversation.user_work.avatar" 
+                                                avatarDefault(conversation.user_work.avatar)" 
                                             class="rounded-circle shadow d-block" 
                                             width="80px" 
                                             height="80px"

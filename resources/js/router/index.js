@@ -49,6 +49,7 @@ import INDEX_NEW from '../components/pages/Home/index_new.vue'
 import AdminUsers from '../components/pages/Admin/Users'
 import AdminVerify from '../components/pages/Admin/Verify'
 import AdminReports from '../components/pages/Admin/Reports'
+import AdminBlog from '../components/pages/Admin/Blog'
 import AdminPayments from '../components/pages/Admin/Payments'
 import AdminMediations from '../components/pages/Admin/Mediations'
 import AdminPaymentContract from '../components/pages/Admin/PaymentContract'
@@ -139,6 +140,10 @@ const routes = [
             {
                 path: '/admin-reports',
                 component: AdminReports
+            },
+            {
+                path: '/admin-blog',
+                component: AdminBlog
             },
             {
                 path: '/admin-payments',

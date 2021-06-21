@@ -36,6 +36,12 @@ export default {
                     path: '/admin-reports',
                     viewOnly: ['admin']
                 },
+                {
+                    title: 'Blog',
+                    iconClass: 'uil uil-comment-alt-notes',
+                    path: '/admin-blog',
+                    viewOnly: ['admin']
+                },
                 // {
                 //     title: 'Pagos',
                 //     iconClass: 'uil uil-dashboard',

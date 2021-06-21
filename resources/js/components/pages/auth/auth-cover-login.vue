@@ -45,8 +45,9 @@ export default {
 
             if (res.status === 200){
                 // this.makeNotice('success', 'Inicio Exitoso', res.data.msg);
-                this.$store.commit('setUpdateUser', res.data.user);
-                window.location.href = '/'
+                // this.$store.commit('setUpdateUser', res.data.user);
+                let user = res.data.user;
+                this.$store.dispatch('updateUser', {user})
 
             }
             else if (res.status === 403) {

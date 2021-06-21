@@ -5,6 +5,7 @@ import {
     SearchIcon,
     MapPinIcon
 } from 'vue-feather-icons';
+import LayoutStandar from '../../../layouts/LayoutStandar'
 
 let sizeImgMax = 102400;
 
@@ -41,12 +42,13 @@ export default {
     },
     components: {
         SearchIcon,
-        MapPinIcon
+        MapPinIcon,
+        LayoutStandar
     },
     created(){
         const user = this.$store.state.user;
         if (!user || user.fase_registry !== 'registro'){
-            this.$router.push('/');
+            this.isAuthRedirect();
         }
 
         if (user.avatar){
@@ -252,8 +254,8 @@ export default {
             try{
                 const response = await this.callApi('post', 'app/users/completeProfile', form)
                 if (response.status === 200){
-                    this.$store.commit('setUpdateUser', response.data.user)
-                    this.$router.push('/');
+                    let user = response.data.user;
+                    this.$store.dispatch('updateUser',{user})
                 }
                 console.log('responseSubmit', response)
 
@@ -268,12 +270,13 @@ export default {
 </script>
 
 <template>
+<LayoutStandar>
 <section 
     class="d-flex align-items-center justify-content-center" 
-    style="min-height: 950px"
+    style="min-height: 950px bg-light"
 >
-    <div class="container col-md-6 col-12">
-        <div class="row mt-2">
+    <div class="container col-md-10 col-lg-6 col-12 info p-2 mt-4">
+        <div class="row">
             <div class="col-12 text-center mb-4">
                 <h2 class="h2 text-muted">Completa Tu Perfil</h2>
             </div>
@@ -296,11 +299,25 @@ export default {
                             @click="selectImage()"
                         />
                     </div>
-                    <div v-if="!url && !loading.avatar" class="d-flex justify-content-center">
-                        <p class="text-muted mt-2" style="width:250px; font-size: 12px;">
-                            Los perfiles sin fotografia inspiran confianza a los otros usuarios
-                        </p>
-                        <b-button class='m-2' pill variant="info" @click="selectImage()">Subir Foto</b-button>
+                    <div v-if="!url && !loading.avatar" class="row text-center">
+                        <div class="col-md-8 col-12">
+                            <p 
+                                class="text-muted"
+                                style="font-size: 12px;"
+                            >
+                                Los perfiles sin fotografia inspiran confianza a los otros usuarios
+                            </p>
+                        </div>
+                        <div class="col-md-2 col-12 text-center">
+                            <b-button 
+                                size="sm"
+                                class='' 
+                                variant="info" 
+                                @click="selectImage()"
+                            >
+                                Subir Foto
+                            </b-button>
+                        </div>
                     </div>
                     <input 
                         ref="fileInput" 
@@ -335,45 +352,53 @@ export default {
                             </div>
                         </div>
                     </div> -->
-                    <div class="col-12 d-flex align-items-center">
-                        <div class="col-10 item">
-                            <h6 class="font-weight-bold text-center">
-                                Ubicación
-                            </h6>
-                            <div class="d-flex ">
-                                <b-form-input
-                                    id="address"
-                                    placeholder="Direccion Ciudad Estado Pais"
-                                    v-model="locationQuery"
-                                    required
-                                />
+                    <div class="col-12" style="">
+                        <div class="row">
+                            <div class="col-md-9 col-12">
+                                <h6 class="font-weight-bold text-center">
+                                    Ubicación
+                                </h6>
+                                <div class="d-flex">
+                                    <b-form-input
+                                        id="address"
+                                        placeholder="Direccion Ciudad Estado Pais"
+                                        v-model="locationQuery"
+                                        required
+                                    />
 
-                                <div class="border ml-1 p-1"
-                                    style="border-radius: 50%; cursor: pointer"
-                                    placeholder="sugerencias"
-                                    @click="geolocalizationAddress"
-                                >
-                                    <SearchIcon />
+                                    <div class="border ml-1 p-1"
+                                        style="border-radius: 50%; cursor: pointer"
+                                        placeholder="sugerencias"
+                                        @click="geolocalizationAddress"
+                                    >
+                                        <SearchIcon />
+                                    </div>
                                 </div>
+                                <!-- <p class="text-muted">{{this.addressSearch.display_name}}</p> -->
+                                <div class="mt-2" v-if="suggestions.length">
+                                    <b-form-select
+                                        id="input-3"
+                                        v-model="addressSearch"
+                                        :options="suggestions"
+                                        required
+                                    ></b-form-select>
+                                </div>
+                            </div> 
+                            <div class="col-md-3 col-12">
+                                <div class="d-flex align-items-center" style="height: 100%;" >
+                                    <div>
+                                        <b-button   
+                                            size="sm"
+                                            class="btn btn-info" pill @click="localizar"
+                                            v-b-tooltip.hover title="Click para obtener la ubicacion actual"
+                                        >
+                                            <MapPinIcon />    
+                                        </b-button >
+                                    </div>
+                                </div>
+                            
                             </div>
-                            <!-- <p class="text-muted">{{this.addressSearch.display_name}}</p> -->
-                            <div class="mt-2" v-if="suggestions.length">
-                                <b-form-select
-                                    id="input-3"
-                                    v-model="addressSearch"
-                                    :options="suggestions"
-                                    required
-                                ></b-form-select>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <b-button  
-                                class="btn btn-info" pill @click="localizar"
-                                v-b-tooltip.hover title="Click para obtener la ubicacion actual"
-                            >
-                                <MapPinIcon />    
-                            </b-button >
-                        
+
                         </div>
                     </div>
 
@@ -598,6 +623,5 @@ export default {
         </div>
     </div>
 </section>
+</LayoutStandar>
 </template>
-
-

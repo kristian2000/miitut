@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import router from '../router/index'
 import auth from './auth'
 
 Vue.use(Vuex)
@@ -26,7 +27,35 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        updateUser({commit, state}, data){
+            commit('setUpdateUser', data.user);
 
+            const user = state.user;
+            console.log('faseRegistro', user.fase_registry)
+            if (user){
+                if (user.userType === 'admin'){
+                    router.push('/admin-users');
+                }else {
+                    switch(user.fase_registry){
+                        case 'registro': {
+                            router.push('/completeProfile');
+                        } break;
+                        case 'completeProfileWork': {
+                            router.push('/completeProfileWork');
+                        } break;
+                        case 'accountRetirement': {
+                            router.push('/accountRetirement');
+                        } break;
+                        case 'dni': {
+                            router.push('/dni');
+                        } break;
+                        default: {
+                            router.push('/account-profile');
+                        }
+                    }
+                }
+            }
+        }
     },
     modules: {
         auth

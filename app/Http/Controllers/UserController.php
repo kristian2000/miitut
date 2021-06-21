@@ -49,7 +49,8 @@ class UserController extends Controller
 
             return response()->json([
                 'msg' => 'Avatar Updated!',
-                'url' => $url
+                'url' => $url,
+                "user" => $user
 
             ]);
         }
@@ -129,7 +130,8 @@ class UserController extends Controller
             }
 
             return response()->json([
-                'msg' => 'Documento Subido, en espera de aprobacion'
+                'msg' => 'Documento Subido, en espera de aprobacion',
+                'user' => $user
             ]);
         }
 
@@ -385,7 +387,8 @@ class UserController extends Controller
         $bankAccount->save();
 
         return response()->json([
-            'msg' => 'account register'
+            'msg' => 'account register',
+            "user" => $user
         ]);
     }
 

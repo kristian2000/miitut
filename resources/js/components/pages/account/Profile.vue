@@ -23,7 +23,6 @@ import FormAccountBank from '../../form/FormAccountBank'
 export default {
     data() {
         return {
-            user: this.$store.state.user,
             docFront: null,
             docBack: null,
             urlFront: null,
@@ -56,12 +55,17 @@ export default {
         FormAccountBank
     },
     created(){
-        console.log('accountProfile', this.user)
+        // console.log('accountProfile', this.user)
         // setInterval(()=>{ 
         //     if (this.$store.state.user){
         //         this.getNotifications() 
         //     }
         // }, 3000)
+    },
+    computed: {
+        user(){
+            return this.$store.state.user;
+        }
     },
     methods: {
         sendEmailConfirmation(){

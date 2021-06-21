@@ -69,7 +69,7 @@ export default {
                 const fieldErrors = Object.keys(dataError)
                 console.log('422', res.data)
 
-                this.makeNoticeListErrors(fieldErrors);
+                this.makeNoticeListErrors(dataError);
 
             }else {
                 this.makeNotice('danger', 'Error', 'Error interno');

@@ -132,6 +132,35 @@ export default {
                 // console.log('categories app', response.data)
                 this.$store.commit('setUpdateCategories', response.data)
             }
+        },
+        isAuthRedirect(){
+            const user = this.$store.state.user;
+            console.log('faseRegistro', user.fase_registry)
+            if (user){
+                if (user.userType === 'admin'){
+                    this.$router.push('/admin-users');
+                }else {
+                    switch(user.fase_registry){
+                        case 'registro': {
+                            this.$router.push('/completeProfile');
+                        } break;
+                        case 'completeProfileWork': {
+                            this.$router.push('/completeProfileWork');
+                        } break;
+                        case 'accountRetirement': {
+                            this.$router.push('/accountRetirement');
+                        } break;
+                        case 'dni': {
+                            this.$router.push('/dni');
+                        } break;
+                        default: {
+                            this.$router.push('/account-profile');
+                        }
+                    }
+                }
+            }else {
+                this.$router.push('/')
+            }
         }
 
     }

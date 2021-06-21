@@ -117,33 +117,6 @@ export default {
                 nextEl.classList.remove("open");
             }
             return false;
-        },
-        redirect(){
-            const user = this.$store.state.user;
-            // console.log('faseRegistro', user.fase_registry)
-            if (user){
-                if (user.userType === 'admin'){
-                    this.$router.push('/admin-users');
-                }else {
-                    switch(user.fase_registry){
-                        case 'registro': {
-                            this.$router.push('/completeProfile');
-                        } break;
-                        case 'completeProfileWork': {
-                            this.$router.push('/completeProfileWork');
-                        } break;
-                        case 'accountRetirement': {
-                            this.$router.push('/accountRetirement');
-                        } break;
-                        case 'dni': {
-                            this.$router.push('/dni');
-                        } break;
-                        default: {
-                            this.$router.push('/account-profile');
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -215,7 +188,7 @@ export default {
                         <router-link to='/registration' v-if="!isAuth">
                             <span class="text-white" id="registrate">REGISTRATE GRATIS</span>
                         </router-link>
-                        <a v-else @click="redirect" style="cursor:pointer;">
+                        <a v-else @click="isAuthRedirect()" style="cursor:pointer;">
                             <span class="text-white" id="registrate">Ir a Perfil</span>
                         </a>
                     </li>

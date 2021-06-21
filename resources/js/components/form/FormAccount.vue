@@ -10,6 +10,13 @@ export default {
             }
         }
     },
+    created(){
+        const user = this.$store.state.user;
+
+        // if (!user || user.fase_registry !== 'registro'){
+        //     this.isAuthRedirect();
+        // }
+    },
     methods: {
         validate(){
             let errors = {};
@@ -62,7 +69,7 @@ export default {
 <template>
     <div class="mt-4 p-4 container-form">
         <div class="container">
-            <h4 class="card-title text-center">Agregar cuenta bancaria para ingresos</h4>
+            <h4 class="card-title text-center text-info">Agregar cuenta bancaria para ingresos</h4>
 
             <form class="login-form mt-4" v-on:submit.prevent="validate">
                 <div class="row">

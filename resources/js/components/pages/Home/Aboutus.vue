@@ -232,7 +232,7 @@ export default {
                                 <h6 class="title font-weight-normal mb-0">Anunciate</h6>
                             </div>
                         </template>
-                        <img src="/images/work/1.jpg" class="img-fluid rounded shadow" alt="">
+                        <img src="/images/aboutus/anunciate.jpg" class="img-fluid rounded shadow" alt="">
                         <div class="mt-4">
                             <p class="text-muted">Ya has hecho lo más difícil, dar ese primer paso hacia la búsqueda de un nuevo empleo, ahora sólo tienes que anunciar los servicios que quieres prestar, sé activo, constante, opten tu cuenta premium, estate atento a todas las novedades y así encontrarás ese trabajo tan deseado.</p>
                             <!-- <a href="javascript:void(0)" class="text-primary">See More <arrow-right-icon class="fea icon-sm"></arrow-right-icon></a> -->
@@ -266,7 +266,7 @@ export default {
                                 <h6 class="title font-weight-normal mb-0">Servicios</h6>
                             </div>
                         </template>
-                        <img src="/images/work/1.jpg" class="img-fluid rounded shadow" alt="">
+                        <img src="/images/aboutus/servicios.jpg" class="img-fluid rounded shadow" alt="">
                         <div class="mt-4">
                             <p class="text-muted">La plataforma digital <span class="text-primary font-weight-bold">miitut</span> sirve como lazo de unión segura entre las personas que buscan ayuda y las que ofrecen sus servicios. Con el fin de facilitar las cosas a nuestros usuarios, hemos creado un sistema por categorías (cuidados de mayores, mascotas, niñeras, servicios de mantenimiento, limpieza, cocina, peluquería, reparación, jardinería y piscinas, entrenadores personales, profesores particulares, sanitarios y parasanitarios a domicilio), que además
  

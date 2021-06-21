@@ -1,5 +1,7 @@
 
 <script>
+import LayoutStandar from '../../../layouts/LayoutStandar'
+
 let sizeImgMax = 307200;
 
 export default {
@@ -11,7 +13,14 @@ export default {
         }
     },
     created(){
-        
+        const user = this.$store.state.user;
+
+        if (!user || user.fase_registry !== 'dni'){
+            this.isAuthRedirect();
+        }
+    },
+    components: {
+        LayoutStandar
     },
     methods: {
         async previewDoc(e, type){
@@ -46,7 +55,9 @@ export default {
             if (response.status === 200){
                 this.makeNotice('success', 'Envio Exitoso', 'Su documento ha sido enviado')
                 setTimeout(()=>{
-                    window.location.href = '/'
+                    const user = response.data.user;
+
+                    this.$store.dispatch('updateUser', {user})
                 }, 3000)
             }
             this.docStatus.loading = false;
@@ -59,23 +70,24 @@ export default {
 </script>
 
 <template>
+<LayoutStandar>
 <section 
-    class="my-4" 
-    style="min-height: 950px"
+    class="container col-md-10 col-12 my-4 info p-3" 
+    style="min-height: 60vh;"
 >
     <div class="container text-center">
-        <h3 class="text-muted">
-            Verifica tu identidad y obten la confianza a los usuario de escogerte.
+        <h3 class="text-muted title-dni">
+            Verifica tu identidad y obten <br/> la confianza a los usuario de escogerte.
         </h3>
     </div>
-    <div class="mt-4 container col-md-6 col-12">
+    <div class="mt-4 container col-md-12 col-12">
         <div v-if="!docStatus.loading">
                 <!-- <div>
                     <p class="text-muted" style="font-size: 20px">
                     </p>
                 </div> -->
-            <div class="container" >
-                <div>
+            <div class="" >
+                <div class="text-intructions-dni">
                     <h3 class="text-muted" > Instrucciones </h3>
                     <ul>
                         <li class="text-muted" >Sube una foto frente de tu DNI</li>
@@ -96,14 +108,12 @@ export default {
             </div>
 
             <div class="container">
-                <div class="d-flex justify-content-center mb-4">
-                    <div style="width: 80%" v-if="!docFront">
-                        <b-skeleton-img
-                            height="300px"
-                        />
+                <div class="row d-flex justify-content-center mb-4">
+                    <div class="col-12 col-md-8" v-if="!docFront">
+                        <b-skeleton-img class="img-dni"/>
                     </div>
-                    <div v-else style="width: 80%">
-                        <img :src="urlFront" height="300px" width="100%" />
+                    <div v-else class="col-12 col-md-8">
+                        <img :src="urlFront" class="img-dni" />
                     </div>
                 </div>
             </div>
@@ -120,13 +130,11 @@ export default {
 
             <div class="container">
                 <div class="d-flex justify-content-center mb-4">
-                    <div style="width: 80%" v-if="!docBack">
-                        <b-skeleton-img
-                            height="300px"
-                        />
+                    <div class="col-12 col-md-8" v-if="!docBack">
+                        <b-skeleton-img class="img-dni" />
                     </div>
-                    <div v-else style="width: 80%">
-                        <img :src="urlBack" height="300px" width="100%" />
+                    <div v-else class="col-12 col-md-8">
+                        <img :src="urlBack" class="img-dni" />
                     </div>
                 </div>
             </div>
@@ -149,4 +157,22 @@ export default {
         </div>
     </div>
 </section>
+</LayoutStandar>
 </template>
+
+<style scoped>
+    .title-dni {
+        line-height: 1;
+        font-size: 1.2rem;
+    }
+
+    .text-intructions-dni h3{
+        font-size: 1.5rem;
+    }
+    .text-intructions-dni ul{
+        font-size: .8rem;
+    }
+    .img-dni {
+        width: 100%;
+    }
+</style>

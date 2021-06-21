@@ -5,6 +5,7 @@
 /public/storage
 /public/avatars
 /public/DNIS
+/public/news
 /storage/*.key
 /vendor
 .env

@@ -113,10 +113,11 @@ Route::get('/app/payments', [PaymentController::class, 'getAll']);
 Route::post('/app/payment/calculate', [PaymentController::class, 'calculate']);
 
 // Blog
-Route::get('/app/blogs/last', [BlogController::class, 'lastThree']);
-Route::post('/app/blogs/notice', [BlogController::class, 'createNotice']);
-Route::put('/app/blogs/{blog}', [BlogController::class, 'update']);
-Route::delete('/app/blogs/{blog}', [BlogController::class, 'destroy']);
+Route::get('/app/blogs/posts', [BlogController::class, 'index']);
+Route::get('/app/blogs/lastestPosts', [BlogController::class, 'lastThree']);
+Route::post('/app/blogs/posts', [BlogController::class, 'create']);
+Route::post('/app/blogs/posts/{blog}', [BlogController::class, 'update']);
+Route::delete('/app/blogs/posts/{blog}', [BlogController::class, 'destroy']);
 
 // Admin
 Route::get('/app/admin/users', [AdminController::class, 'getUsers']);
