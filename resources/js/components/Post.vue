@@ -1,13 +1,14 @@
 <script>
+    import moment from 'moment';
 export default {
-    props: ['post'],
+    props: ['post', 'maxDescription'],
     data(){
         return {
 
         }
     },
     created(){
-        // console.log('post', this.post)
+        console.log('post', this.post)
     }
 }
 </script>
@@ -22,7 +23,7 @@ export default {
                             {{ post.title }}    
                         </a></h5>
                         <p class="text-muted mb-0">
-                            {{ post.description.slice(0, 50) }}...
+                            {{ !maxDescription ? post.description.slice(0, 50) : post.description}}...
                         </p>
                         <div class="post-meta d-flex justify-content-center mt-3">
                             <!-- <ul class="list-unstyled mb-0">
@@ -40,7 +41,7 @@ export default {
                     <div class="overlay bg-dark"></div>
                     <div class="author">
                         <!-- <small class="text-light user d-block"><i class="mdi mdi-account"></i> Calvin Carlo</small> -->
-                        <small class="text-light date"><i class="mdi mdi-calendar-check"></i> 13th August, 2019</small>
+                        <small class="text-light date"><i class="mdi mdi-calendar-check"></i> {{ this.dateFormat(post.created_at)}}</small>
                     </div>
                 </div>
                 <!--end col-->

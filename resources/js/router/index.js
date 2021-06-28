@@ -54,6 +54,9 @@ import AdminPayments from '../components/pages/Admin/Payments'
 import AdminMediations from '../components/pages/Admin/Mediations'
 import AdminPaymentContract from '../components/pages/Admin/PaymentContract'
 
+// Blog
+import Blog from '../components/pages/Blog'
+
 // Info
 import Aboutus from '../components/pages/Home/Aboutus'
 // Soporte
@@ -107,17 +110,21 @@ const routes = [
                 component: INDEX_NEW
             },
             {
-                path: '/Aboutus',
+                path: '/quienes-somos',
                 component: Aboutus
             },
             {
-                path: '/allCategories',
+                path: '/todas-categorias',
                 component: AllCategories
             },
             {
-                path: '/aboutCategory/:category',
+                path: '/acerca-categoria/:category',
                 component: AboutCategory
             },
+            {
+                path: '/blog',
+                component: Blog
+            }
         ]
     },
     {

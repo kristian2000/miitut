@@ -94,6 +94,7 @@ class ContractNotification extends Notification
         }
 
         return [
+            'redirect' => 'account-contracts',
             'contract' => $this->contract->id,
             'title' => 'Notificacion de contrato',
             'description' => $desc,

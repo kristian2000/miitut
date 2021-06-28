@@ -1,4 +1,5 @@
 <script>
+import Axios from 'axios';
 import {
     SearchIcon,
     MapPinIcon
@@ -8,16 +9,25 @@ export default {
     props: ['categorySelected', 'disabled'],
     data(){
         return {
-            // category: '',
-            address: ''
+            address: '',
+            categorySelect: null,
+            subcategory: ''
         }
     },
     components: {
         SearchIcon,
         MapPinIcon
     },
-    // async created(){
-    //     },
+    created(){
+        if (this.categorySelected){
+            this.categorySelect = this.$store.state.categories
+                    .find(c => c.name === this.categorySelected?.id);
+
+            return;
+        }
+
+        this.categorySelect = this.$store.state.categories[0];
+    },
     computed: {
         categories(){
             return this.$store.state.categories
@@ -27,15 +37,17 @@ export default {
                 }));
         },
         category(){
-            if (this.categorySelected){
-                return this.$store.state.categories
-                    .find(c => c.name === this.categorySelected.id)
-            }
-        
-            // Seleccionar el primero
-            let OneCategory = this.$store.state.categories[0];
-            console.log('categoriasss', OneCategory)
-            return OneCategory      
+            return this.$store.state.categories
+                    .find(c => c.name === this.categorySelect?.id)
+            
+        },
+        subcategories(){
+           
+            return this.categorySelect ? this.categorySelect.subcategories.map( sub => ({
+                value: sub.id,
+                text: sub.label
+            })) : [];
+   
         }
     },
     methods: {
@@ -45,7 +57,8 @@ export default {
                 params: {
                     type: 'quickSearch',
                     address: this.address,
-                    category: this.category
+                    category: this.categorySelect,
+                    subcategory: this.subcategory
                 }
                 
             })
@@ -91,13 +104,22 @@ export default {
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Categorias</label>
+                        <label>Servicios</label>
+
                         <b-form-select 
                             class="input"
-                            v-model="category" 
                             :options="categories" 
+                            v-model="categorySelect"
                             :disabled="disabled"
                             required
+                        />
+                    </div>
+                        <div class="form-group">
+                        <label>Sub-Servicios</label>
+                        <b-form-select 
+                            class="input"
+                            v-model="subcategory" 
+                            :options="subcategories" 
                         />
                     </div>
                 </div>

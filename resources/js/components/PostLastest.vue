@@ -32,5 +32,12 @@ export default {
     >
         <Post :post="post"/>
     </div>
+    <div v-if="!docs.length" class="col-12">
+        <div class="text-center d-flex justify-content-center">
+            <span class="text-muted">
+                Sin Publicaciones
+            </span>
+        </div>
+    </div>
 </div>
 </template>

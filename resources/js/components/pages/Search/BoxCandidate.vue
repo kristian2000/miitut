@@ -36,13 +36,17 @@ export default {
     >
         <div class="card-body">
             <ul class="list-unstyled align-items-center">
-                <li class="list-inline-item">
+                <!-- Esta si es Premium -->
+                <li 
+                    class="list-inline-item"
+                    v-if="Number(categoryUser.user.subscriptions.length)"
+                >
                     <span class="badge badge-pill badge-danger">
                         Destacado
                     </span
                     >
                 </li>
-
+                <!-- Este si esta verificado -->
                 <li 
                     class="list-inline-item"
                     v-if="Number(categoryUser.user.profile_check)"

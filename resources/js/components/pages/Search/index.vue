@@ -36,7 +36,7 @@ export default {
             // Form
             form: {
                 category: '',
-                subCategory: '',
+                subcategory: '',
                 localization: '',
                 score: 1,
                 yearExperience: 0,
@@ -107,8 +107,11 @@ export default {
 
         if (this.$route.params.type === 'quickSearch'){
             this.form.category = this.$route.params.category;
+            this.form.subcategory = this.$route.params.subcategory;
             this.locationQuery = this.$route.params.address;
             this.form.radius = 30;
+
+            console.log('quickSearch', this.$route.params)
 
            // Buscar la lat, lng con la direccion
            await this.geolocalizationAddress();
@@ -127,7 +130,7 @@ export default {
         subCategories(){
             return this.form.category.subcategories?.map( subCategory => ({
                 text: subCategory.label,
-                value: subCategory
+                value: subCategory.id
             })) ?? []
         },
         centerMap: {
@@ -171,13 +174,17 @@ export default {
                     lng: this.addressSearch.lon
                 })
 
-            console.log('search', formData)
+            // console.log('search', formData)
+            // console.log('submit', form)
 
             try{
                 const response = await this.callApi('post', 'app/categoriesUser/getCategoriesUserWork', formData)
 
                 if (response.status === 200){
-                    let categoriesUserWork = response.data.users
+                    let usersNormal = response.data.users.normal ?? [];
+                    let usersPremium = response.data.users.premium ?? [];
+
+                    let categoriesUserWork = [...usersPremium, ...usersNormal];
 
                     let markers = categoriesUserWork.map(categoryUser => ({
                         id: categoryUser.id,
@@ -255,15 +262,15 @@ export default {
                                         required
                                     ></b-form-select>
                                 </div>
-                                <!-- <div class="col-12 item">
-                                    <h6 class="font-weight-bold">Sub-Categoría</h6>
+                                <div class="col-12 item">
+                                    <h6 class="font-weight-bold">Sub-Servicio</h6>
                                     <b-form-select
                                         id="input-3"
-                                        v-model="form.subCategory"
+                                        v-model="form.subcategory"
                                         :options="subCategories"
                                         required
                                     ></b-form-select>
-                                </div> -->
+                                </div>
                                 <div class="col-12 item">
                                     <h6 class="font-weight-bold">Ubicación</h6>
                                     <div class="d-flex ">

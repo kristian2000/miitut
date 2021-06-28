@@ -10,7 +10,7 @@ class BlogController extends Controller
 {
 
     function index(){
-        $posts = Blog::all()->sortByDesc('created');
+        $posts =  Blog::orderBy("created_at", 'desc')->get();
 
         return response()->json([
             "msg" => "Todas la noticias",

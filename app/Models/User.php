@@ -79,6 +79,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'isPremium' => 'boolean'
     ];
 
     //Social Profile Relacion
@@ -127,5 +128,17 @@ class User extends Authenticatable
 
     public function account(){
         return $this->hasOne(BankAccount::class, 'user_id');
+    }
+
+    public function isPremium(){
+        return $this->whereHas('subscriptions')->get;
+            
+    }
+
+    public function subscriptions()
+    {
+       // foreign key is client_id
+        return $this->hasMany(Subscription::class, $this->getForeignKey())
+            ->where('stripe_status', 'active');
     }
 }

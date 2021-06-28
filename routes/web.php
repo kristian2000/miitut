@@ -42,6 +42,7 @@ Route::post('/app/auth/sendResetPassword', [AuthController::class, 'sendResetPas
 Route::post('/app/auth/resetPassword', [AuthController::class, 'resetPassword']);
 
 // Users
+Route::get('/app/users/isPremium', [UserController::class, 'isPremium']);
 Route::post('/app/users/updateProfile', [UserController::class, 'updateProfile']);
 Route::post('/app/users/completeProfile', [UserController::class, 'completeProfile']);
 Route::post('/app/users/updateAvatar', [UserController::class, 'updateAvatar']);

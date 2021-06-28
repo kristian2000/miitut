@@ -162,7 +162,9 @@ export default {
 
             if (response.status === 200){
                 this.docAccount.doc = response.data.account;
-                console.log('docAccount', response)
+                // console.log('docAccount', response)
+                this.makeNotice('success', 'Info', 'Se Actualizo tu cuenta bancaria exitosamente');
+                this.$bvModal.hide('modalAccount');
             }
 
             this.docAccount.loading = false;
@@ -175,8 +177,23 @@ export default {
             // Listar metodos de pago, si no exite crear
             this.$bvModal.show('modalPaymentMethods');
         },
-        async hidePaymentMethods(){
+        async updateProfile(form){
+            try{
+                const response = await this.callApi('post', 'app/users/updateProfile', form)
+                if (response.status === 200){
+                    let user = response.data.user;
+                    this.$store.commit('setUpdateUser', user)
+                    
+                    this.makeNotice('success', 'Info', 'Actualizacion Exitosa')
+                    this.$bvModal.hide('modalEdit')
+                    
+                }
+                console.log('responseSubmit', response)
 
+            }catch(error){
+                this.makeNotice('danger', 'Ocurrio un Error !', 'Se presento un problema al enviar tu solicitud')
+                console.log('submitError', error)
+            }
         }
 
     }
@@ -449,6 +466,7 @@ export default {
                 <div>
                     <FormProfile
                         :user="user"
+                        :submit="updateProfile"
                     />
                 </div>
             </b-modal>

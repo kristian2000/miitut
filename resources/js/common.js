@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
     data(){
@@ -28,8 +29,8 @@ export default {
                 case 'dateStart': return 'Fecha Inicial';
                 case 'dateEnd': return 'Fecha Final';
                 case 'startTime': return 'Hora Inicial';
-                case 'daysSelected': return 'Seleccion de dias';
-                case 'nameOfBeneficiary': return 'Nombre del Beneficiario';
+                case 'daysselected': return 'Selección de dias';
+                case 'nameofbeneficiary': return 'Nombre del Beneficiario';
                 case 'ccc': return 'Numero de Cuenta';
                 case 'password': return 'Contraseña';
                 case 'message': return "Mensaje";
@@ -161,7 +162,25 @@ export default {
             }else {
                 this.$router.push('/')
             }
-        }
+        },
+        dateFormat(date){
+            return moment(date).format('DD/MM/YYYY')
+        },
+        avatarDefault(img){
+            return img ? img : '/images/avatarDefault.jpg';
+        },
+        formatStringEmailPhones(text){
+            let expReg_email = new RegExp("^[^@]+@[^@]+\.[a-zA-Z]{2,}$");
+            let expReg_phone = new RegExp('[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$');
 
+            if (expReg_email.test(text) || expReg_phone.test(text)){
+                this.makeNotice('danger', 'Accion Prohibida', 'Está prohibido el envío de email y teléfonos en la plataforma.');
+
+                return true;
+            }
+
+
+            return false;
+        }
     }
 }

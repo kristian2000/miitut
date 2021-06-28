@@ -103,6 +103,9 @@ export default {
             }
         },
         async payContract(result, info){
+            if (this.loading){
+                return ;
+            }
             // Contrato Ocasional el pago es directo
             let form = {
                 token: result,
@@ -114,7 +117,7 @@ export default {
             }
 
             this.loading = true;
-            const response = await this.callApi('post', `app/payment/contract/${this.currentContract.type_contract}`, form);
+            const response = await this.callApi('post', `/app/payment/contract/${this.currentContract.type_contract}`, form);
             console.log('responesApi', response)
 
             if (response.status === 200){
@@ -178,7 +181,7 @@ export default {
             <div class="border-bottom pb-4">
                 <div class="row" v-for="contract in contracts" :key="contract.id">
 
-                    <div class="col-12 border shadow caja">
+                    <div class="col-12 border shadow caja mb-4">
 
                         <div class="border p-3">
                             <div class="d-flex align-items-center">
@@ -242,9 +245,9 @@ export default {
                                                     <div>
                                                         <img 
                                                             :src="$store.state.user.userType === 'help' ?
-                                                                contract.category_user.user.avatar
+                                                                avatarDefault(contract.category_user.user.avatar)
                                                                 :
-                                                                contract.user.avatar
+                                                                avatarDefault(contract.user.avatar)
                                                             "  
                                                             alt="" 
                                                             width="80px"
@@ -277,14 +280,16 @@ export default {
                             <div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center mt-2">
-                            <button 
+                        <div class="d-flex justify-content-center mt-2">                     
+                            <b-button 
+                                pill 
                                 id="btn-modify-2" 
                                 class="text-white"
                                 @click="showContract(contract)"
-                            >
+                                variant="primary"
+                                >
                                 ver más
-                            </button>
+                            </b-button>
                         </div>
                     </div>
 
@@ -326,6 +331,7 @@ export default {
                     :onClose="()=>{this.$bvModal.hide('modalContract') }"
                     :payContractOccasional="this.payContract"
                     :payContractHabitual="this.payContract"
+                    :loading="this.loading"
                 />
                     <!-- :meditationCall="this.meditation" -->
             </b-modal>

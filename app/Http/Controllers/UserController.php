@@ -434,4 +434,12 @@ class UserController extends Controller
             'msg' => 'Envio de mensaje exitosamente'
         ]);
     }
+
+    public function isPremium(){
+        $user = Auth::user();
+
+        return response()->json([
+            'msg' => $user->isPremium()
+        ]);
+    }
 }

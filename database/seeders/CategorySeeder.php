@@ -58,7 +58,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'babySitter',
-                'label' => 'Niñeras/Cuidado de niños'
+                'label' => 'Cuidado de niños'
             ],
             [
                 'name' => 'tutoring',

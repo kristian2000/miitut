@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         async getConversations(){
-            console.log('getConversations')
+            // console.log('getConversations')
             // this.loading = true;
             const response = await this.callApi('get', `app/chats/getConversations`);
 
@@ -47,21 +47,29 @@ export default {
                 this.conversations = response.data.conversations;
                 // this.loading = false;
             }
-            console.log('conversation', response);
+            // console.log('conversation', response);
         },
         async openConversation(currentConversation){
             console.log('openConversation');
             this.currentConversation = currentConversation;
             // console.log('open Conversation', currentConversation);
+
+            this.updateMessages();
+
             this.$bvModal.show('modalConversation')
-
-            this.getMessages();
-
         },
+
         async closeConversation(){
+            clearInterval(this.refreshMessages);
             console.log('closeConversation')
         },
+        updateMessages(){
+            this.refreshMessages = setInterval(() => {
+                this.getMessages();
+            }, 1000)
+        },
         async getMessages(){
+            // console.log('getMessages')
             this.loadingMessages = true;
             const response = await this.callApi('get', `app/chats/messagesConversation/${this.currentConversation.id}`);
 
@@ -70,8 +78,8 @@ export default {
                 this.messagesConversation = response.data.messages;
 
             // Mover el scroll al ultimo mensaje
-                this.scrollBoxMessagesTopEnd();
-                console.log('messagesConversation', response.data.messages);
+                this.scrollBoxMessagesTopEnd(); 
+                // console.log('messagesConversation', response.data.messages);
             }
         },
         async sendMessage(){
@@ -81,6 +89,11 @@ export default {
 
             this.loadingSendMessage = true;
             console.log('sendMessage');
+
+            if (this.formatStringEmailPhones(form.message)){
+                return ;
+
+            }
 
             let form = {
                 to: this.currentConversation.from_id === this.$store.state.user.id ? 
@@ -109,11 +122,11 @@ export default {
         scrollBoxMessagesTopEnd(){
             Vue.nextTick()
                 .then(()=>{
-                    this.$refs.boxMessages.scrollTop = this.$refs.boxMessages.scrollHeight;
+                    let scrollHeight = this.$refs.boxMessages.scrollHeight;
+                    if (scrollHeight){
+                        this.$refs.boxMessages.scrollTop = this.$refs.boxMessages?.scrollHeight;
+                    }
                 })
-        },
-        avatarDefault(img){
-            return img ? img : '/images/avatarDefault.jpg';
         }
     }
 }
@@ -182,10 +195,11 @@ export default {
 
     <!-- Modal Conversation Start -->
         <div>
-            <b-modal 
+            <b-modal
+                ref="modal" 
                 id="modalConversation" 
                 hide-footer 
-                title="Conversacion"
+                title="Conversación"
                 @hidden="closeConversation"
             >
                 <div ref="box-conversation">
@@ -194,9 +208,9 @@ export default {
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="">
                                     <img :src="userType === 'work' ? 
-                                            currentConversation.user_help.avatar 
+                                            avatarDefault(currentConversation.user_help.avatar)
                                             : 
-                                            currentConversation.user_work.avatar"
+                                            avatarDefault(currentConversation.user_work.avatar)"
                                         class="rounded-circle shadow d-block mr-2" 
                                         width="50px" 
                                         height="50px"
@@ -217,7 +231,7 @@ export default {
                             </div>
                         </div>
                    </div>
-                   <div v-if="!loadingMessages">
+                   <div v-if="true">
                        <div class="box-messages" style="height:300px" ref="boxMessages">
                            <div v-for="message in messagesConversation" :key="message.id">
                                <div :class="`message ${$store.state.user.id === message.user_id ? 

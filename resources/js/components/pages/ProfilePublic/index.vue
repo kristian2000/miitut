@@ -141,6 +141,11 @@ export default {
             }
             console.log('sendMessage', form)
 
+           if (this.formatStringEmailPhones(form.message)){
+                return ;
+
+            }
+
             const response = await this.callApi('post', '/app/chats/sendMessage', form);
             console.log('responseAxios', response)
             if (response.status === 200){
@@ -185,8 +190,10 @@ export default {
     <section
       class="bg-half-260 d-table w-100"
       style="
-        background: url('/images/Calendario.png'); 
-        background-size: cover;"
+        background: url('/images/Calendario.png') no-repeat; 
+        background-size: cover;
+        
+        "
     >
       <div class="bg-overlay"></div>
     </section>
@@ -198,10 +205,10 @@ export default {
       <div class="container">
         <div class="row">
           <div class="col-lg-4 col-md-5 col-12">
-            <div class="card job-profile shadow border-0 position-absolute">
+            <div class="card job-profile shadow border-0">
               <div class="text-center py-5 border-bottom rounded-top">
                 <img
-                  src="/images/client/05.jpg"
+                  :src="avatarDefault(categoryUser.user.avatar)"
                   class="avatar avatar-medium mx-auto rounded-circle shadow d-block"
                   alt=""
                 />
@@ -644,6 +651,13 @@ export default {
     @media (min-width: 768px) and (max-width: 1023px){
       .job-profile {
         top: -450px;
+      }
+    }
+
+    @media (max-width: 767px){
+      .bg-home, .bg-half-170, .bg-half-260, .main-slider .slides .bg-slider, .bg-marketing, .swiper-slider-hero .swiper-container .swiper-slide {
+          padding: 100px 0;
+          height: auto;
       }
     }
 

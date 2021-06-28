@@ -18,11 +18,11 @@ export default {
             subcategoriesSelected: [],
             subcategories: [],
             form: {
-                title: 'Ofrezco servicio de limpieza',
-                description: 'muy buen servicio',
-                price: 1,
+                title: '',
+                description: '',
+                price: 10,
                 yearExperience: 0,
-                descriptionExperience: 'Ps cocino rico'
+                descriptionExperience: ''
             },
             sheduleData: []
         }

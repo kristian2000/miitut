@@ -9,7 +9,7 @@ export default {
     props: [
         'user',
         'title',
-        'forceUpdate'
+        'submit'
     ],
     data(){
         return {
@@ -74,7 +74,7 @@ export default {
                 const formData = new FormData();
                 formData.append('avatar', image);
 
-                const res = await this.callApi('post', 'app/users/updateAvatar', formData);
+                const res = await this.callApi('post', '/app/users/updateAvatar', formData);
 
                 if (res.status === 200){
                     console.log(res);
@@ -123,32 +123,15 @@ export default {
                 return;
             }
 
-            this.submit();
 
-        },
-        async submit(){
-            const form = {
+            const formFormat = {
                 ...this.form,
                 birthdate: this.form.birthdate.date
             }
 
-            console.log('formSubmit', form)
+            console.log('formSubmit', formFormat)
 
-            try{
-                const response = await this.callApi('post', 'app/users/updateProfile', form)
-                if (response.status === 200){
-                    this.$store.commit('setUpdateUser', response.data.user)
-                    this.$router.push('/');
-                    this.makeNotice('success', 'Info', 'Actualizacion Exitosa')
-                }
-                console.log('responseSubmit', response)
-
-            }catch(error){
-                this.makeNotice('danger', 'Ocurrio un Error !', 'Se presento un problema al enviar tu solicitud')
-                console.log('submitError', error)
-            }
-
-
+            this.submit(formFormat);
         },
         changeValuesAddress(data){
             this.form.address = data.address;
@@ -195,19 +178,34 @@ export default {
             </div>
 
             <!-- Start Genero -->
-            <!-- <div class="col-12">
-                <div class="row justify-content-center">
-                    <div class="col-8">
-                        <div class="d-flex justify-content-between">
-                            <label for="" class="text-muted">Genero </label>
-                            <b-form-radio v-model="gender" name="some-radios" value="woman">Mujer</b-form-radio>
-                            <b-form-radio v-model="gender" name="some-radios" value="man">Hombre</b-form-radio>
-                        </div>
-
+            <div class="col-12">
+                <div class="form-group">
+                    <label> Género </label>
+                    <div>
+                        <b-input-group class="row d-flex justify-content-around">
+                            <div class="">
+                             <b-form-radio 
+                                v-model="form.gender" 
+                                name="some-radios" 
+                                value="woman"
+                                >
+                                    Mujer
+                                </b-form-radio>
+                            </div>
+                            <div class="">
+                                <b-form-radio 
+                                    v-model="form.gender" 
+                                    name="some-radios" 
+                                    value="man"
+                                    >
+                                    Hombre
+                                </b-form-radio>
+                            </div>
+                        </b-input-group>
                     </div>
                 </div>
                 <hr>
-            </div> -->
+            </div>
             <!-- END Genero -->
 
             <!-- Start Name -->

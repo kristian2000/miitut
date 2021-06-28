@@ -236,7 +236,15 @@ export default {
                     <div class="col-lg-12">
                         <!-- <h2 class="font-weight-bold">Hazte Premium</h2> -->
                         <p class="text-muted mx-auto">
-                            Ve a tu<span class="textColor">Perfil</span> y hazte premium
+                            Ve a tu 
+                            <span 
+                                class="textColor"
+                                style="cursor:pointer"
+                                 @click="$router.push(`/account-profile`)"  
+                                >
+                                    Perfil 
+                                </span> 
+                            y hazte premium
                         </p>
                     </div>
                 </div>

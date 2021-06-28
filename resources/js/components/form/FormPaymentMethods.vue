@@ -18,7 +18,7 @@ export default {
     },
     methods: {
         async getPaymentMethods(){
-            const response = await this.callApi('get', `app/users/paymentMethods`);
+            const response = await this.callApi('get', `/app/users/paymentMethods`);
                 console.log('methodsPayment', response.data)
             if (response.status === 200){
                 this.loading = false;
@@ -29,7 +29,7 @@ export default {
         async proccessTokenHandler(result){
             console.log('result', result)
             this.loading = true;
-            const response = await this.callApi('post', `app/users/paymentMethods`, {
+            const response = await this.callApi('post', `/app/users/paymentMethods`, {
                 paymentMethod : result
             });
 
@@ -43,7 +43,7 @@ export default {
         async destroyPaymentMethod(paymentMethodID){
             console.log('Destroy', paymentMethodID)
             this.loading = true;
-            const response = await this.callApi('delete', `app/users/paymentMethods`, {
+            const response = await this.callApi('delete', `/app/users/paymentMethods`, {
                 id : paymentMethodID
             });
 

@@ -204,6 +204,11 @@ export default {
                 // console.log('value', field, value
             })
 
+            if (this.formatStringEmailPhones(form.message)){
+                return ;
+
+            }
+
             // Compruebo los errors y doy mensaje
             if (errorsExist){
                 return this.makeNoticeListErrors(errors);

@@ -31,31 +31,7 @@ export default {
     PostLastest
   },
   created(){
-        // const user = this.$store.state.user;
-        // console.log('faseRegistro', user.fase_registry)
-        // if (user){
-        //     if (user.userType === 'admin'){
-        //         this.$router.push('/admin-users');
-        //     }else {
-        //         switch(user.fase_registry){
-        //             case 'registro': {
-        //                  this.$router.push('/completeProfile');
-        //             } break;
-        //             case 'completeProfileWork': {
-        //                 this.$router.push('/completeProfileWork');
-        //             } break;
-        //             case 'accountRetirement': {
-        //                 this.$router.push('/accountRetirement');
-        //             } break;
-        //             case 'dni': {
-        //                 this.$router.push('/dni');
-        //             } break;
-        //             default: {
-        //                 this.$router.push('/account-profile');
-        //             }
-        //         }
-        //     }
-        // }
+    
   },
   computed: {
       categories(){
@@ -129,43 +105,43 @@ export default {
 
         <div class="container-fluid categoriesGroup" style="max-width: 1200px">
             <div class="d-flex justify-content-center flex-wrap">
-                <div class="m-2" @click="$router.push(`/aboutCategory/babySitter`)">
+                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodeniños`)">
                     <img src="images/categories/babySitter.jpg" width="320px" height="220px" />
                     <h3 class="textColor mt-2 font-weight-bold">Niñera</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2" @click="$router.push(`/aboutCategory/eldercare`)">
+                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodemayores`)">
                     <img src="images/categories/eldercare.jpg" width="320px" height="220px" />
                     <h3 class="textColor mt-2 font-weight-bold">Cuidado de Mayores</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2" @click="$router.push(`/aboutCategory/petcare`)">
+                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodemascotas`)">
                     <img src="images/categories/petcare.jpg" width="320px" height="220px" />
                     <h3 class="textColor mt-2 font-weight-bold">Cuidado de Mascotas</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2" @click="$router.push(`/aboutCategory/housekeeping`)">
+                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/serviciosdelimpieza`)">
                         <img src="images/categories/housekeeping.jpg" width="320" height="220px" />
                         <h3 class="textColor mt-2 font-weight-bold">Servicio de Limpieza</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <!-- <div class="m-2" @click="$router.push(`/aboutCategory/maintenance`)">
+                <!-- <div class="m-2" @click="$router.push(`/acerca-categoria/maintenance`)">
                         <img src="images/categories/maintenance.jpg" width="320px" height="220px" />
                         <h3 class="mt-2 font-weight-bold">Mantenimiento</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div> -->
 
-                <div class="m-2" @click="$router.push(`/aboutCategory/parasanitary`)">
+                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/parasanitaria`)">
                         <img src="images/categories/parasanitary.jpg" width="320px" height="220px" />
                         <h3 class="textColor mt-2 font-weight-bold">Parasanitario</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div>
 
-                <div class="m-2" @click="$router.push(`/aboutCategory/tutoring`)">
+                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/profesoresparticulares`)">
                     <img src="images/categories/tutoring.jpg" width="320px" height="220px" />
                     <h3 class="textColor mt-2 font-weight-bold">Profesores Particulares</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
@@ -176,7 +152,7 @@ export default {
           <div class="col-lg-12 text-center col-md-4 mt-4 pt-2">
               <div 
                 class="btn btn-primary"
-                @click="$router.push(`/allCategories`)"  
+                @click="$router.push(`/todas-categorias`)"  
               >
                   Ver Mas
               </div>
@@ -342,4 +318,14 @@ export default {
       min-height: 150px;
       background: #eee;
     }
+
+    .context-category {
+      cursor: pointer;
+    }
+
+    .context-category:hover {
+      opacity: 0.6;
+    }
+
+  
 </style>

@@ -15,6 +15,12 @@ export default {
   computed: {
       categories(){
           return this.$store.state.categories;
+      },
+      categoryInfo(){
+        const category = categories
+        .filter(c => c.label.replaceAll(' ', '').toLowerCase() === this.$route.params.category)[0]
+
+        return category;
       }
   },
   components: {
@@ -30,9 +36,11 @@ export default {
     init(){
       window.scroll(0, 0);
       const category = categories
-        .filter(c => c.id === this.$route.params.category)[0]
+        .filter(c => c.label.replaceAll(' ', '').toLowerCase() === this.$route.params.category)[0]
   
       this.infoCategory = category;
+
+      console.log('category', category)
     }
   }
 
@@ -43,8 +51,8 @@ export default {
   <div>
     <!-- Hero Start -->
     <section 
-      class="bg-half-170 d-table w-100 pb-4"
-      style="background: url('/images/travel/bg.jpg') center center"
+      class="bg-half-170 d-table w-100 pb-4 bg-cover"
+      :style="`background-image: url(${categoryInfo.pathImgHeader});`"
     >
     <div class="bg-overlay"></div>
       <div class="container">
@@ -52,13 +60,13 @@ export default {
           <div class="col-lg-12 text-center">
             <div class="page-next-level">
               <h4 class="title text-white">
-                {{ infoCategory.label }}
+                {{ categoryInfo.label }}
               </h4>
 
               <div class="mt-3 d-flex justify-content-center">
                   <div class="col-md-6" v-if="categories.length">
                       <QuickSearch  
-                        :categorySelected="infoCategory"
+                        :categorySelected="categoryInfo"
                         :disabled="true"
                       />
                   </div>
@@ -112,7 +120,7 @@ export default {
           <div class="col-lg-5 col-md-5 mt-4 pt-2 mt-sm-0 pt-sm-0">
             <div class="position-relative">
               <img
-                :src="`/images/categories/${this.$route.params.category}.jpg`"
+                :src="`/images/categories/${categoryInfo.id}.jpg`"
                 class="rounded img-fluid mx-auto d-block"
                 alt=""
               />
@@ -122,8 +130,8 @@ export default {
 
           <div class="col-lg-7 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
             <div class="section-title ml-lg-4">
-              <h4 class="mb-4"> {{ infoCategory.desc.title }} </h4>
-              <p class="text-muted">{{ infoCategory.desc.text }}</p>
+              <h4 class="mb-4"> {{ categoryInfo.desc.title }} </h4>
+              <p class="text-muted">{{ categoryInfo.desc.text }}</p>
             </div>
           </div>
           <!--end col-->
@@ -139,5 +147,8 @@ export default {
 <style>
 .modal-content {
   background-color: transparent;
+}
+.bg-cover {
+  background-size: cover;
 }
 </style>

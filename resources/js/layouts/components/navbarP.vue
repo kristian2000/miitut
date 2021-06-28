@@ -159,7 +159,7 @@ export default {
                     </li>
 
                     <li>
-                        <router-link to="/aboutus" class="side-nav-link-reftext-white">Quienes Somos</router-link>
+                        <router-link to="/quienes-somos" class="side-nav-link-reftext-white">Quienes Somos</router-link>
                     </li>
 
 
@@ -172,12 +172,16 @@ export default {
                             </li> -->
 
                             <li v-for="category in categories" :key="category.id">
-                                <router-link :to="`/aboutCategory/${category.name}`" class="side-nav-link-ref">
+                                <router-link :to="`/acerca-categoria/${category.label.replaceAll(' ', '').toLowerCase()}`" class="side-nav-link-ref">
                                     {{ category.label }}
                                 </router-link>
                             </li>   
 
                         </ul>
+                    </li>
+
+                    <li>
+                        <router-link to="/blog" class="side-nav-link-reftext-white">Blog</router-link>
                     </li>
 
                     <li v-if="!isAuth">

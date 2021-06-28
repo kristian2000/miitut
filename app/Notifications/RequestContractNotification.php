@@ -73,7 +73,7 @@ class RequestContractNotification extends Notification
         return [
             'contract' => $this->contract->id,
             'title' => $title,
-            "action" => $this->action === 'send' ? 
+            "redirect" => $this->action === 'send' ? 
                 "account-ads" : "account-offers",
             'description' => $description,
             'time' => Carbon::now()->diffForHumans()

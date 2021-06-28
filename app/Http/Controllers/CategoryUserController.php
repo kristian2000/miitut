@@ -166,6 +166,7 @@ class CategoryUserController extends Controller
             'lat' => 'required|numeric',
             'lng' => 'required|numeric',
             'category' => 'numeric',
+            "subcategory" => 'numeric',
             'yearExperience' => 'numeric',
             'priceMin' => 'numeric',
             'priceMax' => 'numeric',
@@ -178,12 +179,17 @@ class CategoryUserController extends Controller
 
         // Filtros
         $category = $request['category'];
+        $subcategory = $request['subcategory'];
         $yearExperience = $request['yearExperience'];
         $priceMin = $request['priceMin'];
         $priceMax = $request['priceMax'];
 
+        $selectColumn = "
+            id, status_id, category_id, user_id,
+            yearExperience, price, lat, lng, sub_categories
+        ";
 
-        $queryLocalization = "*,
+        $queryLocalization = $selectColumn. ",
                 (6371 * acos( cos( radians($lat) )
                 * cos( radians( lat ) )
                 * cos( radians( lng )
@@ -193,13 +199,22 @@ class CategoryUserController extends Controller
                 As distance";
 
         $usersWork = CategoryUser::query()
-            ->where('status_id', Status::firstWhere('name', 'active')->id)
-            // ->selectRaw("$queryLocalization < ?", [$radius])
             ->selectRaw($queryLocalization)
+            ->where('status_id', Status::firstWhere('name', 'active')->id)
             ->having('distance', '<', $radius)
-            ->with('user', 'category')
+            ->with([
+                'user' => function($q){
+                    return $q->select(['id', 'name', 'profile_check'])
+                             ->with(['subscriptions:id,user_id,stripe_status']);
+                }, 
+                'category:id,label',
+                
+            ])
             ->when($category, function($query) use ($category){
                 return $query->where('category_id', $category);
+            })
+            ->when($subcategory, function($query) use ($subcategory){
+                return $query->whereJsonContains('sub_categories',['code' => intval($subcategory)]);
             })
             ->when($yearExperience, function($query) use ($yearExperience){
                 return $query->where('yearExperience', '>=', $yearExperience);
@@ -213,8 +228,30 @@ class CategoryUserController extends Controller
             ->orderBy("distance")
             ->get();
 
+        // Ordenar Premium Arriba
+        // $sorted = $usersWork->sortBy('user->subscriptions', 'ASC');
+
+        // $t = $usersWork->transform(function($item, $key){
+        //     return [
+        //         'uid' => $item->id,
+        //         'user' => [
+        //             'id' => $item->user->id,
+        //             'subscriptions' => $item->user->subscriptions
+        //         ]
+        //         // 'subscriptions' => count($item->user->subscriptions)
+        //     ];
+        // });
+
+        $group = $usersWork->groupBy(function($item, $key){  
+            return count($item->user->subscriptions) == 0 ? 'normal' : 'premium';
+        });
+
+
+
         return response()->json([
-            'users' => $usersWork,
+            'count_result' => count($usersWork),
+
+            'users' => $group,
             'lat' => $lat,
             'lng' => $lng,
             'radius' => $radius

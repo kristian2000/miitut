@@ -227,7 +227,7 @@ export default {
             <div >
                 <b-modal
                     id="modalAddAd"
-                    title="Anuncio de contrato"
+                    title="Anuncio del Servicio Requerido"
                     scrollable
                     hide-footer
                     size="lg"

@@ -25,7 +25,8 @@ export default {
         'payContractOccasional',
         'payContractHabitual',
         'renovarCall',
-        'meditationCall'
+        'meditationCall',
+        'loading'
     ],
     components: {
         BtnDesp,
@@ -192,7 +193,16 @@ export default {
                             <div class="text-center">
                                 <div>
                                     <FormPaymentMethods>
-                                        <b-button @click="proccessPay" >Continuar</b-button>
+                                        <b-button @click="proccessPay" >
+                                            Continuar
+
+                                            <b-spinner 
+                                                v-if="loading"
+                                                type="grow" 
+                                                label="Spinning" 
+                                                small
+                                            />
+                                        </b-button>
                                     </FormPaymentMethods>
                                 </div>
                             </div>

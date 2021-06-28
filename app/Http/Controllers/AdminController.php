@@ -20,7 +20,7 @@ class AdminController extends Controller
     }
 
     public function getUsers(){
-        $users = User::all();
+        $users = User::orderBy("created_at", 'desc')->get();
 
         return response()->json($users);
     }
@@ -91,6 +91,10 @@ class AdminController extends Controller
 
     public function acceptDoc(DocumentId $doc){
         $statusAccept = Status::where('name', 'accept')->first();
+
+        $userDoc = User::find($doc->user_id);
+        $userDoc->profile_check = true;
+        $userDoc->save();
 
         $doc->status_id = $statusAccept->id;
         $doc->save();

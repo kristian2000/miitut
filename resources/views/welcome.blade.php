@@ -31,6 +31,5 @@
             @endif
         </div>
         <script src="{{asset('js/main.js')}}"></script>
-        <!-- <script src="https://js.stripe.com/v3/"></script> -->
     </body>
 </html>

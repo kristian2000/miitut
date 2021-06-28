@@ -3,7 +3,8 @@ import LayoutAdmin from '../../../layouts/LayoutAdmin'
 import { 
     MoreVerticalIcon,
     Edit3Icon,
-    Trash2Icon
+    Trash2Icon,
+    SearchIcon
  } from 'vue-feather-icons'
 
 export default {
@@ -20,7 +21,9 @@ export default {
             ],
             loading: false,
             currentUser: null,
-            date: { valid: false}
+            date: { valid: false},
+            searchUser: '',
+            selectedUserField: 'name'
         }
     },
     created(){
@@ -30,7 +33,16 @@ export default {
         LayoutAdmin,
         MoreVerticalIcon,
         Edit3Icon,
-        Trash2Icon
+        Trash2Icon,
+        SearchIcon
+    },
+    computed: {
+        listUsers(){
+            return this.users.filter(item => {
+                let field = item[`${this.selectedUserField}`].toLowerCase();
+                return field.includes(this.searchUser.toLowerCase());
+            })
+        }
     },
     methods: {
         async getUsers(){
@@ -39,7 +51,11 @@ export default {
             console.log(response)
 
             if (response.status === 200){
-                this.users = response.data;
+                let users = response.data;
+
+                this.users = users;
+                this.listUsers = users;
+
                 this.loading = false; 
             }
         },
@@ -77,6 +93,42 @@ export default {
 <template>
     <LayoutAdmin active="Usuarios">
         <div class="col-12 col-lg-8" v-if="!loading">
+            <div class="col-12 mb-2">
+                <div class="subcribe-form mt-4 pt-2">
+                    <div class="form-group mb-0">
+
+                    <div class="row d-flex align-items-center">
+                        <div class="col-8">
+                            <b-input
+                                id="url"
+                                v-model="searchUser"
+                                class="border bg-white rounded-lg"
+                                required
+                                :placeholder="`Escribe aqui el ${selectedUserField}`"
+                            />
+                        </div>
+                        <div class="col-4 mb-2">
+                            <label class="text-muted mb-0" >Buscar por:</label>
+                            <b-form-select
+                                style="max-width: 100px"
+                                v-model="selectedUserField" 
+                                size="sm" 
+                                :options="[
+                                    { value: 'name', text: 'Nombre'},
+                                    { value: 'email', text: 'Email'}
+                                ]" 
+                            />
+                        </div>
+                    </div>
+                    
+                    <!-- <b-button 
+                        class="btn btn-pills btn-primary"
+                    >
+                        <SearchIcon />
+                    </b-button> -->
+                    </div>
+                </div>
+            </div>
             <div class="text-center">
                 <div class="font-weight-bold mb-2">
                     Lista de Usuarios
@@ -88,7 +140,7 @@ export default {
                         hover 
                         outlined
                         small
-                        :items="users"
+                        :items="listUsers"
                         :fields="fields"
                         style="max-height: 350px"
                           
@@ -277,7 +329,7 @@ avatar: (...)
                 </b-form-group>
                 <!-- END Fecha de Nacimiento -->
 
-                <b-form-group
+                <!-- <b-form-group
                     id="dni"
                     label="DNI:"
                     label-for="dni"
@@ -290,7 +342,7 @@ avatar: (...)
                         placeholder="Enter DNI"
                         required
                     ></b-form-input>
-                </b-form-group>
+                </b-form-group> -->
 
                 <b-form-group
                     id="phone"
@@ -321,14 +373,14 @@ avatar: (...)
                 </b-form-group>
 
                 <div
-                    class="col-6 mb-0"
+                    class="col-12"
                 >
 
                     <b-form-group
                         id="country"
                         label="Pais:"
                         label-for="country"
-                        class="col-12"
+                        class="col-6"
                     >
                         <b-form-input
                             id="country"
@@ -343,7 +395,7 @@ avatar: (...)
                         id="state"
                         label="Estado:"
                         label-for="state"
-                        class="col-12"
+                        class="col-6"
                     >
                         <b-form-input
                             id="state"
@@ -361,7 +413,7 @@ avatar: (...)
                         id="latituded"
                         label="Latitud:"
                         label-for="coords"
-                        class="col-6"
+                        class="col-4"
                     >
                         <b-form-input
                             id="lat"
@@ -376,7 +428,7 @@ avatar: (...)
                         id="longituded"
                         label="Longitud:"
                         label-for="longituded"
-                        class="col-6"
+                        class="col-4"
                     >
                         <b-form-input
                             id="state"

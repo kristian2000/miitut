@@ -121,7 +121,9 @@ export default {
 
             if (response.status === 200){
 
-                this.docs = [ response.post ,...this.docs];
+                let newPost = response.data.blog;
+
+                this.docs = [ newPost ,...this.docs];
 
                 this.$bvModal.hide('modalDoc');
                 this.clean();

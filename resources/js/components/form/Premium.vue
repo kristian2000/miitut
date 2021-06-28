@@ -8,6 +8,7 @@ export default ({
             plans: [],
             loading: true,
             laodingPlans: false,
+            loadingProccess: false,
             selectedPlan: null,
             subscribe: false,
             subscriptions: []
@@ -55,6 +56,11 @@ export default ({
             this.selectedPlan = plan;
         },
         async subscribePlan(){
+            if (this.loadingProccess){
+                return;
+            }
+
+            this.loadingProccess = true;
             console.log('Subscribe', this.selectedPlan)
 
             const response = await this.callApi('post', `/app/memberships/subscription`, {
@@ -67,7 +73,8 @@ export default ({
                 this.showPlans();
 
             }
-            console.log(response)
+            // console.log(response)
+            this.loadingProccess = false;
         }
     }
 })
@@ -183,6 +190,13 @@ export default ({
                                 @click="(result)=> {this.subscribePlan()}"
                             >
                                 Siguiente
+
+                                <b-spinner 
+                                    v-if="loadingProccess"
+                                    type="grow" 
+                                    label="Spinning" 
+                                    small
+                                />
                             </b-button>
                         </div>
                     </div>

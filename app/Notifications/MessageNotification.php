@@ -57,9 +57,9 @@ class MessageNotification extends Notification
     public function toArray($notifiable)
     {
         return [
+            'redirect' => 'account-messages',
             'title' => "Tienes un Mensaje",
             'description' => $this->message->message,
-            "action" => "account-messages",
             "time" => Carbon::now()->diffForHumans()
         ];
     }
