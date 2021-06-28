@@ -90,7 +90,7 @@ export default {
             this.loadingSendMessage = true;
             console.log('sendMessage');
 
-            if (this.formatStringEmailPhones(form.message)){
+            if (this.formatStringEmailPhones(this.textMessage)){
                 return ;
 
             }
