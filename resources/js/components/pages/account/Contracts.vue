@@ -6,6 +6,7 @@ import FormActionContractAccept from '../../form/FormActionContractAccept';
 
 import CardStripe from '../../CardStripe';
 import FormPaymentMethods from '../../form/FormPaymentMethods'
+
 /**
  * Account-profile component
  */
@@ -14,7 +15,8 @@ export default {
         return {
             contracts: [],
             currentContract: null,
-            loading: false
+            loading: false,
+            itemsToDisplay: []
         }
     },
     components: {
@@ -32,6 +34,9 @@ export default {
         }
     },
     methods: {
+        displayItems(newDocs){
+            this.itemsToDisplay = newDocs;
+        },
         showContract(contract){
             console.log('currentContract', contract)
             this.currentContract = contract;
@@ -179,9 +184,10 @@ export default {
             </div>
 
             <div class="border-bottom pb-4">
-                <div class="row" v-for="contract in contracts" :key="contract.id">
-
-                    <div class="col-12 border shadow caja mb-4">
+                <div class="row contracts-container" 
+                    v-for="contract in itemsToDisplay" :key="contract.id"
+                >
+                    <div class="col-10 border shadow caja mb-4">
 
                         <div class="border p-3">
                             <div class="d-flex align-items-center">
@@ -294,6 +300,16 @@ export default {
                     </div>
 
                 </div>
+                <div 
+                    v-if="contracts.length"
+                    class="row d-flex justify-content-center"
+                >
+                   <pagination-custom 
+                        :items="contracts"
+                        :perPage="1"
+                        :handleChange="displayItems"
+                   />
+                </div>
 
             </div>
         </div>
@@ -370,8 +386,16 @@ export default {
 </template>
 
 <style scope>
-    /* .modal-dialog-scrollable .modal-body {
-        overflow-y: scroll;
-    } */
+    .contracts-container {
+        max-height: 650px; 
+        overflow: auto;
+    }
+
+    @media (min-width: 768px) {
+        .categorias-container {
+            max-height: 450px; 
+            overflow: auto;
+        }
+    }
 </style>
 

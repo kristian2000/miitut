@@ -17,6 +17,10 @@ import 'vuelayers/lib/style.css'
 
 import VueMoment from 'vue-moment'
 
+import PaginationCustom from "./components/PaginationCustom"
+
+Vue.component('pagination-custom', PaginationCustom)
+
 Vue.component('multiselect', Multiselect)
 
 Vue.use(VueMoment)

@@ -21,7 +21,8 @@ export default {
             docs: [],
             loading: false,
             currentAd: null,
-            action: ''
+            action: '',
+            itemsToDisplay: []
         }
     },
     components: {
@@ -47,6 +48,9 @@ export default {
         }
     },
     methods: {
+        displayItems(newDocs){
+            this.itemsToDisplay = newDocs;
+        },
         async getAdsContract(){
             const response = await this.callApi('get', `app/contracts/ads`);
 
@@ -123,81 +127,93 @@ export default {
                 </div>
             </div>
 
-            <div class="border-bottom" style="height: 450px; overflow:scroll">
+            <div class="ads-container border-bottom">
                 
-                <div class="row" v-for="ad in docs" :key="ad.id">
-                    <div class="col-12 border shadow caja">
-
-                        <div class="border p-3">
-                            <div class="d-flex justify-content-center">
-                                <div class="">
-                                    <h2 class="font-weight-bold">
-                                        Anuncio 
-                                        <!-- ({{ ad.status.label }}) -->
-                                        <span 
-                                            class="btn-icon"
-                                            v-if="ad"
-                                            @click="showRequests(ad)"
-                                        >
-                                            <span>
-                                                <ClipboardIcon />
-                                                <span style="position:relative">
-                                                    <b-badge 
-                                                        variant="dark"
-                                                        style="position: absolute; right: -2px; font-size: 10px;"
-                                                    >
-                                                        {{ ad.requests.length }}
-                                                    </b-badge>
+                <div class="row" v-for="ad in itemsToDisplay" :key="ad.id">
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="col-8 border shadow caja">
+                            <div class="border p-3">
+                                <div class="d-flex justify-content-center">
+                                    <div class="">
+                                        <h2 class="font-weight-bold">
+                                            Anuncio 
+                                            <!-- ({{ ad.status.label }}) -->
+                                            <span 
+                                                class="btn-icon"
+                                                v-if="ad"
+                                                @click="showRequests(ad)"
+                                            >
+                                                <span>
+                                                    <ClipboardIcon />
+                                                    <span style="position:relative">
+                                                        <b-badge 
+                                                            variant="dark"
+                                                            style="position: absolute; right: -2px; font-size: 10px;"
+                                                        >
+                                                            {{ ad.requests.length }}
+                                                        </b-badge>
+                                                    </span>
                                                 </span>
                                             </span>
-                                        </span>
-                                    </h2>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="d-flex justify-content-around align-items-center">
-                                    <div class="">
-                                        <div class="text-muted">
-                                            <span class="font-weight-bold"> Tipo Contrato: </span>
-                                            {{ ad.type_contract === "occasional" ? 'Ocacional' : 'Habitual' }}
-                                        </div>
-                                        <div class="text-muted">
-                                            <span class="font-weight-bold"> Categoria: </span>
-                                            {{ ad.category.label }}
-                                        </div>
-                                        <div class="text-muted">
-                                            <span class="font-weight-bold"> Creado: </span>
-                                            {{ new Date(ad.created_at).toISOString().slice(0, 10) }}
-                                        </div>
+                                        </h2>
                                     </div>
                                 </div>
+                                <div>
+                                    <div class="d-flex justify-content-around align-items-center">
+                                        <div class="">
+                                            <div class="text-muted">
+                                                <span class="font-weight-bold"> Tipo Contrato: </span>
+                                                {{ ad.type_contract === "occasional" ? 'Ocacional' : 'Habitual' }}
+                                            </div>
+                                            <div class="text-muted">
+                                                <span class="font-weight-bold"> Categoria: </span>
+                                                {{ ad.category.label }}
+                                            </div>
+                                            <div class="text-muted">
+                                                <span class="font-weight-bold"> Creado: </span>
+                                                {{ new Date(ad.created_at).toISOString().slice(0, 10) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <div class="d-flex justify-content-center mt-2">
+                                <div class="d-flex flew-column">
+                                    <!-- <div
+                                        class="mr-2"
+                                    >
+                                        <b-button variant="danger">
+                                            Borrar
+                                        </b-button>
+                                    </div> -->
+                                    <div 
+                                        class="d-flex justify-content-center" 
+                                        @click="showContract(ad)"
+                                    >
+                                        <b-button class="text-white mb-2">Ver más</b-button>
+                                    </div>
 
-                        <div class="d-flex justify-content-center mt-2">
-                            <div class="d-flex flew-column">
-                                <!-- <div
-                                    class="mr-2"
-                                >
-                                    <b-button variant="danger">
-                                        Borrar
-                                    </b-button>
-                                </div> -->
-                                <div 
-                                    class="d-flex justify-content-center" 
-                                    @click="showContract(ad)"
-                                >
-                                    <b-button class="text-white">Ver más</b-button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
  
             </div>
+
+            <!-- Pagination -->
+            <div class="col-12 mt-2 d-flex justify-content-center">
+                <pagination-custom 
+                    v-if="docs.length"
+                    :items="docs"
+                    :perPage="1"
+                    :handleChange="displayItems"
+                />
+            </div>
+            
             <!-- Start Btn Agregar -->
             <div class="col-12">
                 <div class="d-flex justify-content-center mt-4">
@@ -324,6 +340,19 @@ export default {
 
     .btn-icon {
         cursor: pointer;
+    }
+
+    .ads-container {
+        max-height: 650px; 
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    @media (min-width: 768px) {
+        .ads-container {
+            max-height: 450px; 
+            overflow-y: auto;
+        }
     }
 
 </style>

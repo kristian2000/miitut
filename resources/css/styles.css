@@ -15,3 +15,8 @@ body {
 .modal-dialog {
     background: white;
 }
+
+.btn-outline-success {
+    color: #6d48a4;
+    border-color: #6d48a4;
+}

@@ -4,12 +4,14 @@ import {
     MoreVerticalIcon,
     PlayIcon,
     PauseIcon,
-    PlusIcon
+    PlusIcon,
+    CheckIcon
 
 } from 'vue-feather-icons';
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
 import FormContractAd from '../../form/FormContractAd';
+import CardOffer from '../../Cards/CardOffer'
 
 /**
  * Account-profile component
@@ -26,9 +28,11 @@ export default {
         }
     },
     components: {
+        CheckIcon,
         LayoutAccount,
         PlusIcon,
-        FormContractAd
+        FormContractAd,
+        CardOffer
     },
     async created(){
         await this.getCategories();
@@ -108,9 +112,18 @@ export default {
                 </div>
             </div>
 
-            <div class="border-bottom" style="height: 450px; overflow:scroll">
+<!-- style="height: 450px; overflow:scroll" -->
+            <div class="border-bottom">
+                 <div class="row" v-for="doc in docs" :key="doc.id">
+                    <div class="col-lg-6 col-12 mb-4 pb-2">
+                        <CardOffer 
+                            :doc="doc"
+                            :onCall="showContract"
+                        />
+                    </div>
+                </div>
                 
-                <div class="row" v-for="doc in docs" :key="doc.id">
+                <!-- <div class="row" v-for="doc in docs" :key="doc.id">
                     <div class="col-12 border shadow caja">
 
                         <div class="border p-3">
@@ -178,7 +191,7 @@ export default {
 
                             </div>
                     </div>
-                </div>
+                </div> -->
  
             </div>
             <!-- Start Btn Agregar -->

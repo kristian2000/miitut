@@ -12,6 +12,8 @@ import {
     UserCheckIcon,
     ThumbsUpIcon,
 
+    ArrowRightIcon,
+
     StarIcon,
     BookmarkIcon,
     MapPinIcon,
@@ -21,6 +23,7 @@ import {
 import Score from '../../score.vue';
 // import Footer from '../../layouts/components/Footer'
 import BoxCandidate from './BoxCandidate'
+
 
 export default {
     data() {
@@ -61,10 +64,16 @@ export default {
 
             //loading,
             loadingCategoriesUser: false,
-            loadingSearchAddress: false
+            loadingSearchAddress: false,
+
+            //Pagination
+            page: 1,
+            perPage: 10
+
         }
     },
     components: {
+        ArrowRightIcon,
         Trash2Icon,
         SearchIcon,
         ChevronDownIcon,
@@ -146,9 +155,24 @@ export default {
         },
         user() {
             this.$store.state.user
+        },
+        displayedDocs(){
+            return this.paginate(this.categoriesUserWork);
         }
     },
     methods: {
+        paginate(docs){
+            let page = this.page;
+            let perPage = this.perPage;
+            let from = (page * perPage) - perPage;
+            let to = (page * perPage);
+
+            let newDocs =  [...docs].slice(from, to);
+
+
+            console.log('newDocs', newDocs)
+            return newDocs;
+        },  
         validate(){
             if (!this.addressSearch){
                 return this.makeNotice('danger', 'La ubicacion es requerida', 'Por favor escribe tu direccion, dale click en el icono de buscar y escoge una sugerencia de ubicacion')
@@ -424,7 +448,7 @@ export default {
                                 </div>
                         <div v-if="!this.loadingCategoriesUser">
                                 <div class="border shadow"
-                                    :style="`height: ${!showMap? 800 : 500}px; overflow:scroll; overflow-x:hidden; border-radius:15px;
+                                    :style="`height: ${!showMap? 750 : 450}px; overflow:scroll; overflow-x:hidden; border-radius:15px;
                                     cursor:pointer`"
                                 >
                                     <div 
@@ -434,7 +458,7 @@ export default {
 
                                         <div 
                                             class="col-lg-6 col-12" 
-                                            v-for="(categoryUser) in categoriesUserWork" :key="categoryUser.id"
+                                            v-for="(categoryUser, i) in displayedDocs" :key="i"
                                         >
                                             <BoxCandidate 
                                                 :categoryUser="categoryUser"
@@ -458,6 +482,16 @@ export default {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div 
+                                     v-if="categoriesUserWork.length"
+                                    class="col-12 d-flex justify-content-center mt-3"
+                                    >
+                                    <b-pagination 
+                                        v-model="page"
+                                        :total-rows="categoriesUserWork.length"
+                                        :per-page="perPage"
+                                    />
                                 </div>
                                 <!-- End List Usuario -->
                         </div>

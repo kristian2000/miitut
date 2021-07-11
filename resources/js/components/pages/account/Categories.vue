@@ -22,7 +22,8 @@ export default {
             subscribed: false,
             loading: {
                 subscribed: false
-            }
+            },
+            itemsToDisplay: []
         }
     },
     components: {
@@ -32,7 +33,7 @@ export default {
         PauseIcon,
         MapPinIcon,
         FormCategoryUser,
-        PlusIcon,
+        PlusIcon
 
     },
     async created(){
@@ -42,7 +43,10 @@ export default {
             this.categoriesUser = response.data;
         }
     },
-    methods: {
+    methods: {  
+        displayItems(newDocs){
+            this.itemsToDisplay = newDocs;
+        },
         showModalEdit(item){
             console.log('item', item);
             this.currentItem = item;
@@ -118,9 +122,9 @@ export default {
 
             <!-- Start List de categoriesUser -->
             <div class="border-bottom pb-4">
-                <div class="row">
+                <div class="row categories-container">
 
-                    <div class="col-12 m-2 card-category" v-for="categoryUser in categoriesUser" :key="categoryUser.id">
+                    <div class="col-12 mb-2 card-category" v-for="categoryUser in itemsToDisplay" :key="categoryUser.id">
                         <div class="row">
                             <div class="col-md-5 col-12 p-2 bg">
                                 <div class="d-flex align-items-center">
@@ -185,6 +189,21 @@ export default {
                     </div>
 
                 </div>
+                <div 
+                    v-if="categoriesUser.length"
+                    class="col-12 d-flex justify-content-center mt-3"
+                    >
+                    <!-- <b-pagination 
+                        v-model="page"
+                        :total-rows="categoriesUser.length"
+                        :per-page="perPage"
+                    /> -->
+                   <pagination-custom 
+                        :items="categoriesUser"
+                        :perPage="1"
+                        :handleChange="displayItems"
+                   />
+                </div>
 
             </div>
             <!-- End List CategoriesUser -->
@@ -200,7 +219,7 @@ export default {
                 >
                     <div  v-if="!loading.subscribed">
                         <PlusIcon
-                            style="cursor: pointer"
+                            style="cursor: pointer;"
                         />
                     </div>
                     <div v-else>
@@ -347,5 +366,19 @@ export default {
         border-radius: 350px;
         border: none;
     }
+
+    .categorias-container {
+        max-height: 650px; 
+        overflow: auto;
+    }
+
+
+    @media (min-width: 768px) {
+        .categorias-container {
+            max-height: 450px; 
+            overflow: auto;
+        }
+    }
+
 
 </style>
