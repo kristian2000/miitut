@@ -5,7 +5,6 @@ import {
     PlayIcon,
     PauseIcon,
     PlusIcon
-
 } from 'vue-feather-icons';
 
 import LayoutAccount from '../../../layouts/LayoutAccount'

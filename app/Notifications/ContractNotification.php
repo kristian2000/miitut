@@ -21,9 +21,11 @@ class ContractNotification extends Notification
      *
      * @return void
      */
-    public function __construct(Contract $contract)
+    public function __construct($data)
     {
-        $this->contract = $contract;
+        $this->title = $data['title'];
+        $this->desc = $data['desc'];
+        $this->contract = $data['contract'];
     }
 
     /**
@@ -60,44 +62,44 @@ class ContractNotification extends Notification
     public function toArray($notifiable)
     {
         $statusName = Status::find($this->contract->status_id)->label;
-        $this->contract->categoryUser;
-        $desc = '';
+        // $this->data->contract->categoryUser;
+        // $desc = '';
 
-        switch($statusName){
-            case 'Pendiente': {
-                $desc = 'Te enviaron un contrato, revisalo';
-            }; break;
+        // switch($statusName){
+        //     case 'Pendiente': {
+        //         $desc = 'Te enviaron un contrato, revisalo';
+        //     }; break;
 
-            case 'Rechazado': {
-                $desc = "El contrato fue rechazado, revisalo";
-            }; break;
+        //     case 'Rechazado': {
+        //         $desc = "El contrato fue rechazado, revisalo";
+        //     }; break;
 
-            case 'Pendiente de Pago': {
-                $desc = "Contrato Aceptado, pendiente de pago";
-            }; break;
+        //     case 'Pendiente de Pago': {
+        //         $desc = "Contrato Aceptado, Pendiente de pago";
+        //     }; break;
 
-            case "Finalizado": {
-                $desc = "Contrato Finalizado, revisalo y da tu comentario";
-            }; break;
+        //     case "Finalizado": {
+        //         $desc = "Contrato Finalizado, revisalo y da tu comentario";
+        //     }; break;
 
-            case "En Mediacion": {
-                $desc = "Contrato en Mediacion, espera que soporte revise tu caso";
-            }; break;
+        //     case "En Mediacion": {
+        //         $desc = "Contrato en Mediacion, espera que soporte revise tu caso";
+        //     }; break;
 
-            case "En Proceso": {
-                $desc = "Contrato Pagado, en proceso para que las dos partes inicien";
-            }; break;
+        //     case "En Proceso": {
+        //         $desc = "Contrato Pagado, en proceso para que las dos partes inicien";
+        //     }; break;
 
-            default: {
-                $desc = 'revisa tus contratos';
-            }
-        }
+        //     default: {
+        //         $desc = 'revisa tus contratos';
+        //     }
+        // }
 
         return [
             'redirect' => 'account-contracts',
             'contract' => $this->contract->id,
-            'title' => 'Notificacion de contrato',
-            'description' => $desc,
+            'title' => $this->title,
+            'description' => $this->desc,
             'status' => $statusName,
             'time' => Carbon::now()->diffForHumans()
         ];

@@ -79,7 +79,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'isPremium' => 'boolean'
+        'isPremium' => 'boolean',
+        'spoken_language' => 'array',
     ];
 
     //Social Profile Relacion
@@ -110,7 +111,7 @@ class User extends Authenticatable
 
     public function ads(){ // solo help
         return $this->hasMany(Contract::class, 'user_id')
-            ->with('category', 'status', 'requests')
+            ->with('category', 'status', 'requests', 'user')
             ->where('ad', true);
     }
 

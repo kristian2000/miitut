@@ -170,7 +170,8 @@ class CategoryUserController extends Controller
             'yearExperience' => 'numeric',
             'priceMin' => 'numeric',
             'priceMax' => 'numeric',
-            'radius' => 'numeric'
+            'radius' => 'numeric',
+            "codeLanguage" => 'string'
         ]);
 
         $lat = $request['lat'];
@@ -183,6 +184,7 @@ class CategoryUserController extends Controller
         $yearExperience = $request['yearExperience'];
         $priceMin = $request['priceMin'];
         $priceMax = $request['priceMax'];
+        $codeLanguage = $request['codeLanguage'];
 
         $selectColumn = "
             id, status_id, category_id, user_id,
@@ -203,13 +205,17 @@ class CategoryUserController extends Controller
             ->where('status_id', Status::firstWhere('name', 'active')->id)
             ->having('distance', '<', $radius)
             ->with([
-                'user' => function($q){
-                    return $q->select(['id', 'name', 'profile_check'])
+                'user' => function($query){
+                    return $query->select(['id', 'name', 'profile_check', 'spoken_language'])
                              ->with(['subscriptions:id,user_id,stripe_status']);
                 }, 
                 'category:id,label',
-                
             ])
+            ->when($codeLanguage, function($query) use ($codeLanguage){
+                return $query->whereHas('user', function($query) use ($codeLanguage){
+                    return $query->whereJsonContains('spoken_language',['code' => $codeLanguage]);
+                });
+            })
             ->when($category, function($query) use ($category){
                 return $query->where('category_id', $category);
             })

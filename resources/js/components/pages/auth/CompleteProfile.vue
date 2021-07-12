@@ -5,7 +5,9 @@ import {
     SearchIcon,
     MapPinIcon
 } from 'vue-feather-icons';
+
 import LayoutStandar from '../../../layouts/LayoutStandar'
+import SelectedLanguages from '../../SelectedLanguages'
 
 let sizeImgMax = 102400;
 
@@ -38,12 +40,15 @@ export default {
             locationQuery: '',
             addressSearch: null, //lat y long
             suggestions: [{text: 'Sugerencias al buscar tu ubicacion', value: null}],
+
+            selectedLanguages: []
         }
     },
     components: {
         SearchIcon,
         MapPinIcon,
-        LayoutStandar
+        LayoutStandar,
+        SelectedLanguages
     },
     created(){
         const user = this.$store.state.user;
@@ -56,6 +61,9 @@ export default {
         }
     },
     methods: {
+        changeHandleSelectedLanguages(items){
+            this.selectedLanguages = items;
+        },
         async geolocalizationAddress(){
             // Validacion
             if (this.locationQuery === ''){
@@ -246,6 +254,8 @@ export default {
                 driving_license: this.driving_license,
                 first_aid: this.first_aid,
                 has_children: this.has_children,
+
+                spoken_language: this.selectedLanguages
             }
 
         // console.log('addressSearch', this.addressSearch);
@@ -553,6 +563,21 @@ export default {
                 <hr>
             </div>
             <!-- END Telefono -->
+
+            <!-- Start Languages -->
+
+            <div 
+                class="col-12 mb-3"
+                v-if="$store.state.user.userType !== 'help'"
+                >
+                <div class="container">
+                    <SelectedLanguages 
+                        :changeHandler="changeHandleSelectedLanguages"
+                    />
+                </div>
+            </div>
+
+            <!-- End Languages -->
 
             <!-- Informacion Personal -->
             <div class="col-12" 

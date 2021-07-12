@@ -12,8 +12,6 @@ import {
     UserCheckIcon,
     ThumbsUpIcon,
 
-    ArrowRightIcon,
-
     StarIcon,
     BookmarkIcon,
     MapPinIcon,
@@ -24,10 +22,14 @@ import Score from '../../score.vue';
 // import Footer from '../../layouts/components/Footer'
 import BoxCandidate from './BoxCandidate'
 
+import languages from '../../../config/languages';
 
 export default {
     data() {
         return {
+            // idiomas
+            languages: languages.map(l => ({ value: l.code, text: l.label})),
+
             // Map
             zoom: 13,
             center: [0, 0],
@@ -45,7 +47,8 @@ export default {
                 yearExperience: 0,
                 priceMin: 1,
                 priceMax: 10,
-                radius: 5
+                radius: 5,
+                codeLanguage: ""
 
             },
             locationQuery: '',
@@ -73,7 +76,6 @@ export default {
         }
     },
     components: {
-        ArrowRightIcon,
         Trash2Icon,
         SearchIcon,
         ChevronDownIcon,
@@ -274,7 +276,7 @@ export default {
                     <div class="row">
                         <!-- START Formulario Filtros  -->
                         <div class="col-lg-4 col-12 mb-4 d-flex justify-content-center"
-                            style="height: 900px"
+                            style="height: 920px"
                         >
                             <div class="row columna shadow" >
                                 <div class="col-12 item">
@@ -372,6 +374,25 @@ export default {
                                                 min="1"
                                                 v-model="form.priceMax">
                                             </b-form-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 item">
+                                    <h6 class="font-weight-bold">Idioma</h6>
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <b-form-select 
+                                                id="languages"
+                                                type="select"
+                                                v-model="form.codeLanguage"
+                                                :options="languages"
+                                            />
+                                        </div>
+                                        <div class="col-1">
+                                            <Trash2Icon 
+                                                style="cursor: pointer;"
+                                                @click="form.codeLanguage = ''"
+                                            />
                                         </div>
                                     </div>
                                 </div>

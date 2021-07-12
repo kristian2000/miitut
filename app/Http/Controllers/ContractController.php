@@ -56,8 +56,15 @@ class ContractController extends Controller
             'price' => $categoryUser->price
         ]);
 
-        // enviar notificacion
-        $categoryUser->user->notify(new ContractNotification($contract));
+        // Enviar notificacion de Solicitud de contrato
+
+        $categoryUser
+            ->user
+            ->notify(new ContractNotification([
+                "title" => "Tienes una solicitud de contrato",
+                "desc" => "te enviaron un contrato, revisalo.",
+                "contract" => $contract
+            ]));
 
         return response()->json([
             'msg' => 'Contrato creado exitosamente',
@@ -73,8 +80,14 @@ class ContractController extends Controller
         $contract->status;
         $contract->categoryUser;
 
-        // enviar notificacion
-        $contract->user->notify(new ContractNotification($contract));
+        // Enviar notificacion de contrato rechazado
+        $contract
+            ->user
+            ->notify(new ContractNotification([
+                "title" => "Contrato Rechazado",
+                "desc" => "Lo sentimos su contrato fue rechazado.",
+                "contract" => $contract
+            ]));
 
         return response()->json([
             'msg' => '',
@@ -91,8 +104,14 @@ class ContractController extends Controller
         $contract->categoryUser;
         $contract->user;
 
-        // enviar notificacion
-        $contract->user->notify(new ContractNotification($contract));
+        // Enviar notificacion de Contrato Aceptado
+        $contract
+            ->user
+            ->notify(new ContractNotification([
+                "title" => "Contrato Aceptado",
+                "desc" => "En espera de pago para iniciar.",
+                "contract" => $contract
+            ]));
 
         return response()->json([
             'msg' => '',
@@ -111,11 +130,24 @@ class ContractController extends Controller
 
         $contract['finalized_'.$user->userType] = true;
 
-        // Notification
+        // Enviar Notification de finalizado
         if ($contract->user_id == $user->id){
-            $contract->categoryUser->user->notify(new ContractNotification($contract));
+            // Noficacion a Empleador
+            $contract
+                ->categoryUser
+                ->user->notify(new ContractNotification([
+                    "title" => "Contrato Finalizado por contraparte",
+                    "desc" => "Estamos a la espera que finalices para terminar el proceso",
+                    "contract" => $contract
+                ]));
         }else{
-            $contract->user->notify(new ContractNotification($contract));
+            // Notificacion al Empleado
+            $contract
+                ->user->notify(new ContractNotification([
+                    "title" => "Contrato Finalizado por contraparte",
+                    "desc" => "Estamos a la espera que finalices para terminar el proceso",
+                    "contract" => $contract
+                ]));
         }
 
         // Si los dos finalizaron
@@ -135,6 +167,24 @@ class ContractController extends Controller
             $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
             $paymentOut->type = 'out';
             $paymentOut->save();
+
+            // Noficacion a Empleador para Calificar
+            $contract
+                ->categoryUser
+                ->user->notify(new ContractNotification([
+                    "title" => "Contrato Finalizado",
+                    "desc" => "El contrato fue terminado, califica, danos tu opinión y espera tu dinero. ",
+                    "contract" => $contract
+                ]));
+                
+                // Notificacion al Empleado para Calificar
+                $contract
+                ->user
+                ->notify(new ContractNotification([
+                    "title" => "Contrato Finalizado",
+                    "desc" => "El contrato fue terminado, califica y danos tu opinión",
+                    "contract" => $contract
+                ]));
         }
 
         $contract->save();
@@ -391,7 +441,7 @@ class ContractController extends Controller
         $contract->status_id = Status::where('name', 'pendingPayment')->first()->id;
         $contract->save();
 
-        // enviar notificacion
+        // Enviar notificacion Anuncio Aceptado
         $requestContract->user->notify(new RequestContractNotification($contract, 'accept'));
 
         return response()->json([

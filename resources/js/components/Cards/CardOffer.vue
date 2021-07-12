@@ -6,12 +6,15 @@ import {
     PlayIcon,
     PauseIcon,
     PlusIcon,
-    CheckIcon
+    CheckIcon,
+    ClipboardIcon
 
 } from 'vue-feather-icons';
 
+import Score from '../score.vue'
+
 export default {
-    props: ["doc", "onCall"],
+    props: ["doc", "onCall", "onCallRequest", 'type'],
     created(){
         console.log('created ads', this.doc)
     },
@@ -21,7 +24,9 @@ export default {
         PlayIcon,
         PauseIcon,
         PlusIcon,
-        CheckIcon
+        CheckIcon,
+        ClipboardIcon,
+        Score
     },
     data(){
         return {}
@@ -41,14 +46,41 @@ export default {
                     {{ doc.category.label }}
                 </div>
                 <!-- <router-link to="/page-job-detail" class="text-dark">Web Designer</router-link> -->
-                <ul class="list-unstyled h6 mb-0 text-warning">
+                <!-- <ul class="list-unstyled h6 mb-0 text-warning">
                         <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>                                    
                         <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>                                    
                         <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>                                    
                         <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>                                    
                         <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                    </ul>
+                    </ul> -->
+                <Score
+                    :scoreStar="Number(doc.user.score) ?
+                        Number(doc.user.score)/Number(doc.user.ratings)
+                        :
+                        0"
+                />
             </h5>
+            <span 
+                class="head mt-3" v-if="type === 'ad'"
+                style="cursor: pointer;"
+                @click="onCallRequest(doc)"
+            >
+                <ClipboardIcon style="width: 30px; height: 30px;" />
+                <span style="position:relative">
+                    <b-badge 
+                        variant="dark"
+                        style="
+                            position: absolute; 
+                            top: 10px;
+                            right: 0px; 
+                            font-size: 15px; 
+                            padding: 1px 2px;
+                        "
+                    >
+                        {{ doc.requests.length }}
+                    </b-badge>
+                </span>
+            </span>
             <!-- <ul class="list-unstyled head mb-0">
                 <li class="badge badge-success badge-pill">Full Time</li>
             </ul> -->
@@ -57,7 +89,7 @@ export default {
         <div class="card-body content position-relative">
             <div class="firm-logo rounded-circle shadow bg-light text-center">
                 <img 
-                    :src="doc.user.avatar" 
+                    :src="doc.user.avatar || '/images/avatarDefault.jpg'" 
                     alt=""
                     style="cursor:pointer; width: 60px; height: 60px; border-radius: 50%"
                 >
@@ -85,8 +117,9 @@ export default {
             </ul>
             <div 
                 class="btn btn-outline-primary btn-block"
+                @click="onCall(doc)"
             >
-                Aplicar Ahora
+                {{ type === "ad" ? "Ver" : "Aplicar Ahora"}}
             </div>
             <!-- <router-link to="/page-job-detail" class="btn btn-outline-primary btn-block">Apply Now</router-link> -->
         </div>

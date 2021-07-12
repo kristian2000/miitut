@@ -187,7 +187,7 @@ export default {
                 <div class="row contracts-container" 
                     v-for="contract in itemsToDisplay" :key="contract.id"
                 >
-                    <div class="col-10 border shadow caja mb-4">
+                    <div class="col-12 border shadow caja mb-4">
 
                         <div class="border p-3">
                             <div class="d-flex align-items-center">

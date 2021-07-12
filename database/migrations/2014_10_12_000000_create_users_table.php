@@ -48,7 +48,7 @@ class CreateUsersTable extends Migration
             $table->boolean('has_children')->default(false); // tiene niños
             $table->string('nationality')->nullable(); // nacionalidad
 
-            // $table->json('spoken_language')->nullable();
+            $table->json('spoken_language')->nullable();
 
             $table->boolean('email_check')->default(false);
             $table->boolean('profile_check')->default(false);

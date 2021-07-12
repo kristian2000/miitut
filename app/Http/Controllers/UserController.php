@@ -172,7 +172,8 @@ class UserController extends Controller
             'lng' => 'numeric',
             'birthdate' => 'date',
             'description' => 'string',
-            'dni' => 'string'
+            'dni' => 'string',
+            'spoken_language' => 'array'
         ]);
 
         $data = $request->only([
@@ -186,7 +187,8 @@ class UserController extends Controller
             'description',
             'dni',
             'lat',
-            'lng'
+            'lng',
+            "spoken_language"
         ]);
 
         $user = Auth::user();
@@ -215,7 +217,8 @@ class UserController extends Controller
             'own_vehicle' => 'boolean',
             "driving_license" => 'boolean',
             "first_aid" => 'boolean',
-            "has_children" => 'boolean'
+            "has_children" => 'boolean',
+            "spoken_language" => "array"
         ]);
 
         $data = $request->only([
@@ -233,7 +236,8 @@ class UserController extends Controller
             'own_vehicle',
             "driving_license",
             "first_aid",
-            "has_children"
+            "has_children",
+            "spoken_language"
         ]);
 
         $user = Auth::user();

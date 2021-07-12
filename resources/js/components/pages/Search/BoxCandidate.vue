@@ -2,7 +2,8 @@
 import {
     NavigationIcon,
     CheckIcon,
-    XIcon
+    XIcon,
+    ArrowRightIcon
 } from 'vue-feather-icons';
 
 import Score from './Score'
@@ -23,7 +24,8 @@ export default {
         Score,
         NavigationIcon,
         CheckIcon,
-        XIcon
+        XIcon,
+        ArrowRightIcon
     }
 }
 </script>

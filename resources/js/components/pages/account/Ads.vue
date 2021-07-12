@@ -11,6 +11,7 @@ import {
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
 import FormContractAd from '../../form/FormContractAd';
+import CardOffer from '../../Cards/CardOffer'
 
 /**
  * Account-profile component
@@ -30,7 +31,8 @@ export default {
         PlusIcon,
         FormContractAd,
         BellIcon,
-        ClipboardIcon
+        ClipboardIcon,
+        CardOffer
     },
     async created(){
         await this.getCategories();
@@ -128,8 +130,21 @@ export default {
             </div>
 
             <div class="ads-container border-bottom">
+                <div 
+                    class="row"
+                    v-for="doc in docs" :key="doc.id"
+                >
+                    <div class="col-lg-6 col-12 mb-4 pb-2">
+                        <CardOffer 
+                            type="ad"
+                            :doc="doc"
+                            :onCall="showContract"
+                            :onCallRequest="showRequests"
+                        />
+                    </div>
+                </div>
                 
-                <div class="row" v-for="ad in itemsToDisplay" :key="ad.id">
+                <!-- <div class="row" v-for="ad in itemsToDisplay" :key="ad.id">
                     <div class="col-12 d-flex justify-content-center">
                         <div class="col-8 border shadow caja">
                             <div class="border p-3">
@@ -137,7 +152,6 @@ export default {
                                     <div class="">
                                         <h2 class="font-weight-bold">
                                             Anuncio 
-                                            <!-- ({{ ad.status.label }}) -->
                                             <span 
                                                 class="btn-icon"
                                                 v-if="ad"
@@ -182,13 +196,6 @@ export default {
 
                             <div class="d-flex justify-content-center mt-2">
                                 <div class="d-flex flew-column">
-                                    <!-- <div
-                                        class="mr-2"
-                                    >
-                                        <b-button variant="danger">
-                                            Borrar
-                                        </b-button>
-                                    </div> -->
                                     <div 
                                         class="d-flex justify-content-center" 
                                         @click="showContract(ad)"
@@ -200,8 +207,8 @@ export default {
                             </div>
                         </div>
                     </div>
-                </div>
- 
+                </div> -->
+
             </div>
 
             <!-- Pagination -->
@@ -285,31 +292,87 @@ export default {
                     scrollable
                     hide-footer
                 >
-                    <div v-if="currentAd">
-                        <div 
+                    <div v-if="currentAd" class="">
+                        <b-table 
+                            striped 
+                            hover 
+                            :fields="['avatar','user', 'actions']"
+                            :items="currentAd.requests"
+                        >
+                            <template #cell(avatar)="data">
+                                <img 
+                                    :src="data.item.user.avatar || '/images/avatarDefault.jpg'"  
+                                    alt="" 
+                                    width="80px"
+                                    style="cursor:pointer; width: 40px; height: 40px; border-radius: 50%"
+                                />
+                            </template>
+                            <template #cell(user)="data">
+                                {{ data.item.user.name }}
+                            </template>
+
+                            <template #cell(actions)="data">
+                                <div class="d-flex justify-content-around">
+                                    <div class="">
+                                        <b-button 
+                                            variant="outline-primary"
+                                            pill
+                                            size="sm"
+                                            @click="$router.push({ path: `/profilePublic/${data.item .category_user_id}` })"
+                                        >
+                                            Ver Perfil
+                                        </b-button>
+                                    </div>
+                                    <div class="">
+                                        <b-button 
+                                            variant="primary"
+                                            pill
+                                            size="sm"
+                                            @click="acceptRequest(data.item)"
+                                        >
+                                            Aceptar
+                                        </b-button>
+                                    </div>
+
+                                </div>
+                            </template>
+
+
+                        </b-table>
+                        <!-- <div
+                            class="row" 
                             v-for="(doc, index) in currentAd.requests" 
                             :key="index"
                         >
-                            <div class="d-flex justify-content-center border">
-                                <div class="d-flex align-items-center">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <div>
+                            <div class="col-12 d-flex border">
+                                    <div class="col-6">
+                                        <div class="col-12">
                                             <img 
-                                                :src="doc.user.avatar"  
+                                                :src="doc.user.avatar || '/images/avatarDefault.jpg'"  
                                                 alt="" 
                                                 width="80px"
                                                 style="cursor:pointer; width: 60px; height: 60px; border-radius: 50%"
                                             >
                                         </div>
-                                        <div class="">
+                                        <div class="col-12">
                                             <div class="text-muted">
                                                 {{ doc.user.name }}
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="ml-4">
+                                    <div class="col-6 d-flex justify-content-around align-items-center">
                                         <div>
                                             <b-button 
+                                                variant="outline-primary"
+                                                pill
+                                                size="sm"
+                                            >
+                                                Ver Perfil
+                                            </b-button>
+                                        </div>
+                                        <div>
+                                            <b-button 
+                                                variant="primary"
                                                 pill
                                                 size="sm"
                                                 @click="acceptRequest(doc)"
@@ -318,9 +381,8 @@ export default {
                                             </b-button>
                                         </div>
                                     </div>
-                                </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div v-if="!currentAd.requests.length">
                             <div class="text-center">
                                 <div>

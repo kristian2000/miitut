@@ -223,8 +223,10 @@ export default {
                 </div>
 
             <!-- Si esta en proceso [ empleado -> finalizar, empleador -> finalizar ] -->
-                <div class="col-12" v-if="contract.status.name === 'process'">
-                    <div>
+                <div class="col-12" 
+                    v-if="contract.status.name === 'process'"
+                    >
+                    <div v-if="!(contract[`finalized_${$store.state.user.userType}`])">
                         <div class="d-flex justify-content-center flex-column">
                             <div class="text-center">
                                 <h3> Información </h3>
@@ -260,7 +262,7 @@ export default {
                             </div>
                         </div>
                         <div 
-                            v-if="!contract[`finalized_${$store.state.user.userType}`]"
+                            v-if="!(contract[`finalized_${$store.state.user.userType}`])"
                             class="d-flex justify-content-center"
                         >
                             <div class="d-flex justify-content-center">
@@ -306,9 +308,9 @@ export default {
                                 <div class="m-1">
                                     <img 
                                         :src="$store.state.user.userType === 'help' ?
-                                            contract.category_user.user.avatar
+                                            avatarDefault(contract.category_user.user.avatar)
                                             :
-                                            contract.user.avatar
+                                            avatarDefault(contract.user.avatar)
                                         "  
                                         alt="" 
                                         style="cursor:pointer; width: 60px; height: 60px; border-radius: 50%"

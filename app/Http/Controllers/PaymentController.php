@@ -162,8 +162,15 @@ class PaymentController extends Controller
         $contract->categoryUser;
         $contract->user;
 
-        // enviar notificacion
-        $contract->categoryUser->user->notify(new ContractNotification($contract));
+        // Enviar notificacion (Contrato Pagado)
+        $contract
+            ->categoryUser
+            ->user
+            ->notify(new ContractNotification([
+                "title" => "Notificacion de Contrato",
+                "desc" => "Contrato Pagado, en espera de efectuar el servicio",
+                "contract" => $contract
+            ]));
 
         return response()->json([
             'charge' => $charge,
@@ -256,8 +263,15 @@ class PaymentController extends Controller
         $contract->categoryUser;
         $contract->user;
 
-        // enviar notificacion
-        $contract->categoryUser->user->notify(new ContractNotification($contract));
+        // Enviar notificacion (Contrato Pagado)
+        $contract
+            ->categoryUser
+            ->user
+            ->notify(new ContractNotification([
+                "title" => "Notificacion de Contrato",
+                "desc" => "Contrato Pagado, en espera de efectuar el servicio",
+                "contract" => $contract
+            ]));
         
         return response()->json([
             // 'charge' => $charge,

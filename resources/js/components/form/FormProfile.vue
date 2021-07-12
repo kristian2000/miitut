@@ -5,6 +5,8 @@ import {
 
 import Geolocalization from '../Geolocalization';
 
+import SelectedLanguages from '../SelectedLanguages'
+
 export default {
     props: [
         'user',
@@ -24,7 +26,8 @@ export default {
                 email: '',
                 gender: '',
                 phone: '',
-                name: ''
+                name: '',
+                selectedLanguages: []
             },
             loading: {
                 localizar: false
@@ -47,15 +50,20 @@ export default {
                gender: this.user.gender,
                phone: this.user.phone,
                name: this.user.name,
+               spoken_language: this.user.spoken_language ?? []
 
             }
         }
     },
     components: {
         MapPinIcon,
-        Geolocalization
+        Geolocalization,
+        SelectedLanguages
     },
     methods: {
+        changeHandleSelectedLanguages(items){
+            this.selectedLanguages = items;
+        },
         onContext(ctx) {
             // The date formatted in the locale, or the `label-no-date-selected` string
             this.form.birthdate.valid = ctx.selectedFormatted !== 'No date selected'
@@ -126,7 +134,8 @@ export default {
 
             const formFormat = {
                 ...this.form,
-                birthdate: this.form.birthdate.date
+                birthdate: this.form.birthdate.date,
+                spoken_language: this.selectedLanguages
             }
 
             console.log('formSubmit', formFormat)
@@ -321,6 +330,20 @@ export default {
                 </div>
             </div>
             <!-- END Telefono -->
+
+            <!-- Start Languages -->
+            <div 
+                class="col-12 mb-3"
+                v-if="$store.state.user.userType !== 'help'"
+                >
+                <div class="container">
+                    <SelectedLanguages 
+                        :dataInitial="form.spoken_language"
+                        :changeHandler="changeHandleSelectedLanguages"
+                    />
+                </div>
+            </div>
+            <!-- End Languages -->
 
             <div class="col-12">
                 <div class="d-flex justify-content-center">

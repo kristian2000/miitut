@@ -20,6 +20,7 @@ export default {
     data() {
         return {
             docs: [],
+            itemsToDisplay: [],
             category: '',
             price: '1',
             loading: false,
@@ -50,6 +51,9 @@ export default {
         }
     },
     methods: {
+        displayItems(newDocs){
+            this.itemsToDisplay = newDocs;
+        },
         async getOffersContract(){
             const response = await this.callApi('get', `app/contracts/offers`);
 
@@ -114,13 +118,24 @@ export default {
 
 <!-- style="height: 450px; overflow:scroll" -->
             <div class="border-bottom">
-                 <div class="row" v-for="doc in docs" :key="doc.id">
+                 <div class="row" v-for="doc in itemsToDisplay" :key="doc.id">
                     <div class="col-lg-6 col-12 mb-4 pb-2">
                         <CardOffer 
+                            type="offer"
                             :doc="doc"
                             :onCall="showContract"
                         />
                     </div>
+                </div>
+                <div 
+                    v-if="docs.length"
+                    class="col-12 d-flex justify-content-center mt-3"
+                    >
+                   <pagination-custom 
+                        :items="docs"
+                        :perPage="1"
+                        :handleChange="displayItems"
+                   />
                 </div>
                 
                 <!-- <div class="row" v-for="doc in docs" :key="doc.id">
