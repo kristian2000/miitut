@@ -93,6 +93,8 @@ export default {
         BoxCandidate
     },
     async created(){
+        window.scroll(0, 0);
+        
         const response = await this.callApi('get', `app/categories/getWithSubcategories`);
         console.log(response)
 

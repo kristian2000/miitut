@@ -36,6 +36,8 @@ export default {
             if (response.status === 200){
                 this.loading = false;
                 this.paymentMethods = response.data.paymentMethods;
+
+                this.makeNotice('success', 'Info', 'Tarjeta Agregada')
             }
 
             console.log('paymentMethod', response.data)
@@ -103,7 +105,7 @@ export default {
                                 <!-- start Body -->
                                 <div class="stripe-card-body">
                                     <div class="stripe-card-text">
-                                        card number
+                                        Número de Tarjeta
                                     </div>
                                     <div class="stripe-card-number">
                                         <div>****</div>
@@ -118,7 +120,7 @@ export default {
                                 <div class="stripe-card-footer">
                                     <div>
                                         <div class="stripe-card-text">
-                                            cardholder name
+                                            Nombre de Tarjeta
                                         </div>
                                         <div class="stripe-card-name">
                                             {{ method.name }}
@@ -126,11 +128,11 @@ export default {
                                     </div>
                                     <div>
                                         <div class="stripe-card-text">
-                                            expiration
+                                            Expiración
                                         </div>
                                         <div class="stripe-card-exp">
                                             <div class="stripe-card-text">
-                                                VALID:
+                                                Valido:
                                             </div>
                                             <div class="stripe-card-exp-date">
                                                 {{ method.exp_month < 10 ? '0' + method.exp_month : method.exp_month}}

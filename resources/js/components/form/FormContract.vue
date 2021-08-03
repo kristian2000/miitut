@@ -44,7 +44,7 @@ export default {
                     .toJSON().slice(0,10).replace(/-/g,'-'),
                 valid: true
             },
-            hours: 1,
+            hours: 6,
             message: '',
             address: '',
             typeContract: 'occasional',
@@ -65,7 +65,7 @@ export default {
             comment: '',
             category: '',
             categories: [],
-            price: 1,
+            price: 10,
             infoPayment: { loading: false, doc: null},
             loading: false
         }
@@ -82,6 +82,10 @@ export default {
         async refreshContract(){
             // Si el usuario es empleador se crea el contrato
             // Si no solo puede observarlo
+            if (this.categoryUser){
+                this.price = this.categoryUser.price;
+            }
+
             if (this.contract){
                 // Datos de un contrato
                 this.dateInitial = {

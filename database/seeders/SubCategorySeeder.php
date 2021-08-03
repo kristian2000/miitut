@@ -21,7 +21,7 @@ class SubCategorySeeder extends Seeder
        $housekeeping = Category::where('name','housekeeping')->first()->id;
        $kitchen = Category::where('name','kitchen')->first()->id;
        $personalTraining = Category::where('name','personalTraining')->first()->id;
-       $elderlycare = Category::where('name','elderlycare')->first()->id;
+    //    $elderlycare = Category::where('name','elderlycare')->first()->id;
        $repair = Category::where('name','repair')->first()->id;
        $gardens = Category::where('name','gardens')->first()->id;
        $hairdressing = Category::where('name','hairdressing')->first()->id;
@@ -34,80 +34,76 @@ class SubCategorySeeder extends Seeder
             //Cuidado de mayores
             [
                 'parent_id' => $eldercare,
-                'label' => 'Compras'
+                'label' => 'Asistentes'
             ],
             [
                 'parent_id' => $eldercare,
-                'label' => 'Paseos'
+                'label' => 'Auxiliares'
             ],
             [
                 'parent_id' => $eldercare,
-                'label' => 'Ayuda en el baño'
+                'label' => 'Cuidadores'
             ],
             [
                 'parent_id' => $eldercare,
-                'label' => 'Cuidado de Dia'
-            ],
-            [
-                'parent_id' => $eldercare,
-                'label' => 'Cuidado de Noche'
+                'label' => 'Atención Domiciliaria'
             ],
 
             //Cuidado de Mascotas
 
             [
                 'parent_id' => $petcare,
-                'label' => 'Veterinario'
+                'label' => 'Veterinarios'
             ],
             [
                 'parent_id' => $petcare,
-                'label' => 'Paseos'
+                'label' => 'Paseadores'
             ],
             [
                 'parent_id' => $petcare,
-                'label' => 'Visitar/Alimentar'
+                'label' => 'Educadores Caninos'
             ],
-            [
-                'parent_id' => $petcare,
-                'label' => 'Cuidado a domicilio'
-            ],
-            [
-                'parent_id' => $petcare,
-                'label' => 'Cuidado en el domicilio del cuidador'
-            ],
-            [
-                'parent_id' => $petcare,
-                'label' => 'Guarderia canina'
-            ],
+            // [
+            //     'parent_id' => $petcare,
+            //     'label' => 'Cuidado a domicilio'
+            // ],
+            // [
+            //     'parent_id' => $petcare,
+            //     'label' => 'Cuidado en el domicilio del cuidador'
+            // ],
+            // [
+            //     'parent_id' => $petcare,
+            //     'label' => 'Guarderia canina'
+            // ],
 
             //Servicios De limpieza
 
             [
                 'parent_id' => $housekeeping,
-                'label' => 'Limpiar la casa'
+                'label' => 'Limpiadoras/es'
             ],
             [
                 'parent_id' => $housekeeping,
-                'label' => 'Limpieza de Oficinas'
+                'label' => 'Interinas'
             ],
             [
                 'parent_id' => $housekeeping,
-                'label' => 'Lavar y planchar la ropa'
+                'label' => 'Servicios de empresas'
             ],
-            [
-                'parent_id' => $housekeeping,
-                'label' => 'Arreglos básicos de costura'
-            ],
+            // [
+            //     'parent_id' => $housekeeping,
+            //     'label' => 'Arreglos básicos de costura'
+            // ],
 
             // Servicios de Cocina
 
             [
                 'parent_id' => $kitchen,
-                'label' => 'Comida casera a domicilio'
+                'label' => 'Comida Casera'
             ],
             [
                 'parent_id' => $kitchen,
-                'label' => 'Cocinero a domicilio'
+                'label' => 'Cocineros'
             ],
             [
                 'parent_id' => $kitchen,
@@ -118,188 +114,201 @@ class SubCategorySeeder extends Seeder
 
             [
                 'parent_id' => $personalTraining,
-                'label' => 'Asesoramiento nutricional – Dietista'
+                'label' => 'Yoga'
             ],
             [
                 'parent_id' => $personalTraining,
-                'label' => 'Entrenador personal – Cardiovascular, Tonificación'
+                'label' => 'Pilates'
             ],
             [
                 'parent_id' => $personalTraining,
-                'label' => 'Monitor de Pilates'
+                'label' => 'Personal Trainer'
             ],
             [
                 'parent_id' => $personalTraining,
-                'label' => 'Monitor de Yoga'
+                'label' => 'Nutricionistas'
             ],
 
             //Atencion domiciliaria de sanitario y parasanitario
 
-            [
-                'parent_id' => $elderlycare,
-                'label' => 'Medico'
-            ],
-            [
-                'parent_id' => $elderlycare,
-                'label' => 'Enfermero'
-            ],
-            [
-                'parent_id' => $elderlycare,
-                'label' => 'Acupuntor'
-            ],
-            [
-                'parent_id' => $elderlycare,
-                'label' => 'Naturópata'
-            ],
-            [
-                'parent_id' => $elderlycare,
-                'label' => 'Kinesiólogo'
-            ],
-            [
-                'parent_id' => $elderlycare,
-                'label' => 'Osteópata'
-            ],
-            [
-                'parent_id' => $elderlycare,
-                'label' => 'Fisioterapeuta Quiromasaje'
-            ],
+            // [
+            //     'parent_id' => $elderlycare,
+            //     'label' => 'Medico'
+            // ],
+            // [
+            //     'parent_id' => $elderlycare,
+            //     'label' => 'Enfermero'
+            // ],
+            // [
+            //     'parent_id' => $elderlycare,
+            //     'label' => 'Acupuntor'
+            // ],
+            // [
+            //     'parent_id' => $elderlycare,
+            //     'label' => 'Naturópata'
+            // ],
+            // [
+            //     'parent_id' => $elderlycare,
+            //     'label' => 'Kinesiólogo'
+            // ],
+            // [
+            //     'parent_id' => $elderlycare,
+            //     'label' => 'Osteópata'
+            // ],
+            // [
+            //     'parent_id' => $elderlycare,
+            //     'label' => 'Fisioterapeuta Quiromasaje'
+            // ],
 
             //Servicios de reparacion
 
             [
                 'parent_id' => $repair,
-                'label' => 'Ordenadores'
+                'label' => 'Informáticos'
             ],
             [
                 'parent_id' => $repair,
-                'label' => 'Televisores'
-            ],
-            [
-                'parent_id' => $repair,
-                'label' => 'Frigoríficos'
+                'label' => 'Técnicos de Frigoríficos'
             ],
             [
                 'parent_id' => $repair,
                 'label' => 'Lavadoras'
             ],
-            [
-                'parent_id' => $repair,
-                'label' => 'Lavavajillas'
-            ],
-            [
-                'parent_id' => $repair,
-                'label' => 'otros'
-            ],
+            // [
+            //     'parent_id' => $repair,
+            //     'label' => 'Lavavajillas'
+            // ],
+            // [
+            //     'parent_id' => $repair,
+            //     'label' => 'otros'
+            // ],
 
             //Jardines y piscinas
 
             [
                 'parent_id' => $gardens,
-                'label' => 'Mantener la piscina'
+                'label' => 'Jardineros'
             ],
             [
                 'parent_id' => $gardens,
-                'label' => 'Mantener el jardín'
+                'label' => 'Mantenimiento de piscina'
             ],
             [
                 'parent_id' => $gardens,
-                'label' => 'Podar árboles'
+                'label' => 'Podas'
             ],
-            [
-                'parent_id' => $gardens,
-                'label' => 'Cortar cesped'
-            ],
+            // [
+            //     'parent_id' => $gardens,
+            //     'label' => 'Cortar cesped'
+            // ],
 
             //Servicios de peluqueria
 
             [
                 'parent_id' => $hairdressing,
-                'label' => 'Lavar y peinar'
+                'label' => 'Peluqueras/os'
             ],
             [
                 'parent_id' => $hairdressing,
-                'label' => 'Cortar el pelo'
+                'label' => 'Maquilladoras'
             ],
             [
                 'parent_id' => $hairdressing,
-                'label' => 'Tinte y mechas'
+                'label' => 'Esteticien'
             ],
-            [
-                'parent_id' => $hairdressing,
-                'label' => 'Manicura y Pedicura'
-            ],
-            [
-                'parent_id' => $hairdressing,
-                'label' => 'Maquillaje'
-            ],
-            [
-                'parent_id' => $hairdressing,
-                'label' => 'Depilación'
-            ],
-            [
-                'parent_id' => $hairdressing,
-                'label' => 'Peinar para fiestas'
-            ],
-            [
-                'parent_id' => $hairdressing,
-                'label' => 'Bodas'
-            ],
+            // [
+            //     'parent_id' => $hairdressing,
+            //     'label' => 'Manicura y Pedicura'
+            // ],
+            // [
+            //     'parent_id' => $hairdressing,
+            //     'label' => 'Maquillaje'
+            // ],
+            // [
+            //     'parent_id' => $hairdressing,
+            //     'label' => 'Depilación'
+            // ],
+            // [
+            //     'parent_id' => $hairdressing,
+            //     'label' => 'Peinar para fiestas'
+            // ],
+            // [
+            //     'parent_id' => $hairdressing,
+            //     'label' => 'Bodas'
+            // ],
 
             //Mantenimiento
 
             [
                 'parent_id' => $maintenance,
-                'label' => 'Electricidad'
+                'label' => 'Albañiles'
             ],
             [
                 'parent_id' => $maintenance,
-                'label' => 'Fontanería/Gas'
+                'label' => 'Fontaneros'
             ],
             [
                 'parent_id' => $maintenance,
-                'label' => 'Albañilería'
+                'label' => 'Carpinteros'
             ],
             [
                 'parent_id' => $maintenance,
-                'label' => 'Pintura'
+                'label' => 'Gas'
             ],
             [
                 'parent_id' => $maintenance,
-                'label' => 'Carpintería'
+                'label' => 'Electricista'
             ],
-            [
-                'parent_id' => $maintenance,
-                'label' => 'Limpieza de cristales'
-            ],
+            // [
+            //     'parent_id' => $maintenance,
+            //     'label' => 'Limpieza de cristales'
+            // ],
 
             // Ni;eras-Cuidados de ni;os
 
             [
                 'parent_id' => $babySitter,
-                'label' => 'Ayudar con los deberes'
+                'label' => 'Cuidadores de Bebes'
             ],
 
             [
                 'parent_id' => $babySitter,
-                'label' => 'Cuidado a tiempo completo - Interna'
+                'label' => 'Babysitter'
             ],
 
             [
                 'parent_id' => $babySitter,
-                'label' => 'Ocasional'
+                'label' => 'Canguros'
             ],
 
-            [
-                'parent_id' => $babySitter,
-                'label' => 'Recoger a los niños del colegio'
-            ],
+            // [
+            //     'parent_id' => $babySitter,
+            //     'label' => 'Recoger a los niños del colegio'
+            // ],
 
             //Profesores Particulares
 
             [
                 'parent_id' => $tutoring,
-                'label' => 'Profesores Particulares'
+                'label' => 'Matemáticas'
             ],
+            [
+                'parent_id' => $tutoring,
+                'label' => 'Idiomas'
+            ],
+            [
+                'parent_id' => $tutoring,
+                'label' => 'Física'
+            ],
+            [
+                'parent_id' => $tutoring,
+                'label' => 'Química'
+            ],
+            [
+                'parent_id' => $tutoring,
+                'label' => 'Historia'
+            ]
+            
         ]);
     }
 }

@@ -117,7 +117,7 @@ export default {
                     <div class="d-flex ">
                         <b-form-input
                             id="address"
-                            placeholder="Direccion Ciudad Estado Pais"
+                            placeholder="Direccion Ciudad Pais"
                             v-model="locationQuery"
                             required
                         />

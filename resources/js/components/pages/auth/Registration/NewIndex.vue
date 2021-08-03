@@ -19,8 +19,9 @@ export default {
     },
     created(){
         if (this.$store.state.user){
-            this.$router.push('account-perfil');
+            this.$router.push('cuenta-perfil');
         }
+         window.scroll(0, 0);
     },
     methods: {
         goBack(){

@@ -8,6 +8,7 @@ use Database\Seeders\CategorySeeder;
 use Database\Seeders\SubCategorySeeder;
 use Database\Seeders\StatusSeeder;
 use Database\Seeders\CategoryUser;
+use Database\Seeders\SystemConstant;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,8 +24,9 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             SubCategorySeeder::class,
             StatusSeeder::class,
-            CategoryUser::class,
-            MembershipSeeder::class
+            SystemConstant::class
+            // CategoryUser::class,
+            // MembershipSeeder::class
         ]);
     }
 }

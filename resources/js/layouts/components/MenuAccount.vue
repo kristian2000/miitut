@@ -51,43 +51,43 @@ export default {
                 {
                     title: 'Perfil',
                     iconClass: 'uil uil-dashboard',
-                    path: '/account-profile',
+                    path: '/cuenta-perfil',
                     viewOnly: ['help', 'work']
                 },
                 {
                     title: 'Servicios',
                     iconClass: 'uil uil-file',
-                    path: '/account-services',
+                    path: '/cuenta-servicios',
                     viewOnly: ['work']
                 },
                 {
                     title: 'Anuncios',
                     iconClass: 'uil uil-file',
-                    path: '/account-ads',
+                    path: '/cuenta-anuncios',
                     viewOnly: ['help']
                 },
                 {
                     title: 'Ofertas',
                     iconClass: 'uil uil-file',
-                    path: '/account-offers',
+                    path: '/cuenta-ofertas',
                     viewOnly: ['work']
                 },
                 {
                     title: 'Contratos',
                     iconClass: 'uil uil-users-alt',
-                    path: '/account-contracts',
+                    path: '/cuenta-contratos',
                     viewOnly: ['help', 'work']
                 },
                 {
                     title: 'Facturas',
                     iconClass: 'uil uil-envelope-star',
-                    path: '/account-bills',
+                    path: '/cuenta-facturas',
                     viewOnly: ['help', 'work']
                 },
                 {
                     title: 'Mensajes',
                     iconClass: 'uil uil-transaction',
-                    path: '/account-messages',
+                    path: '/cuenta-mensajes',
                     viewOnly: ['help', 'work']
                 },
                 // {

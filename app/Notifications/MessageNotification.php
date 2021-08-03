@@ -8,6 +8,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Mailgun\Mailgun;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\MailController ;
+use Illuminate\Support\Facades\Mail;
 
 class MessageNotification extends Notification
 {
@@ -31,7 +35,7 @@ class MessageNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -42,10 +46,15 @@ class MessageNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        // 'greeting' => $this->greeting,
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->from('miitut@gmail.com', '')
+                    ->subject('Nuevo Mensaje')
+                    ->greeting('Tienes un Mensaje')
+                    // ->salutation('Tienes un Mensaje')
+                    ->line($this->message->message)
+                    ->action('Abrir', url('/cuenta-mensajes'))
+                    ->line('Gracias por usar nuestra aplicacíon!');
     }
 
     /**
@@ -57,7 +66,7 @@ class MessageNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'redirect' => 'account-messages',
+            'redirect' => 'cuenta-mensajes',
             'title' => "Tienes un Mensaje",
             'description' => $this->message->message,
             "time" => Carbon::now()->diffForHumans()

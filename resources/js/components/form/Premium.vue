@@ -64,7 +64,8 @@ export default ({
             console.log('Subscribe', this.selectedPlan)
 
             const response = await this.callApi('post', `/app/memberships/subscription`, {
-                plan: this.selectedPlan.id
+                planId: this.selectedPlan.id,
+                plan: this.selectedPlan
             });
             // console.log('plans', response)
 

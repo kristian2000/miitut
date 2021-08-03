@@ -36,15 +36,18 @@ export default {
             <span class="font-weight-bold">Horas del Contrato:</span>
             <span class="text-muted">{{doc.hours}} hrs</span>
         </div>
-        <!-- Porcentaje Comision -->
-        <div>
-            <span class="font-weight-bold">Porcentaje de Comision:</span>
-            <span class="text-muted"> {{doc.porcentageComission}} %</span>
-        </div>
+
         <!-- Comision -->
         <div>
-            <span class="font-weight-bold">Total comision:</span>
+            <span class="font-weight-bold">
+                Total comision ({{doc.porcentageComission * 100}}%) :
+            </span>
             <span class="text-muted">{{Number(doc.totalComission).toFixed(2)}} €</span>
+        </div>
+        <!-- IVA -->
+        <div>
+            <span class="font-weight-bold">Total IVA ({{doc.porcentageIva * 100}}%) :</span>
+            <span class="text-muted">{{Number(doc.totalIva).toFixed(2)}} €</span>
         </div>
 
         <!-- total -->
@@ -73,11 +76,6 @@ export default {
             <span class="font-weight-bold">Horas Por dia:</span>
             <span class="text-muted">{{doc.hoursByDay}}</span>
         </div>
-        <!-- Porcentaje Comision -->
-        <div>
-            <span class="font-weight-bold">Porcentaje de Comision:</span>
-            <span class="text-muted">{{doc.porcentageComission}} % </span>
-        </div>
         <!-- Total de Horas del Contrato -->
         <div>
             <span class="font-weight-bold">Total de Horas:</span>
@@ -85,8 +83,15 @@ export default {
         </div>
         <!-- Comision -->
         <div>
-            <span class="font-weight-bold">Total comision:</span>
+            <span class="font-weight-bold">
+                Total comision ({{doc.porcentageComission * 100}}%) :
+            </span>
             <span class="text-muted">{{Number(doc.totalComission).toFixed(2)}} €</span>
+        </div>
+         <!-- IVA -->
+        <div>
+            <span class="font-weight-bold">Total IVA ({{doc.porcentageIva * 100}}%):</span>
+            <span class="text-muted">{{Number(doc.totalIva).toFixed(2)}} €</span>
         </div>
         <!-- Fechas -->
         <div class="mt-2 border-top border-bottom">

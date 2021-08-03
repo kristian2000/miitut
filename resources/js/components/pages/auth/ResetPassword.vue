@@ -34,6 +34,8 @@ export default {
         this.form.email = email;
         this.form.code = code;
 
+         window.scroll(0, 0);
+
     },
     methods: {
         async validate(){

@@ -155,7 +155,7 @@ export default {
                 <!-- Navigation Menu-->
                 <ul class="navigation-menu" :class="{'nav-light': navLight === true}">
                     <li>
-                        <router-link to="/" class="">Home</router-link>
+                        <router-link to="/" class="">Inicio</router-link>
                     </li>
 
                     <li>
@@ -164,7 +164,7 @@ export default {
 
 
                     <li class="has-submenu">
-                        <a class="" href="javascript:void(0)" @click="onMenuClick">Categorias</a><span class="menu-arrow"></span>
+                        <router-link to="todas-categorias" @click="onMenuClick">Categorias</router-link><span class="menu-arrow"></span>
                         <ul class="submenu">
 
                             <!-- <li>
@@ -189,7 +189,7 @@ export default {
                     </li>
 
                     <li class="has-submenu">
-                        <router-link to='/registration' v-if="!isAuth">
+                        <router-link to='/registro' v-if="!isAuth">
                             <span class="text-white" id="registrate">REGISTRATE GRATIS</span>
                         </router-link>
                         <a v-else @click="isAuthRedirect()" style="cursor:pointer;">

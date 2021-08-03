@@ -15,7 +15,7 @@ export default {
                 {
                     title: 'Perfil',
                     iconClass: 'uil uil-dashboard',
-                    path: '/account-profile',
+                    path: '/cuenta-perfil',
                     viewOnly: ['help', 'work']
                 },
                 {

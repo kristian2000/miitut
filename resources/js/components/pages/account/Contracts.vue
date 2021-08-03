@@ -165,7 +165,7 @@ export default {
         goCategoryUser(contract){
             // event.stopPropagation()
             if (this.$store.state.user.userType === 'help'){
-                this.$router.push({path: `/profilePublic/${contract.category_user_id}`})
+                this.$router.push({path: `/perfil-publico/${contract.category_user_id}`})
             }
             // console.log({contract})
         }
@@ -306,7 +306,7 @@ export default {
                 >
                    <pagination-custom 
                         :items="contracts"
-                        :perPage="1"
+                        :perPage="2"
                         :handleChange="displayItems"
                    />
                 </div>

@@ -20,6 +20,12 @@ export default {
     created(){
         this.paginate(1);
     },
+    updated(){
+        this.paginate(this.page)
+    },
+    computed: {
+
+    },
     methods: {
         paginate(page){
             let perPage = this.perPage;

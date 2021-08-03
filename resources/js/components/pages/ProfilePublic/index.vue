@@ -74,23 +74,25 @@ export default {
         Score,
     },
     async created(){
-        const id = this.$route.params.id;
-        // console.log('ro', this.$route)
-        const response = await this.callApi('get', `/app/categoriesUser/${id}`);
-        if (response.status === 200){
-            this.categoryUser = {
-                ...response.data,
-                // times_available: mapTimesAvailable
-            };
+      window.scroll(0, 0);
 
-            let coords = [ Number(response.data.lng), Number(response.data.lat) ]
+      const id = this.$route.params.id;
+      // console.log('ro', this.$route)
+      const response = await this.callApi('get', `/app/categoriesUser/${id}`);
+      if (response.status === 200){
+          this.categoryUser = {
+              ...response.data,
+              // times_available: mapTimesAvailable
+          };
 
-            this.geolocPosition = coords;
-            this.center =  coords;
-            console.log('categoryUser', response.data)
-        }
+          let coords = [ Number(response.data.lng), Number(response.data.lat) ]
 
-        this.loadingCategoryUser = false;
+          this.geolocPosition = coords;
+          this.center =  coords;
+          console.log('categoryUser', response.data)
+      }
+
+      this.loadingCategoryUser = false;
     },
     computed: {
         calculateAge(){
@@ -230,18 +232,18 @@ export default {
                     <span class="text-muted">Sexo :
                     </span> {{ categoryUser.user.gender == 'man'? 'Masculino' : 'Femenino' }}
                   </li>
-                  <li class="h6">
+                  <!-- <li class="h6">
                     <map-pin-icon
                       class="fea icon-sm text-warning mr-2"
                     />
                     <span class="text-muted">Poblado :
                     </span> London
-                  </li>
+                  </li> -->
                   <li class="h6">
                     <globe-icon
                       class="fea icon-sm text-warning mr-2"
                     />
-                    <span class="text-muted">Provincia :
+                    <span class="text-muted">Estado :
                     </span> {{ categoryUser.user.state }}
                   </li>
                   <li class="h6">
@@ -269,7 +271,11 @@ export default {
                         </span> {{ booleanToYesOrNot(categoryUser.user.first_aid) }}
                     </li>
                     <li class="h6">
-                        <span class="text-muted">Percio por hora :
+                        <span class="text-muted">Tiene Niños :
+                        </span> {{ booleanToYesOrNot(categoryUser.user.first_aid) }}
+                    </li>
+                    <li class="h6">
+                        <span class="text-muted">Precio por hora :
                         </span> {{ categoryUser.price }} €
                     </li>
                 </ul>
@@ -296,7 +302,10 @@ export default {
                 </div>
                 <!-- End Map -->
                 
-                <div class="mt-4">
+                <div 
+                  class="mt-4" 
+                  v-if="$store.state.user && $store.state.user.userType === 'help'"
+                >
                   <div
                     @click="showModalSendMessage"
                     class="btn btn-block btn-primary"

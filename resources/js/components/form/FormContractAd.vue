@@ -43,10 +43,10 @@ export default {
                     .toJSON().slice(0,10).replace(/-/g,'-'),
                 valid: true
             },
-            hours: 1,
+            hours: 6,
             message: '',
             address: '',
-            typeContract: 'habitual',
+            typeContract: 'occasional',
             startTime: '00:00:00',
             days: [
                 { key: 'LUN', value: 1},
@@ -65,7 +65,7 @@ export default {
             loadingPayment: false,
             category: '',
             categories: [],
-            price: 1,
+            price: 10,
             infoPayment: { loading: false, doc: null},
             loading: false
         }
@@ -271,7 +271,7 @@ export default {
             :
             this.payContractOccasional(result)
         },
-        dateFormatRenovar(date){
+        dateFormat(date){
             console.log({date, f: new Date(date)})
             return moment(new Date(date))
                 .add(1, 'month')

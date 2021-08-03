@@ -11,7 +11,7 @@ export default {
         LayoutStandar
     },
     created(){
-        
+         window.scroll(0, 0);
     }
 };
 </script>

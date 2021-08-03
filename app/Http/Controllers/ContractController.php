@@ -150,8 +150,10 @@ class ContractController extends Controller
                 ]));
         }
 
+        $statusFinalized = Status::where('name', 'finalized')->first()->id;
+
         // Si los dos finalizaron
-        if ($contract->finalized_work && $contract->finalized_help){
+        if ($contract->finalized_work && $contract->finalized_help && $contract->status_id != $statusFinalized){
             // Cambiar status a finalizado
             $contract->status_id = Status::where('name', 'finalized')->first()->id;
 
@@ -161,8 +163,9 @@ class ContractController extends Controller
             $paymentOut = new Payment();
             $paymentOut->method_payment = 'manual';
             $paymentOut->type_payment = 'withdrawal';
+            $paymentOut->parent_id = $paymentIn->id;
             $paymentOut->amount = $paymentIn->amount;
-            $paymentOut->user_id = $paymentIn->user_id;
+            $paymentOut->user_id = $contract->categoryUser->user->id;
             $paymentOut->contract_id = $paymentIn->contract_id;
             $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
             $paymentOut->type = 'out';

@@ -19,6 +19,7 @@ export default {
         if (!user || user.fase_registry !== 'accountRetirement'){
             this.isAuthRedirect();
         }
+         window.scroll(0, 0);
     },
     methods: {
         async submit(form){

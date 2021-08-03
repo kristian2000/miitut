@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subscription extends Model
+use Laravel\Cashier\Subscription as CashierSubscription;
+
+class Subscription extends CashierSubscription
 {
     use HasFactory;
 
     protected $fillable = [
-        'client_id',
+        "user_id",
+        "name",
+        "stripe_id",
         'stripe_plan',
+        'quantify',
         'trial_ends_at',
         'ends_at',
         'stripe_status',
-        'dni',
-        'password',
-        'description',
-        'birthdate',
-
     ];
 }

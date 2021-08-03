@@ -36,7 +36,7 @@ class ContractNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -48,9 +48,13 @@ class ContractNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->from('miitut@gmail.com', '')
+            ->subject('Notificacion de Contrato')
+            ->greeting('Revisar contrato')
+            // ->salutation('Tienes un Mensaje')
+            ->line($this->desc)
+            ->action('Abrir', url('/cuenta-contratos'))
+            ->line('Gracias por usar nuestra aplicacíon!');
     }
 
     /**
@@ -96,7 +100,7 @@ class ContractNotification extends Notification
         // }
 
         return [
-            'redirect' => 'account-contracts',
+            'redirect' => 'cuenta-contratos',
             'contract' => $this->contract->id,
             'title' => $this->title,
             'description' => $this->desc,
@@ -109,7 +113,7 @@ class ContractNotification extends Notification
     {
         return new BroadcastMessage([
             'contract' => $this->contract->id,
-            "action" => "account-contracts",
+            "action" => "cuenta-contratos",
             'user' => Auth::user()
         ]);
     }

@@ -171,7 +171,7 @@ export default {
                         <div class="m-2">
                             <b-button 
                                 pill variant="outline-danger"
-                                @click="$router.push({path: `/profilePublic/${currentDoc.category_id}`})"
+                                @click="$router.push({path: `/perfil-publico/${currentDoc.category_id}`})"
                             >Ir a la categoria</b-button>
                         </div>
                         <!-- <div class="m-2">

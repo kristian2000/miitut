@@ -8,12 +8,19 @@ use Stripe\Stripe;
 use Stripe\StripeClient;
 use Laravel\Cashier\Cashier;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Payment;
+use App\Models\Status;
+use App\Models\SystemConstant;
+use Illuminate\Support\Arr;
 
 class MembershipController extends Controller
 {
     public function __construct() {
         Stripe::setApiKey(env('STRIPE_SECRET'));
+    }
+
+    public function formatNumber($number){
+        return floatval(number_format((float)($number), 2, '.', ''));
     }
 
     public function index()
@@ -71,7 +78,6 @@ class MembershipController extends Controller
         $user = Auth::user();
         $plan = $request->input('plan');
 
-
         $verify = $user->subscribed();
 
         if ($verify){
@@ -85,7 +91,8 @@ class MembershipController extends Controller
         }
 
         try {
-            $user->newSubscription('default', $plan)->add();
+            $user->newSubscription('default', $plan['id'])->add();
+
         } catch (\Exception $e) {
             return response()->json([
                 'msg' => "Error creating subscription." ,
@@ -94,10 +101,76 @@ class MembershipController extends Controller
         }
 
         $info = $user->subscribed($plan);
+
+        // buscar comision
+        $commissions = SystemConstant::where('type', 'commission')->get();
+        $commission_pay = Arr::first($commissions, function ($value, $key) {
+            return $value->name == 'commission_pay';
+        });
+        $iva_pay = Arr::first($commissions, function ($value, $key) {
+            return $value->name == 'iva_pay';
+        });
+
+        if (!$commissions){
+            return response()->json(["error" => 'constants system'], 402);
+        }
+        $porcentageCommision = $commission_pay->amount;
+        $porcentageIva= $iva_pay->amount;
+
+        // Buscar direccion y nombre del cliente y de miitut
+        $bills = SystemConstant::where('type', 'bill')->get();
+        $bill_name = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'name_bill';
+        });
+        $bill_dni = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'nif_bill';
+        });
+        $bill_address = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'address_bill';
+        });
+
+        $price = $plan['amount'];
+        $totalIva = $this->formatNumber($porcentageIva * $price);
+        $amount = $price - $totalIva;
+        $subtotal = $amount;
+        $totalAmount = $price;
+
+        // Crear pago en BD
+        $payment = Payment::create([
+            'method_payment' => 'stripe',
+            'type_payment' => 'subscription',
+            'amount' => $plan['amount'],
+            'contract_id' => null,
+            'type' => 'in',
+            "status_id" => Status::where('name', 'finalized')->first()->id,
+            'user_id' => $user->id,
+            "data" => [
+                "info" => [
+                    'amount' => $amount,
+                    'subtotal' => $subtotal,
+                    'porcentageIva' => $porcentageIva,
+                    'totalIva' => $totalIva,
+                    "priceTotal" => $price, 
+                    'totalAmount' => $totalAmount
+                ],
+                "infoClient" => [
+                    "name" => $user->name,
+                    "CIF" => $user->dni,
+                    "address" => $user->address
+                ],
+                "infoMiitut" => [
+                    "name" => $bill_name->value,
+                    "CIF" => $bill_dni->value,
+                    "address" => $bill_address->value
+                ]
+            ],
+            'ref' => ""
+        ]);
             
         return response()->json([
             'msg' => 'Create Subscription exitosamente',
-            'info' => $info
+            'info' => $info,
+            'payment' => $payment
         ]);
     }
 }

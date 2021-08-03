@@ -34,7 +34,7 @@ export default {
 <div>
     <div 
         class="candidate-list card rounded border-0 shadow m-2"
-        @click="$router.push({ path: `/profilePublic/${categoryUser.id}` })"
+        @click="$router.push({ path: `/perfil-publico/${categoryUser.id}` })"
     >
         <div class="card-body">
             <ul class="list-unstyled align-items-center">

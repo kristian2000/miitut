@@ -35,8 +35,9 @@ export default {
     },
     created(){
         if (this.$store.getters['auth/isAuth']){
-            this.$router.push('/account-profile');
+            this.$router.push('/cuenta-perfil');
         }
+         window.scroll(0, 0);
     },
     methods: {
          ...mapActions(['loginSocialRedirect']),
@@ -60,7 +61,7 @@ export default {
                 this.makeNotice('success', 'Registro Exitoso', res.data.msg);
                 
                 setTimeout(()=>{
-                    this.$router.push('/InfoCheckEmail');
+                    this.$router.push('/info-ver-email');
                     // window.location.href = '/'
                 }, 3000)
 

@@ -15,18 +15,22 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+
             $table->string('method_payment');
+            $table->string('ref')->nullable();
+            $table->string('type')->nullable();
             $table->string('type_payment');
             $table->float('amount');
-            $table->boolean('subscription')->default(0);
+
             $table->foreignId('user_id')->constrained()->nullable();
-            $table->foreignId('contract_id')->constrained()->nullable();
+            $table->foreignId('contract_id')->nullable()->constrained();
+
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->foreign('parent_id')->references('id')->on('payments');
 
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')->on('status');
             
-            $table->string('type')->nullable();
-            $table->string('charge')->nullable();
             $table->json('data')->nullable();
             $table->timestamps();
         });

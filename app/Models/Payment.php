@@ -20,11 +20,15 @@ class Payment extends Model
         'amount',
         'contract_id',
         'status_id',
-        'subscription',
         'user_id',
+        "parent_id",
         'data',
-        'charge'
+        'ref'
     ];
+
+    public function parent(){
+        return $this->belongsTo(Payment::class, 'parent_id');
+    }
 
     public function contract(){
         return $this->belongsTo(Contract::class, 'contract_id')

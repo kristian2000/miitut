@@ -102,7 +102,7 @@ export default {
 
                 if (res.status === 200){
                     console.log(res);
-                     window.location.href = 'account-profile';
+                     window.location.href = 'cuenta-perfil';
                     // this.loading.avatar = false;
                 }
                 

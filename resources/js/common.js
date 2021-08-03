@@ -143,19 +143,19 @@ export default {
                 }else {
                     switch(user.fase_registry){
                         case 'registro': {
-                            this.$router.push('/completeProfile');
+                            this.$router.push('/completar-perfil');
                         } break;
                         case 'completeProfileWork': {
-                            this.$router.push('/completeProfileWork');
+                            this.$router.push('/completar-perfil-trabajo');
                         } break;
                         case 'accountRetirement': {
-                            this.$router.push('/accountRetirement');
+                            this.$router.push('/cuenta-retiro');
                         } break;
                         case 'dni': {
                             this.$router.push('/dni');
                         } break;
                         default: {
-                            this.$router.push('/account-profile');
+                            this.$router.push('/cuenta-perfil');
                         }
                     }
                 }

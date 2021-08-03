@@ -18,6 +18,8 @@ export default {
         if (!user || user.fase_registry !== 'dni'){
             this.isAuthRedirect();
         }
+
+         window.scroll(0, 0);
     },
     components: {
         LayoutStandar

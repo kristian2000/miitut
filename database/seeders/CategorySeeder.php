@@ -36,10 +36,10 @@ class CategorySeeder extends Seeder
                 'name' => 'personalTraining',
                 'label' => 'Entrenamiento personal a domicilio'
             ],
-            [
-                'name' => 'elderlycare',
-                'label' => 'Atención domiciliaria'
-            ],
+            // [
+            //     'name' => 'elderlycare',
+            //     'label' => 'Atención domiciliaria'
+            // ],
             [
                 'name' => 'repair',
                 'label' => 'Servicios de Reparación'

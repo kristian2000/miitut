@@ -167,15 +167,15 @@ const routes = [
 
             //Routes-Autentificacion
             {
-                path: '/registration',
+                path: '/registro',
                 component: NewRegistration
             },
             {
-                path: '/verify',
+                path: '/verificar-codigo',
                 component: VerifyCode
             },
             {
-                path: '/resetPassword',
+                path: '/resetear-clave',
                 component: ResetPassword
             },
             {
@@ -187,15 +187,15 @@ const routes = [
             // Routes-Privadas
                 //fase Registro
             {
-                path: '/completeProfile',
+                path: '/completar-perfil',
                 component: CompleteProfile
             },
             {
-                path: '/completeProfileWork',
+                path: '/completar-perfil-trabajo',
                 component: CompleteProfileWork
             },
             {
-                path: '/accountRetirement',
+                path: '/cuenta-retiro',
                 component: AccountRetirement
             },
             {
@@ -203,7 +203,7 @@ const routes = [
                 component: DNI
             },
             {
-                path: '/InfoCheckEmail',
+                path: '/info-ver-email',
                 component: InfoCheckEmail
             },
             {
@@ -217,23 +217,23 @@ const routes = [
         
             // Routes Account
             {
-                path: '/account-profile',
+                path: '/cuenta-perfil',
                 component: AccountProfile
             },
             {
-                path: '/account-contracts',
+                path: '/cuenta-contratos',
                 component: AccountContracts
             },
             {
-                path: '/account-bills',
+                path: '/cuenta-facturas',
                 component: AccountBills
             },
             {
-                path: '/account-messages',
+                path: '/cuenta-mensajes',
                 component: AccountMessages
             },
             {
-                path: '/account-ads',
+                path: '/cuenta-anuncios',
                 component: AccountAds
             },
             {
@@ -241,23 +241,23 @@ const routes = [
                 component: AccountEmployees
             },
             {
-                path: '/account-services',
+                path: '/cuenta-servicios',
                 component: AccountServices
             },
             {
-                path: '/account-offers',
+                path: '/cuenta-ofertas',
                 component: AccountOffers
             },
             {
                 name: 'search',
-                path: '/search',
+                path: '/buscar',
                 component: Search,
                 props: props => ({
                     ...props
                 })
             },
             {
-                path: '/profilePublic/:id',
+                path: '/perfil-publico/:id',
                 component: ProfilePublic
             }
         ]

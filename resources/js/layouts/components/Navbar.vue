@@ -107,7 +107,7 @@
                             </b-nav-item> -->
 
                             <b-nav-item v-if="user.userType === 'help'">
-                                <search-icon size="1.5x" class="custom-class" @click="$router.push('/search')" />
+                                <search-icon size="1.5x" class="custom-class" @click="$router.push('/buscar')" />
                             </b-nav-item>
 
                             <b-nav-item v-b-toggle.sidebar-right>
@@ -127,7 +127,7 @@
                             </b-nav-item>
 
                             <!-- Icono Perfil -->
-                            <b-nav-item @click="$router.push('/account-profile')">
+                            <b-nav-item @click="$router.push('/cuenta-perfil')">
                                 <user-icon size="1.5x" class="custom-class"></user-icon>
                             </b-nav-item>
                         </div>

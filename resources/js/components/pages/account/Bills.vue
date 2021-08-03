@@ -2,6 +2,7 @@
 
 import LayoutAccount from '../../../layouts/LayoutAccount'
 import moment from 'moment'
+import Bill from '../../Cards/Bill'
 
 /**
  * Account-profile component
@@ -13,7 +14,8 @@ export default {
         }
     },
     components: {
-        LayoutAccount
+        LayoutAccount,
+        Bill
     },
     async created(){
         const response = await this.callApi('get', `app/payments`);
@@ -37,17 +39,30 @@ export default {
         <div class="col-lg-8 col-12 mt-4">
 
             <div class="border-bottom pb-4">
-                <div class="row">
+                <div class="">
 
-                    <h3 class="font-weight-bold col-sm-12">Facturas:</h3>
+                    <h4 class="font-weight-bold col-sm-12 border-bottom">Facturas:</h4>
 
-                    <div v-if="!docs.length">
-                        <div class="text-center text-muted font-weight-bold m-5">
-                            Sin Facturas
+                    <div class="row" v-if="docs.length">
+                        <div 
+                            class="col-12"
+                            v-for="doc in docs"
+                            :key="doc.id"
+                        >
+                            <Bill 
+                                :doc="doc"
+                            />
                         </div>
                     </div>
-
                     <div 
+                        v-else
+                        class="text-center text-muted font-weight-bold m-5"
+                    >
+                        Sin Facturas
+                    </div>
+
+
+                    <!-- <div 
                         class="col-12 caja" 
                         v-for="doc in docs" :key="doc.id"
                     >
@@ -60,8 +75,7 @@ export default {
                             </div>
                             <div class="font-weight-bolder">Precio: Eur {{ doc.amount }}</div>
                         </div>
-                        <!-- <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ab facere unde eligendi asperiores repudiandae, minima dolorem, voluptate.</p> -->
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -86,12 +100,12 @@ export default {
 
     .caja h3 {
         font-size: 30px;
-        color: #ff4b64;
+        /* color: #ff4b64; */
     }
 
     .row h3 {
         font-size: 30px;
-        color: #ff4b64;
+        /* color: #ff4b64; */
     }
 
 </style>

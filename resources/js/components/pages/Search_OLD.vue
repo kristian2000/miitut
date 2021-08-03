@@ -426,7 +426,7 @@ export default {
                                                         <div
                                                             class="p-2 shadow"
                                                             style="overflow-x:hidden"
-                                                            @click="$router.push({path: `/profilePublic/${categoryUser.id}`})"
+                                                            @click="$router.push({path: `/perfil-publico/${categoryUser.id}`})"
                                                         >
                                                             <div class="" style="position:relative">
                                                                 <div style="position:absolute;">

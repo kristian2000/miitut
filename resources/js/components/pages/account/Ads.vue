@@ -216,7 +216,7 @@ export default {
                 <pagination-custom 
                     v-if="docs.length"
                     :items="docs"
-                    :perPage="1"
+                    :perPage="2"
                     :handleChange="displayItems"
                 />
             </div>
@@ -318,7 +318,7 @@ export default {
                                             variant="outline-primary"
                                             pill
                                             size="sm"
-                                            @click="$router.push({ path: `/profilePublic/${data.item .category_user_id}` })"
+                                            @click="$router.push({ path: `/perfil-publico/${data.item .category_user_id}` })"
                                         >
                                             Ver Perfil
                                         </b-button>

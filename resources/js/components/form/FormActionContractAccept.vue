@@ -249,8 +249,8 @@ export default {
                                 v-if="contract.type_contract === 'habitual'" 
                                 class="mb-2"
                             >
-                                    <!-- :disabled="!(dateIsMenor( dateFormatRenovar(contract.date_start), Date()))" -->
                                     <!-- @click="renovarCall" -->
+                                    <!-- :disabled="!(dateIsMenor( dateFormatRenovar(contract.date_start), Date()))" -->
                                 <b-button 
                                     pill 
                                     variant="outline-secondary" 

@@ -238,7 +238,7 @@ export default {
                             <!-- <a href="javascript:void(0)" class="text-primary">See More <arrow-right-icon class="fea icon-sm"></arrow-right-icon></a> -->
                         </div>
                         <div>
-                            <router-link to="/registration" class="btn btn-primary">
+                            <router-link to="/registro" class="btn btn-primary">
                                 Registrate Gratis
                             </router-link>
                         </div>
@@ -255,7 +255,7 @@ export default {
                             <!-- <a href="javascript:void(0)" class="text-primary">See More <arrow-right-icon class="fea icon-sm"></arrow-right-icon></a> -->
                         </div>
                         <div>
-                            <router-link to="/registration" class="btn btn-primary">
+                            <router-link to="/registro" class="btn btn-primary">
                                 Registrate Gratis
                             </router-link>
                         </div>
@@ -274,7 +274,7 @@ implementa un buscador con una serie de filtros, para realizar búsquedas más c
                             <!-- <a href="javascript:void(0)" class="text-primary">See More <arrow-right-icon class="fea icon-sm"></arrow-right-icon></a> -->
                         </div>
                         <div class="d-flex justify-content-end">
-                            <router-link to="/allCategories" class="btn btn-primary">
+                            <router-link to="/todas-categorias" class="btn btn-primary">
                                 Categorias
                             </router-link>
                         </div>

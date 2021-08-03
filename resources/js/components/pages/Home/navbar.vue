@@ -156,7 +156,7 @@ export default {
                     </li>
 
                     <li>
-                        <router-link to="/aboutus" class="side-nav-link-reftext-white">Quienes Somos</router-link>
+                        <router-link to="/quienes-somos" class="side-nav-link-reftext-white">Quienes Somos</router-link>
                     </li>
 
 
@@ -169,7 +169,7 @@ export default {
                             </li> -->
 
                             <li v-for="category in categories" :key="category.id">
-                                <router-link :to="`/aboutCategory/${category.name}`" class="side-nav-link-ref">
+                                <router-link :to="`/acerca-categoria/${category.name}`" class="side-nav-link-ref">
                                     {{ category.label }}
                                 </router-link>
                             </li>   
@@ -182,7 +182,7 @@ export default {
                     </li>
 
                     <li class="has-submenu">
-                        <router-link to='/registration'>
+                        <router-link to='/registro'>
                             <span class="text-white" id="registrate">REGISTRATE GRATIS</span>
                         </router-link>
                     </li>

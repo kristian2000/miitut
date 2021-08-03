@@ -17,6 +17,9 @@ import { Carousel, Slide } from "vue-carousel";
 
 import QuickSearch from '../../QuickSearch'
 import PostLastest from '../../PostLastest'
+import categoriesConfig from '../../../config/categories'
+
+import CardCategory from '../../Cards/CardCategory.vue'
 
 export default {
   components: {
@@ -28,7 +31,8 @@ export default {
     MapPinIcon,
     ArrowDownIcon,
     QuickSearch,
-    PostLastest
+    PostLastest,
+    CardCategory
   },
   created(){
     
@@ -39,6 +43,9 @@ export default {
       },
       user(){
         return this.$store.state.user;
+      },
+      categoriesHome(){
+        return categoriesConfig.filter(c => c.homeSelected);
       }
   },
   methods: {}
@@ -100,52 +107,64 @@ export default {
 
         <div class="text-center mb-4 ">
             <h2 class="font-weight-bold subtitle">Nuestras Categorías</h2>
-            <p class="text-muted text-center">Lorem, ipsum dolor sit amet</p>
+            <p class="text-muted text-center">Encuentra a la persona que se ajusta a tus necesidades de forma cómoda y segura.</p>
         </div>
 
-        <div class="container-fluid categoriesGroup" style="max-width: 1200px">
-            <div class="d-flex justify-content-center flex-wrap">
-                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodeniños`)">
+        <div class="container d-flex justify-content-center" style="max-width: 1200px">
+            <div 
+              class="row" 
+              style=""
+              >
+                <div
+                  class="col-lg-4 col-md-6 col-12"
+                  v-for="category in categoriesHome" :key="category.id"
+                >
+                  <CardCategory 
+                    :category="category"
+                  />
+                </div>
+
+                <!-- <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodeniños`)">
                     <img src="images/categories/babySitter.jpg" width="320px" height="220px" />
                     <h3 class="textColor mt-2 font-weight-bold">Niñera</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
-                </div>
+                </div> -->
 
-                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodemayores`)">
+                <!-- <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodemayores`)">
                     <img src="images/categories/eldercare.jpg" width="320px" height="220px" />
                     <h3 class="textColor mt-2 font-weight-bold">Cuidado de Mayores</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
-                </div>
+                </div> -->
 
-                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodemascotas`)">
+                <!-- <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/cuidadodemascotas`)">
                     <img src="images/categories/petcare.jpg" width="320px" height="220px" />
                     <h3 class="textColor mt-2 font-weight-bold">Cuidado de Mascotas</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
-                </div>
+                </div> -->
 
-                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/serviciosdelimpieza`)">
+                <!-- <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/serviciosdelimpieza`)">
                         <img src="images/categories/housekeeping.jpg" width="320" height="220px" />
                         <h3 class="textColor mt-2 font-weight-bold">Servicio de Limpieza</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
-                </div>
+                </div> -->
 
-                <!-- <div class="m-2" @click="$router.push(`/acerca-categoria/maintenance`)">
+                <!-- <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/mantenimiento`)">
                         <img src="images/categories/maintenance.jpg" width="320px" height="220px" />
-                        <h3 class="mt-2 font-weight-bold">Mantenimiento</h3>
+                        <h3 class="textColor mt-2 font-weight-bold">Mantenimiento</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
                 </div> -->
 
-                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/parasanitaria`)">
+                <!-- <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/parasanitaria`)">
                         <img src="images/categories/parasanitary.jpg" width="320px" height="220px" />
                         <h3 class="textColor mt-2 font-weight-bold">Parasanitario</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet</p>
-                </div>
+                </div> -->
 
-                <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/profesoresparticulares`)">
+                <!-- <div class="m-2 context-category" @click="$router.push(`/acerca-categoria/profesoresparticulares`)">
                     <img src="images/categories/tutoring.jpg" width="320px" height="220px" />
                     <h3 class="textColor mt-2 font-weight-bold">Profesores Particulares</h3>
                     <p class="text-muted">Lorem ipsum dolor sit amet</p>
-                </div>
+                </div> -->
           </div>
         </div>
 
@@ -321,6 +340,14 @@ export default {
 
     .context-category {
       cursor: pointer;
+    }
+
+    .context-category h3 {
+      text-align: center;
+    }
+
+    .context-category img {
+      border-radius: 15px;
     }
 
     .context-category:hover {

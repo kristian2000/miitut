@@ -63,6 +63,8 @@ export default {
             // this.setSheduleDataInitial();
             this.loading = false;
         }
+
+         window.scroll(0, 0);
     },
     methods: {
         setSheduleData(value){

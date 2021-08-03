@@ -19,6 +19,9 @@ import VueMoment from 'vue-moment'
 
 import PaginationCustom from "./components/PaginationCustom"
 
+import VueHtml2Canvas from 'vue-html2canvas';
+Vue.use(VueHtml2Canvas);
+
 Vue.component('pagination-custom', PaginationCustom)
 
 Vue.component('multiselect', Multiselect)

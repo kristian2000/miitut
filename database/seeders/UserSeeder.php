@@ -25,112 +25,130 @@ class UserSeeder extends Seeder
                 'state' => "Estado",
                 'country' => "Pais",
                 'fase_registry' => 'completed',
-                'lat' => '8.59185',
-                'lng' => '-71.13831',
                 'email_check' => true
             ],
+            // [
+            //     'name' => 'Empleado',
+            //     'email' => 'empleado@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'work',
+            //     'state' => "Estado",
+            //     'country' => "Pais",
+            //     'fase_registry' => 'registro',
+            //     'email_check' => true
+            // ],
+            // [
+            //     'name' => 'Empleador',
+            //     'email' => 'empleador@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'help',
+            //     'state' => "Estado",
+            //     'country' => "Pais",
+            //     'fase_registry' => 'registro',
+            //     'email_check' => true
+            // ]
 
             // Usuarios Empleados
-            [
-                'name' => Str::random(6),
-                'email' => 'usuario1@test.com',
-                'password' => Hash::make('test12'),
-                'userType' => 'work',
-                'state' => "Estado",
-                'country' => "Pais",
-                'fase_registry' => 'completed',
-                'lat' => '8.59083',
-                'lng' => '-71.16281',
-                'email_check' => true
-            ],
-            [
-                'name' => Str::random(6),
-                'email' => 'usuario2@test.com',
-                'password' => Hash::make('test12'),
-                'userType' => 'work',
-                'state' => 'Estado',
-                'country' => "Pais",
-                'fase_registry' => 'completed',
-                'lat' => '8.59083',
-                'lng' => '-71.16281',
-                'email_check' => true
-            ],
-            [
-                'name' => Str::random(6),
-                'email' => 'usuario3@test.com',
-                'password' => Hash::make('test12'),
-                'userType' => 'work',
-                'state' => 'Estado',
-                'country' => "Pais",
-                'fase_registry' => 'completed',
-                'lat' => '8.59083',
-                'lng' => '-71.16281',
-                'email_check' => true
-            ],
-            [
-                'name' => Str::random(6),
-                'email' => 'usuario4@test.com',
-                'password' => Hash::make('test12'),
-                'userType' => 'work',
-                'state' => 'Estado',
-                'country' => "Pais",
-                'state' => "Estado",
-                'country' => "Pais",
-                'fase_registry' => 'completed',
-                'lat' => '8.59083',
-                'lng' => '-71.16281',
-                'email_check' => true
-            ],
+            // [
+            //     'name' => Str::random(6),
+            //     'email' => 'usuario1@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'work',
+            //     'state' => "Estado",
+            //     'country' => "Pais",
+            //     'fase_registry' => 'completed',
+            //     'lat' => '8.59083',
+            //     'lng' => '-71.16281',
+            //     'email_check' => true
+            // ],
+            // [
+            //     'name' => Str::random(6),
+            //     'email' => 'usuario2@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'work',
+            //     'state' => 'Estado',
+            //     'country' => "Pais",
+            //     'fase_registry' => 'completed',
+            //     'lat' => '8.59083',
+            //     'lng' => '-71.16281',
+            //     'email_check' => true
+            // ],
+            // [
+            //     'name' => Str::random(6),
+            //     'email' => 'usuario3@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'work',
+            //     'state' => 'Estado',
+            //     'country' => "Pais",
+            //     'fase_registry' => 'completed',
+            //     'lat' => '8.59083',
+            //     'lng' => '-71.16281',
+            //     'email_check' => true
+            // ],
+            // [
+            //     'name' => Str::random(6),
+            //     'email' => 'usuario4@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'work',
+            //     'state' => 'Estado',
+            //     'country' => "Pais",
+            //     'state' => "Estado",
+            //     'country' => "Pais",
+            //     'fase_registry' => 'completed',
+            //     'lat' => '8.59083',
+            //     'lng' => '-71.16281',
+            //     'email_check' => true
+            // ],
 
             // Usuarios Empleadores
-            [
-                'name' => Str::random(6),
-                'email' => 'usuario5@test.com',
-                'password' => Hash::make('test12'),
-                'userType' => 'help',
-                'state' => "Estado",
-                'country' => "Pais",
-                'fase_registry' => 'completed',
-                'lat' => '8.59083',
-                'lng' => '-71.16281',
-                'email_check' => true
-            ],
-            [
-                'name' => Str::random(6),
-                'email' => 'usuario6@test.com',
-                'password' => Hash::make('test12'),
-                'userType' => 'help',
-                'state' => "Estado",
-                'country' => "Pais",
-                'fase_registry' => 'completed',
-                'lat' => '8.59083',
-                'lng' => '-71.16281',
-                'email_check' => true
-            ],
-            [
-                'name' => Str::random(6),
-                'email' => 'usuario7@test.com',
-                'password' => Hash::make('test12'),
-                'userType' => 'help',
-                'state' => "Estado",
-                'country' => "Pais",
-                'fase_registry' => 'completed',
-                'lat' => '8.59083',
-                'lng' => '-71.16281',
-                'email_check' => true
-            ],
-            [
-                'name' => Str::random(6),
-                'email' => 'usuario8@test.com',
-                'password' => Hash::make('test12'),
-                'userType' => 'help',
-                'state' => "Estado",
-                'country' => "Pais",
-                'fase_registry' => 'completed',
-                'lat' => '36.46',
-                'lng' => '-6.20',
-                'email_check' => true
-            ]
+            // [
+            //     'name' => Str::random(6),
+            //     'email' => 'usuario5@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'help',
+            //     'state' => "Estado",
+            //     'country' => "Pais",
+            //     'fase_registry' => 'completed',
+            //     'lat' => '8.59083',
+            //     'lng' => '-71.16281',
+            //     'email_check' => true
+            // ],
+            // [
+            //     'name' => Str::random(6),
+            //     'email' => 'usuario6@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'help',
+            //     'state' => "Estado",
+            //     'country' => "Pais",
+            //     'fase_registry' => 'completed',
+            //     'lat' => '8.59083',
+            //     'lng' => '-71.16281',
+            //     'email_check' => true
+            // ],
+            // [
+            //     'name' => Str::random(6),
+            //     'email' => 'usuario7@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'help',
+            //     'state' => "Estado",
+            //     'country' => "Pais",
+            //     'fase_registry' => 'completed',
+            //     'lat' => '8.59083',
+            //     'lng' => '-71.16281',
+            //     'email_check' => true
+            // ],
+            // [
+            //     'name' => Str::random(6),
+            //     'email' => 'usuario8@test.com',
+            //     'password' => Hash::make('test12'),
+            //     'userType' => 'help',
+            //     'state' => "Estado",
+            //     'country' => "Pais",
+            //     'fase_registry' => 'completed',
+            //     'lat' => '36.46',
+            //     'lng' => '-6.20',
+            //     'email_check' => true
+            // ]
         ]);
 
     }

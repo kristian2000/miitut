@@ -59,6 +59,8 @@ export default {
         if (user.avatar){
             this.url = user.avatar
         }
+
+         window.scroll(0, 0);
     },
     methods: {
         changeHandleSelectedLanguages(items){
@@ -371,7 +373,7 @@ export default {
                                 <div class="d-flex">
                                     <b-form-input
                                         id="address"
-                                        placeholder="Direccion Ciudad Estado Pais"
+                                        placeholder="Direccion Ciudad Pais"
                                         v-model="locationQuery"
                                         required
                                     />
@@ -460,7 +462,7 @@ export default {
                                         v-model="date.birthdate"
                                         button-only
                                         right
-                                        locale="en-US"
+                                        locale="es-ES"
                                         aria-controls="example-input"
                                         @context="onContext"
                                         ></b-form-datepicker>

@@ -12,6 +12,8 @@ use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\ContractNotification;
 use Carbon\Carbon;
+use App\Models\SystemConstant;
+use Illuminate\Support\Arr;
 
 class PaymentController extends Controller
 {
@@ -19,9 +21,14 @@ class PaymentController extends Controller
         Stripe::setApiKey(env('STRIPE_SECRET'));
     }
 
+    public function formatNumber($number){
+        return floatval(number_format((float)($number), 2, '.', ''));
+    }
+
     public function getAll(){
         $user = Auth::user();
         $payments = Payment::where('user_id', $user->id)
+            ->where('status_id', Status::where('name', 'finalized')->first()->id)
             ->with('contract')
             ->get();
 
@@ -30,23 +37,29 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function calculatePayContractOccasional($price, $porcentageCommision, $hours){
-        $priceTotal = $price * $hours;
-        $commission = $priceTotal * $porcentageCommision;
-        $amount = $priceTotal + $commission;
+    public function calculatePayContractOccasional($price, $porcentageCommision, $porcentageIva, $hours){
+        $priceTotal = $this->formatNumber($price * $hours);
+        $commission = $this->formatNumber($priceTotal * $porcentageCommision);
+        $subtotal = $this->formatNumber($priceTotal + $commission);
+        $iva = $this->formatNumber($subtotal * $porcentageIva);
+        $amount = $this->formatNumber($subtotal + $iva);
 
         return [
             "typeContract" => "occasional",
             "priceHour" => $price,
             "hours" => $hours,
-            "porcentageComission" => $commission,
+            "porcentageComission" => $porcentageCommision,
+            "porcentageIva" => $porcentageIva,
             "totalComission" => $commission,
+            "subtotal" => $subtotal,
+            "totalIva" => $iva,
+            "priceTotal" => $priceTotal, 
             "totalAmount" => $amount
         ];
     }
 
     public function calculatePayContractHabitual(
-        $price, $porcentageCommision, $hours, $daysSem, $dateStart
+        $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart
     ){
         $dateInitial = strtotime($dateStart);
         $dateFinal = strtotime(Carbon::create($dateStart)->addMonth());
@@ -66,9 +79,11 @@ class PaymentController extends Controller
         }
 
         $totalDays = count($daysRange);
-        $priceTotal = $price * $hours * $totalDays;
-        $commission = $priceTotal * $porcentageCommision;
-        $amount = $priceTotal + $commission;
+        $priceTotal = $this->formatNumber($price * $hours * $totalDays);
+        $commission = $this->formatNumber($priceTotal * $porcentageCommision);
+        $subtotal = $this->formatNumber($priceTotal + $commission);
+        $iva = $this->formatNumber($subtotal * $porcentageIva);
+        $amount = $this->formatNumber($subtotal + $iva);
 
         return [
             "typeContract" => "habitual",
@@ -79,10 +94,14 @@ class PaymentController extends Controller
 
             "porcentageComission" => $porcentageCommision,
             "totalComission" => $commission,
+            "porcentageIva" => $porcentageIva,
+            "subtotal" => $subtotal,
+            "totalIva" => $iva,
 
             "days" => $daysRange,
             "priceHour" => $price,
             "totalHours" => $hours * $totalDays,
+            "priceTotal" => $priceTotal, 
             "totalAmount" => $amount,
         ];
     }
@@ -102,19 +121,33 @@ class PaymentController extends Controller
         $hours = $request['hours'];
         $daysSem = $request['daysSelected'];
         $dateStart = $request['dateStart'];
-        $porcentageCommision = 0.10;
+
+        // buscar comision
+        $commissions = SystemConstant::where('type', 'commission')->get();
+        $commission_pay = Arr::first($commissions, function ($value, $key) {
+            return $value->name == 'commission_pay';
+        });
+        $iva_pay = Arr::first($commissions, function ($value, $key) {
+            return $value->name == 'iva_pay';
+        });
+
+        if (!$commissions){
+            return response()->json(["error" => 'constants system'], 402);
+        }
+        $porcentageCommision = $commission_pay->amount;
+        $porcentageIva= $iva_pay->amount;
 
         if ($typeContract === 'habitual'){
             return response()->json(
                 $this->calculatePayContractHabitual(
-                    $price, $porcentageCommision, $hours, $daysSem, $dateStart
+                    $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart
                 )
             );
         }
 
         return response()->json(
             $this->calculatePayContractOccasional(
-                $price, $porcentageCommision, $hours
+                $price, $porcentageCommision, $porcentageIva, $hours
             )
         );
     }
@@ -124,9 +157,26 @@ class PaymentController extends Controller
         $contract = Contract::find($request['contract']);
         $user = Auth::user();
 
+        // buscar comision
+        $commissions = SystemConstant::where('type', 'commission')->get();
+        $commission_pay = Arr::first($commissions, function ($value, $key) {
+            return $value->name == 'commission_pay';
+        });
+        $iva_pay = Arr::first($commissions, function ($value, $key) {
+            return $value->name == 'iva_pay';
+        });
+
+        if (!$commissions){
+            return response()->json(["error" => 'constants system'], 402);
+        }
+
+        $porcentageCommision = $commission_pay->amount;
+        $porcentageIva= $iva_pay->amount;
+
         $calculateContract = $this->calculatePayContractOccasional(
             $contract->price, 
-            0.10, 
+            $porcentageCommision, 
+            $porcentageIva,
             $contract->hours
         );
 
@@ -138,7 +188,18 @@ class PaymentController extends Controller
             'currency' => 'EUR',
             'description' => 'Pago contrato id:'.$contract->id
         ]);
-        
+
+        // Buscar direccion y nombre del cliente y de miitut
+        $bills = SystemConstant::where('type', 'bill')->get();
+        $bill_name = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'name_bill';
+        });
+        $bill_dni = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'nif_bill';
+        });
+        $bill_address = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'address_bill';
+        });
 
         // Crear pago en BD
         $payment = Payment::create([
@@ -146,11 +207,23 @@ class PaymentController extends Controller
             'type_payment' => 'contract',
             'amount' => $calculateContract['totalAmount'],
             'contract_id' => $contract->id,
-            // 'type' => 'in',
+            'type' => 'in',
             "status_id" => Status::where('name', 'finalized')->first()->id,
-            'subscription' => false,
             'user_id' => $user->id,
-            'charge' => $charge->id
+            'ref' => $charge->id,
+            "data" => [
+                "info" => $calculateContract,
+                "infoClient" => [
+                    "name" => $user->name,
+                    "CIF" => $user->dni,
+                    "address" => $user->address
+                ],
+                "infoMiitut" => [
+                    "name" => $bill_name->value,
+                    "CIF" => $bill_dni->value,
+                    "address" => $bill_address->value
+                ]
+            ]
         ]);
 
         // Modificar status del contrato
@@ -205,7 +278,7 @@ class PaymentController extends Controller
             $paymentOut->user_id = $user->id;
             $paymentOut->contract_id = $contract->id;
             $paymentOut->status_id = Status::where('name', 'pending')->first()->id;
-            // $paymentOut->type = 'out';
+            $paymentOut->type = 'out';
             $paymentOut->save();
 
             
@@ -217,8 +290,24 @@ class PaymentController extends Controller
             $contract->date_end = date('Y-m-d' , $dateFinal);
         }
 
+        // buscar comision
+        $commissions = SystemConstant::where('type', 'commission')->get();
+        $commission_pay = Arr::first($commissions, function ($value, $key) {
+            return $value->name == 'commission_pay';
+        });
+        $iva_pay = Arr::first($commissions, function ($value, $key) {
+            return $value->name == 'iva_pay';
+        });
+
+        if (!$commissions){
+            return response()->json(["error" => 'constants system'], 402);
+        }
+
+        $porcentageCommision = $commission_pay->amount;
+        $porcentageIva= $iva_pay->amount;
+
         $calculateContract = $this->calculatePayContractHabitual(
-            $price, 0.10, $hours, $daysSem, $dateStart
+            $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart
         );
         
         $totalAmount = $calculateContract['totalAmount'];
@@ -236,20 +325,41 @@ class PaymentController extends Controller
                 .date('d-m-y', $dateInitial)
         ]);
 
+        // Buscar direccion y nombre del cliente y de miitut
+        $bills = SystemConstant::where('type', 'bill')->get();
+        $bill_name = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'name_bill';
+        });
+        $bill_dni = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'nif_bill';
+        });
+        $bill_address = Arr::first($bills, function ($value, $key) {
+            return $value->name == 'address_bill';
+        });
+
         // Crear pago en BD
         $payment = Payment::create([
             'method_payment' => 'stripe',
             'type_payment' => 'contract',
             'amount' => $totalAmount,
             'contract_id' => $contract->id,
-            // 'type' => 'in',
+            'type' => 'in',
             "status_id" => Status::where('name', 'finalized')->first()->id,
-            'subscription' => false,
             'user_id' => $user->id,
-            'data' => [
-                'days' => $days
+            "data" => [
+                "info" => $calculateContract,
+                "infoClient" => [
+                    "name" => $user->name,
+                    "CIF" => $user->dni,
+                    "address" => $user->address
+                ],
+                "infoMiitut" => [
+                    "name" => $bill_name->value,
+                    "CIF" => $bill_dni->value,
+                    "address" => $bill_address->value
+                ]
             ],
-            'charge' => $charge->id
+            'ref' => $charge->id
         ]);
 
         // Si se esta renovando modificar fecha de inicio y fin

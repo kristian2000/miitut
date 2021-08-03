@@ -38,19 +38,19 @@ export default new Vuex.Store({
                 }else {
                     switch(user.fase_registry){
                         case 'registro': {
-                            router.push('/completeProfile');
+                            router.push('/completar-perfil');
                         } break;
                         case 'completeProfileWork': {
-                            router.push('/completeProfileWork');
+                            router.push('/completar-perfil-trabajo');
                         } break;
                         case 'accountRetirement': {
-                            router.push('/accountRetirement');
+                            router.push('/cuenta-retiro');
                         } break;
                         case 'dni': {
                             router.push('/dni');
                         } break;
                         default: {
-                            router.push('/account-profile');
+                            router.push('/cuenta-perfil');
                         }
                     }
                 }

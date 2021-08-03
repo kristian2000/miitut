@@ -133,7 +133,7 @@ export default {
                     >
                    <pagination-custom 
                         :items="docs"
-                        :perPage="1"
+                        :perPage="2"
                         :handleChange="displayItems"
                    />
                 </div>

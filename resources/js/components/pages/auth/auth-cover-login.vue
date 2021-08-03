@@ -248,7 +248,7 @@ export default {
 
                                                 <div class="col-12 text-center">
                                                     <p class="mb-0 mt-3"><small class="text-dark mr-2">No tienes una Cuenta ?</small>
-                                                        <router-link to="/registration" class="text-dark font-weight-bold">Registrate</router-link>
+                                                        <router-link to="/registro" class="text-dark font-weight-bold">Registrate</router-link>
                                                     </p>
                                                 </div>
                                                 <!--end col-->

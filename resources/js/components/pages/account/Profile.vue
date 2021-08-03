@@ -310,7 +310,7 @@ export default {
                             <div class="media align-items-center mt-3">
                                 <MapPinIcon class="fea icon-ex-md text-muted mr-3"></MapPinIcon>
                                 <div class="media-body">
-                                    <h6 id="title" class="mb-0">Address :</h6>
+                                    <h6 id="title" class="mb-0">Dirección :</h6>
                                     <a href="javascript:void(0)" class="text-muted">{{user.address}}</a>
                                 </div>
                             </div>

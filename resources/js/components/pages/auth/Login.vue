@@ -203,7 +203,7 @@ export default {
                                 </div>
                                 <div class="mx-auto">
                                     <p class="mb-0 mt-3"><small class="text-dark mr-2">¿No tienes una cuenta?</small>
-                                        <router-link to="/registration" class="text-dark font-weight-bold">Regístrate</router-link>
+                                        <router-link to="/registro" class="text-dark font-weight-bold">Regístrate</router-link>
                                     </p>
                                 </div>
                             </div>

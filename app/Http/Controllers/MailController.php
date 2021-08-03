@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Mailgun\Mailgun;
+use Illuminate\Mail\Mailable;
 
-class MailController extends Controller
+class MailController extends Mailable
 {
+    public function build(){
+        
+    }
 
     public static function testEmail(){
         // Funcional por ahora solo funciona con los usuario aprobados
@@ -51,7 +56,7 @@ class MailController extends Controller
         $domain = env('MAILGUN_DOMAIN');
         $ms = Mailgun::create(env('MAILGUN_SECRET'));
 
-        $ms->messages()->send($domain, [
+        return $ms->messages()->send($domain, [
                 'from'	=> 'Miitut <miitut@gmail.com>',
                 'to'	=> $user->name.'<'.$user->email. '>',
                 'subject' => 'Recuperar Contraseña!',

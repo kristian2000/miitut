@@ -33,7 +33,7 @@ export default {
                     <a href="#" class="logo-footer">
                         <img src="https://i.ibb.co/YTDV8yz/Logo-01.png" height="24" alt="">
                     </a>
-                    <p class="mt-4">1Start working with Landrick that can provide everything you need to generate awareness, drive traffic, connect.</p>
+                    <p class="mt-4">Conectando a personas con los mismos valores y distintas necesidades</p>
                     <ul class="list-unstyled social-icon social mb-0 mt-4">
                         <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
                                 <facebook-icon class="fea icon-sm fea-social"></facebook-icon>
@@ -65,21 +65,21 @@ export default {
 
 
                 <div class="col-lg-4 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                    <h4 class="text-dark footer-head">Newsletter</h4>
-                    <p class="mt-4">Sign up and receive the latest tips via email.</p>
+                    <h4 class="text-dark footer-head">Boletin informativo</h4>
+                    <p class="mt-4">Regístrese y reciba los últimos consejos por correo electrónico.</p>
                     <form>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="foot-subscribe form-group position-relative">
-                                    <label>Write your email <span class="text-danger">*</span></label>
+                                    <label>Escrbe tu email <span class="text-danger">*</span></label>
                                     <div class="position-relative">
                                         <mail-icon class="fea icon-sm icons "></mail-icon>
-                                        <input type="email" name="email" id="emailsubscribe" class="form-control pl-5 rounded" placeholder="Your email : " required>
+                                        <input type="email" name="email" id="emailsubscribe" class="form-control pl-5 rounded" placeholder="Tu email : " required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <input type="submit" id="submitsubscribe" name="send" class="btn btn-soft-primary btn-block" value="Subscribe">
+                                <input type="submit" id="submitsubscribe" name="send" class="btn btn-soft-primary btn-block" value="suscribete">
                             </div>
                         </div>
                     </form>
