@@ -80,7 +80,7 @@ const categories = [
         label: 'Servicios de Reparación',
         icon: '/assets/icon_services/repair.svg',
         pathImgHeader: "/images/headersCategories/maintenance.jpg",
-        imagen: "/images/categories/maintenance.jpg",
+        imagen: "/images/categories/repair.jpg",
         desc: {
             title: '¿Tienes problemas con algún dispositivo o electrodoméstico?, ordenadores, televisores, frigoríficos, lavadoras... No te preocupes, en miitut te ayudamos a dar con el profesional que necesitas.',
             text: 'Nuestro sistema avanzado de búsqueda te hará todo más cómodo, únicamente selecciona el dispositivo o electrodoméstico a reparar, tu zona y al instante tendrás un listado con los profesionales más cercanos, comprueba su experiencia, mira referencias, tarifas, contacta con ellos. El profesional que necesitas está esperando.'

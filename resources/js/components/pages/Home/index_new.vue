@@ -58,7 +58,7 @@ export default {
     <!-- Hero Start -->
     <section
       class="bg-half-170 d-table w-100 pb-4"
-      style="background: url('/images/travel/bg.jpg') center center"
+      style="background: url('/images/aboutus/collage.jpg') center center"
     >
       <div class="bg-overlay"></div>
       <div class="container">

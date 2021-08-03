@@ -233,14 +233,36 @@ export default {
                                                                 class="col-6 mt-3"
                                                                 @click="loginSocial('facebook')"
                                                             >
-                                                                <a href="javascript:void(0)" class="btn btn-block btn-light"><i class="mdi mdi-facebook text-primary"></i> Facebook</a>
+                                                                <div class="btn btn-block btn-light">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <i class="mdi mdi-facebook text-primary" /> 
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="labelSocial">
+                                                                                Facebook
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div><!--end col-->
                                                             
                                                             <div 
                                                                 class="col-6 mt-3"
                                                                 @click="loginSocial('google')"
                                                             >
-                                                                <a href="javascript:void(0)" class="btn btn-block btn-light"><i class="mdi mdi-google text-danger"></i> Google</a>
+                                                                <div class="btn btn-block btn-light">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <i class="mdi mdi-google text-danger" />
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="labelSocial">
+                                                                                Google
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div><!--end col-->
                                                         </div>
                                                     </div>
@@ -320,3 +342,12 @@ export default {
 
 </div>
 </template>
+
+<style scoped>
+    .labelSocial {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+    }
+</style>

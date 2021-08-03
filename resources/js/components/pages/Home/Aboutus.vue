@@ -249,7 +249,7 @@ export default {
                                 <h6 class="title font-weight-normal mb-0">Busca Ayuda</h6>
                             </div>
                         </template>
-                        <img src="/images/work/1.jpg" class="img-fluid rounded shadow" alt="">
+                        <img src="/images/aboutus/busca ayuda.jpg" class="img-fluid rounded shadow" alt="">
                         <div class="mt-4">
                             <p class="text-muted">Porque sabemos lo difícil que es encontrar una buena ayuda, desde <span class="text-primary font-weight-bold">Miitut</span>, queremos hacerte la vida más cómoda y sencilla, para ello ponemos a tu disposición una plataforma digital pensada para ti y tus necesidades. Sabemos lo complicado que puede ser el día a día, a veces porque no disponemos de todo el tiempo que nos gustaría, aparece algún imprevisto o bien se requiere de una ayuda extra, por ello en <span class="text-primary font-weight-bold">Miitut</span> ponemos todo nuestro empeño y dedicación para que mediante el uso de nuestras herramientas encuentres al profesional más adecuado a tus necesidades.</p>
                             <!-- <a href="javascript:void(0)" class="text-primary">See More <arrow-right-icon class="fea icon-sm"></arrow-right-icon></a> -->
@@ -266,7 +266,7 @@ export default {
                                 <h6 class="title font-weight-normal mb-0">Servicios</h6>
                             </div>
                         </template>
-                        <img src="/images/aboutus/servicios.jpg" class="img-fluid rounded shadow" alt="">
+                        <img src="/images/aboutus/servicios.jpeg" class="img-fluid rounded shadow" alt="">
                         <div class="mt-4">
                             <p class="text-muted">La plataforma digital <span class="text-primary font-weight-bold">miitut</span> sirve como lazo de unión segura entre las personas que buscan ayuda y las que ofrecen sus servicios. Con el fin de facilitar las cosas a nuestros usuarios, hemos creado un sistema por categorías (cuidados de mayores, mascotas, niñeras, servicios de mantenimiento, limpieza, cocina, peluquería, reparación, jardinería y piscinas, entrenadores personales, profesores particulares, sanitarios y parasanitarios a domicilio), que además
  
