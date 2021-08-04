@@ -16,13 +16,31 @@ export default {
             message: '',
         }
     },
-    created(){
+    async created(){
         // this.loginCallback()
-        window.opener.postMessage({
+        // window.opener.postMessage({
+        //     code: this.$route.query.code,
+        //     socialName: this.$route.params.drive
+        // });
+        // window.close();
+        let data = {
             code: this.$route.query.code,
-            socialName: this.$route.params.drive
-        });
-        window.close();
+            socialName: this.$route.params.drive,
+            driver: this.$route.params.drive
+        };
+        console.log('data', data)
+
+        try{
+            await this.loginSocialCallback(data);
+            window.location.href = '/cuenta-perfil';
+
+        }catch(error){
+            window.location.href = '/';
+        }
+
+    },
+    methods: {
+        ...mapActions(['loginSocialCallback']),
     }
 }
 </script>

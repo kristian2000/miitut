@@ -13,26 +13,29 @@ export default {
     actions: {
         socialAuthorize({ dispatch, commit}, payload){
             return new Promise((resolve, reject) => {
+                window.location.href = payload.url;
+
+                return Promise.resolve();
                 //Se Crea la ventana y se centra
-                window
-                    .open(
-                            payload.url,
-                            "Miitut",
-                            `width=600,height=600,
-                            top=${screen.height/2-300},
-                            left=${screen.width/2-250}`
-                        )
+                // window
+                //     .open(
+                //             payload.url,
+                //             "Miitut",
+                //             `width=600,height=600,
+                //             top=${screen.height/2-300},
+                //             left=${screen.width/2-250}`
+                //         )
 
                 //Se crea el escucha evento
-                window.onmessage = function (e){
-                    const data = e
-                    console.log('Evento de la otra ventana', data)
+                // window.onmessage = function (e){
+                //     const data = e
+                //     console.log('Evento de la otra ventana', data)
 
-                    resolve(dispatch('loginSocialCallback', {
-                        ...payload,
-                        ...e.data
-                    }));
-                }
+                //     resolve(dispatch('loginSocialCallback', {
+                //         ...payload,
+                //         ...e.data
+                //     }));
+                // }
 
             });
         },
@@ -56,7 +59,7 @@ export default {
             })
         },
         loginSocialCallback({dispatch, commit},  payload){
-            console.log('loginSocialCallback', payload)
+            console.log('loginSocialCallback -aqui', payload)
 
             return new Promise((resolve, reject) => {
                 axios
