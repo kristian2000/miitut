@@ -31,7 +31,7 @@ export default {
             <div class="row">
                 <div class="col-lg-4 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
                     <a href="#" class="logo-footer">
-                        <img src="https://i.ibb.co/YTDV8yz/Logo-01.png" height="24" alt="">
+                        <img src="/images/logo_morado.png" width="140" alt="">
                     </a>
                     <p class="mt-4">Conectando a personas con los mismos valores y distintas necesidades</p>
                     <ul class="list-unstyled social-icon social mb-0 mt-4">
