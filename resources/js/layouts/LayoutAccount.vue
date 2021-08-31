@@ -28,7 +28,7 @@ import MenuAccount from './components/MenuAccount'
  * Account-profile component
  */
 
-let sizeImgMax = 102400;
+let sizeImgMax = 10240000;
 
 export default {
     props: [
