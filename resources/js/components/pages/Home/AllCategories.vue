@@ -41,8 +41,7 @@ export default {
   <div class="mb-5">
     <!-- Hero Start -->
     <section 
-      class="bg-half bg-dark d-table w-100"
-      style="background: url('/images/aboutus/collage.jpg') center center"
+      class="bg-half bg-dark d-table w-100 bg-category"
     >
     <div class="bg-overlay"></div>
       <div class="container">

@@ -5341,3 +5341,13 @@ body {
     color: #6d48a4;
     border-color: #6d48a4;
 }
+.bg-category{
+    background: url('/images/aboutus/collage.jpg') center center; 
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+}
+@media (max-width: 768px){
+   .bg-category{
+    background-size: cover;
+   } 
+}

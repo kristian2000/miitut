@@ -55,14 +55,15 @@ const categories = [
     },
     {
         id: TYPE_CATEGORIES.PERSONAL_TRAINING,
-        label: 'Entrenamiento personal a domicilio',
+        label: 'Entrenamiento personal',
         pathImgHeader: "/images/headersCategories/personalTraining.jpg",
         icon: '/assets/icon_services/personalTraining.svg',
         imagen: "/images/categories/personalTraining.jpg",
         desc: {
             title: 'Encuentra el asesoramiento nutricional que necesitas, el entrenador personal ideal, la monitora de yoga o pilates de tus sueños en pocos clics.',
             text: 'Sabemos lo importante que es vuestro bienestar, por ello con el sistema de búsqueda de miitut tendrás a tu alcance multitud de profesionales dispuestos a ofrecerte sus servicios. Selecciona servicio, contacta con el profesional o directamente reserva tu cita.'
-        }
+        },
+        info: "Monitor de yoga, de pilates, asesoramiento nutricional...."
     },
     // {
     //     id: TYPE_CATEGORIES.ELDERLYCARE,

@@ -110,7 +110,7 @@ export default {
       <div class="container mb-5" style="min-height: 900px">
 
         <div class="text-center mb-4 ">
-            <h2 class="font-weight-bold subtitle">Nuestras Categorías</h2>
+            <h2 class="font-weight-bold subtitle">Categorías</h2>
             <p class="text-muted text-center">Encuentra a la persona que se ajusta a tus necesidades de forma cómoda y segura.</p>
         </div>
 
