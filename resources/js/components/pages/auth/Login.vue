@@ -176,7 +176,7 @@ export default {
                                                 class="text-dark font-weight-bold"
                                                 style="cursor:pointer"
                                             >
-                                                ¿Olvidaste tu contraseña ?
+                                                ¿ Olvidaste tu contraseña ?
                                             </span>
                                         </p>
                                     </div>
@@ -202,7 +202,7 @@ export default {
                                     <!--end icon-->
                                 </div>
                                 <div class="mx-auto">
-                                    <p class="mb-0 mt-3"><small class="text-dark mr-2">¿No tienes una cuenta?</small>
+                                    <p class="mb-0 mt-3"><small class="text-dark mr-2">Si no tienes cuenta</small>
                                         <router-link to="/registro" class="text-dark font-weight-bold">Regístrate</router-link>
                                     </p>
                                 </div>

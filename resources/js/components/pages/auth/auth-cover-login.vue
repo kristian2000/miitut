@@ -199,7 +199,7 @@ export default {
                                                 <!--end col-->
 
                                                 <div class="col-lg-12">
-                                                    <div class="d-flex justify-content-end">
+                                                    <div class="d-flex justify-content-center">
                                                         <!-- <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
@@ -212,7 +212,7 @@ export default {
                                                             style="cursor: pointer"
                                                         >
                                                             <!-- <router-link to="/auth-cover-re-password" class="text-dark font-weight-bold"> -->
-                                                            Olvidaste la Contraseña ?
+                                                            ¿ Olvidaste la Contraseña ?
                                                              <!-- </router-link> -->
                                                         </p>
                                                     </div>
@@ -269,7 +269,7 @@ export default {
                                                 <!--end col-->
 
                                                 <div class="col-12 text-center">
-                                                    <p class="mb-0 mt-3"><small class="text-dark mr-2">No tienes una Cuenta ?</small>
+                                                    <p class="mb-0 mt-3"><small class="text-dark mr-2">Si no tienes cuenta</small>
                                                         <router-link to="/registro" class="text-dark font-weight-bold">Registrate</router-link>
                                                     </p>
                                                 </div>

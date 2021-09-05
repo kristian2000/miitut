@@ -196,7 +196,7 @@ export default {
                                     class="btn btn-primary btn-block" 
                                     :disabled="!acceptTerm"
                                 >
-                                    Register
+                                    Registrarte
                                 </button>
                             </div>
                             <div class="col-lg-12 mt-4 text-center">
@@ -217,7 +217,7 @@ export default {
                                 <!--end icon-->
                             </div>
                             <div class="mx-auto">
-                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Ya tienes una cuenta ?</small>
+                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Si ya tienes una cuenta</small>
                                     <router-link to="/login" class="text-dark font-weight-bold">Iniciar sesión</router-link>
                                 </p>
                             </div>

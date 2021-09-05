@@ -2854,7 +2854,7 @@ section {
        -ms-grid-row-align: center;
        align-self: center;
    position: relative;
-   background-position: center center;
+   background-position: center 55%;
  }
 
  .bg-half {

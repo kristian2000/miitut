@@ -231,7 +231,7 @@ export default {
                   >
                     <b-card-body class="px-2 py-4">
                       <p class="text-muted mb-0 faq-ans">
-                        Es tan fácil como hacer Click en el botón de “regístrate gratis”, selecciona “trabajo”, y pulsa en el servicio que quieres ofrecer. 
+                        Es tan fácil como hacer clic en el botón de “regístrate gratis”, selecciona “trabajo”, y pulsa en el servicio que quieres ofrecer. 
                         Continúa añadiendo tus datos y completa tu perfil. Si ofreces más servicios puedes añadirlos más adelante haciéndote Premium.
                       </p>
                     </b-card-body>

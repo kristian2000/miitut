@@ -5,7 +5,8 @@
             <div
                 class="bg-half-170 d-table w-100"
                 style="
-                    background: url('/images/travel/bg.jpg') center center;
+                    background: url('/images/aboutus/collage.jpg') top center;
+                    background-size: cover;
                     height: 50vh;
                     position:absolute
                 "

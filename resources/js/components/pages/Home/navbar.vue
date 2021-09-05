@@ -152,7 +152,7 @@ export default {
                 <!-- Navigation Menu-->
                 <ul class="navigation-menu" :class="{'nav-light': navLight === true}">
                     <li>
-                        <router-link to="/" class="">Home</router-link>
+                        <router-link to="/" class="">Inicio</router-link>
                     </li>
 
                     <li>

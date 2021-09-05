@@ -79,7 +79,7 @@
                     <!-- not autentication -->
                     <b-navbar-nav class="ml-auto" v-if="!user">
                         <b-nav-item  @click="$router.push('/')">
-                                Home
+                                Inicio
                         </b-nav-item>
                         <b-nav-item>
                             Servicios
