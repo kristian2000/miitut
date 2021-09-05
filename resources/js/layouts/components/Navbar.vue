@@ -68,10 +68,10 @@
     <nav class="navbar-custom">
         <b-navbar toggleable="lg" >
             <div class="container">
-                <b-navbar-brand @click="$router.push('/')">
-                    <img src="/assets/logo.png" alt="logo"  height="30">
-                </b-navbar-brand>
-
+                
+                <router-link class="logo" to="/">
+                    <img src="/assets/logo.png" height="30" alt="">
+                </router-link>
                 <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
                 <!-- Right aligned nav items -->

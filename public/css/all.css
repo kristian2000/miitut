@@ -2286,7 +2286,7 @@ section {
  #topnav .navbar-toggle span {
    height: 2px;
    width: 100%;
-   background-color: black;
+   background-color: #fff;
    display: block;
    margin-bottom: 5px;
    -webkit-transition: -webkit-transform .5s ease;
@@ -5346,8 +5346,18 @@ body {
         background-size: 100% 100%;
         background-repeat: no-repeat;
 }
+#reg {
+        border: 1px solid white;
+        margin-left: 50px;
+        padding: 10px;
+        border-radius: 10px;
+    }
 @media (max-width: 768px){
    .bg-category{
     background-size: cover;
    } 
+   #reg {
+        margin-left: 0px !important;
+        padding: 0px !important;
+    }
 }

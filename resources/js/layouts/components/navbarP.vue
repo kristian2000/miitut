@@ -98,6 +98,15 @@ export default {
         },
 
         /**
+         * Close menu
+         */
+        closeMenu() {
+            this.isCondensed = false;
+                document.getElementById("navigation").style.display = "none";
+        },
+
+
+        /**
          * Menu clicked show the submenu
          */
         onMenuClick(event) {
@@ -154,16 +163,16 @@ export default {
             <div id="navigation">
                 <!-- Navigation Menu-->
                 <ul class="navigation-menu" :class="{'nav-light': navLight === true}">
-                    <li>
-                        <router-link to="/" class="">Inicio</router-link>
+                    <li @click="closeMenu">
+                        <router-link to="/" class="" >Inicio</router-link>
                     </li>
 
-                    <li>
+                    <li @click="closeMenu">
                         <router-link to="/quienes-somos" class="side-nav-link-reftext-white">Quienes Somos</router-link>
                     </li>
 
 
-                    <li class="has-submenu">
+                    <li class="has-submenu"  @click="closeMenu">
                         <router-link to="todas-categorias" @click="onMenuClick">Categorias</router-link><span class="menu-arrow"></span>
                         <ul class="submenu">
 
@@ -180,7 +189,7 @@ export default {
                         </ul>
                     </li>
 
-                    <li>
+                    <li  @click="closeMenu">
                         <router-link to="/blog" class="side-nav-link-reftext-white">Blog</router-link>
                     </li>
 
@@ -190,10 +199,10 @@ export default {
 
                     <li class="has-submenu">
                         <router-link to='/registro' v-if="!isAuth">
-                            <span class="text-white" id="registrate">REGISTRATE GRATIS</span>
+                            <span id="reg">REGISTRATE GRATIS</span>
                         </router-link>
-                        <a v-else @click="isAuthRedirect()" style="cursor:pointer;">
-                            <span class="text-white" id="registrate">Ir a Perfil</span>
+                        <a href="javascript:void(0);" v-else @click="isAuthRedirect()" >
+                            <span  id="reg">Ir a Perfil</span>
                         </a>
                     </li>
 
@@ -213,14 +222,7 @@ export default {
 
 <style>
 
-    #registrate {
-        border: 1px solid white;
-        margin-left: 50px;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    .buy-button {
+.buy-button {
     display: none;
 }
 
@@ -242,6 +244,7 @@ export default {
         font-size: 15px;
     }
 
+    
 }
 
 ul.navigation-menu {
@@ -251,13 +254,13 @@ ul.navigation-menu {
 #topnav.nav-sticky ul li a {
     color: #000 !important;
 }
-
+/*
 #topnav.nav-sticky #registrate {
     border: 1px solid black;
     margin-left: 50px;
     padding: 10px;
     border-radius: 10px;
     color: #000 !important;
-}
+}*/
 
 </style>
