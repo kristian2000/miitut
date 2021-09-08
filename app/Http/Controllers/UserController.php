@@ -209,6 +209,10 @@ class UserController extends Controller
             'address' => 'string',
             'state' => 'string',
             'country' => 'string',
+            'county' => 'string',
+            'town' => 'string',
+            'amenity' => 'string',
+            'postal_code' => 'string',
             'lat' => 'numeric',
             'lng' => 'numeric',
             'description' => 'string',
@@ -227,6 +231,10 @@ class UserController extends Controller
             'address',
             'state',
             'country',
+            'county',
+            'town',
+            'amenity',
+            'postal_code',
             'birthdate',
             'description',
             'dni',
@@ -239,10 +247,10 @@ class UserController extends Controller
             "has_children",
             "spoken_language"
         ]);
-
+        
         $user = Auth::user();
         $user->update(array_merge($data , ['fase_registry' => 'dni']));
-
+        
         // if ($user->userType === 'work'){
         //     $user->update(array_merge($data , ['fase_registry' => 'completeProfileWork']));
         // }else {

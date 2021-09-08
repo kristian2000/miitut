@@ -218,7 +218,7 @@ export default {
                 <p class="text-muted mb-0">{{ categoryUser.category.label }}</p>
               </div>
               <div class="card-body">
-                <h5 class="card-title">Detalles Personales :</h5>
+                <h5 class="card-title">Datos Personales :</h5>
 
                 <ul class="list-unstyled">
                     <li class="h6">
@@ -247,11 +247,18 @@ export default {
                     </span> {{ categoryUser.user.state }}
                   </li>
                   <li class="h6">
+                    <globe-icon
+                      class="fea icon-sm text-warning mr-2"
+                    />
+                    <span class="text-muted">Población :
+                    </span> {{ categoryUser.user.county }}, {{ categoryUser.user.town }}
+                  </li>
+                  <li class="h6">
                     <server-icon
                       class="fea icon-sm text-warning mr-2"
                     />
                     <span class="text-muted">Código Postal :
-                    </span> 521452
+                    </span> {{ categoryUser.user.postal_code }}
                   </li>
                   <li class="h6">
                     <span class="text-muted">Nacionalidad :
@@ -395,7 +402,7 @@ export default {
                     <div class="media-body">
                       <h5 class="title mb-0">Experiencia :</h5>
                       <small class="text-muted company-university"
-                        >Promedio de {{ categoryUser.yearExperience }} {{ categoryUser.yearExperience < 1 ? 'Años' : 'Año'}}</small
+                        >Promedio de {{ categoryUser.yearExperience }} {{ categoryUser.yearExperience > 1 ? 'años' : 'año'}}</small
                       >
                       <p class="text-muted mt-2 mb-0">
                         {{ categoryUser.descriptionExperience }}
@@ -444,10 +451,10 @@ export default {
                     <div class="media-body">
                       <h5 class="title mb-0">Comentarios:</h5>
                       <div class="text-muted mt-2 mb-0">
-                          <div class="container" style="max-height: 400px; overflow: scroll">
+                          <div class="container" style="max-height: 400px; overflow-y: scroll; word-break: break-all;">
 
                             <div v-for="(comment, index) in categoryUser.comments" :key="index">
-                                <div class="d-flex">
+                                <div class="d-flex mb-3">
                                     <div class="user-comment ">
                                         <div>
                                             <img
@@ -466,7 +473,7 @@ export default {
                                         </div>
                                     </div>
                                     <div class="border p-2 comment" >
-                                        <div style="max-height: 150px; overflow: scroll">
+                                        <div>
                                             {{ comment.comment }}
                                         </div>
                                     </div>
@@ -636,7 +643,7 @@ export default {
     }
 
     .comment {
-        width: 350px;
+        width: 85%;
         border-radius: 15px;
     }
 

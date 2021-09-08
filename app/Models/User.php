@@ -37,7 +37,11 @@ class User extends Authenticatable
 
         'address',
         'country',
+        'county',
         'state',
+        'town',
+        'amenity',
+        'postal_code',
         'lat',
         'lng',
 

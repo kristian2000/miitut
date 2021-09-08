@@ -22,7 +22,11 @@ export default {
             coords: null,
             address: '',
             country: '',
+            county: '',
             state: '',
+            town: '',
+            amenity: '',
+            postal_code: '',
             dni: '',
             description: '',
 
@@ -245,7 +249,11 @@ export default {
 
                 address: this.addressSearch.display_name,
                 country: this.addressSearch.address.country,
-                state: this.addressSearch.address.state,
+                county: this.addressSearch.address.county,
+                state:   this.addressSearch.address.state,
+                town: this.addressSearch.address.road + " " + this.addressSearch.address.town,
+                amenity: this.addressSearch.address.amenity,
+                postal_code: this.addressSearch.address.postcode,
                 lat: this.addressSearch.lat,
                 lng: this.addressSearch.lon,
 
@@ -260,7 +268,6 @@ export default {
                 spoken_language: this.selectedLanguages
             }
 
-        // console.log('addressSearch', this.addressSearch);
             console.log('formSubmit', form)
 
             try{
@@ -317,7 +324,7 @@ export default {
                                 class="text-muted"
                                 style="font-size: 12px;"
                             >
-                                Los perfiles sin fotografia inspiran confianza a los otros usuarios
+                                Los perfiles sin fotografia inspiran desconfianza a los otros usuarios
                             </p>
                         </div>
                         <div class="col-md-2 col-12 text-center">

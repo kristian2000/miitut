@@ -97,7 +97,7 @@ export default ({
             <div v-if="subscriptions">
                 <div class="card bg-white price-box">
                     <div class="pricing-name text-center">
-                        <h4 class="mb-0 font-weight-bold">Tienes una Subscripcion</h4>
+                        <h4 class="mb-0 font-weight-bold">Tienes una Suscripción</h4>
                     </div>
                     <div class="plan-price text-center mt-2">
                         <h3 class="text-custom font-weight-normal mb-0">

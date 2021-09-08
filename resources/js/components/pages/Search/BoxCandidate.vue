@@ -50,7 +50,7 @@ export default {
                 </li>
                 <!-- Este si esta verificado -->
                 <li 
-                    class="list-inline-item"
+                    class="list-inline-item ml-auto verified"
                     v-if="Number(categoryUser.user.profile_check)"
                 >
                     <span class="badge badge-pill badge-soft-success">
@@ -152,5 +152,8 @@ export default {
 </template>
 
 <style scoped>
-
+.verified{
+    position: absolute;
+    right: 40px;
+}
 </style>

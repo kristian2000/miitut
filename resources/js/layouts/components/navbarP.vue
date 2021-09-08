@@ -173,7 +173,7 @@ export default {
 
 
                     <li class="has-submenu"  @click="closeMenu">
-                        <router-link to="todas-categorias" @click="onMenuClick">Categorias</router-link><span class="menu-arrow"></span>
+                        <router-link to="/todas-categorias/" @click="onMenuClick"> Categorias </router-link><span class="menu-arrow"></span>
                         <ul class="submenu">
 
                             <!-- <li>

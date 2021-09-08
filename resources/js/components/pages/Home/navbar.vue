@@ -93,7 +93,13 @@ export default {
             } else
                 document.getElementById("navigation").style.display = "none";
         },
-
+         /**
+         * Close menu
+         */
+        closeMenu() {
+            this.isCondensed = false;
+                document.getElementById("navigation").style.display = "none";
+        },
         /**
          * Menu clicked show the submenu
          */
@@ -160,8 +166,8 @@ export default {
                     </li>
 
 
-                    <li class="has-submenu">
-                        <a class="" href="javascript:void(0)" @click="onMenuClick">Categorias</a><span class="menu-arrow"></span>
+                    <li class="has-submenu"  @click="closeMenu">
+                        <router-link to="/todas-categorias/" @click="onMenuClick"> Categorias </router-link><span class="menu-arrow"></span>
                         <ul class="submenu">
 
                             <!-- <li>
@@ -169,7 +175,7 @@ export default {
                             </li> -->
 
                             <li v-for="category in categories" :key="category.id">
-                                <router-link :to="`/acerca-categoria/${category.name}`" class="side-nav-link-ref">
+                                <router-link :to="`/acerca-categoria/${category.label.replaceAll(' ', '').toLowerCase()}`" class="side-nav-link-ref">
                                     {{ category.label }}
                                 </router-link>
                             </li>   
