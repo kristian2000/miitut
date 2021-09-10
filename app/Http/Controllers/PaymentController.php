@@ -41,8 +41,8 @@ class PaymentController extends Controller
         $priceTotal = $this->formatNumber($price * $hours);
         $commission = $this->formatNumber($priceTotal * $porcentageCommision);
         $subtotal = $this->formatNumber($priceTotal + $commission);
-        $iva = $this->formatNumber($subtotal * $porcentageIva);
-        $amount = $this->formatNumber($subtotal + $iva);
+        $iva = $this->formatNumber($commission * $porcentageIva);
+        $amount = $this->formatNumber($subtotal + ($this->formatNumber($subtotal * $porcentageIva)));
 
         return [
             "typeContract" => "occasional",
@@ -82,9 +82,9 @@ class PaymentController extends Controller
         $priceTotal = $this->formatNumber($price * $hours * $totalDays);
         $commission = $this->formatNumber($priceTotal * $porcentageCommision);
         $subtotal = $this->formatNumber($priceTotal + $commission);
-        $iva = $this->formatNumber($subtotal * $porcentageIva);
-        $amount = $this->formatNumber($subtotal + $iva);
-
+        $iva = $this->formatNumber($commission * $porcentageIva);
+        $amount = $this->formatNumber($subtotal + ($this->formatNumber($subtotal * $porcentageIva)));
+        
         return [
             "typeContract" => "habitual",
             "daysSem" => $daysSem,
@@ -256,7 +256,7 @@ class PaymentController extends Controller
 
         $contract = Contract::find($request['contract']);
         $user = Auth::user();
-
+        
         $price = $contract->price;
         $hours = $contract->hours;
         $daysSem = $contract->daysSelected;

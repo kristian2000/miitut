@@ -303,7 +303,7 @@ class ContractController extends Controller
         $user = Auth::user();
 
         $ads = $user->ads;
-
+        
         return response()->json($ads);
     }
 

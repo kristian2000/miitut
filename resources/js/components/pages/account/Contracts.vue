@@ -261,7 +261,7 @@ export default {
                                                         >
                                                     </div>
                                                     <div class="">
-                                                        <div class="text-muted">
+                                                        <div class="text-muted ml-2">
                                                             {{ $store.state.user.userType === 'help' ?
                                                                     contract.category_user.user.name
                                                                     :
@@ -286,7 +286,7 @@ export default {
                             <div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center mt-2">                     
+                        <div class="d-flex justify-content-center mt-2">      
                             <b-button 
                                 pill 
                                 id="btn-modify-2" 

@@ -355,7 +355,7 @@ export default {
                 <div class="col-12">
                     <b-form-group
                         description=""
-                        label="Precio Hora/Euro"
+                        label="Precio Euro/Hora"
                         label-for="precio"
                     >
                         <b-form-input 

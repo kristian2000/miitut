@@ -118,8 +118,8 @@ export default {
 
 <!-- style="height: 450px; overflow:scroll" -->
             <div class="border-bottom">
-                 <div class="row" v-for="doc in itemsToDisplay" :key="doc.id">
-                    <div class="col-lg-6 col-12 mb-4 pb-2">
+                 <div class="row" >
+                    <div  v-for="doc in itemsToDisplay" :key="doc.id" class="col-lg-6 col-12 mb-4 pb-2">
                         <CardOffer 
                             type="offer"
                             :doc="doc"
@@ -133,7 +133,7 @@ export default {
                     >
                    <pagination-custom 
                         :items="docs"
-                        :perPage="2"
+                        :perPage="4"
                         :handleChange="displayItems"
                    />
                 </div>

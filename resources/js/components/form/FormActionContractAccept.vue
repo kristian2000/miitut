@@ -40,6 +40,7 @@ export default {
             scoreStar: 1,
             Comment: '',
             infoPayment: { loading: false, doc: null},
+            userType : "work",
         }
     },
     created(){
@@ -85,7 +86,8 @@ export default {
             return d1 > d2;
         },
         async calculatePayment(){
-
+            const user = this.$store.state.user;
+            this.userType = user.userType;
             this.infoPayment.loading = true;
             
             let form = {
@@ -104,7 +106,7 @@ export default {
             }
 
             this.infoPayment.loading = false;
-            console.log('calculatePayment', response)
+            console.log('calculatePayment', user)
 
         },
     }
@@ -233,7 +235,7 @@ export default {
                             </div>
                             <div class="d-flex justify-content-center">
                                 <p class="text-muted" style="width: 80%;">
-                                    El Contrato esta en proceso, cuando se culmine los acuerdos dale click en finalizar y da tu opinión  
+                                    La contratación se está llevando a cabo, para terminar el proceso haz clic en finalizar, no olvides dejar tu comentario. ¡¡¡Gracias!!!
                                 </p>
                             </div>
                         </div>
@@ -379,6 +381,7 @@ export default {
                     </div>
                     <div >
                         <b-button 
+                            v-if="userType != 'work'"
                             pill 
                             variant="outline-success" 
                             @click="renovarCall"

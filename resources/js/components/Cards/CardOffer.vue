@@ -15,9 +15,7 @@ import Score from '../score.vue'
 
 export default {
     props: ["doc", "onCall", "onCallRequest", 'type'],
-    created(){
-        console.log('created ads', this.doc)
-    },
+    
     components: {
         MapPinIcon,
         MoreVerticalIcon,
@@ -101,7 +99,7 @@ export default {
                     <!-- <router-link to="/page-job-company" class="text-dark company-name">CircleCi</router-link> -->
                 </h5>
                 <p class="text-muted">
-                    <map-pin-icon class="fea icon-sm"></map-pin-icon> {{ doc.user.state }}
+                    <map-pin-icon class="fea icon-sm"></map-pin-icon> {{ doc.user.state }}<br>{{ doc.user.county }}
                 </p>
             </div>
             <ul class="job-facts list-unstyled">

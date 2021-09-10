@@ -130,11 +130,11 @@ class MembershipController extends Controller
         });
 
         $price = $plan['amount'];
-        $totalIva = $this->formatNumber($porcentageIva * $price);
-        $amount = $price - $totalIva;
+        $amount = $this->formatNumber($price / (1+$porcentageIva));;
+        $totalIva = $amount * $porcentageIva;
         $subtotal = $amount;
         $totalAmount = $price;
-
+        
         // Crear pago en BD
         $payment = Payment::create([
             'method_payment' => 'stripe',

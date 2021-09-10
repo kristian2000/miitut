@@ -39,6 +39,7 @@ export default {
         this.category = this.$store.state.categories[0]
 
         this.getAdsContract();
+
     },
     computed: {
         categories(){
@@ -55,12 +56,13 @@ export default {
         },
         async getAdsContract(){
             const response = await this.callApi('get', `app/contracts/ads`);
-
+                console.log(response);
             if (response.status === 200){
                 this.docs = response.data;
+
                 this.loading = false;
             }
-            console.log(response);
+            
         },
         async addAdContract(form){
 
@@ -71,10 +73,9 @@ export default {
                 this.$bvModal.hide('modalAddAd')
                 this.action = '';
             }
-            console.log('addAdContract', response)
         },
         showContract(contract){
-            console.log('currentContract', contract)
+
             this.currentAd = contract;
             this.action = '';
             this.$bvModal.show('modalAddAd')
@@ -98,11 +99,9 @@ export default {
         },
         async acceptRequest(doc){
             this.loading = true;
-            console.log('acceptRequest', { currentAd: this.currentAd, doc})
 
             const response = await this.callApi('post', `app/contracts/${this.currentAd.id}/acceptRequest/${doc.id}`);
 
-            console.log(response)
             if (response.status === 200){
                 this.docs = this.docs.filter(d => d.id != this.currentAd.id);
                 this.$bvModal.hide('modalRequests')
@@ -130,11 +129,11 @@ export default {
             </div>
 
             <div class="ads-container border-bottom">
-                <div 
-                    class="row"
-                    v-for="doc in docs" :key="doc.id"
-                >
-                    <div class="col-lg-6 col-12 mb-4 pb-2">
+                <div class="row">
+                    <div 
+                        class="col-lg-6 col-12 mb-4 pb-2"
+                        v-for="doc in itemsToDisplay" :key="doc.id"
+                    >
                         <CardOffer 
                             type="ad"
                             :doc="doc"
@@ -216,7 +215,7 @@ export default {
                 <pagination-custom 
                     v-if="docs.length"
                     :items="docs"
-                    :perPage="2"
+                    :perPage="4"
                     :handleChange="displayItems"
                 />
             </div>
@@ -402,19 +401,6 @@ export default {
 
     .btn-icon {
         cursor: pointer;
-    }
-
-    .ads-container {
-        max-height: 650px; 
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    @media (min-width: 768px) {
-        .ads-container {
-            max-height: 450px; 
-            overflow-y: auto;
-        }
     }
 
 </style>

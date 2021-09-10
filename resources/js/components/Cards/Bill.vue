@@ -80,7 +80,7 @@
                             <thead>
                                 <tr>
                                     <th>Descripción</th>
-                                    <th colspan="2">Precio sin IVA</th>
+                                    <th colspan="2">COSTE</th>
                                 </tr>
                             </thead>
                             <tbody v-if="doc.type_payment === 'contract'">
@@ -118,9 +118,9 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="text-right">
-                                        IVA SOBRE COMISION
+                                        I.V.A <span v-if="doc.contract_id">sobre comisión</span>
                                     </td>
-                                    <td>{{ doc.data.info.totalIva }}€</td>
+                                    <td>{{ doc.data.info.totalIva.toFixed(2) }}€</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="text-right">
@@ -161,7 +161,7 @@ export default {
         PlusIcon
     },
     created(){
-        console.log('bill', this.doc)
+        console.log('bill', this.doc.contract_id)
     },
     methods: {
         async exportPDF(){
@@ -199,7 +199,7 @@ export default {
         width: 100%;
         /* background: #eee; */
         margin-bottom: 10px;
-        overflow: auto;
+        
     }
 
     .btn-bill-more {
@@ -219,7 +219,7 @@ export default {
         /* padding: 0 10px; */
         min-width: 600px;
         height: auto;
-        overflow: scroll;
+        
         /* background: #ddd; */
     }
 
