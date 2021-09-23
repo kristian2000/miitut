@@ -31,10 +31,12 @@ class MembershipController extends Controller
     }
 
     public function retrievePlans(){
+        
         $stripe = new StripeClient(env('STRIPE_SECRET'));
         $plansRaw = $stripe->plans->all();
+        
         $plans = $plansRaw->data;
-
+        //dd($plans[0]);
         foreach($plans as $plan) {
             $prod = $stripe->products->retrieve(
                 $plan->product,[]
@@ -129,8 +131,8 @@ class MembershipController extends Controller
             return $value->name == 'address_bill';
         });
 
-        $price = $plan['amount'];
-        $amount = $this->formatNumber($price / (1+$porcentageIva));;
+        $price = $plan['amount']/100;
+        $amount = $this->formatNumber($price / (1+$porcentageIva));
         $totalIva = $amount * $porcentageIva;
         $subtotal = $amount;
         $totalAmount = $price;

@@ -9,6 +9,8 @@ use App\Models\DocumentId;
 use App\Models\Payment;
 use App\Models\Report;
 use App\Models\Status;
+use App\Models\SystemConstant;
+use Illuminate\Support\Arr;
 use PDO;
 use Stripe\Charge;
 use Stripe\Stripe;
@@ -137,12 +139,23 @@ class AdminController extends Controller
 
     public function getPaymentsContract(){
         $payment = Payment::where('type_payment', 'withdrawal')
-            ->with('contract', 'user', 'status')
+            ->orWhere('type_payment')
+            ->with('contract','contract.status', 'user', 'status')
             ->orderBy('created_at', 'desc')
             ->get();
 
+            $commissions = SystemConstant::where('type', 'commission')->get();
+            $commission_pay = Arr::first($commissions, function ($value, $key) {
+                return $value->name == 'commission_pay';
+            });
+            $iva_pay = Arr::first($commissions, function ($value, $key) {
+                return $value->name == 'iva_pay';
+            });
+
         return response()->json([
-            'payments' => $payment
+            'payments' => $payment,
+            'commission_pay' => $commission_pay,
+            'iva_pay' => $iva_pay,
         ]);
     }
 

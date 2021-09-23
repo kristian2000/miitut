@@ -55,6 +55,7 @@
                             </h2>
                             <h2 class="text-title mb-3 text-info" v-if="!loading">
                                 {{ msg }}
+                                <a v-if="msg!='El codigo no es valido'" href="javascript:void(0)" @click="$router.push('/login')">Iniciar sesion</a>
                             </h2>
                         </div>
                     </div>

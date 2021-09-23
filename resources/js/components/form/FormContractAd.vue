@@ -172,7 +172,7 @@ export default {
                 message: this.message
             }
             
-            if (this.typeContract === 'habitual'){
+            
                 form = {
                     ...form,
                     dateEnd: this.dateEnd,
@@ -180,7 +180,7 @@ export default {
                     message: this.message,
                     daysSelected: this.daysSelected.length
                 }
-            }
+            
             
             //Hacer Validaciones manuales
 
@@ -246,7 +246,7 @@ export default {
                 price: this.price
             }
 
-            if (this.typeContract === 'habitual'){
+            
                 form = {
                     ...form,
                     dateEnd: this.dateEnd.date,
@@ -254,7 +254,7 @@ export default {
                     message: this.message,
                     daysSelected: this.daysSelected
                 }
-            }
+            
             
             if (call === 'calculatePayment'){
                 return this.calculatePayment(form);
@@ -472,7 +472,7 @@ export default {
             <!-- End hours -->
 
             <!-- Start Days Selected ( Only Contract habitual ) -->
-            <div v-if="typeContract === 'habitual'" class="col-12 ">
+            <div class="col-12 ">
                 <div class="text-muted my-3">
                     <label for="">Días Seleccionados:</label>
                     <div class="d-flex justify-content-center">
@@ -528,9 +528,9 @@ export default {
                             <span class="text-center">
                                 {{ typeContract === 'occasional' ? 
                                     'Este contrato es de un unico pago,' :
-                                    'Este Contrato es de pago por un mes, y se puede renovar,'
+                                    'Este contrato es mensual, con posibilidad de renovación terminado el periodo,'
                                 }}
-                                luego de creado el contrato no se puede editar
+                                Una vez finalizado el contrato no podrá ser editado.
                             </span>
                         </div>
                         <div class="col-5 d-flex justify-content-center">

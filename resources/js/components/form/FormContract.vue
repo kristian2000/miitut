@@ -155,7 +155,7 @@ export default {
                 message: this.message
             }
             
-            if (this.typeContract === 'habitual'){
+            
                 form = {
                     ...form,
                     dateEnd: this.dateEnd,
@@ -163,7 +163,7 @@ export default {
                     message: this.message,
                     daysSelected: this.daysSelected.length
                 }
-            }
+            
             
             //Hacer Validaciones manuales
 
@@ -234,7 +234,7 @@ export default {
                 price: this.price
             }
 
-            if (this.typeContract === 'habitual'){
+            
                 form = {
                     ...form,
                     dateEnd: this.dateEnd.date,
@@ -242,7 +242,7 @@ export default {
                     message: this.message,
                     daysSelected: this.daysSelected
                 }
-            }
+            
             
             if (call === 'calculatePayment'){
                 return this.calculatePayment(form);
@@ -459,7 +459,7 @@ export default {
             <!-- End hours -->
 
             <!-- Start Days Selected ( Only Contract habitual ) -->
-            <div v-if="typeContract === 'habitual'" class="col-12 ">
+            <div class="col-12">
                 <div class="text-muted my-3">
                     <label for="">Días Seleccionados:</label>
                     <div class="d-flex justify-content-center">

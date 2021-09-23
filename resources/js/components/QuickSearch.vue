@@ -143,7 +143,7 @@ export default {
                 </div>
             </div>
             <div class="col-md-12">
-                <button class="btn btn-success w-100">Buscar Ahora</button>
+                <button class="btn btn-primary w-100">Buscar Ahora</button>
             </div>
             </div>
         </form>

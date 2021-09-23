@@ -6,7 +6,7 @@ export default {
     ],
     data(){
         return {
-            stripeAPIToken: 'pk_test_51IEjGjFMHGc5BcHAXf1QcLCGWdsOx7ZFYtYyqRr7q99bWQ0zoNdW3fejDmCGgVDzHTPWCFYBpfeVL62bUYf2xS6q00efHHqCYH',
+            stripeAPIToken: 'pk_test_51I7LaLBr8a5SD95isUtkZXJaF7OhDlZQ7abkBAzyRdnUeY8uZwNGYtOIKeYDeVnqfwBR1iStH3GHIHI81h3lEU3l00w2JEgpoP',
             name: '',
             stripe: '',
             elements: '',

@@ -287,7 +287,7 @@ export default {
             <div>
                 <b-modal
                     id="modalRequests"
-                    title="Ver Solicitudes"
+                    title="Ver solicitudes"
                     scrollable
                     hide-footer
                 >
@@ -295,7 +295,7 @@ export default {
                         <b-table 
                             striped 
                             hover 
-                            :fields="['avatar','user', 'actions']"
+                            :fields="['avatar','usuario', 'acciones']"
                             :items="currentAd.requests"
                         >
                             <template #cell(avatar)="data">
@@ -306,11 +306,11 @@ export default {
                                     style="cursor:pointer; width: 40px; height: 40px; border-radius: 50%"
                                 />
                             </template>
-                            <template #cell(user)="data">
+                            <template #cell(usuario)="data">
                                 {{ data.item.user.name }}
                             </template>
 
-                            <template #cell(actions)="data">
+                            <template #cell(acciones)="data">
                                 <div class="d-flex justify-content-around">
                                     <div class="">
                                         <b-button 

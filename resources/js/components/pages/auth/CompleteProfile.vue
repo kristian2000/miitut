@@ -9,7 +9,7 @@ import {
 import LayoutStandar from '../../../layouts/LayoutStandar'
 import SelectedLanguages from '../../SelectedLanguages'
 
-let sizeImgMax = 102400;
+let sizeImgMax = 10240000;
 
 export default {
     data(){
@@ -108,10 +108,10 @@ export default {
             this.$refs.fileInput.click()
         },
         async onFileChange(e){
-            // console.log(e.target.files[0])
+             
 
             const image = e.target.files[0]
-
+            console.log(image?.size);
             if (image?.size >= sizeImgMax){
                 this.makeNotice(
                     'danger', 
@@ -344,7 +344,7 @@ export default {
                         type="file" 
                         style='display:none;'
                         @change="onFileChange" 
-                        size="1"
+                        size="100"
                     >
                 </div>
                 <hr>

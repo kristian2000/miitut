@@ -149,7 +149,7 @@ class AuthController extends Controller
             $user->save();
 
             return response()->json([
-                "msg" => "Su email ha sido verificado. Iniciar Sesion"
+                "msg" => "Su email ha sido verificado."
             ]);
         }
 

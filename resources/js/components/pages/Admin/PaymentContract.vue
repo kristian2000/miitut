@@ -10,6 +10,8 @@ export default {
     data(){
         return {
             docs: [],
+            iva_pay: [],
+            commission_pay: [],
             fields: [
                 { key: 'created_at', label: 'Fecha'},
                 { key: 'typePayment', label: 'Tipo' },
@@ -40,6 +42,8 @@ export default {
 
             if (response.status === 200){
                 this.docs = response.data.payments;
+                this.iva_pay=response.data.iva_pay,
+                this.commission_pay=response.data.commission_pay,
                 this.loading = false; 
             }
         },
@@ -112,7 +116,7 @@ export default {
                             </div>
                         </template>
                         <template #cell(typeContract)="data">
-                            <div>
+                            <div v-if="data.item.contract">
                                 {{ data.item.contract.type_contract }}
                             </div>
                         </template>
@@ -137,25 +141,33 @@ export default {
                     <div class="border-bottom font-weight-bold text-center"> 
                         Informacion
                     </div>
-                    <div class="">
-                        <label> Estatus: </label>
+                    <div class="" v-if="currentDoc.contract">
+                        <label> Estatus del contrato: </label>
                         <span> {{ currentDoc.contract.status.label }} </span>
                     </div>
-                    <div class="mt-2">
+                    <div class="mt-2" v-if="currentDoc.contract">
                         <label> Fecha Inicial: </label>
                         <span> {{ currentDoc.contract.date_start }} </span>
                     </div>
                     <div class="">
                         <label> Tipo de Contrato: </label>
-                        <span> {{ currentDoc.contract.type_contract }} </span>
+                        <span v-if="currentDoc.contract"> {{ currentDoc.contract.type_contract }} </span>
                     </div>
                     <div class="">
                         <label> Monto cancelado: </label>
-                        <span> {{ currentDoc.amount }} </span>
+                        <span> {{ currentDoc.amount }} €</span>
+                    </div>
+                    <div class="">
+                        <label> Monto sin comisión Miitut: </label>
+                        <span> {{ (currentDoc.amount / (1+commission_pay.amount)).toFixed(2) }} €</span>
+                    </div>
+                    <div class="">
+                        <label> Comisión Miitut: </label>
+                        <span> {{ ((currentDoc.amount / (1+commission_pay.amount)) * commission_pay.amount).toFixed(2) }} €</span>
                     </div>
                     <div class="">
                         <label> Categoria: </label>
-                        <span> {{ currentDoc.contract.category_user.category.label }} </span>
+                        <span v-if="currentDoc.contract"> {{ currentDoc.contract.category_user.category.label }} </span>
                     </div>
                 </div>
                 <div>
@@ -204,7 +216,7 @@ export default {
 
                         </div>
 
-                        <div class="">
+                        <div class="mt-2">
                             <div class="mt-2">
                                 <div class="font-weight-bold text-center border-bottom">
                                     Datos de Retiro:

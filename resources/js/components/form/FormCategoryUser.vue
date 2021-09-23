@@ -72,6 +72,7 @@ export default {
 
             this.userCategory = this.categoryUser;
             this.sheduleData = this.categoryUser.shedule;
+            
         }else {
             // Categorias y subcategorias
             const responseSubCat = await this.callApi('get', `/app/categories/getWithSubcategories`)

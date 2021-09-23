@@ -17,6 +17,7 @@ export default ({
     created() {
         this.showPlans();
         // this.getPlans();
+        
     },
     components: {
         FormPaymentMethods
@@ -26,12 +27,12 @@ export default ({
             this.laodingPlans = true;
 
             const response = await this.callApi('get', `/app/plans`);
-            console.log('plans', response)
+            
             // this.$bvModal.show('modalAddCategory')
 
             if (response.status === 200){
                 this.plans = response.data;
-
+                console.log('plans', this.plans[1].product.metadata.Ahorra);
                 this.laodingPlans = false;
             }
         },
@@ -49,10 +50,9 @@ export default ({
                 }
                 this.loading = false;
             }
-            console.log('showPlan', response)
         },
         async selectPlan(plan){
-            console.log('selecte plan', plan)
+            console.log('selecte plan', plan)   
             this.selectedPlan = plan;
         },
         async subscribePlan(){
@@ -156,8 +156,15 @@ export default ({
                                 </div>
                                 <div class="plan-price text-center mt-2">
                                     <h3 class="text-custom font-weight-normal mb-0">
-                                        € {{ Number(plan.amount /100).toFixed(2) }}<span>/{{ plan.interval }}</span>
+                                        {{ plan.nickname }}<span></span>
                                     </h3>
+                                </div>
+                                <div v-if="plan.product.metadata.Ahorra" class="plan-price text-center mt-2">
+                                    <h6  class="text-custom font-weight-bold mb-0">
+                                        <span>(Ahorra {{plan.product.metadata.Ahorra}} €/año)</span>
+                                    </h6>
+                                </div>
+                                <div v-else style="margin-top: 33px" class="plan-price text-center">
                                 </div>
 
                                 <div class="text-center mt-2">

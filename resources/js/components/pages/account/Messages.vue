@@ -82,19 +82,47 @@ export default {
                 // console.log('messagesConversation', response.data.messages);
             }
         },
+        
         async sendMessage(){
             if (!this.textMessage.trim().length){
                 return ''
             }
 
-            this.loadingSendMessage = true;
-            console.log('sendMessage');
+            var textEspace = this.textMessage.split(' ');
+            var i=0;
+            var error = false;
 
-            if (this.formatStringEmailPhones(this.textMessage)){
+            for(i=0;i<textEspace.length;i++){
+
+                var isphone = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/.test(textEspace[i]);
+                if(isphone){error= true;}
+                
+                isphone = /^(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/.test(textEspace[i]);
+                if(isphone){error= true;}
+                var email = textEspace[i].indexOf("gmail");
+                if(email == 0){error= true;}
+                var email = textEspace[i].indexOf("GMAIL");
+                if(email == 0){error= true;}
+                var email = textEspace[i].indexOf("HOTMAIL");
+                if(email == 0){error= true;}
+                var email = textEspace[i].indexOf("hotmail");
+                if(email == 0){error= true;}
+                var email = textEspace[i].indexOf("YAHOO");
+                if(email == 0){error= true;}
+                var email = textEspace[i].indexOf("yahoo");
+                if(email == 0){error= true;}
+
+            }
+            
+           
+            
+
+            if (this.formatStringEmailPhones(this.textMessage) || error){
+                alert("No es valido el envio de correos o números telefónicos");
                 return ;
 
             }
-
+        this.loadingSendMessage = true;
             let form = {
                 to: this.currentConversation.from_id === this.$store.state.user.id ? 
                     this.currentConversation.to_id :
