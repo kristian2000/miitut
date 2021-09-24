@@ -85,11 +85,18 @@ export default {
         <div
             class="bg-half-170 d-table w-100"
             style="
+        background: url('/images/aboutus/collage.jpg') center top; 
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 50vh;
+                position:absolute
+      "
+        >
+        <!-- style="
                 background: url('/images/travel/bg.jpg') center center;
                 height: 50vh;
                 position:absolute
-            "
-        >
+            " -->
             <!-- Capa Oscura -->
             <div class="bg-overlay"></div>
 
