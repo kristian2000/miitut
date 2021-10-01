@@ -471,8 +471,7 @@ export default {
                                 </div>
                         <div v-if="!this.loadingCategoriesUser">
                                 <div class="border shadow"
-                                    :style="`height: ${!showMap? 750 : 450}px; overflow:scroll; overflow-x:hidden; border-radius:15px;
-                                    cursor:pointer`"
+                                    style="border-radius:15px, cursor:pointer"
                                 >
                                     <div 
                                         class="row my-4" 

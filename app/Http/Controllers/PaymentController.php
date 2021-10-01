@@ -59,7 +59,7 @@ class PaymentController extends Controller
     }
 
     public function calculatePayContractHabitual(
-        $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart
+        $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart, $typeContract
     ){
         $dateInitial = strtotime($dateStart);
         $dateFinal = strtotime(Carbon::create($dateStart)->addMonth());
@@ -86,7 +86,7 @@ class PaymentController extends Controller
         $amount = $this->formatNumber($subtotal + ($this->formatNumber($subtotal * $porcentageIva)));
         
         return [
-            "typeContract" => "habitual",
+            "typeContract" => $typeContract,
             "daysSem" => $daysSem,
             "dateStart" => Carbon::create($dateStart)->format('Y-m-d'),
             "dateEnd" => Carbon::create($dateStart)->addMonth()->format('Y-m-d'),
@@ -137,19 +137,19 @@ class PaymentController extends Controller
         $porcentageCommision = $commission_pay->amount;
         $porcentageIva= $iva_pay->amount;
 
-        if ($typeContract === 'habitual'){
+       // if ($typeContract === 'habitual'){
             return response()->json(
                 $this->calculatePayContractHabitual(
-                    $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart
+                    $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart, $typeContract
                 )
             );
-        }
+        //}
 
-        return response()->json(
+       /* return response()->json(
             $this->calculatePayContractOccasional(
                 $price, $porcentageCommision, $porcentageIva, $hours
             )
-        );
+        );*/
     }
 
     public function payContractOccasional(Request $request){

@@ -27,6 +27,7 @@ export default {
     QuickSearch
   },
   created(){
+
     this.init();
   },
   updated(){
@@ -40,7 +41,7 @@ export default {
   
       this.infoCategory = category;
 
-      console.log('category', category)
+      //console.log('category', this.infoCategory)
     }
   }
 
@@ -68,6 +69,7 @@ export default {
                       <QuickSearch  
                         :categorySelected="categoryInfo"
                         :disabled="true"
+                        :key="this.infoCategory.label"
                       />
                   </div>
               </div>

@@ -117,7 +117,7 @@ export default {
                 class="btn btn-outline-primary btn-block"
                 @click="onCall(doc)"
             >
-                {{ type === "ad" ? "Ver" : "Aplicar Ahora"}}
+                {{ type === "ad" ? "Ver" : "Ver Oferta"}}
             </div>
             <!-- <router-link to="/page-job-detail" class="btn btn-outline-primary btn-block">Apply Now</router-link> -->
         </div>

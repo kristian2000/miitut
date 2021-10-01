@@ -213,7 +213,7 @@ export default {
                                         <div>
                                             <div class="text-muted">
                                                 <span class="font-weight-bold"> Tipo Contrato: </span>
-                                                {{ contract.type_contract === "occasional" ? 'Ocacional' : 'Habitual' }}
+                                                {{ contract.type_contract === "occasional" ? 'Ocasional' : 'Habitual' }}
                                             </div>
                                             <div class="text-muted">
                                                 <span class="font-weight-bold"> Categoria: </span>

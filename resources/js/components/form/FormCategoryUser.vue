@@ -282,7 +282,7 @@ export default {
             <!-- START Experiencia -->
             <div class="col-12">
                 <b-card-group deck class="">
-                    <b-card border-variant="light" header="Cuentanos tu Experiencia" class="text-center">
+                    <b-card border-variant="light" header="Cuéntanos tu experiencia laboral" class="text-center">
                         <div class=" d-flex justify-content-center">
                             <div class="row">
                                 <div class="col-12">

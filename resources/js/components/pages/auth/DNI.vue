@@ -79,7 +79,7 @@ export default {
 >
     <div class="container text-center">
         <h3 class="text-muted title-dni">
-            Verifica tu identidad y obten <br/> la confianza a los usuario de escogerte.
+            Verifica tu identidad.
         </h3>
     </div>
     <div class="mt-4 container col-md-12 col-12">

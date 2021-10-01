@@ -436,7 +436,7 @@ export default {
                 <div class="row justify-content-center">
                     <div class="col-8">
                         <div class="d-flex justify-content-between">
-                            <label for="" class="text-muted">Genero </label>
+                            <label for="" class="text-muted">Gé nero </label>
                             <b-form-radio v-model="gender" name="some-radios" value="woman">Mujer</b-form-radio>
                             <b-form-radio v-model="gender" name="some-radios" value="man">Hombre</b-form-radio>
                         </div>
@@ -488,7 +488,7 @@ export default {
                 <div class=" d-flex justify-content-center">
                     <div class="row">
                         <div class="col-sm-6 col-12 text-center">
-                            <label for="" class="text-muted">Agrega una descripcion</label>
+                            <label for="" class="text-muted">Agrega una descripción</label>
                         </div>
                         <div class="col-sm-6 col-12">
                             <div class="d-flex justify-content-center">

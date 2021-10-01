@@ -34,7 +34,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'personalTraining',
-                'label' => 'Entrenamiento personal a domicilio'
+                'label' => 'Entrenamiento personal'
             ],
             // [
             //     'name' => 'elderlycare',
@@ -63,6 +63,10 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'tutoring',
                 'label' => 'Profesores Particulares'
+            ],
+            [
+                'name' => 'parasanitary',
+                'label' => 'Parasanitaria'
             ],
         ]);
 

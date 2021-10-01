@@ -39,7 +39,7 @@
                     <b-form-select  
                         v-model="levelSelected"
                         :options="[
-                            'Basico',
+                            'Básico',
                             'Intermedio',
                             'Avanzado'
                         ]" 

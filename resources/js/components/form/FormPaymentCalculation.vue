@@ -20,51 +20,51 @@ export default {
 <template>
 <div>
     <!-- Si el Contrato es Ocacional -->
-    <div v-if="doc.typeContract === 'occasional'">
+   <!-- <div v-if="doc.typeContract === 'occasional'">-->
         <!-- Tipo Contrato -->
-        <div>
+        <!--<div>
             <span class="font-weight-bold">Tipo Contrato:</span>
             <span class="text-muted">Ocasional</span>
-        </div>
+        </div>-->
         <!-- Precio Por Hora -->
-        <div>
+       <!-- <div>
             <span class="font-weight-bold">Precio Por Hora:</span>
             <span class="text-muted">{{doc.priceHour}} €</span>
-        </div>
+        </div>-->
         <!-- Horas del Contrato -->
-        <div>
+       <!-- <div>
             <span class="font-weight-bold">Horas del Contrato:</span>
             <span class="text-muted">{{doc.hours}} hrs</span>
-        </div>
+        </div>-->
 
         <!-- Comision -->
-        <div>
+        <!--<div>
             <span class="font-weight-bold">
                 Total comision ({{doc.porcentageComission * 100}}%) :
             </span>
             <span class="text-muted">{{Number(doc.totalComission).toFixed(2)}} €</span>
-        </div>
+        </div>-->
         <!-- IVA -->
-        <div>
+        <!--<div>
             <span class="font-weight-bold">Total IVA ({{doc.porcentageIva * 100}}%) :</span>
             <span class="text-muted">{{Number(doc.totalIva).toFixed(2)}} €</span>
-        </div>
+        </div>-->
 
         <!-- total -->
-        <div 
+       <!-- <div 
             class="border-top border-bottom text-center"
             style="font-size: 20px;"
         >
             <span class="font-weight-bold">Total:</span>
             <span class="text-muted">{{Number(doc.totalAmount).toFixed(2)}} €</span>
         </div>
-    </div>
+    </div> -->
     <!-- Si el Contrato es Habitual -->
-    <div v-else>
+    <div>
         <!-- Tipo Contrato -->
         <div>
             <span class="font-weight-bold">Tipo Contrato:</span>
-            <span class="text-muted">habitual</span>
+            <span class="text-muted">{{doc.typeContract}}</span>
         </div>
         <!-- Precio Por Hora -->
         <div>

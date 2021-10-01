@@ -98,7 +98,11 @@ export default {
                 ><i
                     class="uil uil-graduation-cap h4 mb-0 mr-2 text-primary"
                 ></i
-                >Experiencia <span class="text-success">{{categoryUser.yearExperience}} Año </span></span
+                >Experiencia 
+                <span class="text-success">{{categoryUser.yearExperience}} 
+                    <span v-if="categoryUser.yearExperience==1" >Año</span>
+                    <span v-else >Años</span>
+                </span></span
                 >
 
                 <div>

@@ -209,7 +209,7 @@ export default {
                     <div class="section-title text-center text-md-left">
                         <h6 class="text-primary">Nuestros Servicios</h6>
                         <h4 class="title mb-4">¿Qué hacemos?</h4>
-                        <p class="text-muted mb-0 para-desc">En <span class="text-primary font-weight-bold">Miitut</span> te ofrecemos la oportunidad de que anuncies los servicios que deseas prestar o bien que encuentres la ayuda qeu necesitas para tu hogar.</p>
+                        <p class="text-muted mb-0 para-desc">En <span class="text-primary font-weight-bold">Miitut</span> te ofrecemos la oportunidad de que anuncies los servicios que deseas prestar o bien que encuentres la ayuda que necesitas para tu hogar.</p>
                     </div>
                 </div>
                 <!--end col-->

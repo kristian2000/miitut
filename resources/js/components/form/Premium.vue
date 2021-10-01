@@ -101,7 +101,7 @@ export default ({
                     </div>
                     <div class="plan-price text-center mt-2">
                         <h3 class="text-custom font-weight-normal mb-0">
-                            € {{ Number(subscriptions[0].plan.amount /100).toFixed(2) }}<span>/{{ subscriptions[0].plan.interval }}</span>
+                             {{ Number(subscriptions[0].plan.amount /100).toFixed(2) }}<span> €/{{ subscriptions[0].plan.interval }}</span>
                         </h3>
                     </div>
                 </div>
@@ -159,13 +159,6 @@ export default ({
                                         {{ plan.nickname }}<span></span>
                                     </h3>
                                 </div>
-                                <div v-if="plan.product.metadata.Ahorra" class="plan-price text-center mt-2">
-                                    <h6  class="text-custom font-weight-bold mb-0">
-                                        <span>(Ahorra {{plan.product.metadata.Ahorra}} €/año)</span>
-                                    </h6>
-                                </div>
-                                <div v-else style="margin-top: 33px" class="plan-price text-center">
-                                </div>
 
                                 <div class="text-center mt-2">
                                     <div class="btn-plan"
@@ -174,6 +167,15 @@ export default ({
                                         Adquirir
                                     </div>
                                 </div>
+
+                                <div v-if="plan.product.metadata.Ahorra" class="plan-price text-center mt-3">
+                                    <h6  class="text-custom font-weight-bold mb-0">
+                                        <span>(Ahorra {{plan.product.metadata.Ahorra}} €/año)</span>
+                                    </h6>
+                                </div>
+                                <div v-else style="margin-top: 33px" class="plan-price text-center">
+                                </div>
+                                
                             </div>
                         </div>
                     </div>

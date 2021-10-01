@@ -176,7 +176,7 @@ export default {
                                     <div class="custom-control custom-checkbox">
                                         <div class="text-center">
                                             <span class="text-muted" style="font-size: 12px">
-                                                Al hacer clic en "Registrarte", aceptas nuestras 
+                                                Al hacer clic en "Registrarse", aceptas nuestras 
                                                 <span 
                                                     class="text-info" 
                                                     style="cursor:pointer"
@@ -196,7 +196,7 @@ export default {
                                     class="btn btn-primary btn-block" 
                                     :disabled="!acceptTerm"
                                 >
-                                    Registrarte
+                                    Registrarse
                                 </button>
                             </div>
                             <div class="col-lg-12 mt-4 text-center">

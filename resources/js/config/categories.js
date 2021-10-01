@@ -22,7 +22,7 @@ const categories = [
         imagen: "/images/categories/petcare.jpg",
         desc: {
             title: 'Ponemos a tu disposición el mejor cuidado y atención para nuestro fiel compañero',
-            text: 'Sabemos que hay veces no le podemos dedicar a nuestras mascotas toda la atención que nos gustaría. Aquí en Miitut y en pocos clics encuentra al cuidador, veterinario, guardería canina o cualquier servicio que necesites para el cuidado de tus mascotas. Infórmate de las tarifas sin ningún tipo de compromiso. Los mejores cuidadores están deseando ayudarte.'
+            text: 'Sabemos que hay veces que no le podemos dedicar a nuestras mascotas toda la atención que nos gustaría. Aquí en Miitut y en pocos clics encuentra al cuidador, veterinario, guardería canina o cualquier servicio que necesites para el cuidado de tus mascotas. Infórmate de las tarifas sin ningún tipo de compromiso. Los mejores cuidadores están deseando ayudarte.'
         },
         homeSelected: true,
         info: 'Paseadores, veterinarios, educadores caninos...'
@@ -84,7 +84,7 @@ const categories = [
         imagen: "/images/categories/repair.jpg",
         desc: {
             title: '¿Tienes problemas con algún dispositivo o electrodoméstico?, ordenadores, televisores, frigoríficos, lavadoras... No te preocupes, en Miitut te ayudamos a dar con el profesional que necesitas.',
-            text: 'Nuestro sistema avanzado de búsqueda te hará todo más cómodo, únicamente selecciona el dispositivo o electrodoméstico a reparar, tu zona y al instante tendrás un listado con los profesionales más cercanos, comprueba su experiencia, mira referencias, tarifas, contacta con ellos. El profesional que necesitas está esperando.'
+            text: 'Nuestro sistema avanzado de búsqueda te hará todo más cómodo, únicamente selecciona el dispositivo o electrodoméstico a reparar, tu zona y al instante tendrás un listado con los profesionales más cercanos, comprueba su experiencia, mira referencias, tarifas, contacta con ellos. El profesional que necesitas te está esperando.'
         },
         info: "Informáticos, Técnicos de Frigoríficos, Lavadoras..."
     },
@@ -123,7 +123,7 @@ const categories = [
             text: 'Para ello dirígete al buscador, selecciona el tipo de servicio que requieres, usa nuestros filtros para buscar al profesional que se ajuste a lo que necesitas, ponte en contacto y contrata sus servicios. Todo de manera muy fácil e intuitiva.'
         },
         homeSelected: true,
-        info: "Albañiles, Fontaneros, Carpinteras, Gas, Electricista..."
+        info: "Albañiles, Fontaneros, Carpinteros, Gas, Electricistas..."
     },
     {
         id: TYPE_CATEGORIES.BABY_SITTER,

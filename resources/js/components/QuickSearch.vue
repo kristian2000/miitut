@@ -22,14 +22,15 @@ export default {
         if (this.categorySelected){
             this.categorySelect = this.$store.state.categories
                     .find(c => c.name === this.categorySelected?.id);
-
+            
             return;
         }
-
+    
         this.categorySelect = this.$store.state.categories[0];
     },
     computed: {
         categories(){
+            
             return this.$store.state.categories
                 .map( category => ({
                     value: category,
@@ -42,7 +43,6 @@ export default {
             
         },
         subcategories(){
-           
             return this.categorySelect ? this.categorySelect.subcategories.map( sub => ({
                 value: sub.id,
                 text: sub.label
