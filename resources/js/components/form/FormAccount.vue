@@ -21,6 +21,7 @@ export default {
         validate(){
             let errors = {};
             let errorsExist = false;
+            let regex = new RegExp('[a-zA-Z]{2}[0-9]{22}$');
 
             const form = { ...this.form }
 
@@ -29,7 +30,7 @@ export default {
 
             Object.keys(form).forEach( field => {
                 const value = form[field];
-
+                
                 switch(field){
                     case 'nameOfBeneficiary': {
                         if (!value.length){
@@ -44,8 +45,8 @@ export default {
                         }
                     }; break;
                     case 'ccc': {
-                        if (value.length !== 12){
-                            errors[field] = [ 'Este campo debe tener 12 caracteres numericos, es requerido!' ];
+                        if (!regex.test(value)){
+                            errors[field] = [ 'IBAN escrito de forma incorrecta, verifique porfavor!' ];
                             errorsExist = true;
                         }
                     }; break;

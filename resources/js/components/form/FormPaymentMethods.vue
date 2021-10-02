@@ -135,7 +135,7 @@ export default {
                                                 Valido:
                                             </div>
                                             <div class="stripe-card-exp-date">
-                                                {{ method.exp_month < 10 ? '0' + method.exp_month : method.exp_month}}
+                                                {{ method.exp_month }}
                                                 /
                                                 {{ method.exp_year }}
                                             </div>
