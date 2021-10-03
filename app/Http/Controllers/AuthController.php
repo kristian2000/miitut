@@ -185,6 +185,7 @@ class AuthController extends Controller
 
     public function handleProviderCallback(Request $request)
     {
+        
         $this->validate($request, [
             'code' => 'required|string',
             'userType' => 'in:help,work',
@@ -207,7 +208,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $appUser = User::whereEmail($user->email)->first();
+        $appUser = User::whereEmail($user['email'])->first();
 
         if (!$appUser){
             $userType = $request->userType;
@@ -289,9 +290,7 @@ class AuthController extends Controller
 
         Auth::login($appUser, true);
 
-        return response()->json([
-            "user" => $appUser
-        ]);
+        return redirect('/');
 
     }
 
