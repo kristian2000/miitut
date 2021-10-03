@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\MailController;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,6 +131,8 @@ Route::get('/app/admin/contracts/terminated', [AdminController::class, 'getContr
 Route::get('/app/admin/paymentsContract', [AdminController::class, 'getPaymentsContract']);
 Route::get('/app/admin/paymentsContractFinalize/{payment}', [AdminController::class, 'paymentsContractFinalize']);
 Route::get('/app/admin/paymentsStripe', [AdminController::class, 'getPaymentsStripe']);
+
+Route::get('/mail/test', [MailController::class, 'testEmail']);
 
 // Admin-blog
 

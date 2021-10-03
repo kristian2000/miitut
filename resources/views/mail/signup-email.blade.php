@@ -1,12 +1,20 @@
+@extends('layouts.mail')
+
+@section('content')
+<h2>
 Hola {{ $data['name'] }}
-<br><br>
+</h2>
+<p>
 Bienvenido a Miitut, tu plataforma digital de atención domiciliaria que facilita el contacto entre las familias y las personas que ofrecen sus servicios.
-<br>
+</p>
+<p>
 Haz clic para completar el registro.
-<br><br>
+</p>
+
 <a href="{{ env('APP_URL') }}/verificar-codigo?code={{$data['verification_code']}}">Verificar Cuenta!</a>
 
-<br><br>
+<p>
 ¡¡¡Muchas gracias por confiar en nosotros!!!
-<br>
+</p>
 
+@endsection

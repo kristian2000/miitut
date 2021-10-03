@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\testEmail;
+use App\Mail\sendSignupEmail;
+use App\Mail\sendResetPasswordEmail;
+use App\Mail\sendMessageSupport;
 use Mailgun\Mailgun;
 use Illuminate\Mail\Mailable;
 
@@ -16,15 +21,8 @@ class MailController extends Mailable
     public static function testEmail(){
         // Funcional por ahora solo funciona con los usuario aprobados
 
-        $domain = env('MAILGUN_DOMAIN');
-        $ms = Mailgun::create(env('MAILGUN_SECRET'));
-        $ms->messages()->send($domain, [
-                'from'	=> 'Miitut <miitut@gmail.com>',
-                'to'	=> 'cherry <chgf1997@gmail.com>',
-                'subject' => 'Hello',
-                'text'	=> 'Testing prueba'
-            ]
-        );
+        Mail::to('xpestana4@gmail.com')->send(new testEmail());
+        return "enviado";
     }
 
     public static function sendSignupEmail($user){
@@ -33,17 +31,7 @@ class MailController extends Mailable
             'name' => $user->name,
             'verification_code' => $user->verification_code
         ];
-
-        $domain = env('MAILGUN_DOMAIN');
-        $ms = Mailgun::create(env('MAILGUN_SECRET'));
-
-        $ms->messages()->send($domain, [
-                'from'	=> 'Miitut <miitut@gmail.com>',
-                'to'	=> $user->name.'<'.$user->email. '>',
-                'subject' => 'Verifica tu email!',
-                'html' => view('mail.signup-email', [ 'data' => $data ])->render()
-            ]
-        );
+        Mail::to($user->email)->send(new sendSignupEmail($data));
     }
 
     public static function sendResetPasswordEmail($user){
@@ -53,30 +41,12 @@ class MailController extends Mailable
             'verification_code' => $user->verification_code
         ];
 
-        $domain = env('MAILGUN_DOMAIN');
-        $ms = Mailgun::create(env('MAILGUN_SECRET'));
+        Mail::to($user->email)->send(new sendResetPasswordEmail($data));
 
-        return $ms->messages()->send($domain, [
-                'from'	=> 'Miitut <miitut@gmail.com>',
-                'to'	=> $user->name.'<'.$user->email. '>',
-                'subject' => 'Recuperar Contraseña!',
-                'html' => view('mail.reset-password-email', [ 'data' => $data ])->render()
-            ]
-        );
     }
 
     public static function sendMessageSupport($data){
 
-        $domain = env('MAILGUN_DOMAIN');
-        $ms = Mailgun::create(env('MAILGUN_SECRET'));
-
-        $ms->messages()->send($domain, [
-                'from'	=> '<'.$data['email'].'>',
-                'to'	=> "support miitut <miitutsystem@gmail.com>",
-                'subject' => $data['subject'],
-                'text'	=> $data['message']
-                // 'html' => view('mail.support-message', [ 'message' => 'este es el mensaje'])->render()
-            ]
-        );
+        Mail::to($data['email'])->send(new sendMessageSupport($data));
     }
 }

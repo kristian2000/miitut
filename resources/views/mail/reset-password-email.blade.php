@@ -1,11 +1,19 @@
-Hola {{ $data['name'] }}
-<br><br>
+@extends('layouts.mail')
+
+@section('content')
+
+<h2>Hola {{ $data['name'] }}</h2>
+<p>
 Olvidaste tu contraseña!
-<br>
+</p>
+<p>
 Por favor click en el enlace para cambiarla!
-<br><br>
+</p>
+<br>
 <a href="{{env('APP_URL')}}//resetear-clave?email={{$data['email']}}&code={{$data['verification_code']}}">click aqui!</a>
 
-<br><br>
+<h6>
 Gracias!
-<br>
+</h6>
+
+@endsection
