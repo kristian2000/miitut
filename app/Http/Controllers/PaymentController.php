@@ -307,7 +307,7 @@ class PaymentController extends Controller
         $porcentageIva= $iva_pay->amount;
 
         $calculateContract = $this->calculatePayContractHabitual(
-            $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart
+            $price, $porcentageCommision, $porcentageIva, $hours, $daysSem, $dateStart, "habitual"
         );
         
         $totalAmount = $calculateContract['totalAmount'];
