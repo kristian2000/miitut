@@ -21,7 +21,7 @@ export default {
         Footer,
         ArrowUpIcon,
         ArrowRightIcon
-    }
+    },
 }
 </script>
 
@@ -313,8 +313,16 @@ implementa un buscador con una serie de filtros, para realizar búsquedas más c
                                     <i class="mdi mdi-play text-primary rounded-circle bg-white shadow-lg"></i>
                                 </a>
                             </div>
-                            <b-modal id="modal" hide-footer size="lg" header-close-variant="white" header-class="border-0" content-class="border-0" centered>
-                                <youtube video-id="jNTZpfXYJa4" ref="youtube" width="750" height="450"></youtube>
+                            <b-modal id="modal" ref="modal" hide-footer size="lg" header-close-variant="white" header-class="border-0" content-class="border-0" centered>
+                                <!--<youtube video-id="jNTZpfXYJa4" ref="youtube" width="750" height="450"></youtube>-->
+                                <div class="row">
+                                    <div align="center" class="col-12">
+                                        <iframe width="100%" height="450" src="https://www.youtube.com/embed/jkLuovTgQOA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        <b-button class="mt-3 bg-primary" @click="()=>{ 
+                                                                            this.$bvModal.hide('modal');
+                                                                            }"> Cerrar</b-button>
+                                    </div>
+                                </div>
                             </b-modal>
                         </div>
                         <!-- <div class="content mt-md-4 pt-md-2">

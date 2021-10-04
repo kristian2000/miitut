@@ -37,7 +37,7 @@ export default {
                         <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
                                 <facebook-icon class="fea icon-sm fea-social"></facebook-icon>
                             </a></li>
-                        <li class="list-inline-item ml-1"><a href="javascript:void(0)" class="rounded">
+                        <li class="list-inline-item ml-1"><a href="https://www.instagram.com/miitut.es/?hl=es" class="rounded">
                                 <instagram-icon class="fea icon-sm fea-social"></instagram-icon>
                             </a></li>
                     </ul>
